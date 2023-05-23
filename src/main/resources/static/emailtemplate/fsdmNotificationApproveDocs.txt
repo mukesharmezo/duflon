@@ -1,0 +1,66 @@
+<font style='font-family:verdana;font-size:12px;font-weight:normal;color:black;'> 
+Dear ${fsdmName}
+<br><br>
+Please find below the details of Candidate(s) who has/have completed recruitment process with Dealer(s) and are pending for your approval. Kindly visit iRecruit portal to view and approve candidate for MSPIN generation.
+<br><br>
+<b>Pending for FSDM Approval Cases:</b>
+<br><br>
+<table>
+<tr>
+<td>Dealer Name:</td>
+<td>${dealerName}</td>
+</tr>
+<tr>
+<td>Dealer Code:</td>
+<td>${dealerCode}</td>
+</tr>
+<tr>
+<td>Registration Date:</td>
+<td>${registrationDate}</td>
+</tr>
+<tr>
+<td>Candidate Name:</td>
+<td>${candidateName}</td>
+</tr>
+<tr>
+<td>Designation:</td>
+<td>${designation}</td>
+</tr>
+</table>
+<br><br>
+<b>Pending Praarambh Cases:</b>
+<br><br>
+Please find below the details of Candidate(s) who have not completed Praarambh Induction Program in iLearn App. Please sensitize your Dealer accordingly.
+<br><br>
+<table>
+<tr>
+<td>Dealer Name:</td>
+<td>${dealerName}</td>
+</tr>
+<tr>
+<td>Dealer Code:</td>
+<td>${dealerCode}</td>
+</tr>
+<tr>
+<td>Registration Date:</td>
+<td>${registrationDate}</td>
+</tr>
+<tr>
+<td>Candidate Name:</td>
+<td>${candidateName}</td>
+</tr>
+<tr>
+<td>Designation:</td>
+<td>${designation}</td>
+</tr>
+</table>
+<br><br>
+${dealerName}<br>
+${mobile}<br> 
+${email}
+<br><br>
+<b>iRecruit Team</b>
+<br>
+This is an auto-generated system email. Please do not reply to this email as it will not be received.
+<br><br>
+</font>

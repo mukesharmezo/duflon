@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+body{ margin: 0; padding: 0; font-family: 'Roboto', sans-serif; font-weight: 400; background: #F8F8F8;}
+.header{background: #fff; padding: 28px 40px; border-bottom: 1px solid #D9D9D9; box-shadow: 0px 3px 6px #F2F2F2;}
+.container{max-width: 1100px; width: 90%; margin: 0 auto;}
+h1{font-weight: 600; font-size: 25px; line-height: 30px; margin: 30px 0; text-align: center; color: #DC3545;}
+h3{font-weight: 500; font-size: 13px; line-height: 18px; color: #333333; margin: 0 0 5px;}
+ol, ul{margin: 0 0 0 18px; padding: 0;}
+ol li, ul li, p{font-weight: 400; font-size: 11px; line-height: 15px; margin: 0 0 2px; color: #555555;}
+ol li a, ul li a{text-decoration: none; color: #DC3545;}
+p{margin: 0;}
+.btn{font-weight: 700; font-size: 11px; line-height: 15px; padding: 12px 35px; min-width: 110px; box-sizing: border-box; color: #777777; border: 1px solid #777777; border-radius: 30px; outline: none; text-decoration: none; display: inline-block; text-align: center; background: none; cursor: pointer; margin: 0 5px;}
+.btn:hover{color: #DC3545; border-color: #DC3545;}
+.blue-btn{border-color: #DC3545; background: #DC3545; color: #fff !important;}
+.btn:disabled{background: #DC3545; border-color: #DC3545; }
+.gray-btn{text-decoration: none; display: inline-block; padding: 7px 15px; font-weight: 500; font-size: 13px; line-height: 16px; color: #808080; border-radius: 20px; border: 2px solid #808080; cursor: pointer; background: #fff;}
+.action-section{text-align: center; margin: 40px 0;}
+.content{width: 850px; background-color: #fff; border: 1px solid #E5E5E5; margin: 0 auto; border-radius: 5px; padding: 20px; box-sizing: border-box;}
+.form{border-right: 1px solid #707070; border-bottom: 1px solid #707070;}
+.ier-table{width: 100%;}
+.head{background-color: #F2F2F2; font-weight: 500; font-size: 13px; line-height: 18px; color: #333333; box-sizing: border-box; padding: 11px 15px; height: 40px; border-left: 1px solid #707070; border-top: 1px solid #707070;}
+.text{background-color: #fff; font-weight: 400; font-size: 13px; line-height: 18px; color: #333333; box-sizing: border-box; padding: 11px 15px; height: 40px; border-left: 1px solid #707070; border-top: 1px solid #707070; position: relative;}
+.head.text{background-color: #F2F2F2;}
+.flex{display: flex; flex-wrap: wrap;}
+.b1a{width: 180px;}
+.b1b{width: calc(100% - 180px);}
+
+.b2a, .b2b{width: 50%;}
+.b2a1{width: 180px;}
+.b2a2{width: 223px;}
+.b3a2, .b3a3, .b3b5, .b3b6, .b3c2e, .b3c2f{height: 94px;}
+.b3a4, .b3b7, .b3c2g{height: 78px;}
+.b3a5, .b3b8, .b3c2h{height: 105px;}
+.b3a6, .b3b9, .b3c2i{height: 62px;}
+.b3c2e input[type="number"], .b3c2f input[type="number"]{height: 59px;}
+.b3c2g input[type="number"]{height: 77px;}
+.b3c2h input[type="number"]{height: 104px;}
+.b3c2i input[type="number"]{height: 61px;}
+.b2b1{width: 180px;}
+.b2b2{width: 223px;}
+.b3a{width: 180px;}
+.b3a1{width: 180px;}
+.b3b{width: 120px;}
+.b3b1{width: 120px; height: 80px;}
+.b3b2, .b3c2b, .b3b3, .b3c2c, .b3b4, .b3c2d{height: 60px;}
+.b3c2b input[type="text"], .b3c2b input[type="number"], .b3c2c input[type="text"], .b3c2c input[type="number"], .b3c2d input[type="text"], .b3c2d input[type="number"]{height: 59px;}
+.b3c{width: 507px;}
+.b3c1{text-align: center;}
+.b3c2, .b3c3, .b3c4{width: 140px;}
+.b3c5a{width: 87px; padding-left: 8px; padding-right: 8px; letter-spacing: -0.3px; align-items: center;}
+.b3c5b{width: 87px; height: 62px;}
+.b3c5b input[type="number"]{height: 61px; width: 100%;}
+.b3c2a, .b3c2b, .b3c2c, .b3c2d, .b3c2e, .b3c2f, .b3c2g, .b3c2h, .b3c2i{width: 140px;}
+input[type="text"], input[type="number"]{position: absolute; top: 0; left: 0; border: none; padding: 11px 15px; width: 139px; box-sizing: border-box; outline: none;}
+.b4, .b6{margin-top: 5px;}
+.b3, .b5{border-bottom: 1px solid #707070;}
+.b4a, .b5a, .b6a{width: 180px;}
+.b6a{height: 80px;}
+.b4b, .b5b, .b6b{width: calc(100% - 180px); font-weight: 700;}
+.b6b-b{width: calc((100% - 180px)/3); box-sizing: border-box;}
+.tnc{margin-top: 12px; font-weight: 400; font-size: 11px; line-height: 15px; color: #333333;}

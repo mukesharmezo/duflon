@@ -1,0 +1,18 @@
+<font style='font-family:verdana;font-size:12px;font-weight:normal;color:black;'> 
+Greetings ${candidateName}
+<br><br>
+Thank you for completing the Online Application and Assessment for ${dealershipName}.
+<br><br>
+Please contact your Dealer for updates.
+<br><br>
+Wishing you all the best! 
+<br><br>
+${dealerName}<br>
+${mobile}<br>
+${email}
+<br><br>
+<b>iRecruit Team</b>
+<br>
+This is an auto-generated system email. Please do not reply to this email as it will not be received.
+<br><br>
+  </font>

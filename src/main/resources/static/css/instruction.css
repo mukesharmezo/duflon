@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+body{margin: 0; padding: 0; font-family: 'Inter', sans-serif; font-weight: 400; background-color: #F8F8F8;}
+.header{ background-color: #DC3545; padding: 1px 40px; margin-bottom: 30px;}
+.header .logo img{width: 95px;}
+.header .container{max-width: 1200px; width: 90%; margin: 0 auto; position: relative;}
+h1{font-weight: 600; font-size: 25px; line-height: 30px; color: #DC3545; text-decoration: none; text-align: center; margin: 0 0 60px;}
+.section{max-width: 1200px; width: 90%; margin: 0 auto; padding-bottom: 50px;}
+.btn{text-align: center; 
+  /* margin: 80px 0 50px; */
+}
+.btn input{display: inline-block; font-size: 11px; line-height: 15px; background-color: #DC3545; color: #fff;padding: 12px 45px; text-decoration: none; font-weight: 700; text-transform: uppercase; border-radius: 30px;}
+.btn:disabled{cursor: default !important;}
+.btn:hover{cursor: pointer !important;}
+.tnc{position: fixed; bottom: 20px; left: 5%; font-size: 13px; line-height: 18px; color: #999;}
+
+/* new css */
+.instructions{width: 100%; margin: 0 auto;}
+.instructions h2{font-weight: 600; font-size: 20px; line-height: 24px; margin: 0 0 20px;}
+.instructions p{font-size: 15px; line-height: 24px; margin: 0 0 20px;}
+.instructions ol{margin: 0 0 0 18px; padding: 0;}
+.instructions ol li{font-size: 15px; line-height: 24px; margin: 0 0 15px;}
+.instructions ol li ol li{font-size: 15px; line-height: 24px; margin: 0 0 8px;}
+.innerli{padding-left: 20px; padding-top: 10px;}
+
+@media (min-width: 540px) {
+ span{margin-left: 0px !important;}}
+
+@media (min-width: 768px) {
+    .header{margin-bottom: 40px;}
+    .section{padding-bottom: 30px;}
+    .btn{margin-top: 80px;}
+    .header .container{display: flex; align-items: center;}
+    .header .container h1{position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); margin: 0; padding: 0 20px;}
+}
+@media (max-width: 767px) {
+    .header{margin-bottom: 40px;}
+    .section{padding-bottom: 30px;}
+    .btn{margin-top: 30px;}
+    .header .container{text-align: center;}
+    .header .container h1{margin: -10px 0 0; text-align: center; font-size: 20px;}
+}
+
+ol {
+  counter-reset: item
+}
+li {
+  display: block
+}
+/* li:before {
+  content: counters(item, ".") ".";
+  counter-increment: item;
+ text-indent: -2em;} */

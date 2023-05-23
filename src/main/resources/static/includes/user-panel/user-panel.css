@@ -1,0 +1,93 @@
+.user-panel {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    z-index: 99;
+}
+
+.user-panel img {
+    width: 35px;
+    height: 35px;
+    margin-right: 10px;
+}
+
+.user-panel span {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 15px;
+    color: #000;
+    padding-right: 20px;
+    position: relative;
+}
+
+.user-panel span::after {
+    content: '';
+    width: 9px;
+    height: 5px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
+    background: url('../../img/arrow-down-icn.svg') no-repeat right center;
+}
+
+.user-panel ul {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 210px;
+    padding: 8px 0;
+    margin: 0;
+    border-radius: 5px;
+    display: none;
+}
+
+.user-panel:hover ul {
+    display: block;
+}
+
+.user-panel ul li {
+    list-style: none;
+	
+}
+
+.user-panel ul li a,.user-panel ul li em {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+    text-decoration: none;
+    color: #000;
+    padding: 8px 16px;
+    display: block;
+	font-style:normal;
+}
+.user-panel ul li em{cursor:default;}
+
+.user-panel ul li a:hover {
+    background-color: #F0F9FF;
+}
+
+.user-panel ul li span {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+    text-decoration: none;
+    color: #000;
+    padding: 8px 16px;
+    display: block;
+}
+@media (max-width: 767px) {
+    /* .user-panel {top: 5px;right: 20px;}
+    .page-filters-filter{margin-top: 35px;} */
+}
+
+
+
+
+
+

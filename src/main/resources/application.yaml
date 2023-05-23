@@ -1,0 +1,36 @@
+
+server:
+  port: 4005
+spring:
+  datasource:
+    password: root
+    url: jdbc:postgresql://localhost:5432/duflon
+    username: postgres
+  jackson:
+    time-zone: IST
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+         lob:
+          non_contextual_creation: true
+  application:
+    name: Duflon
+        
+pdf:
+  downloadPdfFile: E:\\temp\\
+  exeUrl: C:\\wkhtmltopdf\\bin\\wkhtmltopdf
+Ap:
+  #assessmentURL: http://assess.armezo.com/iRecruit/
+  assessmentURL: https://staging.irecruit.org.in/iRecruit/
+  dmsURL: http://staging.dmssales.co.in:9003/iRecruit/
+  adminLink: http://staging.dmssales.co.in:9003/iRecruit/
+  candLink: http://staging.dmssales.co.in:9003/iRecruit/
+  url : https://www.duflon.com/
+Data:
+  dataScienceAuthURL: https://staging.dmssales.co.in:8098/MiscServices/api/auth/login
+  dataScienceURL: https://staging.dmssales.co.in:8098/MiscServices/api/cft/lmsmodel

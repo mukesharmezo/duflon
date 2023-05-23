@@ -1,0 +1,82 @@
+#mspin {
+    margin: 50px auto 50px;
+  /*   max-width: 680px; */
+  max-width: 780px;
+}
+
+.mspin__title {
+    text-align: center;
+    margin: 0 0 25px;
+}
+
+.mspin__form {
+    text-align: center;
+}
+
+.mspin__search {
+   /*  width: 595px; */
+    width: 500px;
+    margin: 0 auto 20px !important;
+    padding: 18px 50px;
+    background: url('../img/search-icn.svg') no-repeat 20px center #fff;
+    background-size: 15px;
+    box-shadow: 0 3px 3px rgba(0,0,0,0.16);
+    border-radius: 5px;
+    border: none;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 16px;
+    outline: none;
+    box-sizing: border-box;
+}
+.fa-search {
+  width: 65px;
+  height: 36px;
+  box-shadow: 0 3px 3px rgba(0,0,0,0.16);
+   border-radius: 5px;
+   border: 2px;
+  /* border: 1px solid #00B4CC;
+  background: #00B4CC; */
+  text-align: center;
+  /* color: #fff; */
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.mspin__data {
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.mspin__table tr th {
+    width:20% !important;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 20px;
+    color: #DC3545;
+    padding: 20px;
+    width: 150px;
+    box-sizing: border-box;
+    background-color: #F8F8F8;
+    border-bottom: 1px solid #EBEBEB;
+    text-align: left;
+}
+
+.mspin__table tr td {
+    width: 100%;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 20px;
+    color: #000000;
+    padding: 20px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #EBEBEB;
+}
+@media (max-width: 767px) {
+    #mspin {margin: 90px auto 0px;}
+    input.btn.blue-btn {margin: 15px;}
+    input#search_mspin {width: auto;margin: 0 !important;}
+    .right-section h1 {margin: 30px 0 30px;}
+    .user-panel {top: 52px !important;}}

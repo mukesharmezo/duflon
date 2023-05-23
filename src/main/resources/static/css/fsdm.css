@@ -1,0 +1,28 @@
+
+
+.view-btn{text-decoration: none; font-weight: 500; font-size: 11px; line-height: 12px; color: #A5A5A5; background-color: #E2E2E2; padding: 5px 20px 4px; display: inline-block; border-radius: 20px;}
+.view-btn:hover{background-color: #DC3545; color: #fff;}
+.green{color: #009F06;}
+.yellow{color: #DEC500;}
+.red{color: #FF0000;}
+.blue{color: #0011ff;}
+
+.text-center{text-align: center;}
+.attempt-popup{padding: 30px; box-sizing: border-box; background-color: #fff; border-radius: 15px; width: 400px; position: fixed; top: 50%; left: 50%; z-index: 7; transform: translate(-50%, -50%); display: none;}
+.attempt-popup p{font-size: 15px; line-height: 24px; margin: 0 0 15px; color: #000; text-align: center;}
+.attempt-popup .text-center{margin-top: 50px;}
+
+.fixdate{cursor: pointer;}
+.fixdate-2nd-btn{display: none; margin-bottom: 30px; padding-top: 50px; border-top: 1px solid #ddd;}
+.fixdate-2nd-btn a{margin: 0 10px; font-size: 12px; line-height: 16px; color: #fff; text-decoration: none; border: none; padding: 11px 35px; background-color: #DC3545; border: 1px solid #DC3545; border-radius: 30px; cursor: pointer;}
+.fixdate-2nd{cursor: pointer;}
+.fixdate-popup{padding: 30px; box-sizing: border-box; background-color: #fff; border-radius: 15px; width: 500px; position: fixed; top: 50%; left: 50%; z-index: 7; transform: translate(-50%, -50%); display: none;}
+.fixdate-popup .form-section{display: flex; flex-wrap: wrap; margin: 0 -10px;}
+.fixdate-popup .form-section .form-block{width: calc(50% - 20px); margin: 0 10px;}
+.fixdate-popup .form-section .form-block h5{font-weight: 500; margin: 0 0 10px; color: #555; text-transform: uppercase; font-size: 12px; line-height: 14px;}
+.fixdate-popup .form-section .form-block input[type="date"], .fixdate-popup .form-section .form-block select{font-family: 'Roboto', sans-serif; width: 100%; background: #F7F7F7; border: 1px solid #D0D0D0; border-radius: 7px; color: #4D4D4D; padding: 11px 15px; font-size: 13px; line-height: 18px; outline: none; box-sizing: border-box;}
+.fixdate-popup p{font-size: 15px; line-height: 24px; margin: 0 0 15px; color: #000; text-align: center;}
+.fixdate-popup h2{font-size: 24px; line-height: 30px; font-weight: 500; margin: 0 0 50px; color: #DC3545; text-align: center;}
+.fixdate-popup .text-center{margin-top: 50px;}
+
+.blk-bg{background: rgba(0,0,0,0.8); position: fixed; top: 0; left: 0; z-index: 3; width: 100%; height: 100%; display: none;}
