@@ -38,7 +38,7 @@ if(session.getAttribute("role") != null){
 <body>
     <div class="header">
         <div class="logo">
-        <h1 class="LOGO" style="color: #fff;"><b>iRecruit</b></h1>
+        <h1 class="LOGO" style="color: #fff;"><b>duRecruit</b></h1>
         </div>
         <!-- <div class="logo"><img src="./img//iRecruit-logo.svg" alt="" /></div> -->
         <h1>Interview Evaluation Sheet</h1>
@@ -407,6 +407,7 @@ if(session.getAttribute("role") != null){
     <input type="hidden" name="status"   value="" id="save_status">
     <input type="hidden" name="percentage"   value="${score.percentage }" id="pesentage">
      <input type="hidden" name="pass_fail"   value="${score.pass_fail_status }" id="pass_fail">
+     <input type="hidden" name="interviewCount"   value="${score.interviewCount }" id="interviewCount">
 	  <input type="hidden" name=""   value="${accesskey}_${name}.pdf" id="pdf">
 	 
     </form>
@@ -664,7 +665,6 @@ if(session.getAttribute("role") != null){
         	var presentability_3= Number($("#presentability_3").val());
         	var attitude_3= Number($("#attitude_3").val());
         	var situation_3 =  Number($("#situation_3").val());
-        	
         	var total = Number(clarity_1)+Number(presentability_1)+Number(attitude_1)+Number(situation_1)+Number(clarity_2)+Number(presentability_2)
         	           +Number(attitude_2)+Number(situation_2)+Number(clarity_3)+Number(presentability_3)+Number(attitude_3)+Number(situation_3);
             $("#total").val(total);
@@ -693,7 +693,6 @@ if(session.getAttribute("role") != null){
 	        	   }
 				   $('#pass_fail_status').show();  
             	   $("#total-marks").show();
-				  
 	         }
 	        
 	        if(clarity_3 !="" && presentability_3 != "" && attitude_3 != "" && situation_3 != "")
@@ -716,13 +715,9 @@ if(session.getAttribute("role") != null){
 		       	          $("#pass_fail").val("fail");
 		       	          $("#pesentage").val(per);
 		        	   }
-					    
 				   $('#pass_fail_status').show();  
             	   $("#total-marks").show();
-				    
 		      }
-           
-        
         }
 		
 		 function total1(){
@@ -744,10 +739,7 @@ if(session.getAttribute("role") != null){
         	var total = Number(clarity_1)+Number(presentability_1)+Number(attitude_1)+Number(situation_1)+Number(clarity_2)+Number(presentability_2)
         	           +Number(attitude_2)+Number(situation_2)+Number(clarity_3)+Number(presentability_3)+Number(attitude_3)+Number(situation_3);
             $("#total").val(total);
-           
 	       var  averageScore = total/3;
-	       
-	        
 	        if(clarity_1 !="" && presentability_1 != "" && attitude_1 != "" && situation_1 != "" && 
 	           clarity_2 !="" && presentability_2 != "" && attitude_2 != "" && situation_2 != "")
 	          {
@@ -768,15 +760,9 @@ if(session.getAttribute("role") != null){
 	       	           $("#pass_fail").val("fail");
 	       	           $("#pesentage").val(per1);
 	        	   }
-				   
 				   $('#pass_fail_status').show();  
             	   $("#total-marks").show();
-				    
 	         }
-	        
-	        
-           
-        
         }
         
       function showSaveBtn(){
@@ -885,10 +871,6 @@ if(session.getAttribute("role") != null){
     	 					});
             		 
             	  }
-            	      /* if(status=='save'){
-            		   $('#msg').text('');
-    	        		 $("#msg").append('Interview score save successfully');
-            	  } */
             }
         });  
         }

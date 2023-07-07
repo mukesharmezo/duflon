@@ -43,22 +43,31 @@ List<ParticipantRegistration> findByHreIdIn(final List<Long> hreId);
     
     List<ParticipantRegistration> findByhreIdInAndPrarambhStatusAndTestStatusOrderByModifiedDateDesc(final List<Long> hreId, final String prarambhStatus, final String testStatus);
     */
-    @Query("From ParticipantRegistration p where p.hreId = :hreId and p.hiredStatus = :hiredStatus Order By modified_date DESC")
-    List<ParticipantRegistration> getEmployee(final long hreId, final String hiredStatus);
-    @Query("From ParticipantRegistration p where p.hreId =:hreId and (p.hiredStatus is NULL OR p.hiredStatus='')  and p.testStatus ='3' and (Status not IN ('H') or Status is NULL) Order By modified_date DESC")
-    List<ParticipantRegistration> getParticipantInpprocessForHRE(final long hreId);
-    @Query("From ParticipantRegistration p where (p.hiredStatus is NULL OR p.hiredStatus='')  and p.testStatus ='3' and (Status not IN ('H') or Status is NULL) Order By modified_date DESC")
-    List<ParticipantRegistration> getParticipantInpprocessHo();
-    @Query("From ParticipantRegistration p where p.hiredStatus = ('Y')  and p.testStatus ='3' and (Status not IN ('H') or Status is NULL) Order By modified_date DESC")
-    List<ParticipantRegistration> getParticipantEmployeeHo();
-    @Query("From ParticipantRegistration p where Status = 'H' Order By modified_date DESC")
-    List<ParticipantRegistration> getParticipantHoldHo();
+    @Query("From ParticipantRegistration p where p.hreId = :hreId and p.hiredStatus = :hiredStatus AND p.registration_Date  BETWEEN :from AND :to  Order By modified_date DESC")
+    List<ParticipantRegistration> getEmployee(final long hreId, final String hiredStatus, LocalDate from, LocalDate to);
+    @Query("From ParticipantRegistration p where p.hreId =:hreId and (p.hiredStatus is NULL OR p.hiredStatus='' OR p.hiredStatus='P')  and p.testStatus ='3' and (Status not IN ('H') or Status is NULL) AND p.registration_Date  BETWEEN :from AND :to Order By modified_date DESC")
+    List<ParticipantRegistration> getParticipantInpprocessForHRE(final long hreId, LocalDate from, LocalDate to);
+    @Query("From ParticipantRegistration p where (p.hiredStatus is NULL OR p.hiredStatus='')  and p.testStatus ='3' and (Status not IN ('H') or Status is NULL)AND p.registration_Date  BETWEEN :from AND :to Order By modified_date DESC")
+    List<ParticipantRegistration> getParticipantInpprocessHo(LocalDate from, LocalDate to);
+    @Query("From ParticipantRegistration p where p.hiredStatus = ('Y')  and p.testStatus ='3' and (Status not IN ('H') or Status is NULL) AND p.registration_Date  BETWEEN :from AND :to Order By modified_date DESC")
+    List<ParticipantRegistration> getParticipantEmployeeHo(LocalDate from, LocalDate to);
+    @Query("From ParticipantRegistration p where Status = 'H' AND p.registration_Date  BETWEEN :from AND :to  Order By modified_date DESC")
+    List<ParticipantRegistration> getParticipantHoldHo(LocalDate from, LocalDate to);
+    
+    @Query("From ParticipantRegistration p where p.hreId = :hreId AND Status = 'H' AND p.registration_Date  BETWEEN :from AND :to  Order By modified_date DESC")
+    List<ParticipantRegistration> getHoldParticipantsByFilterHRE(long hreId, LocalDate from, LocalDate to);
     @Query("From ParticipantRegistration p where p.status =:status Order By modified_date DESC")
     List<ParticipantRegistration> findAllHoldParticipantByStatusOnHO(String status);
     
     @Query("From ParticipantRegistration p where p.hreId = :hreId and p.status = :status Order By modified_date DESC")
     List<ParticipantRegistration> getHoldEmployee(final long hreId, final String status);
     
+    @Query("SELECT p FROM ParticipantRegistration p WHERE p.hreId = :adminId AND (p.registration_Date  BETWEEN :fromDate AND :toDate) Order By modified_date DESC")
+    List<ParticipantRegistration> getParticipantForDetailedByYears(final Long adminId, final LocalDate fromDate, final LocalDate toDate);
+    @Query("SELECT p FROM ParticipantRegistration p WHERE (p.registration_Date  BETWEEN :fromDate AND :toDate) Order By modified_date DESC")
+    List<ParticipantRegistration> findAllParticipantsByYear(final LocalDate fromDate, final LocalDate toDate);
+    @Query("SELECT p FROM ParticipantRegistration p WHERE p.hiredStatus = 'P' AND p.testStatus ='3' AND (Status not IN ('H') or Status is NULL) AND (p.registration_Date  BETWEEN :fromDate AND :toDate) Order By modified_date DESC")
+    List<ParticipantRegistration> getParticipantPendingApproval(final LocalDate fromDate, final LocalDate toDate);
     
     
     /*
@@ -66,8 +75,6 @@ List<ParticipantRegistration> findByHreIdIn(final List<Long> hreId);
     @Query("From ParticipantRegistration p where p.hreId = :hreId and p.hiredStatus = :hiredStatus and p.testStatus = :testStatus Order By modified_date DESC")
     List<ParticipantRegistration> getParticipantDeealer(final long hreId, final String hiredStatus, final String testStatus);
     
-    @Query("From ParticipantRegistration p where p.hreId =:hreId and p.hiredStatus IN ('1','3') and p.testStatus ='3' and (Status not IN ('H') or Status is NULL) Order By modified_date DESC")
-    List<ParticipantRegistration> getParticipantCSVPendingApprovel(final long hreId);
     
     @Query("From ParticipantRegistration p where p.hreId =:hreId and p.hiredStatus ='2' Order By modified_date DESC")
     List<ParticipantRegistration> getParticipantCSVImployee(final long hreId);
@@ -170,11 +177,8 @@ List<ParticipantRegistration> findByHreIdIn(final List<Long> hreId);
     @Query("SELECT p FROM ParticipantRegistration p WHERE (p.hreId IN :list OR (:list) IS NULL) AND (p.registration_date >= :fromDate AND p.registration_date <= :toDate) Order By modified_date DESC")
     List<ParticipantRegistration> getParticipantByhreIdListAndDate(final List<Long> list, final Date fromDate, final Date toDate);
     
-    @Query("SELECT p FROM ParticipantRegistration p WHERE p.hreId = :adminId AND (p.registration_date >= :fromDate AND p.registration_date <= :toDate) Order By modified_date DESC")
-    List<ParticipantRegistration> getParticipantForDetailedByYears(final Long adminId, final Date fromDate, final Date toDate);
     
-    @Query("SELECT p FROM ParticipantRegistration p WHERE (p.registration_date >= :fromDate AND p.registration_date <= :toDate) Order By modified_date DESC")
-    List<ParticipantRegistration> findAllParticipantsByYear(final Date fromDate, final Date toDate);
+    
     
     @Query("SELECT p FROM ParticipantRegistration p WHERE (:outletCode IS NULL OR p.outletCode = :outletCode OR :outletCode='' ) AND (:name IS NULL OR (LOWER(p.firstName) LIKE LOWER(:name)) OR :name='' OR (LOWER(p.lastName) LIKE LOWER(:name)) OR (LOWER(p.middleName) LIKE LOWER(:name)) OR (CONCAT(LOWER(p.firstName), ' ', LOWER(p.lastName)) LIKE LOWER(:name)) ) AND (:designation IS NULL OR p.finalDesignation = :designation OR :designation='') AND (:mspin IS NULL OR p.mspin = :mspin OR :mspin='') AND (p.passFailStatus IN :passFailStatus OR (:passFailStatus) IS NULL) AND (:accessKey IS NULL OR p.accessKey = :accessKey OR :accessKey='') AND (p.hreId=:hreId) AND (p.modifiedDate >= :dateFrom AND p.modifiedDate <= :dateTo) AND (p.status =:status) Order By modifiedDate DESC")
     List<ParticipantRegistration> getParticipantOnHoldByFilterData(final String outletCode, final String name, final String designation, final String mspin, final List<Integer> passFailStatus, final String accessKey, final Long hreId, final Date dateFrom, final Date dateTo, final String status);
@@ -284,6 +288,9 @@ List<ParticipantRegistration> findByHreIdIn(final List<Long> hreId);
     @Query("From ParticipantRegistration p where prarambhStatus='1'  and (Status not IN ('H') or Status is NULL) and finalDesignation='STR'" )
     List<ParticipantRegistration> getAllPraaramStatusPendin();
 */
+    
+    
+    
     @Query("From ParticipantRegistration p where p.testStatus ='3' and questionReportStatus=0")
     List<ParticipantRegistration> getParticipant();
     @Query("From ParticipantRegistration p  where  p.empCode =:empCode and hreId =:hreId")
@@ -296,6 +303,7 @@ List<ParticipantRegistration> findByHreIdIn(final List<Long> hreId);
     		+"AND (p.modifiedDate >= :dateFrom AND p.modifiedDate <= :dateTo) "
     		+ "Order By modified_date DESC")
     List<ParticipantRegistration> getHoldEmployee(final long hreId, final String status,LocalDate dateFrom,LocalDate dateTo);
+ 
     
     
 }

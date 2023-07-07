@@ -16,8 +16,8 @@ try {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="icon" type="image/x-icon" href="<%=baseServer%>img/DuflonFavicon.png"/>
 	<title><%=title %></title>
-	<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script
@@ -25,6 +25,7 @@ try {
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="./css/common.css">
+	<link rel="stylesheet" type="text/css" href="./css/sweetalert.css"/>
 	<link rel="stylesheet" type="text/css" href="./css/fsdm.css" />
     <link rel="stylesheet" type="text/css" href="css/dashboard-filter.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
@@ -34,15 +35,10 @@ try {
 			a:hover {color: #DC3545;text-decoration: underline;}
 			.logout-popup p {font-size: 15px;line-height: 24px;margin: 0 0 35px;color: #000;text-align: center;}
 			table.dataTable.stripe>tbody>tr.odd>*, table.dataTable.display>tbody>tr.odd>* {box-shadow:none !important;}
-			 /* Style for the pop-up */
-			 .popup {position: fixed;font-weight: 600;top: 45%;left: 55%;transform: translate(-50%, -50%);background-color: #fff;border: 1px solid #ddd;border-radius: 5px;padding: 55px; /* Increase padding to increase the size of the pop-up */width: 380px; /* Set a fixed width for the pop-up */max-width: 90%; /* Set a maximum width for the pop-up */z-index: 999;}
-				/* height: 100px !important;} */
-			 .close {position: absolute;top: 10px;right: 10px;color: #aaa;font-size: 28px;font-weight: bold;cursor: pointer;}
-			 /* Style for the "Close" button on hover */
-			 .close:hover {color: black;}
 			 .table-date table tr td .btn{width: auto !important;}
 		  </style>
 		  <script src="./js/jquery-3.4.1.min.js"></script>
+		  <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 		  <script src="./js/jquery.dataTables.min.js"></script>
 		  <script src="https://cdn.datatables.net/fixedcolumns/4.2.1/js/dataTables.fixedColumns.min.js"></script>
 		  <script src="./js/datatable.js"></script>
@@ -95,6 +91,9 @@ try {
 						
 						<%if(role.equalsIgnoreCase("HRE")) {%>
 							<c:choose>
+								<c:when test="${payload.joined>1}">
+									  <td><button class="btn btn-primary" disabled>Recruited</button></td>
+								</c:when>
 								<c:when test="${payload.assessmentStatus == 'Y'}">
 									  <td><button class="btn btn-primary" disabled>In Progress</button></td>
 								</c:when>
@@ -116,45 +115,29 @@ try {
 	</div>
 </div>
 </div>
-	<div id="myPopup" class="popup">
-         <span class="close" onclick="closePopup()">&times;</span>
-         <p id="pop-up-p"></p>
-      </div>
         <script>
 	$(document).ready(function() {
-		$("#myPopup").hide();
 	});
 	</script>
       <script>
       	function sendEmail(userId, email){
-      		console.log(userId);
       		 $.ajax({
                  type: 'GET',
                  url: 'sendInvitationEmail',
                  data: {userId: userId},
                  success: function(msg) {
-                	 console.log(msg);
+                	 swal({   
+       				  title: "Invitation email has been sent to "+email,     
+       				  showCancelButton: false,
+       				  confirmButtonColor: "#DC3545",   
+       				  confirmButtonText: "OK",   
+       				  closeOnConfirm: true },
+       				  function(isConfirm){			  
+       					location.reload();
+       				}); 
                  }
              });
-      				showPopup(email);
       	}
-         function showPopup(email) {
-             var message="Invitation email has been sent to "+email;
-            // Get the pop-up element
-            var popup = document.getElementById("myPopup");
-            var para = document.getElementById("pop-up-p");
-            para.innerHTML = message;
-            // Show the pop-up
-            popup.style.display = "block";
-         }
-
-         function closePopup() {
-            // Get the pop-up element
-            var popup = document.getElementById("myPopup");
-
-            // Hide the pop-up
-            popup.style.display = "none";
-         }
       </script>
 </body>
 </html>

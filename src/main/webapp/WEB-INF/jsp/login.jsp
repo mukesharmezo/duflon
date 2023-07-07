@@ -26,9 +26,9 @@ if(msg == "D"){
 	<link rel="stylesheet" type="text/css" href="./css/sweetalert.css"/>
     <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="./includes/left-panel/left-panel.css" />
-    <style>
-      /* .left-panel > ul > li:nth-child(2) a::after{content: ''; position: absolute; right: 0; top: 50%; transform: translate(0, -50%); border-right: 6px solid #fff; border-top: 6px solid transparent; border-bottom: 6px solid transparent;} */
-    </style>
+	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> -->
+	
+    
 <style type="text/css">
         .showSweetAlert{margin:0px!important; left: 45% !important;top: 43% !important;} 
 				input::-ms-clear, input::-ms-reveal {display: none;} 
@@ -43,6 +43,15 @@ if(msg == "D"){
     transform: translateX(-50%);
     animation: none !important;
 }}
+.col-6 {
+  width: 50%;
+  float: left;
+  box-sizing: border-box;
+  padding: 0 10px;
+}
+.col-6 a {
+  text-decoration: none;
+}
 </style>
     <script src="./js/jquery-3.4.1.min.js"></script>
     
@@ -57,7 +66,7 @@ function userLogin()
 	     if(email =="")
 		 {
 		 swal({   
-				  title: "Please enter correct login details",     
+				  title: "Please enter the correct login details",     
 				  showCancelButton: false,
 				  confirmButtonColor: "#DC3545",   
 				  confirmButtonText: "Ok",   
@@ -72,7 +81,7 @@ function userLogin()
 	     if(password =="")
 		 {
 	     swal({   
-				  title: "Please enter correct login details",     
+				  title: "Please enter the correct login details",     
 				  showCancelButton: false,
 				  confirmButtonColor: "#DC3545",   
 				  confirmButtonText: "Ok",   
@@ -147,7 +156,7 @@ $(function() {
     <div class="left-panel">
 	<div class="menu-left"></div>
  <div class="logo">
-        <h1 class="LOGO" style="color: #fff;"><b>Duflon</b></h1>
+        <h1 class="LOGO" style="color: #fff;"><b>DuRecruit</b></h1>
         <!-- <a href="#"
           ><img src="./img/iRecruit-logo.svg" alt=""
         /> -->
@@ -180,7 +189,7 @@ $(function() {
 						</span>
                 <h1 style="font-size: 25px !important;">Admin Login</h1>
                 <div class="form__block">
-                    <input type="text"  placeholder="MSPIN / Staff ID" id="email" name="user"   maxlength="55" />
+                    <input type="text"  placeholder="Emp Code / Email" id="email" name="user"   maxlength="55" />
                 </div>
                 <div class="form__block">
                     <input type="password"  placeholder="Password" id="password" name="password"  />
@@ -188,16 +197,25 @@ $(function() {
                 <div class="form__block">
                     <span class="form__button form__button--submit"  id="loginButton" onclick="userLogin()"><img src="./img/login-icn.svg"  /> Login</span>
                 </div>       
-               <input type="checkbox" value="remember-me" id="remember_me"> Remember me
+               <div class="form__block">
+    <div class="col-6">
+        <input type="checkbox" value="remember-me" id="remember_me">
+        <label for="remember_me">Remember me</label>
+    </div>
+    <div class="col-6">
+        <a href="forgotPassword">Forgot Password?</a>
+    </div>
+</div>
+
             </form>
         </div>
-		<div class="terms-section">
+		<!-- <div class="terms-section">
           <ul>
             <li><a href="./termsCondition" target="_blank">Terms & Conditions</a></li>
             <li style="color:#999;">|</a></li>
             <li><a href="./privacy" target="_blank">Privacy Policy</a></li>
           </ul>
-        </div>
+        </div> -->
     </div>
 
   </body>

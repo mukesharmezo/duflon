@@ -26,7 +26,7 @@ public class HREService {
 		return hreRepository.saveAll(tdmList);
 	}
 	
-	public List<HRE>  getAllDeealer(){
+	public List<HRE>  getAllHRE(){
 		return hreRepository.findAll();
 	}
 	
@@ -90,5 +90,9 @@ public class HREService {
 	
 	public List<HRE> findByAll() {
 		return hreRepository.findAll();
+	}
+
+	public Optional<HRE> findByEmail(String email) {
+		return hreRepository.findByEmail(email);
 	}
 }

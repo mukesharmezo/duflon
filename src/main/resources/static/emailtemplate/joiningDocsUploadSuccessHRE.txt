@@ -1,0 +1,12 @@
+<font style='font-family:verdana;font-size:12px;font-weight:normal;color:black;'> 
+Dear HRE
+<br><br>
+This is an automated system generated email to inform you that ${candidateName} ${accesskey} has successfully uploaded his/her documents.
+<br><br>
+You can view them by logging into duRecruit ${link}
+
+<b>DuRecruit Team</b>
+<br>
+This is an auto-generated system email. Please do not reply to this email as it will not be received.
+<br><br>
+</font>

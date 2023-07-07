@@ -155,7 +155,12 @@ input#tnc {
 					if (role.equalsIgnoreCase("HRE")) {
 					%>
 					<c:if
-						test="${participant.documents_status != 'final' && participant.hiredStatus != '2' && participant.status != 'H'}">
+						test="${participant.hiredStatus != 'Y' && participant.status != 'H'}">
+<%-- 						test="${participant.documents_status != 'final' && participant.hiredStatus != '2' && participant.status != 'H'}"> --%>
+						<c:if test="${participant.documents_status == 'final'}">
+							<p style="text-align:center;">All details and documents are submitted.</p>
+						</c:if>
+						<c:if test="${participant.documents_status != 'final'}">
 						<div id="div_dealer">
 							<div class="form-btn wtnc" style="border-top: none !important;">
 								<input type="checkbox" id="tnc" />
@@ -178,6 +183,7 @@ input#tnc {
 							<input type="button" id="submit" class="btn blue-btn"
 								onclick="saveDacoment('final')" disabled value="Submit" />
 						</div>
+						</c:if>
 					</c:if>
 				</div>
 				<%

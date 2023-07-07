@@ -9,7 +9,7 @@
 .table-date ::placeholder {color: #fff; opacity: 1;}
 .table-date :-ms-input-placeholder {color: #fff;}
 .table-date ::-ms-input-placeholder {color: #fff;}
-.table-date table tr th span em, .table-date table tr th input[type="text"], .table-date table tfoot tr input{font-style: normal; overflow: hidden; width: 100%; box-sizing: border-box; text-align: left; color: #fff; background: none; outline: none;  padding: 5px 7px; border: 1px solid #4349A8; border-radius: 5px; font-weight: 500; font-size: 12px; line-height: 12px; display: block; height: 26px;}
+.table-date table tr th span em, .table-date table tr th input[type="text"], .table-date table tfoot tr input{font-style: normal; overflow: hidden; width: 100%; box-sizing: border-box; text-align: left; color: #fff; background: none; outline: none;  padding: 5px 7px; border: 1px solid #D9E3EF; border-radius: 5px; font-weight: 500; font-size: 12px; line-height: 12px; display: block; height: 26px;}
 .table-date table tr th span img{position: absolute; top: 0px; right: 0px; margin-left: 5px; filter: brightness(0) invert(1); z-index: 2; cursor: pointer;}
 .table-date table tr th input[type="text"]{position: absolute; top: -42px; left: 5px; width: calc(100% - 25px);}
 .table-date table tr th:first-child span{margin-left: 10px;}

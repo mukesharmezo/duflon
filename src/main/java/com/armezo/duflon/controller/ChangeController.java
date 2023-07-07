@@ -14,26 +14,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.armezo.duflon.Entities.EventLoger;
-import com.armezo.duflon.Entities.HO;
 import com.armezo.duflon.Entities.HRE;
 import com.armezo.duflon.Entities.LineManager;
-import com.armezo.duflon.Services.EventLogerServer;
+import com.armezo.duflon.Services.EventLogerService;
 import com.armezo.duflon.Services.HREService;
-import com.armezo.duflon.ServicesImpl.HOServiceImpl;
 import com.armezo.duflon.ServicesImpl.LineManagerServiceImpl;
 
 @Controller
 public class ChangeController {
 	@Autowired
 	private LineManagerServiceImpl lmService;
-	
 	@Autowired
 	private HREService hreService;
-	
-	@Autowired
-	private HOServiceImpl hoService;
 	 @Autowired
-	 EventLogerServer eventLogerServer;
+	 EventLogerService eventLogerServer;
 	
 	@GetMapping("/showChangePasswordPage/{empCode}")
 	public String showPasswordChangePage(HttpSession session, @PathVariable String empCode) {

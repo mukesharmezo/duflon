@@ -21,7 +21,7 @@ ol li a, ul li a{text-decoration: none; color: #DC3545;}
 .form .form-section h4{font-weight: 500; font-size: 15px; line-height: 20px; margin: 0 15px 10px; position: relative; color: #000;}
 .form .form-section h5{font-weight: 500; font-size: 13px; line-height: 18px; margin: 0 0 9px; position: relative; color: #777777;}
 .form .form-section h5 span{top: -3px; font-size: 13px; line-height: 18px; color: #f00;position: absolute;}
-.form .form-section .form-block input[type="text"], .form .form-section .form-block input[type="email"], .form .form-section .form-block input[type="tel"], .form .form-section .form-block input[type="number"], .form .form-section .form-block input[type="date"], .form .form-section .form-block select{width: 100%; background: #F7F7F7; border: 1px solid #D0D0D0; border-radius: 7px; color: #4D4D4D; padding: 11px 15px; font-size: 15px;font-family: Arial !important; line-height: 18px; outline: none; box-sizing: border-box;}
+.form .form-section .form-block input[type="text"], .form .form-section .form-block input[type="email"], .form .form-section .form-block input[type="tel"], .form .form-section .form-block input[type="number"], .form .form-section .form-block input[type="date"], .form .form-section .form-block select{width: 100%; background: #F7F7F7; border: 1px solid #D0D0D0; border-radius: 7px; color: #4D4D4D; padding: 8px 10px; font-size: 15px;font-family: Arial !important; line-height: 18px; outline: none; box-sizing: border-box;}
 .form .form-section .form-block.error h5{color: #f00 !important;}
 /*.form .form-section .form-block.error p{color: #f00 !important; margin: 5px 0 0; font-size: 11px; line-height: 13px;}*/
 .form .error {color: #f00 !important; margin: 5px 0 0; font-size: 11px; line-height: 13px;} 

@@ -3,13 +3,13 @@ Dear ${candidateName}
 <br><br>
 This is an automated system generated email to inform that you have successfully uploaded your documents.
 <br><br>
-You may contact your Dealer for further information. 
+You may contact your HRE for further information. 
 <br><br>
 ${dealerName}<br>
 ${mobile}<br> 
 ${email}
 <br><br>
-<b>iRecruit Team</b>
+<b>DuRecruit Team</b>
 <br>
 This is an auto-generated system email. Please do not reply to this email as it will not be received.
 <br><br>

@@ -77,7 +77,7 @@ if(session.getAttribute("role") != null){
 						 </c:forEach>
                       </select>
                     </div>
-	                 <c:if test="${(general.documents_status != 'final') && general.status !='H'}">
+	                 <c:if test="${(general.hiredStatus != 'Y') && general.status !='H'}">
                      <%if(role.equalsIgnoreCase("HRE")) { %>
                   <div class="form-btn">
                      
@@ -99,7 +99,7 @@ if(session.getAttribute("role") != null){
     <script type="text/javascript" src="./js/register.js"></script>
     <script>
       $(document).ready(function () {
-    	  <%if(role.equalsIgnoreCase("LM") || role.equalsIgnoreCase("SA")) { %>
+    	  <%if(role.equalsIgnoreCase("LM") || role.equalsIgnoreCase("SA") || role.equalsIgnoreCase("HOD")) { %>
     	  $('input').attr('disabled', 'disabled');
     	  $('select').attr('disabled', 'disabled');
     	  <%}%>

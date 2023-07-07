@@ -15,6 +15,10 @@
     display: none
 }
 
+a.no-cursor {
+        cursor: default !important;
+    }
+
 .left-panel.left-moved {
   left: -300px;
   transition: left 0.5s;
@@ -129,5 +133,7 @@
     .left-panel {
         /* display: none; */
     }
-    .
 }
+
+
+

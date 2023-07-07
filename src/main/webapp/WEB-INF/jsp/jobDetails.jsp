@@ -30,126 +30,24 @@ button.collapsible {
 }
 .logo{padding: 10px;}
 .logo img{width: 200px;}
-/* body{background-color: #fff !important;} */
-.btn-info {
-	float: right !important;
-}
-.arrow {
-	float:left !important;
-	/* display: inline-block; */
-	width: 12px;
-	height: 12px;
-	border-top: 2px solid #ea3135;
-	border-right: 2px solid #ea3135;
-	cursor: pointer;
-	margin-top: 5px;
-}
-.arrow-bottom {
-	-webkit-transform: rotate(135deg);
-	transform: rotate(135deg);
-
-
-}
-.joblist-container .container {
-	max-width: 100%;
-}
-.job-lists {
-	box-shadow: -10px -30px 50px rgba(11, 202, 243, .05), 10px 10px 20px
-		rgba(1, 2, 2, .5);
-	border-radius: 10px;
-	height: auto;
-	margin-bottom: 1rem;
-	padding: 1.5rem;
-	color: #0f326c;
-	background: #fff;
-	align-items: center;
-}
-.job-lists .position__name div {
-	display: flex;
-	justify-content: flex-start;
-	align-items: flex-start;
-	margin-left: 75px !important;
-	margin-top: 5px;
-}
-.job-lists .job_list_view {
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-}
-.location__name_location, .position__name_reqid {
-	font-family: "Poppins-Regular";
-	font-style: normal;
-	font-weight: 400;
-	font-size: 18px;
-	line-height: 27px;
-	color: #fff;
-}
+.btn-info {	float: right !important;}
+.arrow {	float:left !important;	width: 12px;	height: 12px;	border-top: 2px solid #ea3135;	border-right: 2px solid #ea3135;	cursor: pointer;	margin-top: 5px;}
+.arrow-bottom {	-webkit-transform: rotate(135deg);	transform: rotate(135deg);}
+.joblist-container .container {	max-width: 100%;}
+.job-lists {	box-shadow: -10px -30px 50px rgba(11, 202, 243, .05), 10px 10px 20px		rgba(1, 2, 2, .5);	border-radius: 10px;	height: auto;	margin-bottom: 1rem;	padding: 1.5rem;	color: #0f326c;	background: #fff;	align-items: center;}
+.job-lists .position__name div {	display: flex;	justify-content: flex-start;	align-items: flex-start;	margin-left: 75px !important;	margin-top: 5px;}
+.job-lists .job_list_view {	display: flex;	justify-content: flex-start;	align-items: center;}
+.location__name_location, .position__name_reqid {	font-family: "Poppins-Regular";	font-style: normal;	font-weight: 400;	font-size: 18px;	line-height: 27px;	color: #fff;}
 .job_list_view .posted__date_date, .location__name_location,
-	.position__name_reqid {
-	font-family: "Poppins-Regular";
-	font-style: normal;
-	font-weight: 400;
-	font-size: 18px;
-	line-height: 27px;
-	color: #0f326c;
-}
-a{
-    color: #fff;
-}
-a:hover{
-	text-decoration: none;
-}
-.apply__btn {
-	font-family: "Poppins-Regular";
-	font-style: normal;
-	font-weight: 400;
-	font-size: 18px;
-	line-height: 36px;
-	text-align: center;
-	width: 150px;
-	padding: 0 6px;
-	cursor: pointer;
-	background-color: #ea3135;
-	color: #fff;
-	border: 1px solid #ea3135;
-	border-radius: 40px;
-	float: right;
-}
-.career_section {
-	background-image: url(/static/media/opportunities_new.096004f4.png);
-	-webkit-transform-origin: 0 100%;
-	transform-origin: 0 100%;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: top;
-	/* max-width: 85%; */
-	margin-top: -5rem;
-	padding:50px 80px 24px;
-}
-.container {
-	width: 100%;
-}
-.labels-career-open {
-    color: #000;
-    text-align: left;
-    font-size: 22px;
-    font-weight: 500;
-    font-family: "Roboto", sans-serif;
-    max-width: 100%;
-    padding-left: 15px;
-    padding-right:40px;
-    padding-bottom: 24px;
-	padding-top: 40px;
-}
-.labels-career-open .job_title {
-    padding-left: 50px;
-}
-.labels-career-open .job_list_view .experience_year{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-.header{border-bottom: 1px solid#495057;}
+	.position__name_reqid {	font-family: "Poppins-Regular";	font-style: normal;	font-weight: 400;	font-size: 18px;	line-height: 27px;	color: #0f326c;}
+a{    color: #fff;}
+a:hover{	text-decoration: none;}
+.apply__btn {	font-family: "Poppins-Regular";	font-style: normal;	font-weight: 400;	font-size: 18px;	line-height: 36px;	text-align: center;	width: 150px;	padding: 0 6px;	cursor: pointer;	background-color: #ea3135;	color: #fff;	border: 1px solid #ea3135;	border-radius: 40px;	float: right;}
+.career_section {	background-image: url(/static/media/opportunities_new.096004f4.png);	-webkit-transform-origin: 0 100%;	transform-origin: 0 100%;	background-repeat: no-repeat;	background-size: cover;	background-position: top;	margin-top: -5rem;	padding:50px 80px 24px;}
+.container {	width: 100%;}
+.labels-career-open {    color: #000;    text-align: left;    font-size: 22px;    font-weight: 500;    font-family: "Roboto", sans-serif;    max-width: 100%;    padding-left: 15px;    padding-right:40px;    padding-bottom: 24px;	padding-top: 40px;}
+.labels-career-open .job_title {    padding-left: 50px;}
+.labels-career-open .job_list_view .experience_year{    display: flex;    justify-content: flex-start;    align-items: center;}.header{border-bottom: 1px solid#495057;}
 </style>
 </head>
 <body>
@@ -213,8 +111,6 @@ a:hover{
 									</table>
 								</div>
 							</div>
-							
-							
 						</div>
 					</div>
 				</div>

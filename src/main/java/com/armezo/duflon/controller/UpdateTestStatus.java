@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.armezo.duflon.Entities.EventLoger;
 import com.armezo.duflon.Entities.HRE;
 import com.armezo.duflon.Entities.ParticipantRegistration;
-import com.armezo.duflon.Services.EventLogerServer;
+import com.armezo.duflon.Services.EventLogerService;
 import com.armezo.duflon.Services.HREService;
 import com.armezo.duflon.ServicesImpl.ParticipantServiceImpl;
 import com.armezo.duflon.email.util.EmailUtility;
@@ -33,7 +34,11 @@ public class UpdateTestStatus {
 	    @Autowired
 	    private UserService userService;
 	    @Autowired
-	    EventLogerServer eventLogerServer;
+	    EventLogerService eventLogerServer;
+	    @Value("${cand.link}")
+		private String candLink;
+	    
+	    
 	    @PostMapping({ "/updateTestStatus" })
 	    @ResponseBody
 	    public String updateAptitute(@RequestParam("accesskey") final String accesskey, @RequestParam("testScore") final double testScore,
@@ -74,50 +79,20 @@ public class UpdateTestStatus {
 	    
 	    public static double doubleRoundHalfUpWith2DecimalPlaces(int decimalPlaces, double doubleValue){
 			BigDecimal bd = new BigDecimal(doubleValue);
-
 			// setScale is immutable
 			bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
 			return bd.doubleValue();
 		}
-	    /*
-	    @PostMapping({ "/getDealerName" })
-	    @ResponseBody
-	    public Map<String, String> getDealerName(@RequestParam("accesskey") final String accesskey) {
-	        final Optional<ParticipantRegistration> participant = (Optional<ParticipantRegistration>)this.participantserviceImpl.findByAccesskey(accesskey);
-	        final Map<String, String> map = new HashMap<String, String>();
-	        if (participant.isPresent()) {
-	            final Optional<Outlet> outlet = (Optional<Outlet>)this.outletService.getOutletByOutletCodeAndhreId(participant.get().getOutletCode(), participant.get().gethreId());
-	            if (outlet.isPresent()) {
-	                map.put("dealerName", outlet.get().getDealer().getName());
-	                map.put("dealerShip", outlet.get().getOutletName());
-	                
-	                String name = participant.get().getFirstName();
-	                if (participant.get().getMiddleName() != null && !participant.get().getMiddleName().equals("")) {
-	                    name = String.valueOf(String.valueOf(name)) + " " + participant.get().getMiddleName();
-	                }
-	                name = String.valueOf(String.valueOf(name)) + " " + participant.get().getLastName();
-	                map.put("name", name);
-	                map.put("message", "1");
-	            }
-	            else {
-	                map.put("message", "0");
-	            }
-	        }
-	        else {
-	            map.put("message", "0");
-	        }
-	        return map;
-	    }
-	    */
-	    private String sendEmail(final ParticipantRegistration participant, final int stattus) {
-	        String subjectLine = "Duflon - Your Job Application: Thank You";
-	        if (stattus == 0) {
-	            subjectLine = "Duflon - Your Job Application: Thank You";
-	        }
-	        String mailBody = DataProccessor.readFileFromResource("passEmail");
-	        if (stattus == 0) {
+	    
+	    private String sendEmail(final ParticipantRegistration participant, final int status) {
+	        String subjectLine = "DuRecruit - Your Job Application: Thank You";
+	        String mailBody="";
+	        if (status == 0) {
+	            subjectLine = "DuRecruit - Your Job Application: Thank You";
 	            mailBody = DataProccessor.readFileFromResource("failOrReattemptEmail");
-	        }
+	        }else if(status== 1) {
+	        	mailBody = DataProccessor.readFileFromResource("passEmail");
+			}
 	        String name = "";
 	        name = String.valueOf(String.valueOf(name)) + participant.getFirstName();
 	        if (participant.getMiddleName() != null) {
@@ -125,20 +100,22 @@ public class UpdateTestStatus {
 	        }
 	        name += " " + participant.getLastName();
 	        mailBody = mailBody.replace("${candidateName}", name);
-	        final HRE dealer = this.hreService.getById((long)participant.getHreId()).get();
-	        if (dealer != null) {
-	        	if(dealer.getName() != null && !dealer.getName().equals("")) {
-	            mailBody = mailBody.replace("${dealerName}", dealer.getName());
+	        mailBody = mailBody.replace("${candLink}", candLink);
+	        mailBody = mailBody.replace("${accesskey}", participant.getAccessKey());
+	        final HRE hre = this.hreService.getById((long)participant.getHreId()).get();
+	        if (hre != null) {
+	        	if(hre.getName() != null && !hre.getName().equals("")) {
+	            mailBody = mailBody.replace("${dealerName}", hre.getName());
 	        	}else {
 	        		  mailBody = mailBody.replace("${dealerName}", "");	
 	        	}
-	        	if(dealer.getMobile() != null && !dealer.getMobile().equals("")) {
-	            mailBody = mailBody.replace("${mobile}", dealer.getMobile());
+	        	if(hre.getMobile() != null && !hre.getMobile().equals("")) {
+	            mailBody = mailBody.replace("${mobile}", hre.getMobile());
 	        	}else {
 	        		 mailBody = mailBody.replace("${mobile}", "");	
 	        	}
-	        	if(dealer.getEmail() != null && !dealer.getEmail().equals("")) {
-	            mailBody = mailBody.replace("${email}", dealer.getEmail());
+	        	if(hre.getEmail() != null && !hre.getEmail().equals("")) {
+	            mailBody = mailBody.replace("${email}", hre.getEmail());
 	        	}else {
 	        		 mailBody = mailBody.replace("${email}", "");
 	        	}

@@ -26,8 +26,8 @@ String baseServer = resource.getString("client.url");String title = resource.get
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 text-center mt-5">
-				<h1>Thank You</h1>
-				<p>Thank you for applying, HR will reach you soon.</p>
+				<h1>Thank You ${name}</h1>
+				<p>Thank you for applying, HRE will reach you soon.</p>
 			</div>
 		</div>
 	</div>

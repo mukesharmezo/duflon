@@ -24,6 +24,7 @@ if(session.getAttribute("role") != null){
     <link rel="stylesheet" type="text/css" href="./css/profile.css" />
     <link rel="stylesheet" href="./css/scrolltabs.css">
     <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    
     <style>
        
 	  ul li{margin: 0px !important;}
@@ -35,8 +36,11 @@ if(session.getAttribute("role") != null){
    </style>
 
     <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./js/jquery.validate.js"></script>
+    <script src="./js/empdetail.js"></script>
     <script src="./js/jquery.dataTables.min.js"></script>
     <script src="./js/jquery.scrolltabs.js"></script>
+    
   </head>
   <body>
     <div class="left-panel-include">
@@ -56,57 +60,14 @@ if(session.getAttribute("role") != null){
                 <form:form class="form" action="./saveEmploymentDetails"  method = "post" id = "testForm" modelAttribute="emp">
                   <div class="form-section">
 					<input type = "hidden" name = "accessKey" id = "accessKey" value = "${emp.accessKey}" placeholder="Profile"/>
-					
-					<%-- <div class="form-block">
-								<h5>
-									Worked With MSIL Before <span>*</span>
-								</h5>
-								<form:select path="workedWithMSILBefore" onchange="workWithMIL()"
-									id="workedWithMSILBefore" style="color: black !important">
-									<form:option value="" label="Select" />
-									<form:option value="Yes" />
-									<form:option value="No" />
-								</form:select>
-							</div>
-							 <c:choose>
-                                          <c:when test="${emp.workedWithMSILBefore eq 'Yes'}">
-                                           <c:set value="" var="display"></c:set>
-                                          </c:when>
-                                          <c:otherwise>
-                                          <c:set value="display:none" var="display"></c:set>
-                                        </c:otherwise>
-                                      </c:choose>
-							 <div class="form-block" id="divspin" style="${display}" >
-							
-							
-							<div >
-								<h5>
-									MSPIN <span>*</span>
-								</h5>
-								<form:input type="text" path="oldMspin" placeholder="MSPIN" id="old_mspin" maxlength="8" onkeyup="deleteOldMSPIN()"   oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/><input type="button" value="search" onclick="getOldMSPIN()" id="searchmspin" >
-								
-								<div id="div_msg"></div>
-								</div>
-							</div>  --%>
-
-                    <%-- <div class="form-block">
-                      <h5>Interview Date <span>*</span></h5>
-                      <form:input type="date" path="interviewDate" readonly="true" style=" background : #D3D3D3" placeholder="Interview Date"/>
-                    </div> --%>
                     <div class="form-block">
                       <h5>Joining Date <span></span></h5>
                       <form:input type="text"  path="joiningDate" style=" background : #D3D3D3" readonly="true" placeholder="Joining Date" />
                     </div>
-                    <!-- <div class="form-block"></div> -->
-
                     <div class="form-block">
                         <h5>Emp Salary (Per Month) <span>*</span></h5>
                         <form:input type="text" path="empSalary" maxlength="55"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="Emp Salary (Per Month) "/>
                     </div>
-                    <%-- <div class="form-block">
-                      <h5>Emp. Productivity Ref ID</h5>
-                      <form:input type="text" path="empProductivityRefId"  maxlength="55" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" style=" background : #D3D3D3" readonly="true" placeholder="Emp. Productivity Ref ID" />
-                    </div> --%>
                     <div class="form-block">
                       <h5>Gender <span>*</span></h5>
                       <form:select  path="gender" style="color: black !important">
@@ -123,49 +84,45 @@ if(session.getAttribute("role") != null){
                        </c:forEach>
                       </form:select>
                     </div>
-
                     <div class="form-block">
                         <h5>PF Number</h5>
                         <form:input type="text" path="pfNumber" maxlength="55"  placeholder="PF Number" />
                     </div>
                     <div class="form-block">
-                        <h5>Bank A/C number</h5>
-                        <form:input type="text" path="bankAccountNumber" maxlength="55" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"   placeholder="Bank A/C number" />
+                        <h5>UAN</h5>
+                        <form:input type="text" path="uan" maxlength="12"  placeholder="UAN" />
                     </div>
-                    <%-- <div class="form-block">
-                        <h5>ESI number</h5>
-                        <form:input type="text"  path="esiNumber" maxlength="55" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"  placeholder="ESI number"/>
-                    </div> --%>
-                 
-
-                    <%-- <div class="form-block">
-                        <h5>Ownership of 2 wheeler <span>*</span></h5>
-                        <form:select path = "ownTwoWheeler" style="color: black !important">
-                          <form:option value = "" label="Select" />
-                          <form:option value = "Yes" />
-                          <form:option value = "No" />
-                        </form:select>
-                      </div>
-                      <div class="form-block">
-                        <h5>Knows Driving <span>*</span></h5>
-                        <form:select path = "knowDriving" id="knowDriving" style="color: black !important">
-                          <form:option value = "" label="Select" />
-                          <form:option value = "Yes" />
-                          <form:option value = "No" />
-                        </form:select>
-                      </div>
-                      <div class="form-block">
-                        <h5>MDS Certified <span>*</span></h5>
-                        <form:select path = "mdsCertified" id="mdsCertified" style="color: black !important">
-                          <form:option value = "" label="Select" />
-                          <form:option value = "Yes" />
-                          <form:option value = "No" />
-                        </form:select>
-                      </div> --%>
-                  
+                    <div class="form-block">
+                        <h5>EPFO</h5>
+                        <form:input type="text" path="epfo" maxlength="20"  placeholder="EPFO" />
+                    </div>
+                    <div class="form-block">
+      					<h5>Bank Name:</h5>
+      					<form:input path="bankName" id="bankName" required="true" list="bankSuggestions" placeholder="Bank Name" cssClass="form-control" />
+      					<datalist id="bankSuggestions">
+        					<option value="Axis Bank">
+        					<option value="Bank of Baroda (BoB)">
+        					<option value="Bank of India (BOI)">
+        					<option value="Canara Bank">
+        					<option value="HDFC Bank">
+        					<option value="ICICI Bank">
+        					<option value="IndusInd Bank">
+        					<option value="Punjab National Bank (PNB)">
+        					<option value="State Bank of India (SBI)">
+        					<option value="Union Bank of India (UBI)">
+      					</datalist>
+    				</div>
+							<div class="form-block">
+                        <h5>IFSC Code</h5>
+                        <form:input type="text" path="ifscCode" maxlength="10"  placeholder="IFSC Code" />
+                    </div>
+                    <div class="form-block">
+                        <h5>Bank A/C Number</h5>
+                        <form:input type="text" path="bankAccountNumber" maxlength="20" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"   placeholder="Bank A/C number" />
+                    </div>
                      <%if(role.equalsIgnoreCase("HRE")) { %>
                   <div class="form-btn">
-                     <c:if test="${(emp.documents_status != 'final') && emp.status !='H'}">
+                     <c:if test="${(emp.hiredStatus != 'Y') && emp.status !='H'}">
 					   <input class="btn blue-btn" type="button" value="Save" id="submitbtnrr" onclick="saveEployment('Save')"/>
                          <input class="btn blue-btn" type="submit" value="Next" id="submitnext"/>
                      </c:if>
@@ -183,12 +140,10 @@ if(session.getAttribute("role") != null){
     </div>
 	<div class="blk-bg"></div>
      <input type="hidden" id="accesskey" value="${emp.accessKey}">
- <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-     <script type="text/javascript" src="./js/empdetail.js"></script>
     <script>
       $(document).ready(function () {
 	      joiningDate();
-    	  <%if(role.equalsIgnoreCase("LM") || role.equalsIgnoreCase("SA")) { %>
+    	  <%if(role.equalsIgnoreCase("LM") || role.equalsIgnoreCase("SA") || role.equalsIgnoreCase("HOD")) { %>
     	  $('input').attr('disabled', 'disabled');
     	  $('select').attr('disabled', 'disabled');
     	  <%}%>

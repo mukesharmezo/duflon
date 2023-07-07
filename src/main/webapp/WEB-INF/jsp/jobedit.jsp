@@ -68,12 +68,15 @@ String baseServer = resource.getString("client.url");String title = resource.get
 				<label for="designation">Designation</label>
 				<select class="form-control" id="designation" name="designation">
 					<option value="">Select Designation</option>
-					<option value="Manager">Manager</option>
-					<option value="HRE">HRE</option>
+					<c:forEach items="${masters}" var="master">
+						<c:if test="${master.masterName == 'Designation'}">
+    							<option value="${master.masterDescription}" ${master.masterDescription == job.designation ? 'selected' : '' }>${master.masterDescription}</option>
+    						</c:if>
+    					</c:forEach>
 				</select>
 			</div>
 				<div class="form-block">
-				<label for="description">Description</label>
+				<label for="description">Job Description</label>
 					<textarea class="form-control" id="description" name="description"
 						rows="1" placeholder="Enter description">${job.description}</textarea>
 				</div>
@@ -86,15 +89,15 @@ String baseServer = resource.getString("client.url");String title = resource.get
 					<input type="number" class="form-control" id="salaryMax" name="salaryMax"   value="${job.salaryMax}">
 			</div>
 			<div class="form-block">
-				<label for="education">Education</label>
-					<select class="form-control" id="education" name="education">
-						<option value="">Select Education</option>
-						<option value="High School">High School</option>
-						<option value="Associate's Degree">Associate's Degree</option>
-						<option value="Bachelor's Degree">Bachelor's Degree</option>
-						<option value="Master's Degree">Master's Degree</option>
-						<option value="Doctoral Degree">Doctoral Degree</option>
-					</select>
+  				<label for="education">Education</label>
+  				<select name="education" id="education" class="form-control">
+    				<option value="">Select Education</option>
+    				<c:forEach items="${masters}" var="master">
+						<c:if test="${master.masterName == 'Education'}">
+    							<option value="${master.masterDescription}" ${master.masterDescription == job.education ? 'selected' : '' }>${master.masterDescription}</option>
+    						</c:if>
+    					</c:forEach>
+  				</select>
 			</div>
 			
 			</div>
@@ -136,50 +139,55 @@ String baseServer = resource.getString("client.url");String title = resource.get
 			</div>
 			<div class="form-section">
 			<div class="form-block">
-				<label for="profileExperience">Profile Experience</label>
+				<label for="profileExperience">Total Experience</label>
 					<input type="number" class="form-control" id="profileExperience"
 						name="profileExperience" value="${job.profileExperience}">
 			</div>
 			<div class="form-block">
-				<label for="company" >Company 	Name</label>
+				<label for="company" >Company Name</label>
 					<select name="company" id="company" class="form-control">
 						<option value="">Select Company Name</option>
-						<option value="DuFlon Industries Pvt Ltd. ">DuFlon
-							Industries Pvt Ltd.</option>
-						<option value="DuFlon Elastomers LLP">DuFlon Elastomers
-							LLP</option>
+							<c:forEach items="${masters}" var="master">
+							<c:if test="${master.masterName == 'Company'}">
+								<option value="${master.masterDescription}"
+									${master.masterDescription == job.company ? 'selected' : '' }>${master.masterDescription}</option>
+							</c:if>
+						</c:forEach>
 					</select>
 			</div>
 			<div class="form-block">
 				<label for="region" >Region</label>
-					<select name="region" id="region" class="form-control"
-						required="true">
+					<select name="region" id="region" class="form-control" >
 						<option value="">Select Region</option>
-						<option value="India">India</option>
-						<option value="Europe">Europe</option>
+						<c:forEach items="${masters}" var="master">
+							<c:if test="${master.masterName == 'Region'}">
+								<option value="${master.masterDescription}"
+									${master.masterDescription == job.region ? 'selected' : '' }>${master.masterDescription}</option>
+							</c:if>
+						</c:forEach>
 					</select>
 			</div>
 			<div class="form-block">
-				<label for="location">Locatioin</label>
+				<label for="location">Location</label>
 					<select name="location" id="location" class="form-control"
 						required="true">
-						<option value="">Select Locatioin</option>
-						<option value="Mahad">Mahad</option>
-						<option value="Mumbai">Mumbai</option>
-						<option value="Ahmedabad">Ahmedabad</option>
-						<option value="Vadodara">Vadodara</option>
-						<option value="Ambernath">Ambernath</option>
-						<option value="Hungry">Hungry</option>
+						<option value="">Select Location</option>
+						<c:forEach items="${masters}" var="master">
+						<c:if test="${master.masterName == 'Location'}">
+    							<option value="${master.masterDescription}" ${master.masterDescription == job.location ? 'selected' : '' }>${master.masterDescription}</option>
+    						</c:if>
+    					</c:forEach>
 					</select>
 			</div>
 			<div class="form-block">
 				<label for="unit" >Unit</label>
 					<select name="unit" id="unit" class="form-control" required="true">
 						<option value="">Select Unit</option>
-						<option value="Unit I">Unit I</option>
-						<option value="Unit II">Unit II</option>
-						<option value="Unit III">Unit III</option>
-						<option value="Office">Office</option>
+						<c:forEach items="${masters}" var="master">
+						<c:if test="${master.masterName == 'Unit'}">
+    							<option value="${master.masterDescription}" ${master.masterDescription == job.unit ? 'selected' : '' }>${master.masterDescription}</option>
+    						</c:if>
+    					</c:forEach>
 					</select>
 			</div>
 			<div class="form-block">
@@ -187,24 +195,22 @@ String baseServer = resource.getString("client.url");String title = resource.get
 					<select name="business" id="business" class="form-control"
 						required="true">
 						<option value="">Select Business</option>
-						<option value="EP & E">EP & E</option>
-						<option value="Corporate Office">Corporate Office</option>
-						<option value="Casting">Casting</option>
-						<option value="CSP">CSP</option>
-						<option value="Elastomers">Elastomers</option>
+						<c:forEach items="${masters}" var="master">
+						<c:if test="${master.masterName == 'Business'}">
+    							<option value="${master.masterDescription}" ${master.masterDescription == job.business ? 'selected' : '' }>${master.masterDescription}</option>
+    						</c:if>
+    					</c:forEach>
 					</select>
 			</div>
 			<div class="form-block">
 				<label for="function" >Function</label>
-					<select name="function" id="function" class="form-control"
-						required="true">
+					<select name="function" id="function" class="form-control"  required="true">
 						<option value="">Select Function</option>
-						<option value="Prodction / Fuctional">Prodction /
-							Fuctional</option>
-						<option value="Finance / Legal & secretorial">Finance /
-							Legal & secretorial</option>
-						<option value="HR / Logistics / Procurment ">HR /
-							Logistics / Procurment</option>
+						<c:forEach items="${masters}" var="master">
+						<c:if test="${master.masterName == 'Function'}">
+    							<option value="${master.masterDescription}" ${master.masterDescription == job.function ? 'selected' : '' }>${master.masterDescription}</option>
+    						</c:if>
+    					</c:forEach>
 					</select>
 			</div>
 			<div class="form-block">
@@ -212,13 +218,11 @@ String baseServer = resource.getString("client.url");String title = resource.get
 					<select name="product" id="product" class="form-control"
 						required="true">
 						<option value="">Select Product</option>
-						<option value="PV">PV</option>
-						<option value="Eletrical">Eletrical</option>
-						<option value="CSP">CSP</option>
-						<option value="Casting">Casting</option>
-						<option value="Rubber">Rubber</option>
-						<option value="Semi conductor & eletronics">Semi
-							conductor & eletronics</option>
+						<c:forEach items="${masters}" var="master">
+						<c:if test="${master.masterName == 'Product'}">
+    							<option value="${master.masterDescription}" ${master.masterDescription == job.product ? 'selected' : '' }>${master.masterDescription}</option>
+    						</c:if>
+    					</c:forEach>
 					</select>
 			</div>
 			</div>

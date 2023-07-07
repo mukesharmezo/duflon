@@ -1,7 +1,14 @@
 package com.armezo.duflon.jobportal;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -11,19 +18,29 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.armezo.duflon.Entities.AccessKeyMaster;
+import com.armezo.duflon.Entities.AdminTable;
 import com.armezo.duflon.Entities.HRE;
+import com.armezo.duflon.Entities.LineManager;
+import com.armezo.duflon.Entities.MasterData;
 import com.armezo.duflon.Entities.ParticipantRegistration;
 import com.armezo.duflon.Services.AccessKeyMasterService;
+import com.armezo.duflon.Services.AdminService;
+import com.armezo.duflon.Services.DataListService;
 import com.armezo.duflon.Services.HREService;
+import com.armezo.duflon.Services.MasterDataService;
+import com.armezo.duflon.ServicesImpl.LineManagerServiceImpl;
 import com.armezo.duflon.ServicesImpl.ParticipantServiceImpl;
 import com.armezo.duflon.email.util.EmailUtility;
 import com.armezo.duflon.email.util.SendPayload;
@@ -43,18 +60,29 @@ public class JobController {
 	private AccessKeyMasterService accessService;
 	@Autowired
 	private HREService hreService;
+	@Autowired
+    private DataListService dlService;
+	@Autowired
+	private MasterDataService masterDataService;
+	@Autowired
+	private LineManagerServiceImpl lmService;
+	@Autowired
+	private AdminService adminService;
+	
+	@Value("${file.path}")
+    private String filePath;
 
 	//private ExecutorService executorService = Executors.newFixedThreadPool(2); // Here 2 thread will be created
 
 	
-	@GetMapping("/jobCreater")
+	@GetMapping("/jobCreator")
 	public String showJobCreaterPage(HttpSession session, Model model) {
 		if (session.getAttribute("userId") != null) {
 			String role = session.getAttribute("role").toString();
 			JobDetails job = new JobDetails();
 			List<JobDetails> jobs = new ArrayList<JobDetails>();
 			List<HRE> hres = new ArrayList<HRE>();
-			if (role.equalsIgnoreCase("LM")) {
+			if (role.equalsIgnoreCase("LM") || role.equalsIgnoreCase("SA")) {
 				jobs = jobService.getAllJobDetails();
 				hres = hreService.findByAll();
 			}
@@ -66,10 +94,14 @@ public class JobController {
 					hres.add(dlOptional.get());
 				}
 			}
+			List<MasterData> mastersList = masterDataService.getAllMasterData().stream()
+					.sorted(Comparator.comparing(MasterData :: getMasterDescription))
+					.collect(Collectors.toList());
 			model.addAttribute("job", job);
 			model.addAttribute("jobs", jobs);
 			model.addAttribute("hres", hres);
-			return "jobCreater";
+			model.addAttribute("masters", mastersList);
+			return "jobCreator";
 		} else {
 			return "redirect:login";
 		}
@@ -77,20 +109,42 @@ public class JobController {
 
 	// Save Job Details
 	@PostMapping("/saveJobDetails")
-	public String saveJobDetails(@ModelAttribute("job") JobDetails job, HttpSession session, Model model) {
+	public String saveJobDetails(@ModelAttribute("job") JobDetails job, @RequestParam("hrId") Long hrId ,HttpSession session, Model model) {
 		if (session.getAttribute("userId") != null) {
-			String role = session.getAttribute("role").toString();
-			
-			Optional<HRE> optional = hreService.getById(job.getHreId());
-			if (optional.isPresent()) {
-				job.setHreId(optional.get().getId());
-				job.setHreName(optional.get().getName());
+			if(job.getHreId()==null) {
+				job.setHreId(hrId);
 			}
-			System.out.println("Job ::: "+job);
-			// Set Job Status as Active
-			// job.setStatus("A");
-			//jobService.saveJobDetails(job);
-			return "redirect:jobCreater";
+			String role = session.getAttribute("role").toString();
+			if (role.equalsIgnoreCase("HRE")) {
+				Long hreId = Long.parseLong(session.getAttribute("userId").toString());
+				Optional<HRE> optional = hreService.getById(hreId);
+				if (optional.isPresent()) {
+					job.setHreId(optional.get().getId());
+					job.setHreName(optional.get().getName());
+					job.setJobCreaterNameId(optional.get().getName()+" : "+optional.get().getId());
+				}
+			}else {
+				if (role.equalsIgnoreCase("LM")) {
+					Long lmId = Long.parseLong(session.getAttribute("userId").toString());
+					Optional<LineManager> lmOptional=lmService.getLineManager(lmId);
+					if(lmOptional.isPresent()) {
+						job.setJobCreaterNameId(lmOptional.get().getName()+" : "+lmOptional.get().getId());
+					}
+				}else if (role.equalsIgnoreCase("SA")) {
+					Integer saId = Integer.parseInt(session.getAttribute("userId").toString());
+					Optional<AdminTable> saOpt = adminService.getById(saId);
+					if(saOpt.isPresent()) {
+						job.setJobCreaterNameId(saOpt.get().getName()+" : "+saOpt.get().getId());
+					}
+				}
+				Optional<HRE> optional = hreService.getById(job.getHreId());
+				if (optional.isPresent()) {
+					job.setHreId(optional.get().getId());
+					job.setHreName(optional.get().getName());
+				}
+			}
+			jobService.saveJobDetails(job);
+			return "redirect:jobCreator";
 		} else {
 			return "redirect:login";
 		}
@@ -109,9 +163,10 @@ public class JobController {
 					hres.add(dlOptional.get());
 				}
 			}
-			if (role.equalsIgnoreCase("LM")) {
+			if (role.equalsIgnoreCase("LM") || role.equalsIgnoreCase("SA")) {
 				hres = hreService.findByAll();
 			}
+			System.out.println("Role : "+role);
 			// Get Job By Id
 			Optional<JobDetails> optional = jobService.getJobDetailsById(jobId);
 			JobDetails job = new JobDetails();
@@ -120,6 +175,10 @@ public class JobController {
 				job = optional.get();
 				skillLength = optional.get().getSkills().size();
 			}
+			List<MasterData> mastersList = masterDataService.getAllMasterData().stream()
+					.sorted(Comparator.comparing(MasterData :: getMasterDescription))
+					.collect(Collectors.toList());
+			model.addAttribute("masters", mastersList);
 			model.addAttribute("job", job);
 			model.addAttribute("hres", hres);
 			model.addAttribute("skillLength", skillLength);
@@ -139,7 +198,7 @@ public class JobController {
 				job.setHreName(optional.get().getName());
 			}
 			jobService.saveJobDetails(job);
-			return "redirect:jobCreater";
+			return "redirect:jobCreator";
 		} else {
 			return "redirect:login";
 		}
@@ -150,7 +209,7 @@ public class JobController {
 	public String deleteJobDetails(@RequestParam("jobId") Long jobId, HttpSession session, Model model) {
 		if (session.getAttribute("userId") != null) {
 			jobService.deleteJobByJobId(jobId);
-			return "redirect:jobCreater";
+			return "redirect:jobCreator";
 		} else {
 			return "redirect:login";
 		}
@@ -166,7 +225,7 @@ public class JobController {
 				job.get().setApprovalHr("R");
 				jobService.saveJobDetails(job.get());
 			}
-			return "redirect:jobCreater";
+			return "redirect:jobCreator";
 		} else {
 			return "redirect:login";
 		}
@@ -181,7 +240,7 @@ public class JobController {
 				job.get().setApprovalLm("R");
 				jobService.saveJobDetails(job.get());
 			}
-			return "redirect:jobCreater";
+			return "redirect:jobCreator";
 		} else {
 			return "redirect:login";
 		}
@@ -196,7 +255,7 @@ public class JobController {
 				job.get().setStatus("H");
 				jobService.saveJobDetails(job.get());
 			}
-			return "redirect:jobCreater";
+			return "redirect:jobCreator";
 		} else {
 			return "redirect:login";
 		}
@@ -212,7 +271,7 @@ public class JobController {
 				job.get().setStatus("U");
 				jobService.saveJobDetails(job.get());
 			}
-			return "redirect:jobCreater";
+			return "redirect:jobCreator";
 		} else {
 			return "redirect:login";
 		}
@@ -227,7 +286,7 @@ public class JobController {
 				job.get().setApprovalHr("A");
 				jobService.saveJobDetails(job.get());
 			}
-			return "redirect:jobCreater";
+			return "redirect:jobCreator";
 		} else {
 			return "redirect:login";
 		}
@@ -240,9 +299,10 @@ public class JobController {
 			Optional<JobDetails> job = jobService.getJobDetailsById(jobId);
 			if (job.isPresent()) {
 				job.get().setApprovalLm("A");
+				job.get().setJobPostDate(LocalDate.now());
 				jobService.saveJobDetails(job.get());
 			}
-			return "redirect:jobCreater";
+			return "redirect:jobCreator";
 		} else {
 			return "redirect:login";
 		}
@@ -252,6 +312,7 @@ public class JobController {
 	@GetMapping("/showAllJobs")
 	public String showAllJobs(HttpSession session, Model model) {
 		List<JobDetails> jobDetails = jobService.getAllActiveJobDetails();
+		model.addAttribute("genders", (Object)this.dlService.getByListName("GENDER"));
 		model.addAttribute("jobs", jobDetails);
 		return "jobDetails";
 	}
@@ -268,31 +329,45 @@ public class JobController {
 		if (jobOptional.isPresent()) {
 			jobTitle = jobOptional.get().getDesignation();
 			skillList = jobOptional.get().getSkills();
+			user.setHreId(jobOptional.get().getHreId());
 		}
 		List<String> skills = skillList.stream().map(JobSkill::getSkillName).collect(Collectors.toList());
 		skillLength = skills.size();
 		String jsonSkills = (new JSONArray(skills)).toString();
+		List<String> designations = masterDataService.getAllMasterDataByMasterName("Designation");
+		List<String> educaions = masterDataService.getAllMasterDataByMasterName("Education");
 		model.addAttribute("userRegistration", user);
 		model.addAttribute("skills", skills);
 		model.addAttribute("jobTitle", jobTitle);
 		model.addAttribute("jsonSkills", jsonSkills);
 		model.addAttribute("skillLength", skillLength);
+		model.addAttribute("genders", this.dlService.getByListName("GENDER"));
+		model.addAttribute("sources", this.dlService.getByListName("SOURCE"));
+		model.addAttribute("educations", educaions);
+		model.addAttribute("designations", designations);
 		return "jobUserRegistration";
 	}
 
 	@PostMapping("/jobUserRegistration")
 	public String saveUserDetails(@ModelAttribute("userRegistration") UserRegistration user,
-			@RequestParam("resumeFile") MultipartFile resume, Model model) {
-		user.setResume(resume.getOriginalFilename());
+			@RequestParam("resumeFile") MultipartFile resume, @RequestParam("photoFile") MultipartFile photo, Model model) {
+		//Generate Accesskey
+		user.setAccesskey(generateAccesskeyForUser(user.getHreId()));
+		user.setResume(String.valueOf(user.getAccesskey())+"/"+ StringUtils.cleanPath(resume.getOriginalFilename()));
+		user.setPhoto(String.valueOf(user.getAccesskey())+"/"+ StringUtils.cleanPath(photo.getOriginalFilename()));
 		// Upload Resume
-		/*
-		 * String fileName = StringUtils.cleanPath(resume.getOriginalFilename()); try {
-		 * Path newFolderPath = Paths.get("src/main/resources/static/files",
-		 * user.getFirstName()); if (!Files.exists(newFolderPath)) {
-		 * Files.createDirectory(newFolderPath); } Files.copy(resume.getInputStream(),
-		 * newFolderPath.resolve(fileName), StandardCopyOption.REPLACE_EXISTING); }
-		 * catch (IOException e) { e.printStackTrace(); }
-		 */
+		String resumefileName = StringUtils.cleanPath(resume.getOriginalFilename());
+		String photoFileName = StringUtils.cleanPath(photo.getOriginalFilename());
+		try {
+			Path newFolderPath = Paths.get(filePath, user.getAccesskey());
+			if (!Files.exists(newFolderPath)) {
+				Files.createDirectories(newFolderPath);
+			}
+			Files.copy(resume.getInputStream(), newFolderPath.resolve(resumefileName), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(photo.getInputStream(), newFolderPath.resolve(photoFileName), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		// save user details
 		userService.saveUser(user);
 		// Send Email
@@ -314,7 +389,7 @@ public class JobController {
 				Long hreId = Long.parseLong(session.getAttribute("userId").toString());
 				jobs = jobService.getActiveJobByhreId(hreId);
 			}
-			if (role.equalsIgnoreCase("LM")) {
+			if (!role.equalsIgnoreCase("HRE")) {
 				jobs = jobService.getAllActiveJobDetails();
 			}
 			List<AdminPayload> payloads = new ArrayList<AdminPayload>();
@@ -338,6 +413,9 @@ public class JobController {
 				// Add These all counts to payload
 				payload.setJobId(job.getJobId());
 				payload.setJobDesignation(job.getDesignation());
+				payload.setJobDescription(job.getDescription());
+				payload.setJobPostDate(DataProccessor.dateToString(job.getJobPostDate()));
+				payload.setHreName(job.getHreName());
 				payload.setApplicants(applicants);
 				payload.setEmails(email);
 				payload.setInterview(interview);
@@ -376,6 +454,10 @@ public class JobController {
 				payload.setUserId(user.getId());
 				payload.setEmail(user.getEmail());
 				payload.setMobile(user.getMobile());
+				if(user.getJoinedStatus()!=null && user.getJoinedStatus().equalsIgnoreCase("Y")) {
+					System.out.println("Access ::::: "+user.getAccesskey());
+					payload.setJoined(2);
+				}
 				// Get Required Job Skill
 				List<JobSkill> jobSkills = job.getSkills();
 				// Get User Skill
@@ -408,6 +490,7 @@ public class JobController {
 
 	// Send email for assessment
 	@GetMapping("/sendInvitationEmail")
+	@ResponseBody
 	public String sendInvitationEmailToUser(@RequestParam("userId") Long userId, HttpSession session, Model model) {
 		if (session.getAttribute("userId") != null) {
 			String role = session.getAttribute("role").toString();
@@ -418,11 +501,16 @@ public class JobController {
 				Optional<UserRegistration> optional = userService.getUserByUserId(userId);
 				// Generate Accesskey For this user
 				if (optional.isPresent()) {
-					if (optional.get().getAccesskey() != null && optional.get().getAccesskey() != "") {
+					/*if (optional.get().getAccesskey() != null && optional.get().getAccesskey() != "") {
 						accesskey = optional.get().getAccesskey();
-					} else {
-						accesskey = generateAccesskeyForUser(hreId);
-						optional.get().setAccesskey(accesskey);
+					} else {*/
+						//accesskey = generateAccesskeyForUser(hreId);
+						//optional.get().setAccesskey(accesskey);
+						Optional<AccessKeyMaster> accesskeyOptional  = accessService.getAccesskey(optional.get().getAccesskey());
+						if(accesskeyOptional.isPresent()) {
+							accesskeyOptional.get().sethreId(hreId);
+							accessService.updateAccesskey(accesskeyOptional.get());
+						}
 						optional.get().setInvitationStatus("Y");
 						if (optional.get().getInvitationFlag() != null) {
 							optional.get().setInvitationFlag(optional.get().getInvitationFlag() + 1);
@@ -432,6 +520,10 @@ public class JobController {
 						// Save This Candidate Data in Participant Table
 						ParticipantRegistration pr = new ParticipantRegistration();
 						UserRegistration ur = optional.get();
+						Optional<ParticipantRegistration> partOptional = prService.findByAccesskey(ur.getAccesskey());
+						if(partOptional.isPresent()) {
+							pr=partOptional.get();
+						}
 						pr.setAccessKey(ur.getAccesskey());
 						pr.setFirstName(ur.getFirstName());
 						pr.setMiddleName(ur.getMiddleName());
@@ -439,20 +531,30 @@ public class JobController {
 						pr.setHreId(hreId);
 						pr.setMobile(ur.getMobile());
 						pr.setEmail(ur.getEmail());
-						pr.setDesignation("Desg");
+						//Get Job
+						Optional<JobDetails> jobOptional = jobService.getJobDetailsById(ur.getJobId());
+						if(jobOptional.isPresent()) {
+							pr.setDesignation(jobOptional.get().getDesignation());
+							DecimalFormat decimalFormat = new DecimalFormat("#.##########");
+							pr.setExperience(decimalFormat.format(jobOptional.get().getProfileExperience()));
+						}
 						pr.setRegStatus("2");
 						pr.setTestStatus("2"); // Here taking 2, so after candidate login it will redirect to assessment
 						pr.setRegistration_Date(LocalDate.now());
 						pr.setSendMailDate(new Date());
 						pr.setModifiedDate(LocalDate.now());
 						pr.setBirthDate(ur.getBirthDate());
-						//pr.setBirthDate(DataProccessor.dateToString(ur.getBirthDate()));
+						pr.setGender(ur.getGender());
+						pr.setSource(ur.getSource());
+						pr.setResume(ur.getResume());
+						pr.setPhotograph(ur.getPhoto());
+						pr.setHighestQualification(ur.getEducation());
+						pr.setExpInMths((int) Math.round(ur.getProfileExperience() * 12));
 						// Save to db
 						prService.saveData(pr);
 						// Update accesskey
 						accessService.updateStatus(accesskey);
 						userService.saveUser(optional.get());
-					}
 					// Send Email
 						sendEmail(optional.get(), "invitation");
 					// Save this user
@@ -517,11 +619,11 @@ public class JobController {
 		String subjectLine = "";
 		String mailBody = "";
 		if (fileName.equalsIgnoreCase("registration")) {
-			subjectLine = "Your Job Application: Registration";
+			subjectLine = "DuRecruit - Your Job Application: Registration";
 			mailBody = DataProccessor.readFileFromResource("duflonForRegistration");
 		}
 		if (fileName.equalsIgnoreCase("invitation")) {
-			subjectLine = "Your Job Application: Assessment Invitation";
+			subjectLine = "DuRecruit - Your Job Application: Assessment Invitation";
 			mailBody = DataProccessor.readFileFromResource("duflonForInvitation");
 			mailBody = mailBody.replace("${accesskey}", user.getAccesskey());
 		}

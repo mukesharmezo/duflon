@@ -5,12 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -18,11 +16,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Random;
 
-import org.springframework.ui.Model;
 import org.springframework.util.ResourceUtils;
 
 import com.armezo.duflon.Entities.ParticipantRegistration;
@@ -63,57 +59,6 @@ public class DataProccessor {
 		}
 		return newDate;
 	}
-	
-	public static Date parseDate2(String date) {
-		Date newDate = null;
-		try {
-			DateFormat srcDf = new SimpleDateFormat("yyyy-MM-dd");
-			newDate = srcDf.parse(date);
-		} catch (Exception e) {
-			return null;
-		}
-		return newDate;
-	}
-
-	public static Date parseDate1(String date) {
-		Date newDate = null;
-		try {
-			DateFormat srcDf = new SimpleDateFormat("dd/MM/yyyy");
-			newDate = srcDf.parse(date);
-		} catch (Exception e) {
-			return null;
-		}
-		return newDate;
-	}
-
-	public static String parseDate1(Date date) {
-
-		if (date == null) {
-			return "";
-		}
-		DateFormat srcDf = new SimpleDateFormat("dd/MM/yyyy");
-		return srcDf.format(date);
-
-	}
-
-	public static String parseDateDDMMYY(String d) {
-		if (d != null && !d.equals("")) {
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-DD");
-			Date date;
-			try {
-				date = (Date) formatter.parse(d);
-				SimpleDateFormat newFormat = new SimpleDateFormat("dd/MM/yyyy");
-				return newFormat.format(date);
-
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				return "";
-			}
-
-		}
-		return "";
-	}
-
 	// date in specific format like (04 Dec 2022)
 	public static String dateToString(LocalDate date) {
 		if (date == null) {
@@ -123,7 +68,7 @@ public class DataProccessor {
 		//SimpleDateFormat sdf = new SimpleDateFormat("dd MMM, yyyy");
 		return date.format(df);
 	}
-
+/*
 	// sorting map value in ascending order
 	public static Map<String, String> sortMapByValueStringAcs(Map<String, String> map) {
 		return map.entrySet().stream().sorted(Map.Entry.comparingByValue())
@@ -141,7 +86,7 @@ public class DataProccessor {
 		return map.entrySet().stream().sorted(Map.Entry.comparingByValue())
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 	}
-
+*/
 	// Reading resource file
 	public static String readFileFromResource(String fileName) {
 		String path = "classpath:static/emailtemplate/" + fileName + ".txt";
@@ -158,13 +103,6 @@ public class DataProccessor {
 		}
 		return fileContent;
 	}
-	/*
-	 * public static String getSMS(String fileName) { String
-	 * path="classpath:static/smstemplate/"+fileName+".txt"; String fileContent ="";
-	 * try { File file = ResourceUtils.getFile(path); fileContent = new
-	 * String(Files.readAllBytes(file.toPath())); } catch (Exception e) {
-	 * System.out.println("Error : File Not Found.."+e); } return fileContent; }
-	 */
 
 	public static String getSMS(String fileName) {
 		String path = "classpath:static/smstemplate/" + fileName + ".txt";
@@ -178,40 +116,7 @@ public class DataProccessor {
 		return fileContent;
 	}
 
-	public static Model setDateRange(Model model) {
-//		LocalDate lastMonth = LocalDate.now().minusMonths(1);
-//		LocalDate lastStart = LocalDate.now().minusDays(30);
-//		// LocalDate lastEnd =
-//		// lastMonth.withDayOfMonth(lastMonth.getMonth().maxLength());
-//		LocalDate lastEnd = LocalDate.now();
-//		LocalDate last3month = lastMonth.minusMonths(2);
-//		LocalDate last3Start = last3month.withDayOfMonth(1);
-//		LocalDate last3End = lastMonth.withDayOfMonth(lastMonth.getMonth().maxLength());
-//		LocalDate last3 = last3month.withDayOfMonth(last3month.getMonth().maxLength());
-//		LocalDate lastMonthStart = lastMonth.withDayOfMonth(1);
-//		DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd/MM/YYYY");
-//		model.addAttribute("lastStart", lastStart.format(formatter2));
-//		model.addAttribute("lastEnd", lastEnd.format(formatter2));
-//		model.addAttribute("lastMStart", lastMonthStart.format(formatter2));
-//
-//		model.addAttribute("last3MStart", last3Start.format(formatter2));
-//		model.addAttribute("last3MEnd", last3End.format(formatter2));
-		return model;
-
-	}
-
-	// Birth Date in Years Conversion
-	public static String BirthDateInYearsConversion(Date birthDate) {
-		if (birthDate == null) {
-			return "";
-		}
-		LocalDate today = LocalDate.now();
-		LocalDate birthDate2 = birthDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		Period period = Period.between(birthDate2, today);
-		int years = period.getYears();
-		String ageInYears = String.valueOf(years);
-		return ageInYears;
-	}
+	
 
 	public static String changeYesNo(String value) {
 
@@ -236,9 +141,9 @@ public class DataProccessor {
 	}
 
 	// Get YTD Date
-	public static String getYTDDateInString() {
+	public static String getYTDDateInString(LocalDate dateFrom, LocalDate dateTo) {
 		String ytdDate = "";
-		Date dateFrom = new Date();
+	/*	Date dateFrom = new Date();
 		Date dateTo = new Date();
 		// YTD Date By Default
 		LocalDate currentDate = LocalDate.now();
@@ -253,11 +158,14 @@ public class DataProccessor {
 				YearMonth yearMonth = YearMonth.of(yearValue, 4);
 				yearStartDate = yearMonth.atDay(1);
 				dateFrom = Date.from(yearStartDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-			}
+			}*/
 			// Format this date in Required format
 			//SimpleDateFormat sdf = new SimpleDateFormat("dd-MMMM-yyyy");
-			SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-			String dateFrom2 = sdf.format(dateFrom);
+			//SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+			DateTimeFormatter sdf = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
+			//String dateFrom2 = sdf.format(dateFrom);
+			//String dateTo2 = sdf.format(dateTo);
+			String dateFrom2 = dateFrom.format(sdf);
 			String dateTo2 = sdf.format(dateTo);
 			ytdDate=dateFrom2+" to "+dateTo2;
 			
@@ -271,25 +179,17 @@ public class DataProccessor {
 		return map;
 	}
 	
-	public static String getPassFailStatusMap(ParticipantRegistration p) {
-		String name="";
-		name = p.getFirstName();
-		if(p.getMiddleName() != null && p.getMiddleName().length()>0) {
-			name += " "+p.getMiddleName();
-		}
-		name += " "+p.getLastName();
-		return name;
-	}
+	
 	
 	// CSV Date Formatting
-		public static String csvDateFormatting(Date date) {
+		public static String csvDateFormatting(LocalDate date) {
 			String newDate = null;
 			try {
 			//	DateFormat srcDf = new SimpleDateFormat("yyyy-MM-dd");
-				DateFormat srcDf = new SimpleDateFormat("dd-MM-yyyy");
-				newDate = srcDf.format(date);
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+				newDate = dtf.format(date);
 			} catch (Exception e) {
-				return null;
+				return "";
 			}
 			return newDate;
 		}
@@ -318,6 +218,46 @@ public class DataProccessor {
 					+ (part.getLastName() == null ? "" : part.getLastName());
 			return name;
 		}
+		
+		//Manage Filter Date
+		public static Map<String, LocalDate> manageFiltersDate(String dateFromm, String dateToo) {
+			LocalDate dateFrom=LocalDate.of(1997, 11, 15);
+	    	LocalDate dateTo=LocalDate.now();
+	    	DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+	    	if(dateFromm!=null && dateFromm!="") {
+	    		dateFrom = LocalDate.parse(dateFromm, formatter);
+	    	}
+	    	if(dateToo!=null && dateToo!="") {
+	    		dateTo = LocalDate.parse(dateToo,formatter);
+	    	}
+	    	Map<String, LocalDate> map = new HashMap<String, LocalDate>();
+	    	map.put("from", dateFrom);
+	    	map.put("to", dateTo);
+	    	return map;
+		}
+		//Generate Password
+		public static String generatePassword(int length) {
+			 final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		     final String NUMBERS = "123456789";
+	        StringBuilder sb = new StringBuilder();
+	        Random random = new Random();
+
+	        // Generate 8 characters with a mix of characters and numbers
+	        for (int i = 0; i < length; i++) {
+	            boolean isCharacter = random.nextBoolean();
+
+	            if (isCharacter) {
+	                int randomIndex = random.nextInt(CHARACTERS.length());
+	                char randomChar = CHARACTERS.charAt(randomIndex);
+	                sb.append(randomChar);
+	            } else {
+	                int randomIndex = random.nextInt(NUMBERS.length());
+	                char randomDigit = NUMBERS.charAt(randomIndex);
+	                sb.append(randomDigit);
+	            }
+	        }
+	        return sb.toString();
+	    }
 		
 
 }

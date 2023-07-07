@@ -25,7 +25,7 @@ div#data_wrapper {min-height: calc(100vh - 226px);}
 #data_next, .paginate_button.next {width:90px !important;}
 #data_paginate, .dataTables_paginate.paging_simple_numbers{margin: 15px 0 0; width: 100%; text-align: center;}
 #data_paginate a, .dataTables_paginate.paging_simple_numbers a{margin-left: 20px;text-decoration: none;display: inline-block;padding: 7px 20px;font-size: 13px;line-height: 20px;color: #fff !important;border-radius: 20px;border: none;background-color: #DC3545;cursor: pointer}
-#data_paginate a:hover, .dataTables_paginate.paging_simple_numbers a:hover { background-color: #DC3545 !important;background:linear-gradient(to bottom, #DC3545 0%, rgb(40, 45, 132) 100%);}
+#data_paginate a:hover, .dataTables_paginate.paging_simple_numbers a:hover { background-color: #DC3545 !important;}
 a.paginate_button.current{background:rgb(193 193 193) !important;}
 /* #data_paginate a.disabled, #data_paginate a{background-color: #DC3545 !important;} */
 /* #data_paginate a{background-color: #DC3545;padding: 7px; font-size: 13px; line-height: 16px; color: #fff; border: 1px solid #DC3545; border-radius: 4px; display: inline-block; margin: 0 4px; min-width: 20px; cursor: pointer; opacity: 0.8;} */

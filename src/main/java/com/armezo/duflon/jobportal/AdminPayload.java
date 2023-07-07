@@ -7,6 +7,9 @@ public class AdminPayload {
 	private Long jobId;
 	private Long userId;
 	private String jobDesignation;
+	private String jobDescription;
+	private String hreName;
+	private String jobPostDate;
 	private String name;
 	private String email;
 	private String mobile;
@@ -110,6 +113,25 @@ public class AdminPayload {
 	public String getAssessmentStatus() {
 		return assessmentStatus;
 	}
+	public String getJobDescription() {
+		return jobDescription;
+	}
+	public void setJobDescription(String jobDescription) {
+		this.jobDescription = jobDescription;
+	}
+	public String getHreName() {
+		return hreName;
+	}
+	public void setHreName(String hreName) {
+		this.hreName = hreName;
+	}
+	public String getJobPostDate() {
+		return jobPostDate;
+	}
+	public void setJobPostDate(String jobPostDate) {
+		this.jobPostDate = jobPostDate;
+	}
+	
 	
 
 }

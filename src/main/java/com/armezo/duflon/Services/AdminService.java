@@ -22,4 +22,12 @@ public class AdminService {
 	public Optional<AdminTable> findAdminByEmpCode(String user) {
 		return adminRepository.findAdminByEmpCode(user);
 	}
+
+	public Optional<AdminTable> findByEmail(String email) {
+		return adminRepository.findByEmail(email);
+	}
+
+	public Optional<AdminTable> getById(Integer saId) {
+		return adminRepository.findById(saId);
+	}
 }

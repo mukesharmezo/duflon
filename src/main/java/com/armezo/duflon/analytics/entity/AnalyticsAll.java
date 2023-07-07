@@ -24,9 +24,6 @@ public class AnalyticsAll {
 	private String passFailStatus; // pass or fail > pass count
 	private String offerStatus; // yes or no > offers count
 	private String recruitedStatus; // yes or no > rec count
-	private String region;
-	private String state;
-	private String city;
 	private String hreName;
 	private LocalDate recruitDate; // part reg date
 	private String recSource;
@@ -35,11 +32,14 @@ public class AnalyticsAll {
 	private String designation; // Sales or Non-Sales
 	private String age;
 	private String gender;
+	private String region;
+	private String state;
+	private String city;
 	// Action Points Pending
 	private String assessmentStatus; // completed or not completed > assessment count
 	private String interviewStatus; // Interview is completed or not, if interview score!=null, So store interview
-									// score
 	private String documentUploadStatus; // Check document is uploaded or not
+	private String approval;
 	private String hiredStatus;
 	private LocalDate hiredDate;
 
@@ -108,24 +108,6 @@ public class AnalyticsAll {
 	public void setRecruitedStatus(String recruitedStatus) {
 		this.recruitedStatus = recruitedStatus;
 	}
-	public String getRegion() {
-		return region;
-	}
-	public void setRegion(String region) {
-		this.region = region;
-	}
-	public String getState() {
-		return state;
-	}
-	public void setState(String state) {
-		this.state = state;
-	}
-	public String getCity() {
-		return city;
-	}
-	public void setCity(String city) {
-		this.city = city;
-	}
 	public String getHreName() {
 		return hreName;
 	}
@@ -143,6 +125,24 @@ public class AnalyticsAll {
 	}
 	public void setRecSource(String recSource) {
 		this.recSource = recSource;
+	}
+	public String getRegion() {
+		return region;
+	}
+	public void setRegion(String region) {
+		this.region = region;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
 	}
 	public String getCandidateExperience() {
 		return candidateExperience;
@@ -185,6 +185,12 @@ public class AnalyticsAll {
 	}
 	public void setInterviewStatus(String interviewStatus) {
 		this.interviewStatus = interviewStatus;
+	}
+	public String getApproval() {
+		return approval;
+	}
+	public void setApproval(String approval) {
+		this.approval = approval;
 	}
 	public String getDocumentUploadStatus() {
 		return documentUploadStatus;

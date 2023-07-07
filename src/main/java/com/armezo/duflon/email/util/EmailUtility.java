@@ -1,6 +1,7 @@
 package com.armezo.duflon.email.util;
 
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -13,10 +14,19 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.armezo.duflon.Entities.ErrorLogger;
 import com.armezo.duflon.Entities.ParticipantRegistration;
+import com.armezo.duflon.Services.ErrorLoggerService;
 import com.armezo.duflon.utils.DataProccessor;
 
+@Component
 public class EmailUtility {
+	
+	@Autowired
+    private static ErrorLoggerService errorService;
 	
 	private static ExecutorService executorService = Executors.newFixedThreadPool(5); // Here 2 thread will be created
 	
@@ -85,7 +95,7 @@ public class EmailUtility {
 		MimeMessage msg = new MimeMessage(session);
 		Transport transport=null;
 		try {
-		msg.setFrom(new InternetAddress(from,"Armezo"));
+		msg.setFrom(new InternetAddress(from,"DuRecruit"));
 		
 		InternetAddress[] parse = InternetAddress.parse(cc , true);
 		
@@ -129,8 +139,12 @@ public class EmailUtility {
 		catch (UnsupportedEncodingException | MessagingException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
-		
-			
+			ErrorLogger error = new ErrorLogger();
+            error.setAccesskey("");
+            error.setErrorMessage(e2.getMessage());
+            error.setErrorTime(LocalDateTime.now());
+            error.setProcess("Email Sending");
+            errorService.saveErrorLogger(error);
 			System.out.println("The email was not sent.");
 			System.out.println("Error message: " + e2.getMessage());
 			return false;

@@ -278,7 +278,6 @@ public class AnalyticsAllServiceImpl implements AnalyticsAllService {
 		List<String> assessmentStatus=new ArrayList<String>();
 		List<String> interviewStatus =new ArrayList<String>();
 		List<String> documentUpload =new ArrayList<String>();
-		List<String> prarambhStatus =new ArrayList<String>();
 		List<String> fsdmApproval =new ArrayList<String>();
 		for(AnalyticsAll a : analyticsAlls) {
 			if((a.getAssessmentStatus()==null || a.getAssessmentStatus()=="" || !(a.getAssessmentStatus()!=null && a.getAssessmentStatus().equals("3"))) && 
@@ -296,9 +295,9 @@ public class AnalyticsAllServiceImpl implements AnalyticsAllService {
 			}
 			
 			//Here 1 For Pending and 2 for Completed
-//			if(a.getFsdmApproval()!=null && a.getFsdmApproval().equals("3")){
-//				fsdmApproval.add(a.getAccesskey());
-//			}
+			if(a.getApproval()!=null && a.getApproval().equalsIgnoreCase("P")){
+				fsdmApproval.add(a.getAccesskey());
+			}
 		}
 		
 		ActionPointsPayload ac = new ActionPointsPayload();
@@ -306,7 +305,6 @@ public class AnalyticsAllServiceImpl implements AnalyticsAllService {
 		ac.setInterviewStatus(interviewStatus);
 		ac.setFsdmApproval(fsdmApproval);
 		ac.setDocumentUploadStatus(documentUpload);
-		ac.setPrarambhStatus(prarambhStatus);
 		return ac;
 	}
 	// 3. Recruitment Source Util
@@ -352,19 +350,19 @@ public class AnalyticsAllServiceImpl implements AnalyticsAllService {
 		List<String> more120 = new ArrayList<String>();
 		for(AnalyticsAll a: analyticsAlls ) {
 			if(a.getCandidateExperience()!=null && a.getCandidateExperience().length()>0 ) {
-			if(Integer.valueOf(a.getCandidateExperience())<3)
+			if(Double.valueOf(a.getCandidateExperience())>0 && Double.valueOf(a.getCandidateExperience())<3)
 				less3.add(a.getAccesskey());
-			if(Integer.valueOf(a.getCandidateExperience())>=3 && Integer.valueOf(a.getCandidateExperience())<6)
+			if(Double.valueOf(a.getCandidateExperience())>=3 && Double.valueOf(a.getCandidateExperience())<6)
 				between3To6.add(a.getAccesskey());
-			if(Integer.valueOf(a.getCandidateExperience())>=6 && Integer.valueOf(a.getCandidateExperience())<12)
+			if(Double.valueOf(a.getCandidateExperience())>=6 && Double.valueOf(a.getCandidateExperience())<12)
 				between6To12.add(a.getAccesskey());			
-			if(Integer.valueOf(a.getCandidateExperience())>=12 && Integer.valueOf(a.getCandidateExperience())<24)
+			if(Double.valueOf(a.getCandidateExperience())>=12 && Double.valueOf(a.getCandidateExperience())<24)
 				between12To24.add(a.getAccesskey());
-			if(Integer.valueOf(a.getCandidateExperience())>=24 && Integer.valueOf(a.getCandidateExperience())<60)
+			if(Double.valueOf(a.getCandidateExperience())>=24 && Double.valueOf(a.getCandidateExperience())<60)
 				between24To60.add(a.getAccesskey());
-			if(Integer.valueOf(a.getCandidateExperience())>=60 && Integer.valueOf(a.getCandidateExperience())<120)
+			if(Double.valueOf(a.getCandidateExperience())>=60 && Double.valueOf(a.getCandidateExperience())<120)
 				between60To120.add(a.getAccesskey());
-			if(Integer.valueOf(a.getCandidateExperience())>=120)
+			if(Double.valueOf(a.getCandidateExperience())>=120)
 				more120.add(a.getAccesskey());
 		}}
 		CandidateExperiencePayload can = new CandidateExperiencePayload();

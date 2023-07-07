@@ -59,23 +59,23 @@ public class ParticipantServiceImpl  {
 	public void deleteParticpant(ParticipantRegistration Participant) {
 		 participantrepository.delete(Participant);;
 	}
-	public List<ParticipantRegistration> getEmployee(Long hreId, String fsdmApprovalStatus) {
-		return participantrepository.getEmployee(hreId, fsdmApprovalStatus);
+	public List<ParticipantRegistration> getEmployee(Long hreId, String hiredStatus, LocalDate from, LocalDate to) {
+		return participantrepository.getEmployee(hreId, hiredStatus,from,to);
 	}
 	public FamilyDetails getOneFamilyDetailsById(Long fid) {
 		return familyDetailsRepo.findById(fid).get();
 	}
-	public List<ParticipantRegistration> getParticipantInpprocessForHRE(Long hreId) {
-		return participantrepository.getParticipantInpprocessForHRE(hreId);
+	public List<ParticipantRegistration> getParticipantInpprocessForHRE(Long hreId, LocalDate from, LocalDate to) {
+		return participantrepository.getParticipantInpprocessForHRE(hreId,from,to);
 	}
-	public List<ParticipantRegistration> getParticipantInpprocessHo() {
-		return participantrepository.getParticipantInpprocessHo();
+	public List<ParticipantRegistration> getParticipantInpprocessLM(LocalDate from, LocalDate to) {
+		return participantrepository.getParticipantInpprocessHo(from,to);
 	}
-	public List<ParticipantRegistration> getParticipantEmployeeHo() {
-		return participantrepository.getParticipantEmployeeHo();
+	public List<ParticipantRegistration> getParticipantEmployeeLM(LocalDate from, LocalDate to) {
+		return participantrepository.getParticipantEmployeeHo(from,to);
 	}
-	public List<ParticipantRegistration> getParticipantHoldHo() {
-		return participantrepository.getParticipantHoldHo();
+	public List<ParticipantRegistration> getParticipantHoldLM(LocalDate from, LocalDate to) {
+		return participantrepository.getParticipantHoldHo(from,to);
 	}
 	public List<ParticipantRegistration> getParticipantByhreIdLsit(List<Long> hreIds) {
 		return participantrepository.findByHreIdIn(hreIds);
@@ -213,12 +213,8 @@ public class ParticipantServiceImpl  {
 			Date toDate) {
 		return participantrepository.getParticipantByhreIdListAndDate(list, fromDate, toDate);
 	}
-	public List<ParticipantRegistration> getParticipantForDetailedByYears(Long adminId, Date fromDate, Date toDate) {
-		return participantrepository.getParticipantForDetailedByYears(adminId, fromDate, toDate);
-	}
-	public List<ParticipantRegistration> findAllParticipantsByYear(Date fromDate, Date toDate) {
-		return participantrepository.findAllParticipantsByYear(fromDate, toDate);
-	}
+	
+	
 	public List<ParticipantRegistration> getParticipantOnHoldByFilterData(String outletCode, String candidateName,
 			String designation, String mspin, List<Integer> passFailStatus, String uniqueCode, Long hreId,
 			Date dateFrom, Date dateTo, String status) {
@@ -416,6 +412,13 @@ public class ParticipantServiceImpl  {
 		return participantrepository.getAllPraaramStatusPendin();
 	}
 	*/
+	public List<ParticipantRegistration> findAllParticipantsByYear(LocalDate fromDate, LocalDate toDate) {
+		return participantrepository.findAllParticipantsByYear(fromDate, toDate);
+	}
+	
+	public List<ParticipantRegistration> getParticipantForDetailedByYears(Long adminId, LocalDate fromDate, LocalDate toDate) {
+		return participantrepository.getParticipantForDetailedByYears(adminId, fromDate, toDate);
+	}
 	public int updateQuestionReportStatus(String accesskey) {
 		return participantrepository.updateQuestionReportStatus(accesskey);
 	}
@@ -425,6 +428,13 @@ public class ParticipantServiceImpl  {
 	
 	public List<ParticipantRegistration> getHoldEmployee(long hreId, String status, LocalDate dateFrom, LocalDate dateTo) {
 		return  participantrepository.getHoldEmployee( hreId,  status, dateFrom, dateTo);
+	}
+	public List<ParticipantRegistration> getHoldParticipantsByFilterHRE(long hreId, LocalDate from,
+			LocalDate to) {
+		return participantrepository.getHoldParticipantsByFilterHRE(hreId,from,to);
+	}
+	public List<ParticipantRegistration> getAllParticipantsPendingForApproval(LocalDate fromDate, LocalDate toDate) {
+		return participantrepository.getParticipantPendingApproval(fromDate, toDate);
 	}
 	
 	

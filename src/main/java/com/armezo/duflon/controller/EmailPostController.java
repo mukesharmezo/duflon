@@ -56,7 +56,7 @@ public class EmailPostController {
 	
 	for(SendPayload s : list) {
 	SendEmailUtility sendEmailUtility = new SendEmailUtility(s);
-	Future<SendPayload> result = executor.submit(sendEmailUtility);
+	executor.submit(sendEmailUtility);
 	}
 	
 	executor.shutdown();

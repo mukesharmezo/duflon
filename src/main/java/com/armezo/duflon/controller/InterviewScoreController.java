@@ -32,7 +32,7 @@ import com.armezo.duflon.Entities.EventLoger;
 import com.armezo.duflon.Entities.HRE;
 import com.armezo.duflon.Entities.InterviewScore;
 import com.armezo.duflon.Entities.ParticipantRegistration;
-import com.armezo.duflon.Services.EventLogerServer;
+import com.armezo.duflon.Services.EventLogerService;
 import com.armezo.duflon.Services.HREService;
 import com.armezo.duflon.Services.InterviewScoreService;
 import com.armezo.duflon.ServicesImpl.ParticipantServiceImpl;
@@ -52,8 +52,6 @@ public class InterviewScoreController {
 	
 	@Value("${pdf.downloadPdfFile}")
 	private String downloadPath; 
-	
-	
 
 	@Autowired
 	InterviewScoreService interviewScoreService;
@@ -64,9 +62,11 @@ public class InterviewScoreController {
 	@Autowired
 	private UserService userService;
 	@Autowired
-	EventLogerServer eventLogerServer;
-	@Value("${Ap.candLink}")
+	EventLogerService eventLogerServer;
+	@Value("${cand.link}")
 	private String candLink;
+	@Value("${client.url}")
+	private String appLink;
 
 	@GetMapping("interviewForm")
 	public String interview(@RequestParam("accesskey") String accesskey, @RequestParam("interviewCount") Integer interviewCount ,Model model,HttpSession session) {
@@ -80,17 +80,20 @@ public class InterviewScoreController {
 			model.addAttribute("date",particpant.get().getInterviewDate().format(df));	
 			model.addAttribute("accesskey", particpant.get().getAccessKey());
 			model.addAttribute("photograph", particpant.get().getPhotograph());
+			System.out.println("Intv Count 1 and 2 :: "+particpant.get().getInterviewerCount()+"<>"+particpant.get().getInterviewerCount2());
+			if(interviewCount==1) {
+				model.addAttribute("interviewerCount", particpant.get().getInterviewerCount());
+			}else if (interviewCount == 2) {
+				model.addAttribute("interviewerCount", particpant.get().getInterviewerCount2());
+			}
 			if(particpant.get().getDocuments_status() == null) {
 			   model.addAttribute("editStatus", 1);
 			}
-			
 			if(particpant.get().getRegStatus() == null || particpant.get().getRegStatus() != "3" ) {
 				   model.addAttribute("editStatus", 1);
 		    }
-			
 			String name="";
 			name= particpant.get().getFirstName();
-			
 			if(particpant.get().getMiddleName() != null ) {
 				name = 	name+" "+particpant.get().getMiddleName();
 			}
@@ -133,7 +136,8 @@ public class InterviewScoreController {
 			@RequestParam("total_b") String total_b, @RequestParam("total_c") String total_c,
 			@RequestParam("total_avt") String total_avt, @RequestParam("accesskey") String accesskey,
 			@RequestParam("status") String status,@RequestParam("pass_fail") String pass_fail_status,
-			@RequestParam("percentage") String percentage, @RequestParam("interviewCount") Integer interviewCount,
+			@RequestParam("percentage") String percentage,
+			@RequestParam("interviewCount") Integer interviewCount,
 			@RequestParam("total")String total,HttpSession session) {
 		String msg="";
 		if (session.getAttribute("userId") != null) {
@@ -145,20 +149,20 @@ public class InterviewScoreController {
 			score.setAccessKey(accesskey);
 		}
 		
-		score.setName_a(name_a);score.setName_b(name_b);score.setName_c(name_c);
-		score.setDesignation_a(designation_a);score.setDesignation_b(designation_b);score.setDesignation_c(designation_c);
-		score.setMobile_a(mobile_a);score.setMobile_b(mobile_b);score.setMobile_c(mobile_c);		
-		score.setClarity_a(clarity_a);score.setClarity_b(clarity_b);score.setClarity_c(clarity_c);
-		score.setPresentability_a(presentability_a);score.setPresentability_b(presentability_b);score.setPresentability_c(presentability_c);
-		score.setAttitude_a(attitude_a);score.setAttitude_b(attitude_b);score.setAttitude_c(attitude_c);
-		score.setSituation_a(situation_a);score.setSituation_b(situation_b);score.setSituation_c(situation_c);
-		score.setTotal_a(total_a);score.setTotal_b(total_b);score.setTotal_c(total_c);
-		score.setTotal_avt(total_avt);
-		score.setDesignation_a(designation_a);
-		score.setTotal(total);
-		score.setStatus(status);
-		score.setPass_fail_status(pass_fail_status);
-		score.setPercentage(percentage);
+		 score.setName_a(name_a);score.setName_b(name_b);score.setName_c(name_c);
+			score.setDesignation_a(designation_a);score.setDesignation_b(designation_b);score.setDesignation_c(designation_c);
+			score.setMobile_a(mobile_a);score.setMobile_b(mobile_b);score.setMobile_c(mobile_c);		
+			score.setClarity_a(clarity_a);score.setClarity_b(clarity_b);score.setClarity_c(clarity_c);
+			score.setPresentability_a(presentability_a);score.setPresentability_b(presentability_b);score.setPresentability_c(presentability_c);
+			score.setAttitude_a(attitude_a);score.setAttitude_b(attitude_b);score.setAttitude_c(attitude_c);
+			score.setSituation_a(situation_a);score.setSituation_b(situation_b);score.setSituation_c(situation_c);
+			score.setTotal_a(total_a);score.setTotal_b(total_b);score.setTotal_c(total_c);
+			score.setTotal_avt(total_avt);
+			score.setDesignation_a(designation_a);
+			score.setTotal(total);
+			score.setStatus(status);
+			score.setPass_fail_status(pass_fail_status);
+			score.setPercentage(percentage);
 		score.setInterviewCount(interviewCount);
 		if(status.equals("final")) {
 			
@@ -170,14 +174,14 @@ public class InterviewScoreController {
 			   }else if (interviewCount==2) {
 			   msg="The Candidate is shortlisted in the Interview Process.\r\n" + 
 			   		"\r\n" + 
-			   		"You must speak with selected candidate to submit their self-attested Documents to complete the Joining Formalities. \r\n" + 
+			   		"You must speak with selected candidate to complete the Joining Formalities. \r\n" + 
 			   		"\r\n" + 
 			   		"An Automated Email and SMS sent to Candidates for this.\r\n" + 
 			   		"\r\n" + 
 			   		"NOTE: You may choose to share the Letter of Intent (LOI) / Offer Letter to selected candidate if required.";
 			}}else {
 				msg="The Candidate is NOT shortlisted in the Interview Process.";
-				score.setInterviewStatus("not Selected");	
+				score.setInterviewStatus("Not Selected");	
 			}
 		}else {
 		msg="save";	
@@ -192,32 +196,40 @@ public class InterviewScoreController {
 					participantService.saveData(particpant.get());
 					if(pass_fail_status.equals("pass")) {
 						//String name=DataProccessor.getFullNameOfParticipant(particpant.get());
-						sendEmailShortlisted(particpant.get());	
+						sendEmailShortlisted(particpant.get(),1);	
 					}
 				}else if (interviewCount==2) {
 					particpant.get().setInterviewScore2(Integer.parseInt(total));
-					participantService.saveData(particpant.get());
 					if(pass_fail_status.equals("pass")) {
-						particpant.get().setHiredStatus("Y");
+						particpant.get().setHiredStatus("P");
+						/*
 						particpant.get().setHiredDate(LocalDate.now());
+						if (particpant.get().getJoiningDate() == null || particpant.get().getJoiningDate().isEqual(LocalDate.MIN)) {
+							particpant.get().setJoiningDate(LocalDate.now());
+						}*/
 						//String name=DataProccessor.getFullNameOfParticipant(particpant.get());
-						sendEmailShortlisted(particpant.get());	
+						sendEmailHiredToHRE(particpant.get());
+						sendEmailShortlisted(particpant.get(),2);	
 					}
+					participantService.saveData(particpant.get());
+					//Save User Registration Hire Status
+					Optional<UserRegistration> userOptional = userService.getUserByAccesskey(accesskey);
+			         if(userOptional.isPresent()) {
+			         	userOptional.get().setInterviewStatus("Y");
+			         	if(pass_fail_status.equals("pass")) {
+			         		userOptional.get().setSelectedStatus("Y");
+			         		userOptional.get().setJoinedStatus("");
+			         	}else {
+							userOptional.get().setSelectedStatus("N");
+						}
+			         	userService.saveUser(userOptional.get());
+			         }
 				}
 			}
 		}
 		 eventLogin(Integer.parseInt(session.getAttribute("userId").toString()),"Interview",accesskey);
 		//Set Status in User registration
-         Optional<UserRegistration> userOptional = userService.getUserByAccesskey(accesskey);
-         if(userOptional.isPresent()) {
-         	userOptional.get().setInterviewStatus("Y");
-         	if(pass_fail_status.equals("pass")) {
-         		userOptional.get().setSelectedStatus("Y");
-         	}else {
-				userOptional.get().setSelectedStatus("N");
-			}
-         	userService.saveUser(userOptional.get());
-         }
+         
 		}else {
 			return "redirect:login";
 		}
@@ -230,22 +242,17 @@ public class InterviewScoreController {
 		Optional<InterviewScore> score = interviewScoreService.findByAccesskeyAndInterviewCount(accesskey,interviewCount);
 		//SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		
 		if(particpant.isPresent()) {
 			model.addAttribute("designation", particpant.get().getDesignation());	
-			model.addAttribute("date", particpant.get().getInterviewDate().format(df));	
+			if (interviewCount == 1) {
+				model.addAttribute("date", particpant.get().getInterviewDate().format(df));
+			}
+			if (interviewCount == 2) {
+				model.addAttribute("date", particpant.get().getInterviewDate2().format(df));
+			}
 			model.addAttribute("accesskey", particpant.get().getAccessKey());	
 			model.addAttribute("photograph", particpant.get().getPhotograph());
-			String name="";
-			name= particpant.get().getFirstName();
-			
-			if(particpant.get().getMiddleName() != null ) {
-				name = 	name+" "+particpant.get().getMiddleName();
-			}
-			if(particpant.get().getLastName() != null ) {
-				name = 	name+" "+particpant.get().getLastName();
-			}
-			model.addAttribute("name", name);	
+			model.addAttribute("name", DataProccessor.getFullNameOfParticipant(particpant.get()));	
 		}
 		if (score.isPresent()) {
 			model.addAttribute("score", score.get());
@@ -256,16 +263,9 @@ public class InterviewScoreController {
 		return "printInterviewScore";
 	}
 	
-	
-	
-	
-	
 	@RequestMapping(path = "/downloadInterviewScore/{accesskey}", method = RequestMethod.GET)
 	public ResponseEntity<Resource> download(@PathVariable("accesskey") String accesskey) throws IOException {
-
-		
 		File file = new File(downloadPath + accesskey + ".pdf");
-
 		InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -274,10 +274,8 @@ public class InterviewScoreController {
 		headers.add("Content-Disposition", "attachment; filename=" + accesskey + ".pdf");
 		return ResponseEntity.ok().headers(headers).contentLength(file.length())
 				.contentType(MediaType.parseMediaType("application/octet-stream"))
-
 				.body(resource);
 	}
-	
 	
 	@RequestMapping(path = "/downloadInterviewForm", method = RequestMethod.POST)
 	public ResponseEntity<Resource> downloadInterviewForm(@RequestParam("fileName") String fileName) throws IOException {
@@ -314,11 +312,16 @@ public class InterviewScoreController {
 	}
 	
 	
-	private String sendEmailShortlisted(ParticipantRegistration participant) {
-		String subjectLine="iRecruit – Your Job Application: Shortlisted";
-		String mailBody=DataProccessor.readFileFromResource("shortlistedEmail");
+	private String sendEmailShortlisted(ParticipantRegistration participant, int count) {
+		String subjectLine="duRecruit – Your Job Application: Shortlisted";
+		String mailBody ="";
+		if(count==1) {
+		mailBody=DataProccessor.readFileFromResource("shortlistedEmail");
+		}else if (count==2) {
+			mailBody=DataProccessor.readFileFromResource("hiredStatus");
+		}
 		//String smsMsg = DataProccessor.getSMS("shortlist");
-		mailBody = mailBody.replace("${candidateName}", participant.getFirstName()+" "+participant.getMiddleName()+" "+participant.getLastName());
+		mailBody = mailBody.replace("${candidateName}", DataProccessor.getFullNameOfParticipant(participant));
 		HRE dealer =hreService.getById(participant.getHreId()).get();
 			mailBody = mailBody.replace("${dealerName}",dealer.getName());
 			mailBody = mailBody.replace("${link}", candLink);      //Docs Upload link will be here
@@ -344,10 +347,37 @@ public class InterviewScoreController {
 		sendP.setFrom("Armezo Solutions");
 		EmailUtility.sendMailDuflon(sendP.getTo(), sendP.getFrom(), sendP.getCc(), sendP.getBcc(), sendP.getSubjectLine(),
 				sendP.getMsg(), "smtp");
-		// Sending SMS
-		//SmsUtility.sendSmsHandler(participant.getMobile(), smsMsg, "MSILOT");
-		
-		
+		return "success";
+	}
+	private String sendEmailHiredToHRE(ParticipantRegistration participant) {
+		String subjectLine="duRecruit – Your Job Application: Shortlisted";
+		String mailBody=DataProccessor.readFileFromResource("hiredStatusHRE");
+		//String smsMsg = DataProccessor.getSMS("shortlist");
+		mailBody = mailBody.replace("${candidateName}", DataProccessor.getFullNameOfParticipant(participant));
+		HRE dealer =hreService.getById(participant.getHreId()).get();
+		mailBody = mailBody.replace("${dealerName}",dealer.getName());
+		mailBody = mailBody.replace("${appLink}", appLink+"/login");
+		mailBody = mailBody.replace("${accesskey}",participant.getAccessKey());
+		if(dealer.getMobile() != null) {
+			mailBody = mailBody.replace("${mobile}",dealer.getMobile());
+		}else {
+			mailBody = mailBody.replace("${mobile}","");	
+		}
+		if(dealer.getEmail() != null) {
+			mailBody = mailBody.replace("${email}",dealer.getEmail());
+		}else {
+			mailBody = mailBody.replace("${email}","");
+		}
+		//Create Payload
+		SendPayload sendP = new SendPayload();
+		sendP.setTo(participant.getEmail());
+		sendP.setSubjectLine(subjectLine);
+		sendP.setMsg(mailBody);
+		sendP.setCc(dealer.getEmail());
+		sendP.setBcc("");
+		sendP.setFrom("Armezo Solutions");
+		EmailUtility.sendMailDuflon(sendP.getTo(), sendP.getFrom(), sendP.getCc(), sendP.getBcc(), sendP.getSubjectLine(),
+				sendP.getMsg(), "smtp");
 		return "success";
 	}
 	

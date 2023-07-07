@@ -732,7 +732,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 							  }
 				        	 if(res =="success"){
 				        		 swal({   
-				 					title: 'Your Documents are uploaded. Please contact your Dealer for more information.',     
+				 					title: 'Your Documents are uploaded. Please contact your HRE for more information.',     
 				 					showCancelButton: false,
 				 					confirmButtonColor: "#DC3545",   
 				 					confirmButtonText: "OK", 

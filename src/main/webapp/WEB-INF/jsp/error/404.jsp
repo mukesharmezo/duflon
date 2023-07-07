@@ -34,14 +34,11 @@ try {
     text-align: center;}
     </style>
     </head>
-    
-    
-    
     <body>
       <div class="form"  style="text-align:center;width: 100%;padding: 24px 14px;background-color: #f4f4f4;">
         <p>This page is unknown or does not exist. 
         </p>
-
+</div>
 </body>    
     </html>
     <%

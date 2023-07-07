@@ -38,23 +38,8 @@ if(session.getAttribute("role") != null){
     <script src="./js/jquery.dataTables.min.js"></script>
     <script src="./js/jquery.scrolltabs.js"></script>
 	  <style>
-      .checkbox {
-        color: #4D4D4D;
-        margin-right: 40px;
-        font-size: 13px;
-        line-height: 18px;
-        position: relative;
-        top: -2px;
-        margin-left: 7px;
-         }
- .h5 {
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 18px;
-  margin: 0 0 9px;
-  position: relative;
-  color: #777777;
-}
+      	.checkbox {        color: #4D4D4D;        margin-right: 40px;        font-size: 13px;        line-height: 18px;        position: relative;        top: -2px;        margin-left: 7px;         }
+ 		.h5 {  font-weight: 500;  font-size: 13px;  line-height: 18px;  margin: 0 0 9px;  position: relative;  color: #777777;}
       </style>
   </head>
   <body>
@@ -118,12 +103,11 @@ if(session.getAttribute("role") != null){
                       <thead>
                           <tr>
                               <th><span><em>Sr. No.</em></span></th>
-                           <!--    <th data-head="Auto-Industry Experience"><span><img src="./img/filter-icn.svg" /></span></th> -->
                               <th data-head="Company Name"><span><img src="./img/filter-icn.svg" /></span></th>
                               <th data-head="Experience"><span><img src="./img/filter-icn.svg" /></span></th>
                               <th data-head="Designation"><span><img src="./img/filter-icn.svg" /></span></th>
                               <th data-head="Work Area"><span><img src="./img/filter-icn.svg" /></span></th>
-							   <c:if test="${(workexperienceExp.documents_status != 'final') && workexperienceExp.status !='H'}">
+							   <c:if test="${(workexperienceExp.hiredStatus != 'Y') && workexperienceExp.status !='H'}">
                                <%if(role.equalsIgnoreCase("HRE")) { %>
                                <th data-head="Edit"><span></span></th>
                                <th data-head="Delete"><span></span></th>
@@ -132,17 +116,15 @@ if(session.getAttribute("role") != null){
                           </tr>
                       </thead>
                       <tbody>
-                     
                       <c:forEach var="workExp" items="${participantWorkExp}" varStatus="status">
                           <tr>
                               <td>${status.index + 1}</td>
-                             <%--  <td>${workExp.autoIndustryExperience}</td> --%>
                               <td>${workExp.companyName}</td>
                               <td>${workExp.expInMths}</td>
                               <td>${workExp.previousDesignation}</td>
                               <td>${workExp.workArea}</td>
 							   <%count++;%>
-                           <c:if test="${(workexperienceExp.documents_status != 'final') && workexperienceExp.status !='H'}">
+                           <c:if test="${(workexperienceExp.hiredStatus != 'Y') && workexperienceExp.status !='H'}">
                              <%if(role.equalsIgnoreCase("HRE")) { %>
                                <td><a onclick="editPop('${workExp.wid}','${workExp.autoIndustryExperience}','${workExp.companyName}','${workExp.expInMths}','${workExp.previousDesignation}','${workExp.workArea}')"><img src="./img/edit-icn.svg" /></a></td>
                               <td><a onclick="delelet('${workExp.wid}')"><img src="./img/delete-icn.svg" /></a></td>
@@ -153,7 +135,7 @@ if(session.getAttribute("role") != null){
                       </tbody>
                   </table>
                 </div>
-         <c:if test="${(workexperienceExp.documents_status != 'final') && workexperienceExp.status !='H'}">
+         <c:if test="${(workexperienceExp.hiredStatus != 'Y') && workexperienceExp.status !='H'}">
            <%if(role.equalsIgnoreCase("HRE")) { %>
                 <div class="form-btn" style="margin: 60px 0px 0 0; position: relative; right: -10px;">
                 <%if(count > 0){%>

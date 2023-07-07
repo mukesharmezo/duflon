@@ -9,7 +9,7 @@ ${location}
 <br>
 ${dealerName}
 <br><br>
-Please contact your Dealer for more information. 
+Please contact your HRE for more information. 
 <br><br>
 Wishing you all the best! 
 <br><br>
@@ -17,7 +17,7 @@ ${dealerName}<br>
 ${mobile}<br> 
 ${email}
 <br><br>
-<b>Armezo Team</b>
+<b>DuRecruit Team</b>
 <br>
 This is an auto-generated system email. Please do not reply to this email as it will not be received.
 <br><br>

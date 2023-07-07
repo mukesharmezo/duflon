@@ -95,12 +95,11 @@ if(session.getAttribute("role") != null){
                       </thead>
                       <tbody>
                        <c:forEach var="emcy" items="${emergency}" varStatus="status">
-
                           <tr>
                               <td>${status.index + 1}</td>
                               <td>${emcy.cname}</td>
                               <td>${emcy.contactNo}</td>
-							    <c:if test="${(emergencyContact.documents_status != 'final') && emergencyContact.status != 'H'}">
+							    <c:if test="${(emergencyContact.hiredStatus != 'Y') && emergencyContact.status != 'H'}">
                                  <%if(role.equalsIgnoreCase("HRE")) { %>
                                <td><a onclick="editPop('${emcy.id}','${emcy.cname}','${emcy.contactNo}')"><img src="./img/edit-icn.svg" /></a></td>
                               <td><a onclick="deletePop('${emcy.id}')"><img src="./img/delete-icn.svg" /></a></td>
@@ -112,10 +111,10 @@ if(session.getAttribute("role") != null){
                   </table>
                   </form>
                 </div>
-				  <c:if test="${(emergencyContact.documents_status != 'final') && emergencyContact.status != 'H'}">
+				  <c:if test="${(emergencyContact.hiredStatus != 'Y') && emergencyContact.status != 'H'}">
                  <%if(role.equalsIgnoreCase("HRE")) { %>
                 <div class="form-btn" style="position: relative; right: -10px;">
-                  <a href="#" class="btn blue-btn" onclick="openAssessmentScore()">Next</a>
+                  <a href="#" class="btn blue-btn" onclick="openUploadDocoment()">Next</a>
               </div>
                <%} %>
 			      </c:if>
@@ -123,7 +122,6 @@ if(session.getAttribute("role") != null){
     </div>
     	</div>
     </div>
-    
     
     <div class="edit-popup">
       <h3>Edit Details</h3>

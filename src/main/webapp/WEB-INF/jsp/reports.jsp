@@ -28,6 +28,7 @@ String st = "";
     
     <link rel="stylesheet" type="text/css" href="./css/common.css" />
     <link rel="stylesheet" type="text/css" href="./css/hiring-in-process.css" />
+    <link rel="stylesheet" type="text/css" href="css/dashboard-filter.css">
     <link rel="stylesheet" type="text/css" href="./css/sweetalert.css"/>
     <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
@@ -136,37 +137,23 @@ String st = "";
     <div class="user-panel-include">
         <%@include file="./header/user-panel.jsp"%>
 	</div>
-    
-          
-            <!-- <div class="page-filters">
-                <div class="page-filters-block">
-                    <div class="filter"> -->
-                      
-                        
-                        <!-- <button class="page-filters-date">Date:
-                            <span id="reportrange">1 November, 2022 - 30 November, 2022</span>
-                        </button>   -->   
-                    <!-- </div>  -->
-                <!-- </div> -->
-            <!-- </div> -->
             <div class="right-section">
                 <div class="page-filter-include">
-                    <%@include file="./filter/dashboardReportFilter.jsp"%>
-		         </div> 
+		  				<%@include file="./filter/page-filter.jsp"%>
+				 </div> 
         
         <!-- <div class="ir-report-tab-wrap-main"> -->
             <div class="ir-report-tab-wrap">
               
                 
                 <button class="main-tablink" id="default-tab" onclick="openPageMain('default', this, '#DC3545 ')" style="display:none;">Default</button>
-                <button class="main-tablink" id="OverF" onclick="openPageMain('dashboard', this, '#DC3545 ')">Dashboard</button>
+                <!-- <button class="main-tablink" id="OverF" onclick="openPageMain('dashboard', this, '#DC3545 ')">Dashboard</button> -->
+                <button class="main-tablink" id="OverF" onclick="openPageMain('aggregate-report', this, '#DC3545 ')">Dashboard</button>
                 <button class="main-tablink" onclick="openPageMain('detailed-assessment-report', this, '#DC3545 ')">Detailed Report</button>
-				<%if(role.equalsIgnoreCase("HO") || role.equalsIgnoreCase("SA")) {%>
                 <button class="main-tablink" id="QBA" onclick="openPageMain('question-wise-report', this, '#DC3545 ')">Question Wise Analysis</button>
-                <button class="main-tablink" id="ComAnasdfdsf" onclick="openPageMain('competency-wise-analysis', this, '#DC3545 ')">Competency Analysis</button>
                 <%if(role.equalsIgnoreCase("SuperAdmin")) {%>
+                <button class="main-tablink" id="ComAnasdfdsf" onclick="openPageMain('competency-wise-analysis', this, '#DC3545 ')">Competency Analysis</button>
                 <button class="main-tablink" id="AssessRepo" onclick="openPageMain('ir-assessment-report', this, '#DC3545 ');getAssessmentReport();">Assessment Report</button>
-                <%}%>
                 <%}%>
                 
             </div>
@@ -182,9 +169,8 @@ String st = "";
         <button class="tablink" id="aggregateF" onclick="openPage('aggregate-report', this, '#DC3545 ')">Overview</button>
         <button class="tablink" id="overviewF" onclick="openPage('overview', this, '#DC3545 ')">Recruitment Funnel</button>
         <button class="tablink" id="actionF" onclick="openPage('action-points', this, '#DC3545 ')">Action Points</button>
-        <%if(role.equalsIgnoreCase("DL")) {%>
         <button class="tablink" id="recruitmentF" onclick="openPage('recruitment-source', this, '#DC3545 ')">Recruitment Source</button>
-        <button class="tablink" id="salesF" onclick="openPage('sales/non-sales', this, '#DC3545 ')">Sales/Non-Sales</button>
+        <button class="tablink" id="salesF" onclick="openPage('sales/non-sales', this, '#DC3545 ')">Designation</button>
         </div>
         <div class="ir-report-tab-wrap">
         <button class="tablink" id="genderF" onclick="openPage('gender-diversity', this, '#DC3545 ')">Gender Diversity</button>
@@ -192,7 +178,6 @@ String st = "";
         <button class="tablink" id="ageF" onclick="openPage('age-wise', this, '#DC3545 ')">Age Wise</button>
         <button class="tablink" id="assessmentF" onclick="openPage('assessment-report', this, '#DC3545 ')">Assessment Report</button>
         <!-- <button class="tablink" id="salesF" onclick="openPage('sales/non-sales', this, '#DC3545 ')">Sales/Non-Sales</button> -->
-        <%}%>
     </div>
     <div id="overview" class="tabcontent">
         <!-- <h3>Overview</h3> -->
@@ -202,74 +187,31 @@ String st = "";
                 <thead>
                     <tr>
                         <th data-head="Sr.No." class="sorting" style="z-index: 1 !important;"><em>Sr.No.</em></th>
-                        <th data-head="Region" class="sorting"><em>Region</em></th>
-                        <th data-head="Dealer City" class="sorting"><em>Dealer City</em></th>
-                        <th data-head="Dealership" class="sorting" style="min-width: 150px !important;"><em>Dealership</em></th>
-                        <th data-head="Dealer Code" class="sorting" ><em>Dealer Code</em></th>
                         <th data-head="Candidate Name" class="sorting"><em>Candidate Name</em></th>
-                        <th data-head="Profile" class="sorting"><em>Profile</em></th>
-                        
+                        <th data-head="Profile" class="sorting"><em>Designation</em></th>
                         <th data-head="Candidate Status" class="sorting"><em>Candidate Status</em></th>
-                        <c:if test="${(role eq 'DL')}">
-                        <th data-head="Designation Code" class="sorting"><em>Designation Code</em></th>
-                        </c:if>
-                        <th data-head="MSPIN" class="sorting"><em>MSPIN</em></th>
-                        <c:if test="${(role eq 'DL')}">
                         <th data-head="Mobile" class="sorting"><em>Mobile</em></th>
-                        </c:if>
                         <th data-head="Access Key" class="sorting"><em>Access Key</em></th>
                         <th data-head="Registration Date" class="sorting"><em>Registration Date</em></th>
                         <th data-head="Assessment Date" class="sorting"><em>Assessment Date</em></th> 
-                       <%--  <th data-head="Marks Obtained" class="sorting"><em>Marks Obtained</em></th>	 --%>			
                         <th data-head="Assessment Status" class="sorting"><em>Assessment Status</em></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <%int h=1; %>
-                    <c:forEach items="${overviewAll}" var="participant">
-                    <c:if test="${(role eq 'DL') || (participant.status eq 'Recruited' &&  (role eq 'HO' || role eq 'FS'))}">
+                    <c:forEach items="${overviewAll}" var="participant" varStatus="status">
+                    <%-- <c:if test="${(role eq 'HRE') || (participant.status eq 'Recruited' &&  (role eq 'HO' || role eq 'FS'))}"> --%>
                         <tr>
-                            <td><%=h %></td>
-                            <td>${participant.regionCode}</td>
-                              <td>${participant.city}</td>
-                              <td>${participant.dealerName}</td>
-                               <td>${participant.dealerCode}</td>
+                            <td>${status.count}</td>
                             <td>${participant.participantName }</td>
                             <td>${participant.designation}</td>
-                            
-                            <c:choose>
-                                 <c:when test="${participant.designation == 'Sales Support' && participant.status == 'Passed'}">
-                                      <td><span>NA</span></td>
-                                  </c:when>
-                                  <c:when test="${participant.designation == 'Sales Support' && participant.status != 'Passed'}">
-                                        <td>${participant.status}</td>
-                                  </c:when>
-                                  <c:when test="${participant.designation == 'Sales'}">
-                                      <td>${participant.status}</td>
-                                  </c:when>
-                                </c:choose>
-
-
-                            
-                            <c:if test="${(role eq 'DL')}">
-                                <td>${participant.finalDesignationCode}</td>
-                            </c:if>
-                            <td>${participant.mspin}</td>
-                            <c:if test="${(role eq 'DL')}">
-                                <td>${participant.mobile}</td>
-                            </c:if>
+                             <td>${participant.status}</td>
+                          <%--   <c:if test="${(role eq 'DL')}"> --%>
+                           <%--  </c:if> --%>
+                            <td>${participant.mobile}</td>
                             <td>${participant.accesskey}</td>
                             <td>${participant.dateOfRegistration}</td>
+                            <td>${participant.assessment_Completion_date}</td>
                             <c:choose>
-                                <c:when  test="${empty participant.assessment_Completion_date}">
-                                    <td><span >NA</span></td>
-                                </c:when>
-                                <c:when test="${not empty participant.assessment_Completion_date}">
-                                    <td>${participant.assessment_Completion_date}</td>
-                                </c:when>
-                            </c:choose>
-                            <c:choose>
-                                
                                 <c:when test="${participant.passFailStatus == '1' }">
                                     <td><span class="green">Pass</span></td>
                                 </c:when>
@@ -279,14 +221,9 @@ String st = "";
                                 <c:when test="${empty participant.assessment_Completion_date && participant.passFailStatus == '0' }">
                                     <td ><span >NA</span> </td>
                                 </c:when>
-                                <c:when test="${participant.designation == 'Sales Suppurt' }">
-                                    <td><span>NA</span></td>
-                                </c:when>
                             </c:choose>	
-                            												
                         </tr>
-                        <%h++; %>
-                    </c:if>
+                    <%-- </c:if> --%>
                 </c:forEach>
             </tbody>
         </table>
@@ -301,15 +238,9 @@ String st = "";
                 <thead>
                     <tr>
                         <th data-head="Sr.No." class="sorting" style="z-index: 1 !important;"><em>Sr.No.</em></th>
-                        <th data-head="Region" class="sorting"><em>Region</em></th>
-                        <th data-head="Dealer City" class="sorting"><em>Dealer City</em></th>
-                        <th data-head="Dealership" class="sorting" style="min-width: 150px !important;"><em>Dealership</em></th>
-                        <th data-head="Dealer Code" class="sorting"><em>Dealer Code</em></th>
                         <th data-head="Candidate Name" class="sorting" ><em>Candidate Name</em></th>
-                        <th data-head="Profile" class="sorting"><em>Profile</em></th>
+                        <th data-head="Designation" class="sorting"><em>Designation</em></th>
                         <th data-head="Candidate Status" class="sorting"><em>Pending Action</em></th>
-                        <th data-head="Designation Code" class="sorting"><em>Designation Code</em></th>
-                        <th data-head="MSPIN" class="sorting"><em>MSPIN</em></th>
                         <th data-head="Mobile" class="sorting"><em>Mobile</em></th>
                         <th data-head="Access Key" class="sorting"><em>Access Key</em></th>
                         <th data-head="Registration Date" class="sorting"><em>Registration Date</em></th>
@@ -318,20 +249,13 @@ String st = "";
                     </tr>
                 </thead>
                 <tbody>
-                      <%int i=1; %>
-                      <c:forEach items="${actionAll}" var="participant">
-                     <c:if test="${(role eq 'DL') || ((participant.status eq 'Praarambh' || participant.status eq 'FSDM Approval') &&  (role eq 'HO' || role eq 'FS'))}">
+                      <c:forEach items="${actionAll}" var="participant" varStatus="status">
+                    <%--  <c:if test="${(role eq 'DL') || ((participant.status eq 'Praarambh' || participant.status eq 'FSDM Approval') &&  (role eq 'HO' || role eq 'FS'))}"> --%>
                           <tr>
-                              <td><%=i %></td>
-                              <td>${participant.regionCode}</td>
-                              <td>${participant.city}</td>
-                              <td>${participant.dealerName}</td>
-                               <td>${participant.dealerCode}</td>
+                              <td>${status.count}</td>
                               <td>${participant.participantName }</td>
                               <td>${participant.designation}</td>
                               <td>${participant.status}</td>
-                              <td>${participant.finalDesignationCode}</td>
-                              <td>${participant.mspin}</td>
                               <td>${participant.mobile}</td>
                               <td>${participant.accesskey}</td>
                               <td>${participant.dateOfRegistration}</td>
@@ -345,9 +269,6 @@ String st = "";
                               </c:choose>
                                                                 
                                   <c:choose>
-                                  <c:when test="${participant.designation == 'Sales Support' }">
-                                      <td><span>NA</span></td>
-                                  </c:when>
                                   <c:when test="${participant.passFailStatus == '1' }">
                                       <td><span class="green">Pass</span></td>
                                   </c:when>
@@ -359,8 +280,7 @@ String st = "";
                                   </c:when>
                                   </c:choose>	
                         </tr>
-                        <%i++; %>
-                      </c:if>
+                      <%-- </c:if> --%>
                       </c:forEach>
                   </tbody>
             </table>
@@ -375,15 +295,9 @@ String st = "";
                 <thead>
                     <tr>
                         <th data-head="Sr.No." class="sorting" style="z-index: 1 !important;"><em>Sr.No.</em></th>
-                        <th data-head="Region" class="sorting"><em>Region</em></th>
-                        <th data-head="Dealer City" class="sorting"><em>Dealer City</em></th>
-                        <th data-head="Dealership" class="sorting" style="min-width: 150px !important;"><em>Dealership</em></th>
-                        <th data-head="Dealer Code" class="sorting"><em>Dealer Code</em></th>
-                        <th data-head="Candidate Name" class="sorting"><em>Candidate Name</em></th>
-                        <th data-head="Profile" class="sorting"><em>Profile</em></th>
+                        <th data-head="Candidate Name" class="sorting" ><em>Candidate Name</em></th>
+                        <th data-head="Designation" class="sorting"><em>Designation</em></th>
                         <th data-head="Candidate Status" class="sorting"><em>Recruitment Source</em></th>
-                        <th data-head="Designation Code" class="sorting"><em>Designation Code</em></th>
-                        <th data-head="MSPIN" class="sorting"><em>MSPIN</em></th>
                         <th data-head="Mobile" class="sorting"><em>Mobile</em></th>
                         <th data-head="Access Key" class="sorting"><em>Access Key</em></th>
                         <th data-head="Registration Date" class="sorting"><em>Registration Date</em></th>
@@ -392,19 +306,12 @@ String st = "";
                     </tr>
                 </thead>
                 <tbody>
-                      <%int j=1; %>
-                      <c:forEach items="${sourceAll}" var="participant">
+                      <c:forEach items="${sourceAll}" var="participant" varStatus="status">
                           <tr>
-                              <td><%=j %></td>
-                              <td>${participant.regionCode}</td>
-                              <td>${participant.city}</td>
-                              <td>${participant.dealerName}</td>
-                               <td>${participant.dealerCode}</td>
+                              <td>${status.count}</td>
                               <td>${participant.participantName }</td>
                               <td>${participant.designation}</td>
                               <td>${participant.status}</td>
-                              <td>${participant.finalDesignationCode}</td>
-                              <td>${participant.mspin}</td>
                               <td>${participant.mobile}</td>
                               <td>${participant.accesskey}</td>
                               <td>${participant.dateOfRegistration}</td>
@@ -416,12 +323,7 @@ String st = "";
                               <td>${participant.assessment_Completion_date}</td>
                               </c:when>
                               </c:choose>
-                                  
-                              
                                   <c:choose>
-                                  <c:when test="${participant.designation == 'Sales Support' }">
-                                      <td><span>NA</span></td>
-                                  </c:when>
                                   <c:when test="${participant.passFailStatus == '1' }">
                                       <td><span class="green">Pass</span></td>
                                   </c:when>
@@ -433,7 +335,6 @@ String st = "";
                                   </c:when>
                                   </c:choose>	
                       </tr>
-                      <%j++; %>
                       </c:forEach>
                   </tbody>
             </table>
@@ -448,14 +349,8 @@ String st = "";
                 <thead>
                     <tr>
                         <th data-head="Sr.No." class="sorting" style="z-index: 1 !important;"><em>Sr.No.</em></th>
-                        <th data-head="Region" class="sorting"><em>Region</em></th>
-                        <th data-head="Dealer City" class="sorting"><em>Dealer City</em></th>
-                        <th data-head="Dealership" class="sorting" style="min-width: 150px !important;"><em>Dealership</em></th>
-                        <th data-head="Dealer Code" class="sorting"><em>Dealer Code</em></th>
-                        <th data-head="Candidate Name" class="sorting"><em>Candidate Name</em></th>
-                        <th data-head="Profile" class="sorting"><em>Profile</em></th>
-                        <th data-head="Designation Code" class="sorting"><em>Designation Code</em></th>
-                        <th data-head="MSPIN" class="sorting"><em>MSPIN</em></th>
+                        <th data-head="Candidate Name" class="sorting" ><em>Candidate Name</em></th>
+                        <th data-head="Designation" class="sorting"><em>Designation</em></th>
                         <th data-head="Mobile" class="sorting"><em>Mobile</em></th>
                         <th data-head="Access Key" class="sorting"><em>Access Key</em></th>
                         <th data-head="Registration Date" class="sorting"><em>Registration Date</em></th>
@@ -465,18 +360,11 @@ String st = "";
                     </tr>
                 </thead>
                 <tbody>
-                      <%int k=1; %>
-                      <c:forEach items="${desgAll}" var="participant">
+                      <c:forEach items="${desgAll}" var="participant" varStatus="status">
                           <tr>
-                              <td><%=k %></td>
-                              <td>${participant.regionCode}</td>
-                              <td>${participant.city}</td>
-                              <td>${participant.dealerName}</td>
-                              <td>${participant.dealerCode}</td>
+                              <td>${status.count}</td>
                               <td>${participant.participantName }</td>
                               <td>${participant.designation}</td>
-                              <td>${participant.finalDesignationCode}</td>
-                              <td>${participant.mspin}</td>
                               <td>${participant.mobile}</td>
                               <td>${participant.accesskey}</td>
                               <td>${participant.dateOfRegistration}</td>
@@ -488,22 +376,7 @@ String st = "";
                               <td>${participant.assessment_Completion_date}</td>
                               </c:when>
                               </c:choose>
-                                  <%-- <c:choose>
-                                  <c:when  test="${empty participant.assessment_Completion_date && empty participant.testScore }">
-                              <td><span >NA</span></td>
-                              </c:when>
-                                  <c:when test="${participant.passFailStatus == '1' }">
-                                  <td><span class="green">${participant.testScore} </span></td>
-                                      </c:when>
-                                  <c:when test="${participant.passFailStatus == '0' }">
-                                  <td><span class="red">${participant.testScore} </span></td>
-                                  </c:when>
-                                  </c:choose> --%>
-                              
                                   <c:choose>
-                                  <c:when test="${participant.designation == 'Sales Support' }">
-                                      <td><span>NA</span></td>
-                                  </c:when>
                                   <c:when test="${participant.passFailStatus == '1' }">
                                       <td><span class="green">Pass</span></td>
                                   </c:when>
@@ -515,7 +388,6 @@ String st = "";
                                   </c:when>
                                   </c:choose>												 
                       </tr>
-                      <%k++; %>
                       </c:forEach>
                   </tbody>
             </table>
@@ -530,15 +402,9 @@ String st = "";
                 <thead>
                     <tr>
                         <th data-head="Sr.No." class="sorting" style="z-index: 1!important;"><em>Sr.No.</em></th>
-                        <th data-head="Region" class="sorting"><em>Region</em></th>
-                        <th data-head="Dealer City" class="sorting"><em>Dealer City</em></th>
-                        <th data-head="Dealership" class="sorting" style="min-width: 150px !important;"><em>Dealership</em></th>
-                        <th data-head="Dealer Code" class="sorting"><em>Dealer Code</em></th>
-                        <th data-head="Candidate Name" class="sorting"><em>Candidate Name</em></th>
-                        <th data-head="Profile" class="sorting"><em>Profile</em></th>
+                        <th data-head="Candidate Name" class="sorting" ><em>Candidate Name</em></th>
+                        <th data-head="Designation" class="sorting"><em>Designation</em></th>
                         <th data-head="Candidate Status" class="sorting"><em>Gender</em></th>
-                        <th data-head="Designation Code" class="sorting"><em>Designation Code</em></th>
-                        <th data-head="MSPIN" class="sorting"><em>MSPIN</em></th>
                         <th data-head="Mobile" class="sorting"><em>Mobile</em></th>
                         <th data-head="Access Key" class="sorting"><em>Access Key</em></th>
                         <th data-head="Registration Date" class="sorting"><em>Registration Date</em></th>
@@ -547,19 +413,12 @@ String st = "";
                     </tr>
                 </thead>
                 <tbody>
-                      <%int l=1; %>
-                      <c:forEach items="${genderAll}" var="participant">
+                      <c:forEach items="${genderAll}" var="participant" varStatus="status">
                           <tr>
-                              <td><%=l %></td>
-                              <td>${participant.regionCode}</td>
-                              <td>${participant.city}</td>
-                              <td>${participant.dealerName}</td>
-                               <td>${participant.dealerCode}</td>
+                              <td>${status.count}</td>
                               <td>${participant.participantName }</td>
                               <td>${participant.designation}</td>
                               <td>${participant.status}</td>
-                              <td>${participant.finalDesignationCode}</td>
-                              <td>${participant.mspin}</td>
                               <td>${participant.mobile}</td>
                               <td>${participant.accesskey}</td>
                               <td>${participant.dateOfRegistration}</td>
@@ -573,9 +432,6 @@ String st = "";
                               </c:choose>
                                   
                                   <c:choose>
-                                  <c:when test="${participant.designation == 'Sales Support' }">
-                                      <td><span>NA</span></td>
-                                  </c:when>
                                   <c:when test="${participant.passFailStatus == '1' }">
                                       <td><span class="green">Pass</span></td>
                                   </c:when>
@@ -587,7 +443,6 @@ String st = "";
                                   </c:when>
                                   </c:choose>	
                       </tr>
-                      <%l++; %>
                       </c:forEach>
                   </tbody>
             </table>
@@ -602,16 +457,9 @@ String st = "";
                 <thead>
                     <tr>
                         <th data-head="Sr.No." class="sorting" style="z-index: 1 !important;"><em>Sr.No.</em></th>
-                        <th data-head="Region" class="sorting"><em>Region</em></th>
-                        <th data-head="Dealer City" class="sorting"><em>Dealer City</em></th>
-                        <th data-head="Dealership" class="sorting" style="min-width: 150px !important;"><em>Dealership</em></th>
-                        <th data-head="Dealer Code" class="sorting"><em>Dealer Code</em></th>
-                        <th data-head="Candidate Name" class="sorting"><em>Candidate Name</em></th>
-                        <th data-head="Profile" class="sorting"><em>Profile</em></th>
-                         <th data-head="Candidate Status" class="sorting"><em>Auto Experience</em></th>
-                        <th data-head="Candidate Status" class="sorting"><em>Non-Auto Experience</em></th>
-                        <th data-head="Designation Code" class="sorting"><em>Designation Code</em></th>
-                        <th data-head="MSPIN" class="sorting"><em>MSPIN</em></th>
+                        <th data-head="Candidate Name" class="sorting" ><em>Candidate Name</em></th>
+                        <th data-head="Designation" class="sorting"><em>Designation</em></th>
+                         <th data-head="Experience" class="sorting"><em>Experience</em></th>
                         <th data-head="Mobile" class="sorting"><em>Mobile</em></th>
                         <th data-head="Access Key" class="sorting"><em>Access Key</em></th>
                         <th data-head="Registration Date" class="sorting"><em>Registration Date</em></th>
@@ -620,20 +468,12 @@ String st = "";
                     </tr>
                 </thead>
                 <tbody>
-                      <%int m=1; %>
-                      <c:forEach items="${expAutoAll}" var="participant">
+                      <c:forEach items="${expAutoAll}" var="participant" varStatus="status">
                           <tr>
-                              <td><%=m %></td>
-                              <td>${participant.regionCode}</td>
-                              <td>${participant.city}</td>
-                              <td>${participant.dealerName}</td>
-                               <td>${participant.dealerCode}</td>
+                              <td>${status.count}</td>
                               <td>${participant.participantName }</td>
                               <td>${participant.designation}</td>
                               <td>${participant.status}</td>
-                              <td>${participant.expNonAutoStatus}</td>
-                              <td>${participant.finalDesignationCode}</td>
-                              <td>${participant.mspin}</td>
                               <td>${participant.mobile}</td>
                               <td>${participant.accesskey}</td>
                               <td>${participant.dateOfRegistration}</td>
@@ -647,9 +487,6 @@ String st = "";
                               </c:choose>
                                  
                                   <c:choose>
-                                  <c:when test="${participant.designation == 'Sales Support' }">
-                                      <td><span>NA</span></td>
-                                  </c:when>
                                   <c:when test="${participant.passFailStatus == '1' }">
                                       <td><span class="green">Pass</span></td>
                                   </c:when>
@@ -661,7 +498,6 @@ String st = "";
                                   </c:when>
                                   </c:choose>	
                       </tr>
-                      <%m++; %>
                       </c:forEach>
                   </tbody>
             </table>
@@ -676,15 +512,9 @@ String st = "";
                 <thead>
                     <tr>
                         <th data-head="Sr.No." class="sorting" style="z-index: 1 !important;"><em>Sr.No.</em></th>
-                        <th data-head="Region" class="sorting"><em>Region</em></th>
-                        <th data-head="Dealer City" class="sorting"><em>Dealer City</em></th>
-                        <th data-head="Dealership" class="sorting" style="min-width: 150px !important;"><em>Dealership</em></th>
-                        <th data-head="Dealer Code" class="sorting"><em>Dealer Code</em></th>
-                        <th data-head="Candidate Name" class="sorting"><em>Candidate Name</em></th>
-                        <th data-head="Profile" class="sorting"><em>Profile</em></th>
+                        <th data-head="Candidate Name" class="sorting" ><em>Candidate Name</em></th>
+                        <th data-head="Designation" class="sorting"><em>Designation</em></th>
                         <th data-head="Candidate Status" class="sorting"><em>Age</em></th>
-                        <th data-head="Designation Code" class="sorting"><em>Designation Code</em></th>
-                        <th data-head="MSPIN" class="sorting"><em>MSPIN</em></th>
                         <th data-head="Mobile" class="sorting"><em>Mobile</em></th>
                         <th data-head="Access Key" class="sorting"><em>Access Key</em></th>
                         <th data-head="Registration Date" class="sorting"><em>Registration Date</em></th>
@@ -693,19 +523,12 @@ String st = "";
                     </tr>
                 </thead>
                 <tbody>
-                      <%int n=1; %>
-                      <c:forEach items="${ageAll}" var="participant">
+                      <c:forEach items="${ageAll}" var="participant" varStatus="status">
                           <tr>
-                              <td><%=n %></td>
-                              <td>${participant.regionCode}</td>
-                              <td>${participant.city}</td>
-                              <td>${participant.dealerName}</td>
-                               <td>${participant.dealerCode}</td>
+                              <td>${status.count}</td>
                               <td>${participant.participantName }</td>
                               <td>${participant.designation}</td>
                               <td>${participant.status}</td>
-                              <td>${participant.finalDesignationCode}</td>
-                              <td>${participant.mspin}</td>
                               <td>${participant.mobile}</td>
                               <td>${participant.accesskey}</td>
                               <td>${participant.dateOfRegistration}</td>
@@ -719,9 +542,6 @@ String st = "";
                               </c:choose>
                                   
                                   <c:choose>
-                                  <c:when test="${participant.designation == 'Sales Support' }">
-                                      <td><span>NA</span></td>
-                                  </c:when>
                                   <c:when test="${participant.passFailStatus == '1' }">
                                       <td><span class="green">Pass</span></td>
                                   </c:when>
@@ -733,7 +553,6 @@ String st = "";
                                   </c:when>
                                   </c:choose>	
                       </tr>
-                      <%n++; %>
                       </c:forEach>
                   </tbody>
             </table>
@@ -748,15 +567,9 @@ String st = "";
                 <thead>
                     <tr>
                         <th data-head="Sr.No." class="sorting" style="z-index:1 !important;"><em>Sr.No.</em></th>
-                        <th data-head="Region" class="sorting"><em>Region</em></th>
-                        <th data-head="Dealer City" class="sorting"><em>Dealer City</em></th>
-                        <th data-head="Dealership" class="sorting" style="min-width: 150px !important;"><em>Dealership</em></th>
-                        <th data-head="Dealer Code" class="sorting"><em>Dealer Code</em></th>
-                        <th data-head="Candidate Name" class="sorting"><em>Candidate Name</em></th>
-                        <th data-head="Profile" class="sorting"><em>Profile</em></th>
+                        <th data-head="Candidate Name" class="sorting" ><em>Candidate Name</em></th>
+                        <th data-head="Designation" class="sorting"><em>Designation</em></th>
                         <th data-head="Candidate Status" class="sorting"><em>Percentage</em></th>
-                        <th data-head="Designation Code" class="sorting"><em>Designation Code</em></th>
-                        <th data-head="MSPIN" class="sorting"><em>MSPIN</em></th>
                         <th data-head="Mobile" class="sorting"><em>Mobile</em></th>
                         <th data-head="Access Key" class="sorting"><em>Access Key</em></th>
                         <th data-head="Registration Date" class="sorting"><em>Registration Date</em></th>
@@ -765,27 +578,12 @@ String st = "";
                     </tr>
                 </thead>
                 <tbody>
-                      <%int o=1; %>
-                      <c:forEach items="${assessmentAll}" var="participant">
+                      <c:forEach items="${assessmentAll}" var="participant" varStatus="status">
                           <tr>
-                              <td><%=o %></td>
-                              <td>${participant.regionCode}</td>
-                              <td>${participant.city}</td>
-                              <td>${participant.dealerName}</td>
-                               <td>${participant.dealerCode}</td>
+                              <td>${status.count}</td>
                               <td>${participant.participantName }</td>
                               <td>${participant.designation}</td>
-                              
-                              <c:choose>
-                                  <c:when test="${participant.designation == 'Sales Support' }">
-                                      <td><span>NA</span></td>
-                                  </c:when>
-                                  <c:when test="${participant.designation == 'Sales' }">
-                                      <td>${participant.status}</td>
-                                  </c:when>
-                              </c:choose>
-                              <td>${participant.finalDesignationCode}</td>
-                              <td>${participant.mspin}</td>
+                               <td>${participant.status}</td>
                               <td>${participant.mobile}</td>
                               <td>${participant.accesskey}</td>
                               <td>${participant.dateOfRegistration}</td>
@@ -799,9 +597,6 @@ String st = "";
                               </c:when>
                               </c:choose>
                                   <c:choose>
-                                  <c:when test="${participant.designation == 'Sales Support' }">
-                                      <td><span>NA</span></td>
-                                  </c:when>
                                   <c:when test="${participant.passFailStatus == '1' }">
                                       <td><span class="green">Pass</span></td>
                                   </c:when>
@@ -813,35 +608,21 @@ String st = "";
                                   </c:when>
                                   </c:choose>	
                       </tr>
-                      <%o++; %>
                       </c:forEach>
                   </tbody>
             </table>
         </div>
     </div>
-
-    <div id="aggregate-report" class="tabcontent">
-    
-        <!-- <h3>Aggregate Report</h3> -->
+</div>
+<div id="aggregate-report" class="main-tabcontent">
         <div class="table-date">
-            <!--<div class="export-to-csv"><input type="button" class="ecsvbutton" value="Export To CSV"></div>-->
             <table id="data-agr" cellspacing="0" cellpadding="0" border="0" class="stripe display nowrap cell-border" width="50" style="width: 100% !important;height: auto !important;">
                 <thead>
                     <tr>
                         <th data-head="Sr.No." class="sorting" style="z-index:1 !important;"><em>Sr.No.</em></th>
-                        <th data-head="Region" class="sorting"><em>Region</em></th>
-                        <th data-head="Dealer City" class="sorting"><em>Dealer City</em></th>
-                        <th data-head="Dealership" class="sorting" style="min-width: 150px !important;"><em>Dealership</em></th>
-                        <th data-head="Dealer Code" class="sorting"><em>Dealer Code</em></th>
-                        <th data-head="Candidate Name" class="sorting" ><em>Candidate Name</em></th>
-                        <th data-head="Profile" class="sorting"><em>Profile</em></th>
-                        <c:if test="${(role eq 'DL')}">
-                        <th data-head="Designation Code" class="sorting"><em>Designation Code</em></th>
-                        </c:if>
-                        <th data-head="MSPIN" class="sorting"><em>MSPIN</em></th>
-                        <c:if test="${(role eq 'DL')}">
+                        <th data-head="Candidate Name" class="sorting" style="z-index: 1 !important;"><em>Candidate Name</em></th>
+                        <th data-head="Designation" class="sorting"><em>Designation</em></th>
                         <th data-head="Mobile" class="sorting"><em>Mobile</em></th>
-                        </c:if>
                         <th data-head="Access Key" class="sorting"><em>Access Key</em></th>
                         <th data-head="Registration Date" class="sorting"><em>Registration Date</em></th>
                         <th data-head="Assessment Date" class="sorting"><em>Assessment Date</em></th>
@@ -851,39 +632,20 @@ String st = "";
                         <th data-head="Source" class="sorting"><em>Source</em></th>
                         <%-- <th data-head="SalesNonSales" class="sorting"><em>Sales/Non-Sales</em></th> --%> 
                         <th data-head="Gender" class="sorting"><em>Gender</em></th>				
-                        <th data-head="Auto" class="sorting"><em>Experience Auto</em></th>
-                        <th data-head="NonAuto" class="sorting"><em>Experience Non-Auto</em></th>
+                        <th data-head="Experience" class="sorting"><em>Experience</em></th>
                         <th data-head="Age Wise" class="sorting"><em>Age Wise</em></th>
                         <th data-head="Assessment percent" class="sorting"><em>Assessment Percent</em></th>
                     </tr>
                 </thead>
                 <tbody>
-                <%int p=1; %>
-                    <c:forEach items="${aggregates}" var="aggregate">
-                      <c:if test="${(role eq 'DL') || ((aggregate.overview eq 'Recruited') &&  (role eq 'HO' || role eq 'FS'))}">
+                    <c:forEach items="${aggregates}" var="aggregate" varStatus="status">
                         <tr>
-                            <td><%=p %></td>
-                            <td>${aggregate.region }</td>
-                            <td>${aggregate.dealerCity }</td>
-                            <td>${aggregate.dealership }</td>
-                               <td>${aggregate.dealerCode }</td>
+                            <td>${status.count}</td>
                             <td>${aggregate.name }</td>
                             <td>${aggregate.profile }</td>
-                            
-                         
-                            
-                            
-                            <c:if test="${(role eq 'DL')}">
-                            <td>${aggregate.finalDesignationCode }</td>
-                            </c:if>
-                            <td>${aggregate.mspin }</td>
-                            <c:if test="${(role eq 'DL')}">
                             <td>${aggregate.mobile }</td>
-                            </c:if>
                             <td>${aggregate.accesskey }</td>
                             <td>${aggregate.registrationDate }</td>
-                            <%-- <td>${aggregate.assessmentDate }</td> --%>
-                            <%-- <td>${aggregate.testScore }</td> --%>
 
                             <c:choose>
                               <c:when  test="${empty aggregate.assessmentDate}">
@@ -897,9 +659,6 @@ String st = "";
                             
                             <%-- <td>${aggregate.passFailStatus }</td> --%>
                              <c:choose>
-                                 <c:when test="${aggregate.profile == 'Sales Support' }">
-                                      <td><span>NA</span></td>
-                                  </c:when>
                                   <c:when test="${aggregate.passFailStatus == '1' }">
                                       <td><span class="green">Pass</span></td>
                                   </c:when>
@@ -912,13 +671,10 @@ String st = "";
                                   </c:choose>
 
                                   <c:choose>
-                                 <c:when test="${aggregate.profile == 'Sales Support' && aggregate.overview == 'Passed'}">
+                                 <c:when test="${aggregate.overview == 'Passed'}">
                                       <td><span>NA</span></td>
                                   </c:when>
-                                  <c:when test="${aggregate.profile == 'Sales Support' && aggregate.overview != 'Passed'}">
-                                      <td>${aggregate.overview }</td>
-                                  </c:when>
-                                  <c:when test="${aggregate.profile == 'Sales'}">
+                                  <c:when test="${aggregate.overview != 'Passed'}">
                                       <td>${aggregate.overview }</td>
                                   </c:when>
                                   </c:choose>	
@@ -928,29 +684,14 @@ String st = "";
                            <%--  <td>${aggregate.salesNonSales }</td> --%>
                             <td>${aggregate.gender }</td>
                             <td>${aggregate.expAuto }</td>
-                            <td>${aggregate.expNonAuto }</td>
                             <td>${aggregate.ageWise }</td>
-                            <c:choose>
-                                  <c:when test="${aggregate.profile == 'Sales Support' }">
-                                      <td><span>NA</span></td>
-                                  </c:when>
-                                  <c:when test="${aggregate.profile == 'Sales' }">
-                                      <td>${aggregate.assessmentReport }</td>
-                                  </c:when>
-                              </c:choose>
-                            
+                             <td>${aggregate.assessmentReport }</td>
                         </tr>
-                        <%p++; %>
-                        </c:if>
                       </c:forEach>
                   </tbody>
             </table>
         </div>
     </div>
-
-
-</div>
-
 <div id="detailed-assessment-report" class="main-tabcontent">
     <!-- <h3>Detailed Assessment Report</h3> -->
     <div class="report-section"> 
@@ -958,54 +699,11 @@ String st = "";
            <h3>Detailed Report</h3>
            <a href="#" class="csv-icn-button" onclick="exportTocsv('detailedCSV')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
        </div> 
-        <!-- <div class="report-block">
-           <h3>Summary Report</h3>
-           <a href="#" class="csv-icn-button" onclick="exportTocsv('summeryReport')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-       </div> -->
-       <%
-           if(userId.equalsIgnoreCase("HO")){
-               %>
-       <div class="report-block">
-           <h3>Data science Report</h3>
-           <a href="#" class="csv-icn-button" onclick="exportTocsv('dataScienceCSV')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-       </div>
-       <%}%>
    </div>
 </div>
 
 <div id="question-wise-report" style="display:none" class="main-tabcontent">
-    <!-- <h3>Question Analysis</h3> -->
-    <!-- <div class="table-date">
-        <div class="export-to-csv"><input type="button" class="ecsvbutton" value="Export To CSV"></div>
-        <table id="data-qa" cellspacing="0" cellpadding="0" border="0" class="stripe display nowrap cell-border" width="50" style="width: 100% !important;height: auto !important;">
-            <thead>
-                <tr>
-                    <th data-head="Sr.No." class="sorting" style="z-index: 1 !important;"><em>Sr.No.</em></th>
-                    <th data-head="Candidate Name" class="sorting" style="z-index: 1 !important;"><em>Candidate Name</em></th>
-                    <th data-head="Profile" class="sorting"><em>Profile</em></th>
-                    <th data-head="Mobile Number" class="sorting"><em>Mobile Number</em></th>
-                    <th data-head="Access Key" class="sorting"><em>Access Key</em></th>
-                    <th data-head="Registration Date" class="sorting"><em>Registration Date</em></th>
-                    <th data-head="Assessment Date" class="sorting"><em>Assessment Date</em></th> 
-                    <th data-head="Marks Obtained" class="sorting"><em>Marks Obtained</em></th>				
-                    <th data-head="Assessment Status" class="sorting"><em>Assessment Status</em></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Vrushali Thakre</td>
-                    <td>Vrushali Thakre</td>
-                    <td>987654321</td>
-                    <td>987654321</td>
-                    <td>987654321</td>
-                    <td>987654321</td>
-                    <td>987654321</td>
-                    <td>Test</td>
-                </tr>
-            </tbody>
-        </table>
- -->
+    
 </div>
 
 <div id="competency-wise-analysis" class="main-tabcontent">
@@ -1044,282 +742,7 @@ String st = "";
         </table>   <!-- TBL -->
     </div> 
 </div>
-
-<div id="ir-assessment-report" class="main-tabcontent">
-    <!-- <h3>Assessment Report</h3> -->
-	<div id="assessdiv"></div>
-    
-</div>
-
-
-
-<!-- <h1>Reports</h1> -->
-<!-- <div class="report-section"> -->
-    <!-- <div class="report-block">
-        <h3>Detailed Report</h3>
-        <a href="#" class="csv-icn-button" onclick="exportTocsv('detailedCSV')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-    </div> -->
-    <!--   <div class="report-block">
-        <h3>Summery Report</h3>
-        <a href="#" class="csv-icn-button" onclick="exportTocsv('summeryReport')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-    </div> -->
-    <!-- <%
-        if(userId.equalsIgnoreCase("HO")){
-            %>
-            <div class="report-block">
-                <h3>Data science Report</h3>
-                <a href="#" class="csv-icn-button" onclick="exportTocsv('dataScienceCSV')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-            </div>
-            <%}%>
-        </div>  -->
-        
-        <!-- <div class="report-section ir-report">
-            <button class="collapsible">Reports</button>
-            <div class="content">
-                <div class="report-block-v2">
-                    <div class="report-block-half">
-                        <p>Detailed Report</p>
-                        <a href="#" class="csv-icn-button" onclick="exportTocsv('detailedCSV')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                    </div>
-                </div>
-            </div> 
-                    
-            <div class="content">
-                <%
-                if(userId.equalsIgnoreCase("HO")){
-                    %>
-                        <div class="report-block-v2">
-                            <div class="report-block-half">
-                                <p>Data science Report</p>
-                                <a href="#" class="csv-icn-button" onclick="exportTocsv('dataScienceCSV')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                            </div>
-                        </div>
-                        <%}%>
-                    </div> 
-                </div>
-                
-                <div class="report-section ir-report">
-                    <button class="collapsible">Overview</button>
-                    <div class="content">
-                    <div class="report-block-v2">
-                        <div class="report-block-half">
-                            <p>Registered</p>
-                            <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${overview.registered}','registered')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                        </div>
-                        <div class="report-block-half">
-                            <p>Assessments</p>
-                            <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${overview.assessments}','assessment')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                        </div>
-                    </div>    
-                </div>  
-                
-                
-                <div class="content">
-                    <div class="report-block-v2">
-                        <div class="report-block-half">
-                            <p>Passed</p>
-                            <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${overview.pass}','passed')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                        </div>
-                        <div class="report-block-half">
-                            <p>Offered</p>
-                            <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${overview.offer}','offred')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="content">
-                    <div class="report-block-v2">
-                        <div class="report-block-half">
-                            <p>Recruited</p>
-                            <a href="#" class="csv-icn-button"  onclick="getAnalyticsByAccesskeyList('${overview.recruited}','recruited')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                        </div>
-                    </div>    
-                </div>
-                </div>
-                
-                <div class="report-section ir-report">
-                    <button class="collapsible">Action Points (Pending)</button>
-                    <div class="content">
-                        <div class="report-block-v2">
-                            <div class="report-block-half">
-                                <p>Assessments</p>
-                                <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${action.assessmentStatus}','pendingAssessment')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                            </div>
-                            <div class="report-block-half">
-                                <p>Interview</p>
-                                <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${action.interviewStatus}','interviewStatus')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                            </div>
-                        </div>    
-                 </div>  
-
-
-                 <div class="content">
-                     <div class="report-block-v2">
-                         <div class="report-block-half">
-                             <p>Documents</p>
-                             <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${action.documentUploadStatus}','documentUploadStatus')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                            </div>
-                            <div class="report-block-half">
-                                <p>Praarambh</p>
-                                <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${action.prarambhStatus}','prarambhStatus')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="content">
-                        <div class="report-block-v2">
-                            <div class="report-block-half">
-                                <p>FSDM Approval</p>
-                                <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${action.fsdmApproval}','fsdmApproval')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                            </div>
-                        </div>    
-                    </div>
-                </div>
-                
-                <div class="report-section ir-report">
-                    <button class="collapsible">Recruitment Source</button>
-                    <div class="content">
-                        <div class="report-block-v2">
-                            <div class="report-block-half">
-                                <p>Referrals</p>
-                                <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${source.referrals}','referrals')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                            </div>
-                            <div class="report-block-half">
-                                <p>Direct Walk In</p>
-                                <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${source.directWalkIn}','directWalkIn')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                            </div>
-                        </div>    
-                    </div>  
-                    <div class="content">
-                        <div class="report-block-v2">
-                            <div class="report-block-half">
-                                <p>Advertisement</p>
-                                <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${source.advertisement}','advertisement')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                            </div>
-                            <div class="report-block-half">
-                                <p>Job Consultant</p>
-                                <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${source.jobConsultant}','jobConsultant')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content">
-                        <div class="report-block-v2">
-                        <div class="report-block-half">
-                            <p>Social Media</p>
-                            <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${source.socialMedia}','socialMedia')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                        </div>
-                        <div class="report-block-half">
-                            <p>Other</p>
-                            <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${source.others}','others')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                        </div>
-                    </div>    
-                </div>
-            </div>
-            
-            <div class="report-section ir-report">
-                <button class="collapsible">Sales-Non-Sales</button>
-                <div class="content">
-                    <div class="report-block-v2">
-                        <div class="report-block-half">
-                            <p>Sales</p>
-                            <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${designation.sales}','sales')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                        </div>
-                        <div class="report-block-half">
-                            <p>Non-Sales</p>
-                            <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${designation.nonSales}','nonSales')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                        </div>
-                    </div>
-                </div>  
-            </div>
-            
-            <div class="report-section ir-report">
-                <button class="collapsible">Gender Diversity</button>
-                <div class="content">
-                    <div class="report-block-v2">
-                        <div class="report-block-half">
-                            <p>Male</p>
-                            <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${gender.male}','pendingAssessment')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                        </div>
-                        <div class="report-block-half">
-                            <p>Female</p>
-                            <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${gender.female}','pendingAssessment')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                        </div>
-                    </div>
-                </div>  
-            </div>
-            
-            <div class="report-section ir-report">
-                <button class="collapsible">Candidate Experience</button>
-                <div class="content">
-                    <div class="report-block-v2">
-                        <div class="report-block-half">
-                            <p>Total Experience (Non Auto)</p>
-                            <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${expAutoSet}','expAutoSet')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                        </div>
-                        <div class="report-block-half">
-                        <p>Total Experience (Non Industry)</p>
-                        <a href="#" class="csv-icn-button" onclick="getAnalyticsByAccesskeyList('${expNonAutoSet}','expNonAutoSet')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                    </div>
-                </div>
-            </div>  
-        </div>
-        
-        <div class="report-section ir-report">
-            <button class="collapsible">Age Wise</button>
-            <div class="content">
-                <div class="report-block-v2">
-                    <div class="report-block-half">
-                        <p>Less than 20 Years</p>
-                        <a href="#" class="csv-icn-button" onclick="exportTocsv('detailedCSV')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                    </div>
-                    <div class="report-block-half">
-                        <p>Between 20 To 25 Years</p>
-                        <a href="#" class="csv-icn-button" onclick="exportTocsv('detailedCSV')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                    </div>
-                </div>
-            </div>  
-            <div class="content">
-                <div class="report-block-v2">
-                    <div class="report-block-half">
-                        <p>Between 30 To 35 Years</p>
-                        <a href="#" class="csv-icn-button" onclick="exportTocsv('detailedCSV')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                    </div>
-                    <div class="report-block-half">
-                        <p>Between 35 To 40 Years</p>
-                        <a href="#" class="csv-icn-button" onclick="exportTocsv('detailedCSV')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                    </div>
-                </div>
-            </div>  
-        </div>
-        
-        <div class="report-section ir-report">
-            <button class="collapsible">Assessment Report</button>
-            <div class="content">
-                <div class="report-block-v2">
-                    <div class="report-block-half">
-                        <p>Less than 40%</p>
-                        <a href="#" class="csv-icn-button" onclick="exportTocsv('detailedCSV')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                    </div>
-                    <div class="report-block-half">
-                        <p>Between 40% To 60% </p>
-                        <a href="#" class="csv-icn-button" onclick="exportTocsv('detailedCSV')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                    </div>
-                </div>
-            </div>  
-            <div class="content">
-                <div class="report-block-v2">
-                    <div class="report-block-half">
-                        <p>Between 60% To 80%</p>
-                        <a href="#" class="csv-icn-button" onclick="exportTocsv('detailedCSV')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                    </div>
-                    <div class="report-block-half">
-                        <p>More than 80%</p>
-                        <a href="#" class="csv-icn-button" onclick="exportTocsv('detailedCSV')"><img src="./img/csv-file-icn.svg" />Export to CSV</a>
-                    </div>
-                </div>
-            </div>  
-        </div> -->
-        
+  </div>      
         <script src="./js/jquery.dataTables.min.js"></script>
         <script src="./js/reportDataTable.js"></script>
          
@@ -1341,8 +764,6 @@ String st = "";
  
         <script>
             function openPageMain(pageName,elmnt,color) {
-                console.log(document.getElementById(pageName));
-                console.log(document.getElementsByClassName("main-tabcontent"));
                 var i, tabcontent, tablinks;
                 tabcontent = document.getElementsByClassName("main-tabcontent");
                 for (i = 0; i < tabcontent.length; i++) {
@@ -1353,7 +774,9 @@ String st = "";
                     tablinks[i].style.backgroundColor = "";
                     tablinks[i].style.color = "";
                 }
+                console.log('1'+pageName);
                 document.getElementById(pageName).style.display = "block";
+                console.log('2'+pageName);
                 elmnt.style.backgroundColor = color;
                 elmnt.style.color = '#fff';
             }
@@ -1380,44 +803,22 @@ String st = "";
             }
             
             // Get the element with id="defaultOpen" and click on it
-            document.getElementById("aggregateF").click();
+            //document.getElementById("aggregateF").click();
         </script>
-            
-            
-            
-            
             <script>
                 $(document).ready(function(){
+                	var form = $('#formFilter');
+              	  form.attr('action', 'showAllLinksCSV');
+                	
                     /*Default Open Window From Dashboard Click*/
                     var flag2 = `${flag}`;
 			        if(flag2.length>2){
         	        document.getElementById("OverF").click();
         	        document.getElementById(flag2).click();
 			        }
-
                     $('#QBA').click(function(){
                         window.location.href='./qb-analysis';
-                    })
-
-                    /* Date filter */
-                    var start = moment().startOf('month');
-                    var end = moment().endOf('month');
-                    
-                    function cb(start, end) {
-                        $('#reportrange').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
-                    }
-            
-            $('#reportrange').daterangepicker({
-                opens: 'left',
-                format: 'DD/MM/YYYY',
-                startDate: start,
-                endDate: end,
-                locale: {
-                    format: 'DD/MM/YYYY',
-                }
-            }, cb);
-            cb(start, end);
-            /* Date filter */
+                    });
         });
         function exportTocsv(reportName){
              var dateFromm =$('#dateFromm').val();
@@ -1426,7 +827,6 @@ String st = "";
         	window.location.href=url;     	
         }
         
-        // console.log("Vrushali");
         </script>
 
 <!-- <script>
@@ -1520,6 +920,7 @@ String st = "";
 }
 }catch(Exception e)
 {
+	System.out.println("Errror....."+e);
     	  response.sendRedirect("login");
     }
     %>

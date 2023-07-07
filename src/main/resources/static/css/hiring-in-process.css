@@ -19,7 +19,7 @@
 .fixdate-popup .form-section{display: flex; flex-wrap: wrap; margin: 0 -10px;}
 .fixdate-popup .form-section .form-block{width: calc(50% - 20px); margin: 0 10px;}
 .fixdate-popup .form-section .form-block h5{font-weight: 500; margin: 0 0 10px; color: #555; text-transform: uppercase; font-size: 12px; line-height: 14px;}
-.fixdate-popup .form-section .form-block input[type="date"], .fixdate-popup .form-section .form-block select{font-family: 'Roboto', sans-serif; width: 100%; background: #F7F7F7; border: 1px solid #D0D0D0; border-radius: 7px; color: #4D4D4D; padding: 11px 15px; font-size: 13px; line-height: 18px; outline: none; box-sizing: border-box;}
+.fixdate-popup .form-section .form-block input[type="date"], .fixdate-popup .form-section .form-block select, .select2-selection{font-family: 'Roboto', sans-serif; width: 100%; background: #F7F7F7; border: 1px solid #D0D0D0; border-radius: 7px; color: #4D4D4D; padding: 11px 15px; font-size: 13px; line-height: 18px; outline: none; box-sizing: border-box;}
 .fixdate-popup .form-section .form-block input[type="time"], .fixdate-popup .form-section .form-block select{font-family: 'Roboto', sans-serif; width: 100%; background: #F7F7F7; border: 1px solid #D0D0D0; border-radius: 7px; color: #4D4D4D; padding: 11px 15px; font-size: 13px; line-height: 18px; outline: none; box-sizing: border-box;}
 .fixdate-popup p{font-size: 15px; line-height: 24px; margin: 0 0 15px; color: #000; text-align: center;}
 .fixdate-popup h2{font-size: 24px; line-height: 30px; font-weight: 500; margin: 0 0 50px; color: #DC3545; text-align: center;}

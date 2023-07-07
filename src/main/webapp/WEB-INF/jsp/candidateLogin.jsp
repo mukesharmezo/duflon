@@ -31,7 +31,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
     	msg="Documents Uploaded";
     }
 	if(msg.equals("N")){
-    	msg="Your Access Key is not active. Please contact your Dealer POC/Recruiter";
+    	msg="Your Access Key is not active. Please contact your HRE POC/Recruiter";
     }
 	
 	if(msg.equals("IN")){
@@ -137,7 +137,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
     <div class="left-panel">
 	<div class="menu-left"></div>
       <div class="logo">
-        <h1 class="LOGO" style="color: #fff;"><b>Duflon</b></h1>
+        <h1 class="LOGO" style="color: #fff;"><b>DuRecruit</b></h1>
         <!-- <a href="#"
           ><img src="./img/iRecruit-logo.svg" alt=""
         /></a> -->
@@ -188,13 +188,13 @@ String baseServer = resource.getString("client.url");String title = resource.get
                 </div>
             </form>
         </div>
-		<div class="terms-section">
+		<!-- <div class="terms-section">
           <ul>
             <li><a href="./termsCondition" target="_blank">Terms & Conditions</a></li>
             <li  style="color:#999;">|</a></li>
             <li><a href="./privacy" target="_blank">Privacy Policy</a></li>
           </ul>
-        </div>
+        </div> -->
     </div>
 
   </body>

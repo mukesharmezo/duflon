@@ -38,6 +38,8 @@ public interface HreRepository extends JpaRepository<HRE,Long>{
 	@Query("UPDATE HRE h SET h.status = :status, deactivationDate =:deactivationDate WHERE h.id = :id")
 	public void deactivateHRE(boolean status,Date deactivationDate, Long id);
 	
+	public Optional<HRE> findByEmail(String email);
+	
 	
 	
 	

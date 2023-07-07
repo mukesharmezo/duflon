@@ -89,7 +89,7 @@ a#viewresume {
 								<div class="error-tnc" id="errorphoto"><img src="./img/cross-icn.png" /> Please Upload Valid file format</div>
 							</div>
 							<div class="upload-input">
-							<c:if test="${participant.documents_status != 'final' || participant.hiredStatus != 'Y'}">
+							<c:if test="${participant.status !='H' || participant.hiredStatus != 'Y'}">
 								<%if(role.equalsIgnoreCase("HRE")) { %>
 								<div class="file-upload">
 									<div class="file-upload-select"
@@ -132,7 +132,7 @@ a#viewresume {
 							</div>
 							<div class="upload-input">
 								
-									<c:if test="${participant.documents_status != 'final' || participant.hiredStatus != 'Y'}">
+									<c:if test="${participant.status !='H' || participant.hiredStatus != 'Y'}">
 								<%if(role.equalsIgnoreCase("HRE")) { %>
 								<div class="file-upload">
 									<div class="file-upload-select"
@@ -183,7 +183,7 @@ a#viewresume {
 							</div>
 							<div class="upload-input">
 								
-								<c:if test="${participant.documents_status != 'final' || participant.hiredStatus != 'Y'}">
+								<c:if test="${participant.status !='H' || participant.hiredStatus != 'Y'}">
 								<%if(role.equalsIgnoreCase("HRE")) { %>
 								<div class="file-upload">
 									<div class="file-upload-select"
@@ -243,7 +243,7 @@ a#viewresume {
 							</div>
 							<div class="upload-input">
 								
-								<c:if test="${participant.documents_status != 'final' || participant.hiredStatus != 'Y'}">
+								<c:if test="${participant.status !='H' || participant.hiredStatus != 'Y'}">
 								<%if(role.equalsIgnoreCase("HRE")) { %>
 								<div class="file-upload">
 									<div class="file-upload-select"
@@ -300,7 +300,7 @@ a#viewresume {
 							</div>
 							<div class="upload-input">
 								
-									<c:if test="${participant.documents_status != 'final' || participant.hiredStatus != 'Y'}">
+									<c:if test="${participant.status !='H' || participant.hiredStatus != 'Y'}">
 								<%if(role.equalsIgnoreCase("HRE")) { %>
 								<div class="file-upload">
 									<div class="file-upload-select"
@@ -354,7 +354,7 @@ a#viewresume {
 							</div>
 							<div class="upload-input">
 								
-								<c:if test="${participant.documents_status != 'final' || participant.hiredStatus != 'Y'}">
+								<c:if test="${participant.status !='H' || participant.hiredStatus != 'Y'}">
 								<%if(role.equalsIgnoreCase("HRE")) { %>
 								<div class="file-upload">
 									<div class="file-upload-select"
@@ -407,7 +407,7 @@ a#viewresume {
 							</div>
 							<div class="upload-input">
 								
-								<c:if test="${participant.documents_status != 'final' || participant.hiredStatus != 'Y'}">
+								<c:if test="${participant.status !='H' || participant.hiredStatus != 'Y'}">
 								<%if(role.equalsIgnoreCase("HRE")) { %>
 								<div class="file-upload">
 									<div class="file-upload-select"
@@ -453,7 +453,7 @@ a#viewresume {
 							</div>
 							<div class="upload-input">
 								
-							<c:if test="${participant.documents_status != 'final' || participant.hiredStatus != 'Y'}">
+							<c:if test="${participant.status !='H' || participant.hiredStatus != 'Y'}">
 								<%if(role.equalsIgnoreCase("HRE")) { %>
 								<div class="file-upload">
 									<div class="file-upload-select"
@@ -497,7 +497,7 @@ a#viewresume {
 							</div>
 							<div class="upload-input">
 								
-								<c:if test="${participant.documents_status != 'final' || participant.hiredStatus != 'Y'}">
+								<c:if test="${participant.status !='H' || participant.hiredStatus != 'Y'}">
 								<%if(role.equalsIgnoreCase("HRE")) { %>
 								<div class="file-upload" >
 									<div class="file-upload-select"  
@@ -542,7 +542,7 @@ a#viewresume {
 							</div>
 							<div class="upload-input">
 								
-									<c:if test="${participant.documents_status != 'final' || participant.hiredStatus != 'Y'}">
+									<c:if test="${participant.status !='H' || participant.hiredStatus != 'Y'}">
 								<%if(role.equalsIgnoreCase("HRE")) { %>
 								<div class="file-upload">
 									<div class="file-upload-select"
@@ -588,7 +588,7 @@ a#viewresume {
 							</div>
 							<div class="upload-input">
 							
-							    <c:if test="${participant.documents_status != 'final' || participant.hiredStatus != 'Y'}">
+							    <c:if test="${participant.status !='H' || participant.hiredStatus != 'Y'}">
 					<%if(role.equalsIgnoreCase("HRE")) { %>
 					<div class="file-upload">
 						<div class="file-upload-select"
@@ -630,7 +630,7 @@ a#viewresume {
 				</div>
 				<div class="upload-input">
 					
-					<c:if test="${participant.documents_status != 'final' || participant.hiredStatus != 'Y'}">
+					<c:if test="${participant.status !='H' || participant.hiredStatus != 'Y'}">
 					<%if(role.equalsIgnoreCase("HRE")) { %>
 					<div class="file-upload">
 						<div class="file-upload-select"
@@ -665,7 +665,7 @@ a#viewresume {
 			
 			 <%if(role.equalsIgnoreCase("HRE")) { %>
                   <div class="form-btn">
-                     <c:if test="${(participant.documents_status != 'final' || participant.hiredStatus != 'Y') && participant.status !='H'}">
+                     <c:if test="${(participant.status !='H' || participant.hiredStatus != 'Y') && participant.status !='H'}">
                         <!--  <input class="btn blue-btn" type="submit" value="Next" id="submit"  onclick="next()"/> -->
                              <a href="#" class="btn blue-btn" id="btn_next"  onclick="saveDacoment()">Next</a>
                      </c:if>
@@ -688,7 +688,6 @@ a#viewresume {
 	<input type="hidden" id="accesskey" value="${participant.accessKey}">
 	<script>
       $(document).ready(function () {
-		  
 		  $("#identity_proof").val('${participant.identitityProofName}');
     	  $("#address_proof").val('${participant.addressProofName}');
 		   if('${participant.hiredStatus}' == 'Y'){
@@ -707,7 +706,6 @@ a#viewresume {
         $('#tabs').scrollTabs();
 		var profile = document.getElementById("profile");
         var upload_documents = document.getElementById("upload_documents");
-		
 		profile.className -= 'tab-btn tab_selected scroll_tab_first';
         upload_documents.className += ' tab-btn tab_selected scroll_tab_first'
         
@@ -729,17 +727,12 @@ a#viewresume {
                 }
             });
 
-
-          
-
        $('#fsdm-feedback').click(function(){
           $('.blk-bg, .feedback-popup').show();
         });
         $('.cancel-popup').click(function(){
           $('.blk-bg, .feedback-popup').hide();
         }); 
-        
-        
         });
       
       function viewFeedback(){
@@ -747,7 +740,6 @@ a#viewresume {
       }
       
       function approve(){
-    	 
     	  $('.blk-bg, .key-popup').show(); 
       }
       
@@ -757,7 +749,6 @@ a#viewresume {
       
       function yes(){  
     	  var accesskey =  $("#accesskey").val();
-		  
 		 $('#btn_approve').prop('disabled', true);
    	     $('#btn_approve').val('Please wait');
 			 $.ajax({
@@ -777,24 +768,17 @@ a#viewresume {
 					  $('.blk-bg, .key-popup').hide(); 
 				       window.location.reload();
 					}); 
-				   
 			  },
 			  error: function(errorThrown){
 			  }
 		  });  
-			
-		  
-    	
-    	    
       }
       
       function saveFeedbck(){
-		 
     	var feedback =  $("#feedback-text").val();
     	var accesskey =  $("#accesskey").val();
 		if(feedback == ""){
 			showMSG("Please enter feedback ");
-							
            return false ;					
 			
 		}
@@ -839,15 +823,12 @@ a#viewresume {
 					 return false;
 					}
 					}); 
-
-		  
       }
       
       function showView(){
 		 	if($('#viewsign').is(':visible') && old_mspin=="1" ){
             }				  
 	  }
-      
       
       function uploadFile(fileName,name,success,error,view,div,loader,imgcheck)
       {   	
@@ -858,13 +839,10 @@ a#viewresume {
       	 var view_file = document.getElementById(view);
       	 var msg_div = document.getElementById(div);
 		 var msg_loader = document.getElementById(loader);
-      	 
       	 var identity_proof = document.getElementById("identity_proof").value;
       	 var address_proof = document.getElementById("address_proof").value;
       	 var accessKey = $('#accesskey').val();
          var fd = new FormData();
-           
-           
           if(filesName=="identitityProof" && identity_proof ==""){
            msg_error.style.display = 'block';
     	   msg_success.style.display = 'none'; 
@@ -873,18 +851,17 @@ a#viewresume {
           }
 		  else if(filesName == 'resume'){
 	   if (!isResume(document.getElementById(fileName).value)) {
-      	showMSG('Document / file type is not valid. Please upload valid document/file as per the specifications.');
+      	showMSG('Document/file type is not valid. Please upload valid document/file as per the specifications.');
           return ;
 	   }  
 	  }
 		  else{
 			 
 		  if (!isSign(document.getElementById(fileName).value)) {
-      	    showMSG('Document / file type is not valid. Please upload valid document/file as per the specifications.');
+      	    showMSG('Document/file type is not valid. Please upload valid document/file as per the specifications.');
           return ;
 	   }
 		  }
-          
           if(filesName=="addressProof" && address_proof ==""){
            msg_error.style.display = 'block';
       	   msg_success.style.display = 'none'; 
@@ -893,62 +870,55 @@ a#viewresume {
             }
 			else if(filesName == 'resume'){
 	   if (!isResume(document.getElementById(fileName).value)) {
-      	showMSG('Document / file type is not valid. Please upload valid document/file as per the specifications.');
+      	showMSG('Document/file type is not valid. Please upload valid document/file as per the specifications.');
           return ;
 	   }  
 	  }
 			 else{
 		  if (!isSign(document.getElementById(fileName).value)) {
-         	showMSG('PDocument / file type is not valid. Please upload valid document/file as per the specifications.');
+         	showMSG('PDocument/file type is not valid. Please upload valid document/file as per the specifications.');
           return ;
 	   }
 		  }
-           
-           
       if(files ==  undefined || files==""){        
            msg_error.style.display = 'block';
     	   msg_success.style.display = 'none'; 
     	   msg_div.className += ' error'
           return false;
       }
-	    if(filesName == 'signature'){
+	    if(filesName == 'signature' || filesName === 'photograph'){
 	      if(!formatFileSize(files.size)){
 		    showMSG("File size cannot be greater than 500 KB. \n Please try again.");
 			return false;
 	      }
 		}else{
-			
 			if(!formatother(files.size)){
 		    showMSG("File size cannot be greater than 1 MB. \n Please try again.");
 			return false;
 	      }
 		}
-      
-	  
 	   if(filesName == 'signature'){
       if (!isSign(document.getElementById(fileName).value)) {
-      	showMSG('Document / file type is not valid. Please upload valid document/file as per the specifications.');
+      	showMSG('Document /file type is not valid. Please upload valid document/file as per the specifications.');
           return ;
 	   }
 	   }else if(filesName == 'resume'){
 	   if (!isResume(document.getElementById(fileName).value)) {
-      	showMSG('Document / file type is not valid. Please upload valid document/file as per the specifications.');
+      	showMSG('Document/file type is not valid. Please upload valid document/file as per the specifications.');
           return ;
 	   }  
 	  }else{
 		if (!isImage(document.getElementById(fileName).value)) {
-      	showMSG('Document / file type is not valid. Please upload valid document/file as per the specifications.');
+      	showMSG('Document/file type is not valid. Please upload valid document/file as per the specifications.');
           return ;
 	   }   
 	   }
-      
       if(filesName ==  ""){
       	   msg_error.style.display = 'block';
     	   msg_success.style.display = 'none'; 
     	   msg_div.className += ' error'
           return false;
       }
-          
           fd.append('file',files);
           fd.append('name',filesName);
           fd.append('accessKey',accessKey);
@@ -974,7 +944,6 @@ a#viewresume {
              	      view_file.href=data;
                       msg_loader.style.display = 'none';
                       document.getElementById(imgcheck).src="./img/check-icn.png";					  
-                    					  
            },          
        });   
       }
@@ -1036,10 +1005,7 @@ a#viewresume {
 			
       	
       	function saveDacoment(){
-      		
-			
 			if('${participant.fresher}'=="fresher"){
-				
 				if ( !$('#viewsign').is(':visible') || !$('#viewqualy').is(':visible') || !$('#viewaddress').is(':visible') || !$('#viewqualy').is(':visible')
 					|| !$('#viewrquth12').is(':visible') || !$('#viewrgradu').is(':visible') 
 				   )
@@ -1054,9 +1020,7 @@ a#viewresume {
 					  return false; 
 				}); 
 					return false;
-													
 				}
-				
 			}else{
 				if ( !$('#viewsign').is(':visible') || !$('#viewqualy').is(':visible') || !$('#viewaddress').is(':visible') || !$('#viewqualy').is(':visible')
 					|| !$('#viewrquth12').is(':visible') || !$('#viewrgradu').is(':visible') 
@@ -1072,20 +1036,16 @@ a#viewresume {
 					  return false; 
 				}); 
 					return false;
-													
 				}
 			}
 			next();
-      		 
       	}
 		function openVewFile(accesskey,fileName)
         		{
-					
         	    	window.location.href="viewFile?accessKey="+accesskey+"&fineName="+fileName;	
         		}
 				
 	 function showMSG(msg){
-		 
 		  swal({   
 				  title: msg,     
 				  showCancelButton: true,

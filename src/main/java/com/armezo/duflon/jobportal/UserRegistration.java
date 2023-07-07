@@ -26,14 +26,18 @@ public class UserRegistration {
     private String firstName;
     private String middleName;
     private String lastName;
+    private String source;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
     private String education;
+    private String gender;
+    private Double profileExperience;
     private String mobile;
     private String email;
     @OneToMany(cascade = CascadeType.ALL)
     private List<UserSkill> skills;
     private String resume;
+    private String photo;
     private String invitationStatus;
     private String assessmentStatus;
     private String interviewStatus;
@@ -41,17 +45,6 @@ public class UserRegistration {
     private String joinedStatus;
     private Integer invitationFlag;
     
-    public UserRegistration() {
-	}
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -59,21 +52,29 @@ public class UserRegistration {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	public void setAccesskey(String accesskey) {
-		this.accesskey = accesskey;
-	}
-	
-	public String getAccesskey() {
-		return accesskey;
-	}
-	
+
 	public Long getJobId() {
 		return jobId;
 	}
-	
+
 	public void setJobId(Long jobId) {
 		this.jobId = jobId;
+	}
+
+	public Long getHreId() {
+		return hreId;
+	}
+
+	public void setHreId(Long hreId) {
+		this.hreId = hreId;
+	}
+
+	public String getAccesskey() {
+		return accesskey;
+	}
+
+	public void setAccesskey(String accesskey) {
+		this.accesskey = accesskey;
 	}
 
 	public String getFirstName() {
@@ -82,6 +83,14 @@ public class UserRegistration {
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+	
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	
+	public String getPhoto() {
+		return photo;
 	}
 
 	public String getMiddleName() {
@@ -99,13 +108,21 @@ public class UserRegistration {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	
+	public String getSource() {
+		return source;
+	}
+	
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public LocalDate getBirthDate() {
+		return birthDate;
+	}
 
 	public void setBirthDate(LocalDate birthDate) {
 		this.birthDate = birthDate;
-	}
-	
-	public LocalDate getBirthDate() {
-		return birthDate;
 	}
 
 	public String getEducation() {
@@ -115,11 +132,35 @@ public class UserRegistration {
 	public void setEducation(String education) {
 		this.education = education;
 	}
-	
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public Double getProfileExperience() {
+		return profileExperience;
+	}
+
+	public void setProfileExperience(Double profileExperience) {
+		this.profileExperience = profileExperience;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
@@ -139,25 +180,21 @@ public class UserRegistration {
 	public void setResume(String resume) {
 		this.resume = resume;
 	}
-	
-	public void setInvitationFlag(Integer invitationFlag) {
-		this.invitationFlag = invitationFlag;
-	}
-	public Integer getInvitationFlag() {
-		return invitationFlag;
-	}
-	public Long gethreId() {
-		return hreId;
-	}
-	public void sethreId(Long hreId) {
-		this.hreId = hreId;
-	}
+
 	public String getInvitationStatus() {
 		return invitationStatus;
 	}
 
 	public void setInvitationStatus(String invitationStatus) {
 		this.invitationStatus = invitationStatus;
+	}
+
+	public String getAssessmentStatus() {
+		return assessmentStatus;
+	}
+
+	public void setAssessmentStatus(String assessmentStatus) {
+		this.assessmentStatus = assessmentStatus;
 	}
 
 	public String getInterviewStatus() {
@@ -179,17 +216,17 @@ public class UserRegistration {
 	public String getJoinedStatus() {
 		return joinedStatus;
 	}
-	
-	public void setAssessmentStatus(String assessmentStatus) {
-		this.assessmentStatus = assessmentStatus;
-	}
-	
-	public String getAssessmentStatus() {
-		return assessmentStatus;
-	}
 
 	public void setJoinedStatus(String joinedStatus) {
 		this.joinedStatus = joinedStatus;
+	}
+
+	public Integer getInvitationFlag() {
+		return invitationFlag;
+	}
+
+	public void setInvitationFlag(Integer invitationFlag) {
+		this.invitationFlag = invitationFlag;
 	}
 
 	@Override

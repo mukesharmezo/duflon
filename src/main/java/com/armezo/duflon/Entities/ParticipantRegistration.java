@@ -239,6 +239,18 @@ public class ParticipantRegistration {
 	    private LocalDate hiredDate;
 	    @Column(name = "emp_code")
 	    private String empCode;
+	    @Column(name = "uan")
+	    private String uan;
+	    @Column(name = "epfo")
+	    private String epfo;
+	    @Column(name = "bank_name")
+	    private String bankName;
+	    @Column(name = "ifsc_code")
+	    private String ifscCode;
+	    @Column(name = "int_count")
+	    private Integer interviewerCount;
+	    @Column(name = "int_count2")
+	    private Integer interviewerCount2;
 	    
 		public Long getId() {
 			return Id;
@@ -858,6 +870,44 @@ public class ParticipantRegistration {
 		public String getEmpCode() {
 			return empCode;
 		}
+		public String getUan() {
+			return uan;
+		}
+		public void setUan(String uan) {
+			this.uan = uan;
+		}
+		public String getEpfo() {
+			return epfo;
+		}
+		public void setEpfo(String epfo) {
+			this.epfo = epfo;
+		}
+		public String getBankName() {
+			return bankName;
+		}
+		public void setBankName(String bankName) {
+			this.bankName = bankName;
+		}
+		public String getIfscCode() {
+			return ifscCode;
+		}
+		public void setIfscCode(String ifscCode) {
+			this.ifscCode = ifscCode;
+		}
+		public Integer getInterviewerCount() {
+			return interviewerCount;
+		}
+		public void setInterviewerCount(Integer interviewerCount) {
+			this.interviewerCount = interviewerCount;
+		}
+		public Integer getInterviewerCount2() {
+			return interviewerCount2;
+		}
+		public void setInterviewerCount2(Integer interviewerCount2) {
+			this.interviewerCount2 = interviewerCount2;
+		}
+		
+		
 		
 	
 	

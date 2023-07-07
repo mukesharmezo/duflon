@@ -1,13 +1,13 @@
 <font style='font-family:verdana;font-size:12px;font-weight:normal;color:black;'> 
 Greetings ${candidateName}
 <br><br>
-Welcome to the recruitment process with Duflon. 
+Welcome to the recruitment process with duRecruit. 
 <br><br>
-Our HR will contact you very soon.
+Our HRE will contact you very soon.
 <br><br>
 Wishing you all the best.
 <br><br>
-<b>Duflon Team</b>
+<b>DuRecruit Team</b>
 <br>
 This is an auto-generated system email. Please do not reply to this email as it will not be received.
 </font>

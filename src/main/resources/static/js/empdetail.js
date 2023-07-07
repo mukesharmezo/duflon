@@ -4,59 +4,68 @@ $(document).ready(function () {
     	
     	$('#testForm').validate({
     		// ignore:[],
-  		  rules: {	
-  			division:"required",
-  			finalDesignation:"required",
-  			departmentCode:"required",
-  			interviewDate:"required",
-  			//joiningDate:"required",
-  			gender:"required",
-  			tehsil:"required",
-  			village:"required",
-  			ownTwoWheeler:"required",
-  			knowDriving:"required",
-  			mdsCertified:"required",
-		    empSalary: {
-			required: true,
-		    number: true	 
-		    }
-			
-  		  },
+  		  rules: {
+          uan: {
+            required: true
+          },
+          epfo: {
+            required: true,
+            digits: true
+          },
+          pfNumber: {
+            required: true,
+            digits: true
+          },
+          bankName: {
+            required: true
+          },
+          ifscCode: {
+            required: true
+          },
+          bankAccountNumber: {
+            required: true,
+            digits: true
+          },
+          empSalary: {
+            required: true,
+            number: true
+          },
+          gender: {
+            required: true
+          }
+        },
   		  messages: {
-  			secondaryLanguage: "<br/>Please select secondary language",
-  			division: "<br/>Please select division",
-  			finalDesignation: "<br/>Please select designation",
-  			departmentCode: "<br/>Please select department",
-			//joiningDate: "<br/>Please select joining date",
-  			interviewDate: "<br/>Please select interview date",
-  			gender: "<br/>Please select gender",
-  			tehsil: "<br/>Please Enter the Tehsil",
-  			village: "<br/>Please  Enter the Village",
-  			ownTwoWheeler: "<br/>Please select an option",
-  			knowDriving: "<br/>Please select an option",
-  			mdsCertified: "<br/>Please select an option",
-			empSalary: "<br/>Please enter salary",
-
-  		  }
+          uan: {
+            required: "Please enter UAN."
+          },
+          epfo: {
+            required: "Please enter EPFO.",
+            digits: "EPFO must be a numeric value."
+          },
+          pfNumber: {
+            required: "Please enter PF Number.",
+            digits: "PF Number must be a numeric value."
+          },
+          bankName: {
+            required: "Please enter Bank Name."
+          },
+          ifscCode: {
+            required: "Please enter IFSC Code."
+          },
+          bankAccountNumber: {
+            required: "Please enter Account Number.",
+            digits: "Account Number must be a numeric value."
+          },
+          empSalary: {
+            required: "Please enter Emp Salary.",
+            number: "Emp Salary must be a numeric value."
+          },
+          gender: {
+            required: "Please select Gender."
+          }
+        },
     	});
     	
-    	
-    	
-    	$.validator.addMethod("alpha", function(value, element) {
-    	    return this.optional(element) || value == value.match(/^[a-zA-Z\s]+$/);
-    	});
-    	
-    	
-    	var regx = /^[A-Za-z0-9 _.-]+$/;
-    	$.validator.addMethod("loginRegexChar", function(value, element) {
-            return this.optional(element) || value == value.match(regx);
-        });
-    	
-    	
-    	var alNumRegex = /^[\w.]+$/i;
-    	$.validator.addMethod("loginRegex", function(value, element) {
-            return this.optional(element) || value == value.match(alNumRegex);
-        });
     	
     	$("#btn").val($(this).val());
     	//alert(a);
@@ -73,94 +82,67 @@ $(document).ready(function () {
     	
     	$('#testForm').validate({
     		// ignore:[],
-  		  rules: {	
-  			division:"required",
-  			finalDesignation:"required",
-  			departmentCode:"required",
-  			interviewDate:"required",
-			//joiningDate:"required",
-  			gender:"required",
-  			tehsil:"required",
-  			village:"required",
-  			ownTwoWheeler:"required",
-  			knowDriving:"required",
-  			mdsCertified:"required",
-		    empSalary: {
-			required: true,
-		    number: true	 
-		    }
-			
-  		  },
+  		  rules: {
+          uan: {
+            required: true
+          },
+          epfo: {
+            required: true,
+            digits: true
+          },
+          pfNumber: {
+            required: true,
+            digits: true
+          },
+          bankName: {
+            required: true
+          },
+          ifscCode: {
+            required: true
+          },
+          bankAccountNumber: {
+            required: true,
+            digits: true
+          },
+          empSalary: {
+            required: true,
+            number: true
+          },
+          gender: {
+            required: true
+          }
+        },
   		  messages: {
-  			secondaryLanguage: "<br/>Please select secondary language",
-  			division: "<br/>Please select division",
-  			finalDesignation: "<br/>Please select designation",
-  			departmentCode: "<br/>Please select department",
-  			interviewDate: "<br/>Please select interview date",
-  			//joiningDate: "<br/>Please select joining date",
-  			gender: "<br/>Please select gender",
-  			tehsil: "<br/>Please Enter the tehsil",
-  			village: "<br/>Please  Enter the village",
-  			ownTwoWheeler: "<br/>Please select an option",
-  			knowDriving: "<br/>Please select an option",
-  			mdsCertified: "<br/>Please select an option",		        
-			empSalary: "<br/>Please enter salary",
-  		  }
+          uan: {
+            required: "Please enter UAN."
+          },
+          epfo: {
+            required: "Please enter EPFO.",
+            digits: "EPFO must be a numeric value."
+          },
+          pfNumber: {
+            required: "Please enter PF Number.",
+            digits: "PF Number must be a numeric value."
+          },
+          bankName: {
+            required: "Please enter Bank Name."
+          },
+          ifscCode: {
+            required: "Please enter IFSC Code."
+          },
+          bankAccountNumber: {
+            required: "Please enter Account Number.",
+            digits: "Account Number must be a numeric value."
+          },
+          empSalary: {
+            required: "Please enter Emp Salary.",
+            number: "Emp Salary must be a numeric value."
+          },
+          gender: {
+            required: "Please select Gender."
+          }
+        },
     	});
-    	
-    	
-    	
-    	$.validator.addMethod("alpha", function(value, element) {
-    	    return this.optional(element) || value == value.match(/^[a-zA-Z\s]+$/);
-    	});
-    	
-    	
-    	var regx = /^[A-Za-z0-9 _.-]+$/;
-    	$.validator.addMethod("loginRegexChar", function(value, element) {
-            return this.optional(element) || value == value.match(regx);
-        });
-    	
-    	
-    	var alNumRegex = /^[\w.]+$/i;
-    	$.validator.addMethod("loginRegex", function(value, element) {
-            return this.optional(element) || value == value.match(alNumRegex);
-        });
-			var work = $('#workedWithMSILBefore').val()	;
-		if(work == "Yes"){
-		var old_mspin_text  =$("#old_mspin").val();
-		var old_mspin = $("#old_mspin_hiiden").val();
-    	if(old_mspin_text=="" ){
-    		 $('#div_msg').text('');
-    		 $('#div_msg').append('Please enter  MSPIN');
-    		 $('#div_msg').show(); 
-    	    return false;
-    	}
-		
-		var old_mspin = $("#old_mspin_hiiden")												.val();
-		if (old_mspin == "0") {
-		$('#div_msg').text('');
-		$('#div_msg').append('MSPIN is active. You can not proceed with active MSPIN.');
-		$('#div_msg').show();
-			return false;
-		}
-		if (old_mspin == "1") {
-		$('#div_msg').text('');
-		$('#div_msg').append('MSPIN does not exist, You can not proceed.');
-		$('#div_msg').show();
-			return false;
-		}
-		
-		if (old_mspin == "3") {
-			return false;
-		}
-		if (old_mspin == "") {
-		$('#div_msg').text('');
-		$('#div_msg').append('Please search MSPIN');
-		$('#div_msg').show();
-			return false;
-		}
-		
-		}
     	
     	$("#btn").val($(this).val());
     	//alert(a);

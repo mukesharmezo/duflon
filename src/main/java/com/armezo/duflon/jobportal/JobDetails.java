@@ -1,5 +1,6 @@
 package com.armezo.duflon.jobportal;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -29,7 +30,15 @@ public class JobDetails {
 	private Double salaryMax;
 	private String education;
 	private String location;
+	private String company;
+	private String region;
+	private String unit;
+	private String business;
+	private String function;
+	private String product;
 	private String hreName;
+	private String jobCreaterNameId;
+	private LocalDate jobPostDate;
 	@Column(columnDefinition = "VARCHAR(1)")
 	private String status="U";       // U: Unhold , H: Hold
 	@Column(columnDefinition = "VARCHAR(1)")
@@ -158,6 +167,69 @@ public class JobDetails {
 
 	public void setSkills(List<JobSkill> skills) {
 		this.skills = skills;
+	}
+	
+	public void setJobPostDate(LocalDate jobPostDate) {
+		this.jobPostDate = jobPostDate;
+	}
+	public LocalDate getJobPostDate() {
+		return jobPostDate;
+	}
+
+	public String getCompany() {
+		return company;
+	}
+
+	public void setCompany(String company) {
+		this.company = company;
+	}
+
+	public String getRegion() {
+		return region;
+	}
+
+	public void setRegion(String region) {
+		this.region = region;
+	}
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
+
+	public String getBusiness() {
+		return business;
+	}
+
+	public void setBusiness(String business) {
+		this.business = business;
+	}
+
+	public String getFunction() {
+		return function;
+	}
+
+	public void setFunction(String function) {
+		this.function = function;
+	}
+
+	public String getProduct() {
+		return product;
+	}
+
+	public void setProduct(String product) {
+		this.product = product;
+	}
+
+	public String getJobCreaterNameId() {
+		return jobCreaterNameId;
+	}
+
+	public void setJobCreaterNameId(String jobCreaterNameId) {
+		this.jobCreaterNameId = jobCreaterNameId;
 	}
 
 	@Override

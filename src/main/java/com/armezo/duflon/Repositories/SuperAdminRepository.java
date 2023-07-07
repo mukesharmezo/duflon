@@ -19,6 +19,8 @@ public Optional<AdminTable>  findByEmpCodeAndPassword(String empCode,String pass
 @Query("SELECT a FROM AdminTable a WHERE a.empCode=:empCode")
 public Optional<AdminTable> findAdminByEmpCode(String empCode);
 
+public Optional<AdminTable> findByEmail(String email);
+
 	
    //public Optional<User> findByMspin(String mspin);
 }

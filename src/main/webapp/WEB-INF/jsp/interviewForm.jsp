@@ -34,7 +34,7 @@ String assessUrl = resource.getString("client.asseesment");
 <body>
     <div class="header">
         <div class="logo">
-        <h2 class="LOGO" style="color: #fff;"><b>iRecruit</b></h2>
+        <h2 class="LOGO" style="color: #fff;"><b>duRecruit</b></h2>
             <!-- <img src="./img/iRecruit-logo_1.svg" alt="" /> -->
         </div>
         <h1>Interview Evaluation Sheet</h1>
@@ -43,15 +43,16 @@ String assessUrl = resource.getString("client.asseesment");
     <div class="container" id="content">
         <div class="first-card">
             <div class="user-pic">
-              <!-- <img src="images/${photograph}" /> --->
-			  <c:choose>
+				<img src="images/${photograph}" />
+				 <input type="hidden" id="interviewerCount" value="${interviewerCount}" />
+			  <%-- <c:choose>
                 <c:when test="${designation eq 'Sales Support'}">
 				<img src="images/${photograph}" />
 				</c:when>
 				<c:otherwise>
                  <img src="<%=assessUrl%>photo/${accesskey}_camTest.jpg"  /> 
                   </c:otherwise>
-		        </c:choose>
+		        </c:choose> --%>
 			
             </div>
             <div class="user-details">
@@ -419,7 +420,7 @@ String assessUrl = resource.getString("client.asseesment");
     <input type="hidden" name="status"   value="${score.status }" id="save_status">
     <input type="hidden" name="percentage"   value="${score.percentage }" id="pesentage">
      <input type="hidden" name="pass_fail"   value="${score.pass_fail_status }" id="pass_fail">
-     <input type="hidden" name="interviewCount"   value="${score.interviewCount }" id="interviewCount">
+	 <input type="hidden" name="interviewCount"   value="${score.interviewCount }" id="interviewCount">
 	 <input type="hidden" name=""   value="${accesskey}_${name}.pdf" id="pdf">
     </form>
 	<style>
@@ -815,7 +816,11 @@ String assessUrl = resource.getString("client.asseesment");
         	var name_3        =   $("#name_3").val();
         	var designation_3 =   $("#mobile_3").val();
         	var mobile_3      =   $("#mobile_3").val();	
-			if(clarity_1 =="" || presentability_1 == "" || attitude_1 == "" || situation_1 == "" || name_1 =="" || designation_1 == "" || mobile_1 =="" )
+        	
+        	
+        	var intvCount = $("#interviewerCount").val();
+        	console.log("Intv Count :: "+intvCount);
+			if(clarity_1 =="" || presentability_1 == "" || attitude_1 == "" || situation_1 == "" || name_1 =="" || designation_1 == "" || mobile_1 =="" || intvCount == 1 )
         	 {
 				 $("#evaluator02").addClass("disabbleDefault");
 				 
@@ -824,11 +829,13 @@ String assessUrl = resource.getString("client.asseesment");
 			 }
 			 
 			 if(clarity_1 =="" || presentability_1 == "" || attitude_1 == "" || situation_1 == "" || name_1 =="" || designation_1 == "" || mobile_1 =="" ||
-			 clarity_2 =="" || presentability_2 == "" || attitude_2 == "" || situation_2 == "" || name_2 =="" || designation_2 == "" || mobile_2 =="")
+			 clarity_2 =="" || presentability_2 == "" || attitude_2 == "" || situation_2 == "" || name_2 =="" || designation_2 == "" || mobile_2 ==""  || intvCount == 2 )
         	 {
+				 console.log("03 Dis :: "+intvCount);
 				 $("#evaluator03").addClass("disabbleDefault");
 				 
 			 }else{
+				 console.log("03 Ena :: "+intvCount);
 				  $("#evaluator03").removeClass("disabbleDefault");
 			 }
 		}
@@ -1085,6 +1092,10 @@ if(clarity_2<1 && clarity_3>0 ){
 				swal('Please enter Interviewer 02 inputs.');
 	return;
 			}
+			
+			
+
+ 
 			if(name_2.length<2 && (clarity_2<1 || presentability_2<1 || attitude_2<1 || situation_2<1)){ 
 				swal('Please enter Interviewer 02 inputs.');
 	return;
@@ -1118,21 +1129,22 @@ if(clarity_2<1 && clarity_3>0 ){
 	return;
 			} 
 			 }
-						
+			
+			 
+	
+			
         	$("#save_status").val(status);
-        	$('.confirm').prop('disabled', false);
         $.ajax({
         	 type: 'POST',
              url: 'interview',
              data: $('.form').serialize() ,
             success: function (data) { 
-            	  $('.confirm').prop('disabled', true);
             	  if(status == "final"){
             		  
             		  swal({   
     	 					title: data,     
     	 					showCancelButton: false,
-    	 					confirmButtonColor: "#DC3545",   
+    	 					confirmButtonColor: "#2d3393",   
     	 					confirmButtonText: "OK",   
     	 					closeOnConfirm: false },
     	 					function(isConfirm){
@@ -1142,7 +1154,8 @@ if(clarity_2<1 && clarity_3>0 ){
     	 						}else{
     	 							return false;
     	 						}
-    	 					});            		 
+    	 					});
+            		 
             	  }
             	       if(status=='save' || status=='edit'){
             		   $('#msg').text('');
@@ -1266,13 +1279,6 @@ if(clarity_2<1 && clarity_3>0 ){
 		
 		  function funexport(fileName)
    	{
-
-/*var clarity_1 =   Number($("#clarity_1").val()); var clarity_2 =   Number($("#clarity_2").val());
-if(clarity_1<1 || clarity_2<1){
-swal('The interview form is empty, unable to download');
-return;
-}*/
-
    			document.forms[0].action="./downloadInterviewForm?fileName="+fileName;
    			document.forms[0].method="post";
    			document.forms[0].submit();

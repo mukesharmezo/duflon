@@ -93,10 +93,11 @@ s.setAttribute("remove_final", "final");
 	</div>
 
         <div class="right-section">
+        
         <h1>On Hold</h1>
         <div class="page-filter-include">
-		 <%@include file="./filter/hold-filter.jsp"%>
-		</div>
+		  				<%@include file="./filter/page-filter.jsp"%>
+				 </div>
 
         <!-- <h1>On Hold</h1> -->
         <div class="container-1100">
@@ -159,17 +160,6 @@ s.setAttribute("remove_final", "final");
 							<td>${participant.accesskey}</td>
 							<td>${participant.dateOfRegistration}</td>
 							<td>${participant.assessment_Completion_date}</td>
-							<!--<td class="text-center"><center><span class="text-center">${participant.totalMark}</span></center></td>
-							 <c:choose>
-                               <c:when test="${participant.passFailStatus == '1' }">
-							    <td><span class="green">${participant.testScore} </span></td>
-								 </c:when>
-                               <c:when test="${participant.passFailStatus == '0' }">
-							    <td><span class="red">${participant.testScore} </span></td>
-								</c:when>
-							    </c:choose>
-                            <td><span>${participant.percentageScore}%</span></td>	 -->
-
                              <td class="text-center">
 							 <c:choose>
                                <c:when test="${participant.aptitude >= 12 }">
@@ -202,15 +192,29 @@ s.setAttribute("remove_final", "final");
                                <td><a href="#"><img src="./img/pdf-icn.svg"  onclick="openReport('${participant.accesskey}','${participant.participantName }','${participant.email }','${participant.mobile }')"/></a></td>
                             
                             <td><a href="#" class="view-btn" onclick="openProfile('${participant.accesskey}')">View</a></td>
-                            <td ><span class="fixdate"  style="cursor: default !important;">${participant.interViewDate}</span></td>
-                           <td>
-                             <a href="#" class="view-btn green"  onclick="openIterviewForm('${participant.accesskey}')">View</a>
+                            <td><span class="fixdate"  style="cursor: default !important;">${participant.interViewDate}</span></td>
+							<td>
+  								<c:choose>
+    								<c:when test="${not empty participant.interViewDate}">
+                             			<a href="#" class="view-btn green"  onclick="openIterviewForm('${participant.accesskey}',1)">View</a>
+    								</c:when>
+    								<c:otherwise>
+    									<span>--</span>
+    								</c:otherwise>
+  								</c:choose>
 							</td>
-                            <td ><span class="fixdate"  style="cursor: default !important;">${participant.interViewDate2}</span></td>
-                           <td>
-                             <a href="#" class="view-btn green"  onclick="openIterviewForm('${participant.accesskey}')">View</a>
+                            <td><span class="fixdate"  style="cursor: default !important;">${participant.interViewDate2}</span></td>
+                           
+                          <td>
+  								<c:choose>
+    								<c:when test="${not empty participant.interViewDate2}">
+                             			<a href="#" class="view-btn green"  onclick="openIterviewForm('${participant.accesskey}',2)">View</a>
+    								</c:when>
+    								<c:otherwise>
+    									<span>--</span>
+    								</c:otherwise>
+  								</c:choose>
 							</td>
-                          
                             <td>
 							<span>--</span>
 							</td>
@@ -239,9 +243,8 @@ s.setAttribute("remove_final", "final");
     
     <script>
       $(document).ready(function () {
-       
-
-       
+        	  var form = $('#formFilter');
+        	  form.attr('action', 'viewHoldHre');
             
             $('.fixdate-popup .submit-btn, .fixdate-popup .cancel-btn').on('click', function(){
                 $('.fixdate-popup, .blk-bg, .fixdate-2nd-btn').hide();
@@ -267,8 +270,8 @@ s.setAttribute("remove_final", "final");
     	  window.location.href="profileDetails?accesskey="+key;
       }
       
-      function openIterviewForm(key){
-    	  mywindow=window.open("printInterviewForm?accesskey="+key, "detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
+      function openIterviewForm(key, count){
+    	  mywindow=window.open("printInterviewForm?accesskey="+key+"&interviewCount="+count, "detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
 	       mywindow.moveTo(120,90);  
       }
       function openUnholddPopup(key)
@@ -301,31 +304,11 @@ s.setAttribute("remove_final", "final");
      
     function funexport()
 	{	
-    		var outlet = $('#outlet').val();
-		var name =$('#candidateName').val();
-		var uniqueCode =$('#uniqueCode').val();
-		var desg =$('#desg').val();
-		var mspinS =$('#mspinS').val();
-		var passFail =$('#passFail').val();
 		var dateFrom =$('#dateFromm').val();
 		var dateTo =$('#dateToo').val();
-        var interview = null;
-		if($('#interview').is(':checked')){
-			interview = $('#interview').val();
-		}
-		var prarambh = null;
-		if($('#prarambh').is(':checked')){
-			prarambh = $('#prarambh').val();
-		}
-		var fsdm = null;
-		if($('#fsdm').is(':checked')){
-			fsdm = $('#fsdm').val();
-		}
-		
 		 var form = document.createElement("form");
-         	
 		 form.method="post";
-		 form.action="./onHoldCSV?outlet="+outlet+"&candidate="+name+"&unique="+uniqueCode+"&desig="+desg+"&mspinS="+mspinS+"&pass="+passFail+"&dateFromm="+dateFrom+"&dateToo="+dateTo+"&interview="+interview+"&prarambh="+prarambh+"&fsdm="+fsdm;
+		 form.action="./onHoldCSV?dateFromm="+dateFrom+"&dateToo="+dateTo;
 		 document.body.appendChild(form);
 		 form.submit();
 	}

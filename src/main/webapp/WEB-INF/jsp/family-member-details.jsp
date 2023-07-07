@@ -28,8 +28,7 @@ if(session.getAttribute("role") != null){
 <link rel="stylesheet" type="text/css" href="./css/sweetalert.css"/>
     <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 <link rel="stylesheet" href="./css/scrolltabs.css">
-<link rel="stylesheet" type="text/css"
-	href="./css/family-member-details.css" />
+<link rel="stylesheet" type="text/css"	href="./css/family-member-details.css" />
 <link rel="stylesheet" type="text/css" href="./css/style.css" />
 
 <style>
@@ -73,10 +72,9 @@ ul li { margin: 0 !important;}
 								<h5>Relationship</h5>
 								<select name="relationship" id="relationship" required>
 									<option value="">Select</option>
-									<option value="Brother">Brother</option>
-									<%-- <c:forEach items="${relationship}" var="relationship">
+									<c:forEach items="${relationship}" var="relationship">
 									<option value="${relationship.listDesc }">${relationship.listDesc }</option>
-									</c:forEach> --%>
+									</c:forEach>
 								</select>
 							</div>
 							<div class="form-block">
@@ -95,11 +93,9 @@ ul li { margin: 0 !important;}
 							<thead>
 								<tr>
 									<th><span><em>Sr. No.</em></span></th>
-									<th data-head="Name"><span><img
-											src="./img/filter-icn.svg" /></span></th>
-									<th data-head="Relationship"><span><img
-											src="./img/filter-icn.svg" /></span></th>
-											<c:if test="${(partcipant.documents_status != 'final') && partcipant.status !='H'}">
+									<th data-head="Name"><span><img 	src="./img/filter-icn.svg" /></span></th>
+									<th data-head="Relationship"><span><img src="./img/filter-icn.svg" /></span></th>
+											<c:if test="${(partcipant.hiredStatus != 'Y') && partcipant.status !='H'}">
 											   <%if(role.equalsIgnoreCase("HRE")) { %>
 												<th data-head="Edit"><span></span></th>
 												<th data-head="Delete"><span></span></th>
@@ -115,7 +111,7 @@ ul li { margin: 0 !important;}
 										<td>${status.index + 1}</td>
 										<td>${family.memberName}</td>
 										<td>${family.relationship}</td>
-										<c:if test="${(partcipant.documents_status != 'final') && partcipant.status !='H'}">
+										<c:if test="${(partcipant.hiredStatus != 'Y') && partcipant.status !='H'}">
 										   <%if(role.equalsIgnoreCase("HRE")) { %>
 										<td><a onclick="edit('${family.fid}','${family.memberName}','${family.relationship}')"><img	src="./img/edit-icn.svg" /></a></td>
 										<td><a onclick="deletePop('${family.fid}')"><img src="./img/delete-icn.svg" /></a></td>
@@ -127,7 +123,7 @@ ul li { margin: 0 !important;}
 							</tbody>
 						</table>
 					</div>
-					<c:if test="${(partcipant.documents_status != 'final' ) && partcipant.status !='H'}">
+					<c:if test="${(partcipant.hiredStatus != 'Y' ) && partcipant.status !='H'}">
    <%if(role.equalsIgnoreCase("HRE")) { %>
 					<div class="form-btn" style="position: relative; right: -10px;">
 						 <a href="#"class="btn blue-btn" onclick="openEmargencyContact()">Next</a>

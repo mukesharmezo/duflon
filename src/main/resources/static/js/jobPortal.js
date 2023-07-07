@@ -77,7 +77,13 @@ $(document).ready(function() {
 				required: true,
 				extension: "pdf|doc|docx",
 				accept: "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-				filesize: 2097152 // 2 MB
+				filesize: 1 // 2 MB
+			},
+			photoFile: {
+				required: true,
+				extension: "jpeg|jpg|png",
+				accept: "image/jpeg,image/png",
+				filesize: 0.5 // 2 MB
 			},
 			"skills[0].skill": {
 				required: true
@@ -110,6 +116,12 @@ $(document).ready(function() {
 			designation:{
 				required: true
 			},
+			gender:{
+				required: true
+			},
+			source:{
+				required: true
+			}
 		},
 		messages: {
 			title: {
@@ -172,11 +184,17 @@ $(document).ready(function() {
 			resumeFile: {
 				required: "Please upload your resume",
 				extension: "Please upload a valid PDF or Word document",
-				filesize: "The file size must be less than 2 MB",
+				filesize: "The file size must be less than 1 MB",
 				accept: "Please upload a valid PDF or Word document (doc, docx) file"
 			},
+			photoFile: {
+				required: "Please upload your photo",
+				extension: "Please upload a valid JPG/JPEG or PNG image",
+				filesize: "The photo size must be less than 500 KB",
+				accept: "Please upload a valid JPEG/JPG or PNG file"
+			},
 			profileExperience: {
-				required: "Please enter your experience",
+				required: "Please enter experience",
 				number: "Please enter only numeric value"
 			},
 			"skills[0].skillName": {
@@ -217,6 +235,12 @@ $(document).ready(function() {
 			designation: {
 				required: "Please select designation."
 			},
+			gender:{
+				required: "Please select gender."
+			},
+			source:{
+				required: "Please select source."
+			}
 		},
 		errorPlacement: function(error, element) {
 			error.insertAfter(element); // Insert the error message after the dropdown
@@ -245,14 +269,27 @@ $(document).ready(function() {
 	$.validator.addMethod("notEmpty", function(value, element) {
 		return value.trim() !== "";
 	}, "This field cannot be empty.");
-	$.validator.addMethod('filesize', function(value, element, param) {
+	/*$.validator.addMethod('filesize', function(value, element, param) {
 		// Get file size
 		var size = element.files[0].size;
 		// Convert size to bytes
 		var maxSize = param * 1048576;
 		// Check if file size is less than or equal to the max size
 		return size <= maxSize;
-	}, 'File size must be less than 2 MB.');
+	}, 'File size must be less than 2 MB.');*/
+	
+	$.validator.addMethod('filesize', function(value, element, param) {
+	// Get file size
+	var size = element.files[0].size;
+	// Convert size to bytes
+	var maxSize = param * 1048576;
+	// Check if file size is less than or equal to the max size
+	return size <= maxSize;
+}, function(param, element) {
+	var maxSize = param * 1048576;
+	return "File size must be less than " + maxSize + " bytes.";
+});
+
 
 	$.validator.addMethod("maxRepeatDigits", function(value, element) {
 		var repeatCount = 0;

@@ -45,6 +45,12 @@ public class ModelParticpantView {
     private int reAttempCount;
     private String interviewAddress;
     private String interviewAddress2;
+    private String docStatus;
+    private String errorMessage;
+    private String errorDateTime;
+    private String errorProcess;
+    
+    
 	public String getRegionCode() {
 		return regionCode;
 	}
@@ -80,6 +86,12 @@ public class ModelParticpantView {
 	}
 	public void setAccesskey(String accesskey) {
 		this.accesskey = accesskey;
+	}
+	public void setDocStatus(String docStatus) {
+		this.docStatus = docStatus;
+	}
+	public String getDocStatus() {
+		return docStatus;
 	}
 	public String getDateOfRegistration() {
 		return dateOfRegistration;
@@ -309,6 +321,25 @@ public class ModelParticpantView {
 	public void setInterviewAddress2(String interviewAddress2) {
 		this.interviewAddress2 = interviewAddress2;
 	}
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+	public String getErrorDateTime() {
+		return errorDateTime;
+	}
+	public void setErrorDateTime(String errorDateTime) {
+		this.errorDateTime = errorDateTime;
+	}
+	public String getErrorProcess() {
+		return errorProcess;
+	}
+	public void setErrorProcess(String errorProcess) {
+		this.errorProcess = errorProcess;
+	}
+	
 	
     
 	

@@ -62,6 +62,9 @@ String baseServer = resource.getString("client.url");String title = resource.get
 				<tr>
 					<th data-head="Sr. No." style="z-index: 1 !important;"><em>Sr. No.</em></th>
 					<th data-head="Job Title"  class="sorting" style="z-index: 1 !important;"><em>Designation</em></th>
+					<th data-head="Description"  class="sorting"><em>Description</em></th>
+					<th data-head="Job Post Date"  class="sorting"><em>Job Post Date</em></th>
+					<th data-head="HRE Name"  class="sorting"><em>HRE Name</em></th>
 					<th data-head="Applicants"  class="sorting"><em>Applicants</em></th>
 					<th data-head="Email Invitation"  class="sorting" ><em>Email Invitation</em></th>
 					<th data-head="Interview"   class="sorting"><em>Interview</em></th>
@@ -75,6 +78,9 @@ String baseServer = resource.getString("client.url");String title = resource.get
 					<tr>
 						<td>${status.count}</td>
 						<td>${payload.jobDesignation}</td>
+						<td>${payload.jobDescription}</td>
+						<td>${payload.jobPostDate}</td>
+						<td>${payload.hreName}</td>
 						<td>${payload.applicants}</td>
 						<td>${payload.emails}</td>
 						<td>${payload.interview}</td>

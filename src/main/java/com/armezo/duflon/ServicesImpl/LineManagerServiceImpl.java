@@ -16,12 +16,16 @@ public class LineManagerServiceImpl implements LineManagerService {
 	@Autowired
 	private LineManagerRepository lmRepository;
 	
-	public List<LineManager> saveAllLMs(List<LineManager> regionList){
-		return lmRepository.saveAll(regionList);
+	public List<LineManager> saveAllLMs(List<LineManager> lmList){
+		return lmRepository.saveAll(lmList);
 	}
 	
 	public List<LineManager> getAllLMs(){
 		return lmRepository.findAll();
+	}
+	
+	public LineManager saveLineManager(LineManager lm) {
+		return lmRepository.save(lm);
 	}
 	
 	public Optional<LineManager> getByEmailAndPassword(String email,String password){

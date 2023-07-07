@@ -215,18 +215,9 @@ ul li {
 								<form:select path="highestQualification" id="ql"
 									style="color: black !important">
 									<form:option value="" label="Select" />
-									<c:forEach items="${qualification}" var="qualification">
-										<c:choose>
-											<c:when
-												test="${qualification.listCode  eq personal.highestQualification}">
-												<form:option value="${qualification.listCode}"
-													label="${qualification.listDesc}" selected="selected" />
-											</c:when>
-											<c:otherwise>
-												<form:option value="${qualification.listCode}"
-													label="${qualification.listDesc}" />
-											</c:otherwise>
-										</c:choose>
+									<c:forEach items="${educations}" var="education">
+											<option value="${education}"
+												${education == personal.highestQualification ? 'selected' : '' }>${education}</option>
 									</c:forEach>
 								</form:select>
 							</div>
@@ -275,7 +266,7 @@ ul li {
 								</form:select>
 							</div>
 							<c:if
-								test="${(personal.documents_status != 'final') && personal.status !='H'}">
+								test="${(personal.hiredStatus != 'Y') && personal.status !='H'}">
 								<%
 								if (role.equalsIgnoreCase("HRE")) {
 								%>
@@ -336,7 +327,7 @@ ul li {
 		   //validityOfLicence();
 		   
 	     
-    	  <%if (role.equalsIgnoreCase("LM") || role.equalsIgnoreCase("SA")) {%>
+    	  <%if (role.equalsIgnoreCase("LM") || role.equalsIgnoreCase("SA") || role.equalsIgnoreCase("HOD")) {%>
     	  $('input').attr('disabled', 'disabled');
     	  $('select').attr('disabled', 'disabled');
     	  <%}%>
@@ -376,9 +367,10 @@ ul li {
 	   $(function(){
     	    var dtToday = new Date();
     	    
-    	    var month = dtToday.getMonth();
+    	    var month = dtToday.getMonth()+1;
     	    var day = dtToday.getDate();
     	    var year = dtToday.getFullYear()-18;
+    	    console.log('Month value :: '+month);
     	    if(month < 10)
     	        month = '0' + month.toString();
     	    if(day < 10)

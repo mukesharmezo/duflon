@@ -21,7 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.armezo.duflon.Entities.EventLoger;
 import com.armezo.duflon.Entities.HRE;
 import com.armezo.duflon.Entities.ParticipantRegistration;
-import com.armezo.duflon.Services.EventLogerServer;
+import com.armezo.duflon.Services.EventLogerService;
 import com.armezo.duflon.Services.HREService;
 import com.armezo.duflon.ServicesImpl.ParticipantServiceImpl;
 import com.armezo.duflon.email.util.EmailUtility;
@@ -36,13 +36,13 @@ public class UploadDocumentCandidate {
 	@Autowired
 	private HREService hreService;
 	@Autowired
-	EventLogerServer eventLogerServer;
-	@Value("${Ap.dmsURL}")
-    private String dmsURL;
-	@Value("${Ap.adminLink}")
+	EventLogerService eventLogerServer;
+	@Value("${client.url}")
     private String adminLink;
-	@Value("${Ap.candLink}")
-    private String candLink;
+	@Value("${cand.link}")
+	private String candLink;
+	@Value("${file.path}")
+    private String filePath;
 	
 
 	@GetMapping("/uploadCandidateDocument")
@@ -62,7 +62,7 @@ public class UploadDocumentCandidate {
 	public ResponseEntity<String> uploadFile(@RequestParam("accessKey") String accessKey,
 			@RequestParam("file") MultipartFile file, @RequestParam("name") String name,
 			@RequestParam("identity_proof") String identityProof, @RequestParam("address_proof") String addressProof) {
-		String path = "/home/msilazuser01/irecruit/" + accessKey + "/";
+		String path = filePath+"/"+ accessKey + "/";
 		String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 		File directory = new File(path);
 		if (!directory.exists()) {
@@ -70,67 +70,45 @@ public class UploadDocumentCandidate {
 		}
 		try {
 			Optional<ParticipantRegistration> participant = participantService.findByAccesskey(accessKey);
-			String type = file.getOriginalFilename();
-
 			file.transferTo(new File(path + fileName));
 			if (name.equals("photograph")) {
 				participant.get().setPhotograph(accessKey + "/" + fileName);
 			}
-
 			if (name.equals("resume")) {
 				participant.get().setResume(accessKey + "/" + fileName);
-
 			}
 			if (name.equals("signature")) {
 				participant.get().setSignature(accessKey + "/" + fileName);
-
 			}
-
 			if (name.equals("identitityProof")) {
 				participant.get().setIdentitityProof(accessKey + "/" + fileName);
 				participant.get().setIdentitityProofName(identityProof);
 				participant.get().setIdProof(identityProof);
-
 			}
-
 			if (name.equals("addressProof")) {
 				participant.get().setAddressProof(accessKey + "/" + fileName);
 				participant.get().setAddressProofName(addressProof);
 			}
-
 			if (name.equals("10th")) {
 				participant.get().setQualification(accessKey + "/" + fileName);
-
 			}
-
 			if (name.equals("12th")) {
 				participant.get().setQualification2(accessKey + "/" + fileName);
-
 			}
-
 			if (name.equals("Graduation")) {
 				participant.get().setQualification3(accessKey + "/" + fileName);
-
 			}
-
 			if (name.equals("resignation")) {
 				participant.get().setResignationLetter(accessKey + "/" + fileName);
-
 			}
-
 			if (name.equals("experience")) {
 				participant.get().setExperienceletter(accessKey + "/" + fileName);
-
 			}
-
 			if (name.equals("salaryslip")) {
 				participant.get().setSalarySlip(accessKey + "/" + fileName);
-
 			}
-
 			if (name.equals("other")) {
 				participant.get().setDocuments(accessKey + "/" + fileName);
-
 			}
 			participant.get().setModifiedDate(LocalDate.now());
 			participantService.saveFiles(participant.get());
@@ -151,7 +129,6 @@ public class UploadDocumentCandidate {
 				participant.get().getAddressProof() == null || participant.get().getQualification() == null || participant.get().getQualification2() == null ||
 				participant.get().getQualification3() == null || participant.get().getResume() == null ) {
 			return  "3";
-			
 		}
 		if (participant.isPresent()) {
 			participant.get().setDocuments_status(status);
@@ -164,8 +141,8 @@ public class UploadDocumentCandidate {
 		}
 		if (status.equals("final")) {
 			
-			msg = "Your Documents are uploaded and your Dealer is notified.\r\n" + "\r\n"
-					+ "Please contact your Dealer and inform that you have completed the process.";
+			msg = "Your Documents are uploaded and your HRE is notified.\r\n" + "\r\n"
+					+ "Please contact your HRE and inform that you have completed the process.";
 		}
 		uploaddocumentToCandidate(participant.get());
 		uploaddocumentToDealer(participant.get());
@@ -177,7 +154,6 @@ public class UploadDocumentCandidate {
 	@PostMapping("/savedocuments")
 	@ResponseBody
 	public String savedcuments(@RequestParam("accesskey") String accessKey, @RequestParam("status") String status) {
-		System.out.println("*******1<> "+accessKey);
 		String msg = "";
 		Optional<ParticipantRegistration> participant = participantService.findByAccesskey(accessKey);
 		if (participant.isPresent()) {
@@ -191,30 +167,23 @@ public class UploadDocumentCandidate {
 					participant.get().getAdharNumber() == null || 
 				    DataProccessor.getStringValue(participant.get().getHighestQualification()).equals("") || DataProccessor.getStringValue(participant.get().getPrimaryLanguage()).equals("") ||
 				    DataProccessor.getStringValue(participant.get().getSecondaryLanguage()).equals("")) {	
-				System.out.println("*******2");
 				return  "1";	
 			}
 			if(DataProccessor.getStringValue(participant.get().getEmpSalary()).equals("") || DataProccessor.getStringValue(participant.get().getGender()).equals("")){	
-				System.out.println("*******3");
 				return  "2";
 			}
 			if(DataProccessor.getStringValue(participant.get().getPhotograph()).equals("") || DataProccessor.getStringValue(participant.get().getSignature()).equals("") ||  
 					DataProccessor.getStringValue(participant.get().getIdentitityProof()).equals("") || DataProccessor.getStringValue(participant.get().getAddressProof()).equals("") ||
 					DataProccessor.getStringValue(participant.get().getQualification()).equals("") || DataProccessor.getStringValue(participant.get().getQualification2()).equals("") ||
 					DataProccessor.getStringValue(participant.get().getQualification3()).equals("")|| DataProccessor.getStringValue(participant.get().getResume()).equals("") ) {		
-				System.out.println("*******4");
 				return  "3";				
 			}
 			
 		}
 		if (participant.isPresent()) {
-			System.out.println("Statsus : "+status);
 			participant.get().setDocuments_status(status);
 			participant.get().setRegStatus("3");
 			participant.get().setModifiedDate(LocalDate.now());
-			if (participant.get().getJoiningDate() == null || participant.get().getJoiningDate().equals("")) {
-				participant.get().setJoiningDate(LocalDate.now());
-			}
 			participantService.saveFiles(participant.get());
 			  eventLogin(participant.get().getHreId().intValue(),"upload Documets by dealer",participant.get().getAccessKey(),participant.get().getFirstName()+
 		        		" "+participant.get().getLastName()+" "+participant.get().getLastName(),participant.get().getEmail());
@@ -222,97 +191,7 @@ public class UploadDocumentCandidate {
 		msg = "success";
 		return msg;
 	}
-	/////
-/*
-	@PostMapping("/finalDesignation")
-	@ResponseBody
-	public String saveDesignation(@RequestParam("accesskey") String accessKey,
-			@RequestParam("designtion") String designtion) {
-		String msg = "";
-		Optional<ParticipantRegistration> participant = participantService.findByAccesskey(accessKey);
-
-		if (participant.isPresent()) {
-			participant.get().setFsdmApprovalStatus("3");
-			participant.get().setFinalDesignationStatus("1");
-			participant.get().setFinalDesignation(designtion);
-			participant.get().setModifiedDate(LocalDate.now());
-			participantService.saveFiles(participant.get());
-
-			String result="";
-			try {	
-				String arr_result[] = result.split("##");
-				if(arr_result[0].equals("1")) {
-					participant.get().setDocuments_status("save");
-					participant.get().setRegStatus("2");
-					participant.get().setModifiedDate(LocalDate.now());
-					participant.get().setJoiningDate(null);
-					participant.get().setPrarambhStatus(null);	
-				    participantService.saveFiles(participant.get());
-				    return arr_result[1];
-				}
-				}catch(Exception e) {
-					participant.get().setDocuments_status("save");
-					participant.get().setRegStatus("2");
-					participant.get().setModifiedDate(LocalDate.now());
-					participant.get().setJoiningDate(null);
-					participant.get().setPrarambhStatus(null);	
-				    participantService.saveFiles(participant.get());
-					e.printStackTrace();
-				}
-			
-			
-			
-			Optional<FSDMNotification> notification = fsdmMNotificationService.getAccesskey(accessKey);
-			String name = "";
-			name += participant.get().getFirstName();
-			if (participant.get().getMiddleName() != null) {
-				name += " " + participant.get().getMiddleName();
-			}
-			name += " " + participant.get().getLastName();
-			if (notification.isPresent()) {
-				notification.get().setStatus("1");
-				notification.get().setNotificationDate(LocalDate.now());
-				fsdmMNotificationService.saveNotification(notification.get());
-			} else {
-				FSDMNotification noti = new FSDMNotification();
-				noti.setStatus("1");
-				noti.setAccesskey(accessKey);
-				Optional<HRE> dealer = dealerService.getById(participant.get().getHreId());
-				if (dealer.isPresent()) {
-					noti.sethreId(participant.get().getHreId());
-					for (Outlet outlet : dealer.get().getOutlet()) {
-						if (outlet.getOutletCode().equals(participant.get().getOutletCode())) {
-							noti.setOutletCode(outlet.getOutletCode());
-							noti.setOutletName(outlet.getOutletName());
-							noti.setRegion(outlet.getRegion().getRegionCode());
-							noti.setFsdmId(outlet.getRegion().getFsdm().getId());
-						}
-					}
-				}
-				final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-				noti.setRegistraionDate(formatter.format(participant.get().getRegistration_date()));
-				Optional<Designation>designation = designationService.getDesignationByCode(participant.get().getFinalDesignation());
-				if(designation.isPresent()) {
-					noti.setDesignation(designation.get().getDesignationName());	
-				}
-				noti.setNotificationDate(LocalDate.now());
-				noti.setCandidateName(name);
-				noti.setDealerName(dealer.get().getName());
-				fsdmMNotificationService.saveNotification(noti);
-				try {
-				//dmsController.changeDesignation(accessKey,dmsURL);
-				}catch(Exception e) {
-					e.printStackTrace();
-				}
-			}	
-	              
-			  eventLogin(participant.get().getHreId().intValue(),"change designation",participant.get().getAccessKey(),participant.get().getFirstName()+
-		        		" "+participant.get().getLastName()+" "+participant.get().getLastName(),participant.get().getEmail());     
-		}
-		msg = "success";
-		return msg;
-	}
-*/
+	
 	@PostMapping("/getdocument")
 	public ResponseEntity<String> getdocuments(@RequestParam("accessKey") String accessKey,
 			@RequestParam("status") String status) {
@@ -326,8 +205,8 @@ public class UploadDocumentCandidate {
 	}
 
 	private String uploaddocumentToDealer(ParticipantRegistration participant) {
-		String subjectLine = "IRECRUIT Candidate documents uploaded";
-		String mailBody = DataProccessor.readFileFromResource("joiningDocsUploadSuccessToDealer");
+		String subjectLine = "DuRecruit - Candidate documents uploaded";
+		String mailBody = DataProccessor.readFileFromResource("joiningDocsUploadSuccessHRE");
 		mailBody = mailBody.replace("${candidateName}",
 				participant.getFirstName() + " " + participant.getMiddleName() + " " + participant.getLastName());
 		HRE dealer = hreService.getById(participant.getHreId()).get();
@@ -362,7 +241,7 @@ public class UploadDocumentCandidate {
 	}
 	
 	private String uploaddocumentToCandidate(ParticipantRegistration participant) {
-		String subjectLine = "IRECRUIT Candidate documents uploaded";
+		String subjectLine = "DuRecruit - Candidate documents uploaded";
 		String mailBody = DataProccessor.readFileFromResource("joiningDocsUploadSuccess");
 		mailBody = mailBody.replace("${candidateName}",
 				participant.getFirstName() + " " + participant.getMiddleName() + " " + participant.getLastName());

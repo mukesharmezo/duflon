@@ -19,8 +19,8 @@ String baseServer = resource.getString("client.url");String title = resource.get
 <body>
     <div class="header">
         <div class="container">
-            <!-- <div class="logo"><img src="./img/iRecruit-logo.svg" alt="" /></div> -->
-        <div class="logo"><h2 class="LOGO" style="color: #fff; font-size: 32px; font-weight: 700;"><b>iRecruit</b></h2></div>
+            <!-- <div class="logo"><img src="./img/duRecruit-logo.svg" alt="" /></div> -->
+        <div class="logo"><h2 class="LOGO" style="color: #fff; font-size: 32px; font-weight: 700;"><b><%=title %></b></h2></div>
 
             <!-- <div class="logo"><h2><b>iRecruit</b></h2></div> -->
 
@@ -29,7 +29,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
     <div class="section instructions">
         <h1>Upload Documents</h1>
        <!-- <div class="instructions"> -->
-            <h2>Guidelines for uploading your documents in the iRecruit portal</h2>
+            <h2>Guidelines for uploading your documents in the duRecruit portal</h2>
             <ol type="1">
                 <li>Check the documents which are to be uploaded</li>
                 <li>Keep these documents in one place before uploading them</li>
@@ -154,14 +154,10 @@ whenever it is discovered.</b></p>
         <input  type="submit" id="submit" class="btn"  disabled value="Proceed" onclick="getTest()"/>
         <input type="hidden" id="accesskey" name="accesskey" value="${accesskey}">
         </form>
-        
         </div>
-    </div>
-    
      <script>
     $(document).ready(function () {
     	// $('#submit').attr('disabled', true);
-    	
         $('#tnc').change(function() {
             if(this.checked) {
                 $('#submit').removeAttr('disabled');

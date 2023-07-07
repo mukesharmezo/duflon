@@ -96,8 +96,8 @@ s.setAttribute("remove_final", "final");
         <div class="right-section">
         <h1>Employee Master</h1>
         <div class="page-filter-include">
-		 <%@include file="./filter/emp-dealer-filter.jsp"%>
-		</div>
+		  				<%@include file="./filter/page-filter.jsp"%>
+				 </div>
 
         <!-- <h1>Employee Master</h1> -->
         <div class="container-1100">
@@ -243,6 +243,8 @@ s.setAttribute("remove_final", "final");
  
     <script>
       $(document).ready(function () {
+    	  var form = $('#formFilter');
+    	  form.attr('action', 'viewCompletedByHre');
        
       });
        

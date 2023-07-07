@@ -7,8 +7,13 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -27,7 +32,7 @@ import com.armezo.duflon.Entities.HRE;
 import com.armezo.duflon.Entities.InterviewScore;
 import com.armezo.duflon.Entities.ParticipantRegistration;
 import com.armezo.duflon.Services.CityService;
-import com.armezo.duflon.Services.EventLogerServer;
+import com.armezo.duflon.Services.EventLogerService;
 import com.armezo.duflon.Services.HREService;
 import com.armezo.duflon.Services.InterviewScoreService;
 import com.armezo.duflon.Services.StateService;
@@ -35,7 +40,7 @@ import com.armezo.duflon.ServicesImpl.ParticipantServiceImpl;
 import com.armezo.duflon.client.RestClientReattemp;
 import com.armezo.duflon.email.util.EmailUtility;
 import com.armezo.duflon.email.util.SendPayload;
-import com.armezo.duflon.email.util.SmsUtility;
+import com.armezo.duflon.payload.FilterPayload;
 import com.armezo.duflon.tc.entities.ModelParticpantView;
 import com.armezo.duflon.utils.DataProccessor;
 
@@ -56,22 +61,42 @@ public class HreController {
 	    @Autowired
 	    RestClientReattemp restClientReattemp;
 	    @Autowired
-	    EventLogerServer eventLogerServer;
+	    EventLogerService eventLogerServer;
 	    @Value("${Ap.candLink}")
 	  	private String candLink;
 	    
 	    @GetMapping({ "/viewProcess" })
-	    private String getDealer(final HttpSession session, final Model model) {
+	    private String getParticipantInProcess(@RequestParam(name = "dateFromm", required = false) String dateFromm, @RequestParam(name = "dateToo", required = false) String dateToo,
+	    		final HttpSession session, final Model model) {
 	        //final List<ModelParticpantView> listParticipant = new ArrayList<ModelParticpantView>();
+	    	Map<String, LocalDate> map = DataProccessor.manageFiltersDate(dateFromm, dateToo);
 	        long hreId = 0L;
 	        if (session.getAttribute("userId") != null) {
 	            hreId = Long.parseLong(session.getAttribute("userId").toString());	         
 	            final Optional<HRE> dealer = hreService.getById(hreId);
-	            final List<ParticipantRegistration> participant = participantserviceImpl.getParticipantInpprocessForHRE(hreId);	          
-                model.addAttribute("participantList",   getParticpant(participant,dealer,hreId+""));
+	            FilterPayload payload = new FilterPayload();
+	            payload.setDateFrom(dateFromm);
+	            payload.setDateTo(dateToo);
+	            final List<ParticipantRegistration> participant = participantserviceImpl.getParticipantInpprocessForHRE(hreId, map.get("from"),map.get("to"));	          
+	            HashMap<String, String> map2 = new LinkedHashMap<>();
+	            map2.put("mukesh.bind@armezosolutions.com", "Interviewer 5");
+	    		map2.put("df4@gm.com", "Interviewer 3");
+	    		map2.put("df@gm.com", "Interviewer 1");
+	    		map2.put("df5@gm.com", "Interviewer 4");
+	    		map2.put("df1@gm.com", "Interviewer 2");
+	    		// Convert the entries of the map2 LinkedHashMap into a list
+	    		List<Map.Entry<String, String>> entryList = new ArrayList<>(map2.entrySet());
+	    		// Sort the entryList based on the values (interviewer names)
+	    		Collections.sort(entryList, Comparator.comparing(Map.Entry::getValue));
+	    		// Create a new sorted LinkedHashMap and populate it with the sorted entries
+	    		LinkedHashMap<String, String> sortedMap = new LinkedHashMap<>();
+	    		for (Map.Entry<String, String> entry : entryList) {
+	    		    sortedMap.put(entry.getKey(), entry.getValue());
+	    		}
+	    		model.addAttribute("map", sortedMap);
+	            model.addAttribute("participantList",   getParticpant(participant,dealer,hreId+""));
                 model.addAttribute("hreId", (Object)hreId);
-                model.addAttribute("pass", DataProccessor.getPassFailStatusMap());
-                DataProccessor.setDateRange(model);
+                model.addAttribute("payload", payload);
 	            return "hiring-in-process";
 	        }
 	        return "redirect:login";
@@ -99,13 +124,8 @@ public class HreController {
 	            particpant.get().setModifiedDate(LocalDate.now());
 	            particpant.get().setReAtampCount(count);
 	            participantserviceImpl.saveData((ParticipantRegistration)particpant.get());
+	            System.out.println("Reattempt Called");
 	            sendEmailToReAttemp(particpant.get());
-               try {				
-					String sms =DataProccessor.getSMS("reAttemp");
-					SmsUtility.sendSmsPromotional(particpant.get().getMobile(),sms,"522225","1007606977458974398");;
-				}catch(Exception e) {
-					e.printStackTrace();
-				}
 	        }
 	        else {
 	        }
@@ -115,9 +135,16 @@ public class HreController {
 	    @PostMapping({ "/fixedInterViewDate" })
 	    @ResponseBody
 	    public String setInterviewDate(@RequestParam("date") final String date, @RequestParam("time") final String time, @RequestParam("intCount") Integer intCount,
-	    		@RequestParam("interviewAddress") final String interviewAddress, @RequestParam("accesskey") final String accesskey) {
-	        String msg = "";
+	    		@RequestParam("interviewAddress") final String interviewAddress, @RequestParam("emails") String emails,@RequestParam("accesskey") final String accesskey) {
 	        ParticipantRegistration p = null;
+	        String subStr = emails.replaceAll("[\"\\[\\]]", "");
+	        System.out.println("Suc :: "+subStr);
+	        String[] emailArray = subStr.split(",");
+	        // Create a List to store the email addresses
+	        List<String> emailList = new ArrayList<>();
+	        for (String email : emailArray) {
+	            emailList.add(email);
+	        }
 	        try {
 	            final LocalDate newDate = DataProccessor.parseDate(date);
 	            if (newDate != null) {
@@ -129,18 +156,19 @@ public class HreController {
 	                		p.setInterviewTime(time);
 	                		p.setInterviewAddress(interviewAddress);
 	                		p.setModifiedDate(LocalDate.now());
+	                		p.setInterviewerCount(emailList.size());
 	                	}else if (intCount==2) {
 							p= particpant.get();
 							p.setInterviewDate2(newDate);
 							p.setInterviewTime2(time);
 	                		p.setInterviewAddress2(interviewAddress);
 	                		p.setModifiedDate(LocalDate.now());
+	                		p.setInterviewerCount2(emailList.size());
 						}
 	                }
 	                if (p != null) {
 	                    participantserviceImpl.saveData(p);
-	                    msg = "save";
-	                    sendEmailToScheduleInterview(particpant.get());
+	                    sendEmailToScheduleInterview(particpant.get(), intCount,subStr);
 						
 	                }
 	            }
@@ -180,14 +208,22 @@ public class HreController {
 	        return msg;
 	    }
 	    
-	    private String sendEmailToScheduleInterview(final ParticipantRegistration participant) {
-	        final String subjectLine = "iRecruit- Your Job Application: Interview Notification";
+	    private String sendEmailToScheduleInterview(final ParticipantRegistration participant, Integer intCount, String ccs) {
+	        final String subjectLine = "DuRecruit- Your Job Application: Interview Notification";
 	        String mailBody = DataProccessor.readFileFromResource("interviewScheduleEmail");
 	        mailBody = mailBody.replace("${candidateName}", String.valueOf(participant.getFirstName()) + " " + participant.getMiddleName() + " " + participant.getLastName());
 	        final HRE dealer = hreService.getById((long)participant.getHreId()).get();
 	        mailBody = mailBody.replace("${dealerName}", dealer.getName());
+	        if(intCount==1) {
 	        mailBody = mailBody.replace("${interviewDate}", DataProccessor.dateToString(participant.getInterviewDate()));
 	        mailBody = mailBody.replace("${interviewTime}", participant.getInterviewTime());
+	        mailBody = mailBody.replace("${location}", participant.getInterviewAddress());
+	        }
+	        if(intCount==2) {
+	        	mailBody = mailBody.replace("${interviewDate}", DataProccessor.dateToString(participant.getInterviewDate2()));
+	        	mailBody = mailBody.replace("${interviewTime}", participant.getInterviewTime2());
+	        	mailBody = mailBody.replace("${location}", participant.getInterviewAddress2());
+	        }
 	        if(dealer.getMobile() != null && !dealer.getMobile().equals("")) {
 	           mailBody = mailBody.replace("${mobile}", dealer.getMobile());
 	        }else {
@@ -198,19 +234,17 @@ public class HreController {
 	        }else {
 	           mailBody = mailBody.replace("${email}", "");
 	        }
-	        
-	        mailBody = mailBody.replace("${location}", participant.getInterviewAddress());
+	        //Add HRE Email is CC also
+	        ccs = ccs+","+dealer.getEmail();
 	       
 	        final SendPayload sendP = new SendPayload();
 	        sendP.setTo(participant.getEmail());
 	        sendP.setSubjectLine(subjectLine);
 	        sendP.setMsg(mailBody);
-	        sendP.setCc(dealer.getEmail());
+	        sendP.setCc(ccs);
 	        sendP.setBcc("");
 	        sendP.setFrom("Armezo Solutions");
 	        EmailUtility.sendMailDuflon(sendP.getTo(), sendP.getFrom(), sendP.getCc(), sendP.getBcc(), sendP.getSubjectLine(), sendP.getMsg(), "smtp");
-	        
-	        
 	        EventLoger event = new EventLoger();
             event.setAccesskey(participant.getAccessKey());
             event.setEmail(participant.getEmail());
@@ -223,7 +257,7 @@ public class HreController {
 	    }
 	    
 	    private String sendEmailToReAttemp(final ParticipantRegistration participant) {
-	        final String subjectLine = "Duflon - Your Job Application: Registration & Assessment";
+	        final String subjectLine = "DuRecruit - Your Job Application: Registration & Assessment";
 	        String mailBody = DataProccessor.readFileFromResource("reattempt");
 	        mailBody = mailBody.replace("${candidateName}", String.valueOf(participant.getFirstName()) + " " + participant.getMiddleName() + " " + participant.getLastName());
 	        final HRE dealer = hreService.getById((long)participant.getHreId()).get();
@@ -260,6 +294,7 @@ public class HreController {
 	        sendP.setBcc("");
 	        sendP.setFrom("Armezo Solutions");
 	        try {
+	        	System.out.println("Email try : "+sendP.getTo());
 	            EmailUtility.sendMailDuflon(sendP.getTo(), sendP.getFrom(), sendP.getCc(), sendP.getBcc(), sendP.getSubjectLine(), sendP.getMsg(), "smtp");
 	            EventLoger event = new EventLoger();
 	            event.setAccesskey(participant.getAccessKey());
@@ -276,207 +311,10 @@ public class HreController {
 	        return "success";
 	    }
 	    
-	    @GetMapping({ "/testing" })
-	    @ResponseBody
-	    public String testing() {
-	        return "success";
-	    }
-	    /*
-	    @PostMapping({ "/filterParticipant" })
-	    public String dealerFilters(@RequestParam("outlet") String outletCode, @RequestParam("candidateName") String candidateName,@RequestParam("uniqueCode") String uniqueCode, 
-				@RequestParam("designation") String designation,@RequestParam("mspin") String mspin, @RequestParam("passFailStatus") String passFailStatus, 
-				@RequestParam("dateFromm") String dateFromm, @RequestParam("dateToo") String dateToo, HttpSession session, Model model) {
-	        List<ModelParticpantView> listParticipant = new ArrayList<ModelParticpantView>();
-			Date dateFrom=null;
-			Date dateTo=null;
-			Long hreId=0L;
-			List<Integer> passFStatus = new ArrayList<>();
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			try {
-				if (dateFromm != null && dateFromm != "") {
-					dateFrom = sdf.parse(dateFromm);
-				}
-				if (dateToo != null && dateToo != "") {
-					dateTo = sdf.parse(dateToo);
-					dateTo = DataProccessor.addTimeInDate(dateTo);
-				}
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			if (session.getAttribute("userId") != null) {
-				//check data 
-				if(outletCode==null )
-					outletCode="";
-				if(candidateName==null)
-					candidateName="";
-				if(uniqueCode==null) {
-					uniqueCode="";
-				}
-				if(designation==null)
-					designation="";
-				if(mspin==null)
-					mspin=null;
-				if(passFailStatus=="") {
-					passFStatus.add(1);
-					passFStatus.add(0);
-				}else {
-					passFStatus.add(Integer.valueOf(passFailStatus));
-				}			
-				hreId = Long.parseLong(session.getAttribute("userId").toString());
-				Optional<HRE> dealer = hreService.getById(hreId);
-				List<ParticipantRegistration> participantList=null;
-				if(dateFrom!=null && dateTo!=null)
-				{
-					participantList = participantserviceImpl.getParticipantFilterInpprocess(outletCode,candidateName, designation, mspin,passFStatus,uniqueCode,hreId,dateFrom,dateTo);
-				}else {
-					participantList= participantserviceImpl.getParticipantByFilterData2(outletCode, candidateName, designation, mspin, passFStatus, hreId, uniqueCode);
-
-				}
-				listParticipant = getParticpant(participantList,dealer,hreId+"");
-	            final List<Outlet> outlets = outletService.findByhreId((long)hreId);
-	            final List<Designation> designations = designationService.getAll();
-	            if(outletCode!=null || outletCode!="") {
-	            	Map<String,String> map = new HashMap<>();	            	
-	            	model.addAttribute("outletCode1", outletCode);
-	            }
-	            FilterPayload filterPayload = new FilterPayload(outletCode,candidateName,uniqueCode,designation,mspin,passFailStatus,"");
-	            filterPayload.setDateFrom(dateFromm);
-	            filterPayload.setDateTo(dateToo);
-	            model.addAttribute("payload", filterPayload);
-	            model.addAttribute("participantList", (Object)listParticipant);
-	            model.addAttribute("outlets", (Object)outlets);
-	            model.addAttribute("designations", (Object)designations);
-	            model = DataProccessor.setDateRange(model);
-	            model.addAttribute("hreId", (Object)hreId);
-	            model.addAttribute("pass", DataProccessor.getPassFailStatusMap());
-	            return "hiring-in-process";
-	        }
-	        return "redirect:login";
-	    }
-	    //Filter For Employee Master
-	    @PostMapping({ "/filterMasterParticipant" })
-	    public String dealerFiltersForEmployeeMaster(@RequestParam("outlet") String outletCode, @RequestParam("candidateName") String candidateName,@RequestParam("uniqueCode") String uniqueCode, 
-				@RequestParam("designation") String designation,@RequestParam("mspin") String mspin, @RequestParam("passFailStatus") String passFailStatus, 
-				@RequestParam("dateFromm") String dateFromm, @RequestParam("dateToo") String dateToo, HttpSession session, Model model) {
-	        List<ModelParticpantView> listParticipant = new ArrayList<ModelParticpantView>();	        
-	        final List<Designation> designations2 = designationService.getAll();	        
-	        List<Integer> passFStatus= new ArrayList<>();
-			Date dateFrom=null;
-			Date dateTo=null;
-			Long hreId=0L;
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			try {
-				if (dateFromm != null && dateFromm != "") {
-					dateFrom = sdf.parse(dateFromm);
-				}
-				if (dateToo != null && dateToo != "") {
-					dateTo = sdf.parse(dateToo);
-					dateTo = DataProccessor.addTimeInDate(dateTo);
-				}
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			if (session.getAttribute("userId") != null) {
-				//check data 
-				if(outletCode==null )
-					outletCode=null;
-				if(candidateName==null)
-					candidateName=null;
-				if(uniqueCode==null) {
-					uniqueCode=null;
-				}
-				if(designation==null)
-					designation=null;
-				if(mspin==null)
-					mspin=null;
-				if(passFailStatus=="") {
-					passFStatus.add(1);
-					passFStatus.add(0);
-				}else {
-					passFStatus.add(Integer.valueOf(passFailStatus));
-				}
-				
-				hreId = Long.parseLong(session.getAttribute("userId").toString());
-				Optional<HRE> dealer = hreService.getById(hreId);
-				List<ParticipantRegistration> participantList=null;
-				String fsdmApprovalStatus="2";
-				if(dateFrom!=null && dateTo!=null)
-				{
-					participantList = participantserviceImpl.getParticipantFilterEmployee(outletCode,candidateName, designation, mspin,passFStatus,uniqueCode,hreId,dateFrom,dateTo,fsdmApprovalStatus);
-				}else {
-					participantList= participantserviceImpl.getParticipantOnEmployeeMasterDealerByFilterData( outletCode,
-							candidateName,  designation,  mspin,  passFStatus,  uniqueCode,
-							 hreId,  fsdmApprovalStatus);
-				}
-	            
-				listParticipant = getParticpant(participantList,dealer,hreId+"");
-	            FilterPayload filterPayload = new FilterPayload(outletCode,candidateName,uniqueCode,designation,mspin,passFailStatus,"");
-	            filterPayload.setDateFrom(dateFromm);
-	            filterPayload.setDateTo(dateToo);
-	            model.addAttribute("payload", filterPayload);
-	            final List<Outlet> outlets = outletService.findByhreId((long)hreId);
-	            final List<Designation> designations = designationService.getAll();
-	            model= getDesignation(model);
-	            model.addAttribute("participantList", (Object)listParticipant);
-	            model.addAttribute("outlets", (Object)outlets);
-	            model.addAttribute("designations", (Object)designations);
-	            model = DataProccessor.setDateRange(model);
-	            model.addAttribute("hreId", (Object)hreId);
-	            model.addAttribute("pass", DataProccessor.getPassFailStatusMap());
-	            return "employeeDealer";
-	        }
-	        return "redirect:login";
-	    }
-	    
-	    @PostMapping({ "/completionProcess" })
-	public String checkCompletionProcessFilter(@RequestParam(required = false) final String interview,
-			@RequestParam(required = false) final String prarambh, @RequestParam(required = false) final String fsdm, final HttpSession session, Model model) {
-		List<ModelParticpantView> listParticipant = new ArrayList<ModelParticpantView>();
-		List<Long> hreIdList = new ArrayList<Long>();
-		FilterPayload payload = new FilterPayload();
-		Integer interviewSearch = null;
-		String praraambhSearch = prarambh;
-		List<String> fsdmSearch=new ArrayList<String>();
-		if (interview != null && interview.length()>0) {
-			interviewSearch = 0;
-			payload.setInterview("check");
-		}
-		if (prarambh != null && prarambh.length()>0) {
-			payload.setPraraambh("check");
-			praraambhSearch = "2";
-		}
-		if(fsdm!=null && fsdm.length()>0) {
-			payload.setFsdmApproved("check");
-			 fsdmSearch.add("1");
-			 }
-		
-		if (session.getAttribute("userId") != null) {
-			Long hreId = Long.parseLong(session.getAttribute("userId").toString());
-			hreIdList.add(hreId);
-			final Optional<HRE> dealer = hreService.getById(hreId);
-			final List<ParticipantRegistration> list = (List<ParticipantRegistration>) participantserviceImpl.findParticipantsByCompletionFilterInProcess(interviewSearch, praraambhSearch, fsdmSearch, hreIdList);
-			listParticipant = getParticpant(list,dealer,hreId+"");
-			final List<Outlet> outlets = outletService.findByhreId(hreId);
-			final List<Designation> designations = designationService.getAll();
-			model= getDesignation(model);
-			model = DataProccessor.setDateRange(model);
-			model.addAttribute("participantList", (Object) listParticipant);
-			model.addAttribute("outlets", (Object) outlets);
-			model.addAttribute("designations", (Object) designations);
-			model.addAttribute("hreId", (Object) hreId);
-			model.addAttribute("payload", (Object) payload);
-			return "hiring-in-process";
-		}
-		return "redirect:login";
-	}
-	    
-	   */
-	    
 	    public boolean getInterviewStatus(String interviewDate, String accesskey) {
 	    	boolean check = false;
             Date d = new  Date();
         	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-			
 			    String dateTo2 = sdf.format(d);
                 DateFormat df = new SimpleDateFormat("dd/MM/yyyy hh:mm aa");
                 DateFormat outputformat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -488,7 +326,6 @@ public class HreController {
               	if(sdf.parse(dateTo2 ).compareTo(sdf.parse(output))>0) {
               		 check = true;
               	}
-              	
               	else if(sdf.parse(dateTo2 ).compareTo(sdf.parse(output))<0) {
               		 check = false;
               	}else {
@@ -497,7 +334,6 @@ public class HreController {
                 }catch(ParseException pe){
                    pe.printStackTrace();
                  }
-                
                 SimpleDateFormat sdformat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                 try {
                 Date d11 = sdformat.parse( dateTo2);
@@ -565,7 +401,6 @@ public class HreController {
                       final String regDate = p2.getInterviewDate().format(df);
                       final String s = String.valueOf(String.valueOf(regDate)) + ", " + p2.getInterviewTime();
                       modelParticpantView.setInterViewDate(s);   
-                      System.out.println("I D 1 : "+s);
                      if( getInterviewStatus(regDate+" "+p2.getInterviewTime(),p2.getAccessKey()) ){
                   	   modelParticpantView.setIntterviewFormStatus("1");
                      }else {
@@ -634,21 +469,11 @@ public class HreController {
                  }else {
                 	 modelParticpantView.setInterviewAddress2(""); 
                  }
+                 modelParticpantView.setDocStatus(p2.getDocuments_status());
                  modelParticpantView.setHiredStatus(p2.getHiredStatus());
                   listParticipant.add(modelParticpantView);
                   
 	    	  }
 	    	  return listParticipant;
 	    }
-	    /*
-	    private Model getDesignation(Model model) {
-	    	final List<Designation> designations2 = designationService.getAll();
-            final Map<String, String> SalesDesignation = designations2.stream().filter(p -> p.getCategory().equals("Sales")).collect(Collectors.toMap((Function<? super Designation, ? extends String>)Designation::getDesignationCode, (Function<? super Designation, ? extends String>)Designation::getDesignationName));
-            model.addAttribute("salesDesignation", (Object)SalesDesignation);
-            return model;
-	    }
-	    
-	   */
-	    
-	
 }

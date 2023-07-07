@@ -2,6 +2,7 @@ package com.armezo.duflon.controller;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.armezo.duflon.Entities.DataList;
 import com.armezo.duflon.Entities.EmergencyContact;
+import com.armezo.duflon.Entities.ErrorLogger;
 import com.armezo.duflon.Entities.EventLoger;
 import com.armezo.duflon.Entities.FamilyDetails;
 import com.armezo.duflon.Entities.HRE;
@@ -35,10 +37,12 @@ import com.armezo.duflon.Entities.ParticipantRegistration;
 import com.armezo.duflon.Entities.WorkExperience;
 import com.armezo.duflon.Services.DataListService;
 import com.armezo.duflon.Services.EmergencyContactService;
-import com.armezo.duflon.Services.EventLogerServer;
+import com.armezo.duflon.Services.ErrorLoggerService;
+import com.armezo.duflon.Services.EventLogerService;
 import com.armezo.duflon.Services.FamilyDetailService;
 import com.armezo.duflon.Services.HREService;
 import com.armezo.duflon.Services.InterviewScoreService;
+import com.armezo.duflon.Services.MasterDataService;
 import com.armezo.duflon.Services.WorkExperienceService;
 import com.armezo.duflon.ServicesImpl.ParticipantServiceImpl;
 import com.armezo.duflon.utils.DataProccessor;
@@ -62,22 +66,26 @@ public class ParticipantsController {
 	    @Autowired
 	    InterviewScoreService interviewScoreService;
 	    @Autowired
-	    EventLogerServer eventLogerServer;
+	    EventLogerService eventLogerServer;
+	    @Autowired
+	    private ErrorLoggerService errorService;
 	    @Autowired
 	    private DataListService dlService;
+	    @Autowired
+		private MasterDataService masterDataService;
 	    @Value("${Ap.assessmentURL}")
 	    private String assessmentURL;
-	    @Value("${Ap.dmsURL}")
-		private String dmsURL;
 	    @Value("${Ap.candLink}")
 		private String candLink;
 	    @Value("${Ap.adminLink}")
 	    private String adminLink;
+	    @Value("${file.path}")
+	    private String filePath;
 	    
 	    
 	    @PostMapping({ "/upload" })
 	    public ResponseEntity<String> uploadFile(@RequestParam("accessKey") final String accessKey, @RequestParam("file") final MultipartFile file, @RequestParam("name") final String name, @RequestParam("identity_proof") final String identityProof, @RequestParam("address_proof") final String addressProof) {
-	        final String path = "/home/msilazuser01/irecruit/" + accessKey + "/";
+	        final String path = filePath +"/"+ accessKey + "/";
 	        final Optional<ParticipantRegistration> participant = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(accessKey);
 	        final String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 	        final File directory = new File(path);
@@ -89,6 +97,12 @@ public class ParticipantsController {
 	        }
 	        catch (Exception e) {
 	            e.printStackTrace();
+	            ErrorLogger error = new ErrorLogger();
+	            error.setAccesskey(accessKey);
+	            error.setErrorMessage(e.getMessage());
+	            error.setErrorTime(LocalDateTime.now());
+	            error.setProcess("Upload Documents");
+	            errorService.saveErrorLogger(error);
 	        }
 	        if (name.equals("photograph")) {
 	            participant.get().setPhotograph(String.valueOf(String.valueOf(accessKey)) + "/" + fileName);
@@ -131,7 +145,6 @@ public class ParticipantsController {
 	        }
 	        participant.get().setModifiedDate(LocalDate.now());
 	        this.participantservice.saveFiles((ParticipantRegistration)participant.get());
-	        
 	        String name1 ="";
 	        name1  += participant.get().getFirstName();
 	        if(participant.get().getMiddleName() != null && participant.get().getMiddleName().length()>0) {
@@ -146,125 +159,9 @@ public class ParticipantsController {
             event.setEvent("Upload documents By Dealer");
             event.setUserId(participant.get().getHreId().intValue());
             eventLogerServer.save(event);
-	        
 	        return (ResponseEntity<String>) ResponseEntity.ok(("images/" + accessKey + "/" + fileName));
 	    }
 	    
-	    /*
-	    @ExceptionHandler({ TypeMismatchException.class })
-	    @PostMapping({ "/reg" })
-	    public String addParticipants(@ModelAttribute("participantRegistration") @Validated final ParticipantRegistration participantRegistration, final BindingResult result) {    	
-	    	final Optional<ParticipantRegistration> participant = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(participantRegistration.getAccessKey());
-	        participant.get().setBirthDate(participantRegistration.getBirthDate());
-	        participant.get().setMobile(participantRegistration.getMobile());
-	        participant.get().setGender(participantRegistration.getGender());
-	        participant.get().setAddress(participantRegistration.getAddress());
-	        participant.get().setCity(participantRegistration.getCity());
-	        participant.get().setState(participantRegistration.getState());
-	        participant.get().setPin(participantRegistration.getPin());
-	        participant.get().setHighestQualification(participantRegistration.getHighestQualification());
-	        participant.get().setAdharNumber(participantRegistration.getAdharNumber());
-	        participant.get().setTwoWheeler(participantRegistration.getTwoWheeler());
-	        participant.get().setFourWheeler(participantRegistration.getFourWheeler());
-	        if (participantRegistration.getTwoWheeler() != null) {
-	            participant.get().setKnowDriving(participantRegistration.getTwoWheeler());
-	        }
-	        participant.get().setOwnTwoWheeler(participantRegistration.getOwnTwoWheeler());
-	        participant.get().setOwnFourWheeler(participantRegistration.getOwnFourWheeler());
-	        participant.get().setTitle(participantRegistration.getTitle());
-	        participant.get().setSource(participantRegistration.getSource());
-	        participant.get().setTotal(participantRegistration.getTotal());
-	        participant.get().setExperience(participantRegistration.getExperience());
-	        participant.get().setFresher(participantRegistration.getFresher());
-	        participant.get().setAutoIndustryExperience(participantRegistration.getAutoIndustryExperience());
-	        participant.get().setNonAutoIndustryExperience(participantRegistration.getNonAutoIndustryExperience());
-	        participant.get().setRegStatus("2");
-	        participant.get().setTestStatus("1");
-	        participant.get().setPrimaryLanguage(participantRegistration.getPrimaryLanguage());
-	        participant.get().setSecondaryLanguage(participantRegistration.getSecondaryLanguage());
-	        participant.get().setMartialStatus(participantRegistration.getMartialStatus());
-	        participant.get().setWorkedWithMSILBefore(participantRegistration.getWorkedWithMSILBefore());
-	        participant.get().setOldMspin(participantRegistration.getOldMspin());
-	        participant.get().setMsilExp(participantRegistration.getMsilExp());
-	        participant.get().setKnowDriving(participantRegistration.getKnowDriving());
-	        participant.get().setAge(participantRegistration.getAge());
-	        participant.get().setMdsCertified(participantRegistration.getMdsCertified());
-	        participant.get().setDL(participantRegistration.getDL());
-	        participant.get().setOldMspin(participantRegistration.getOldMspin());
-	        participant.get().setOldMSPINStatus(participantRegistration.getOldMSPINStatus());
-	        participant.get().setModifiedDate(LocalDate.now());
-	        if (participant.get().getDesignation() != null && participant.get().getDesignation().equals("Sales") && participantRegistration.getWorkedWithMSILBefore() != null && participantRegistration.getWorkedWithMSILBefore().equals("No")) {
-	            participant.get().setFinalDesignation("STR");
-	        }
-	        final ParticipantRegistration p = this.participantservice.saveData((ParticipantRegistration)participant.get());
-	        if (participant.get().getDesignation().equals("Sales")) {
-	            final Optional<DataScience> dataScience = (Optional<DataScience>)this.dataScienceService.findByAccesskey(participantRegistration.getAccessKey());
-	            if (dataScience.isPresent()) {
-	                dataScience.get().setFirstName(p.getFirstName());
-	                dataScience.get().setMiddleName(p.getMiddleName());
-	                dataScience.get().setLastName(p.getLastName());
-	                if (p.getTotal() != null) {
-	                    dataScience.get().setTotal(p.getTotal().toString());
-	                }
-	                dataScience.get().setWorkedWithMSILBefore(p.getWorkedWithMSILBefore());
-	                dataScience.get().setOldMspin(p.getOldMspin());
-	                dataScience.get().setMsilExp(p.getMsilExp());
-	                final Optional<String> city = (Optional<String>)this.stateCityPinDmsService.getStateByCityCode(p.getCity());
-	                if (city.isPresent()) {
-	                    dataScience.get().setResidenceOf((String)city.get());
-	                }
-	                if (p.getAutoIndustryExperience() == null || p.getAutoIndustryExperience() == 0) {
-	                    dataScience.get().setAutoIndustryExperience("No");
-	                }
-	                else {
-	                    dataScience.get().setAutoIndustryExperience("Yes");
-	                }
-	                if (p.getTwoWheeler() != null) {
-	                    dataScience.get().setKnowDriving(p.getTwoWheeler());
-	                }
-	                if (p.getFourWheeler() != null) {
-	                    dataScience.get().setKnowDriving(p.getFourWheeler());
-	                }
-	                dataScience.get().setDL(p.getDL());
-	                dataScience.get().setMdsCertified(p.getMdsCertified());
-	                dataScience.get().setOwnTwoWheeler(p.getOwnTwoWheeler());
-	                dataScience.get().setHighestQualification(p.getHighestQualification());
-	                dataScience.get().setGender(p.getGender());
-	                dataScience.get().setAge(p.getAge());
-	                dataScience.get().setPrimaryLanguage(p.getPrimaryLanguage());
-	                dataScience.get().setSecondaryLanguage(p.getSecondaryLanguage());
-	                dataScience.get().setDealerCode(p.getOutletCode());
-	                dataScience.get().setMartialStatus(p.getMartialStatus());
-	                
-	               // Optional<HRE> dealer = dealerService.getById(p.gethreId());
-	               // if(dealer.isPresent()) {
-	                	Optional<DataScienceDealer> data = dataScienceDealerService.getOutletCode(p.getOutletCode());
-	                	if(data.isPresent()) {
-	                     this.dataScienceService.save((DataScience)dataScience.get());
-	                	}
-	               // }*
-	            }
-	        }
-	        String name1 ="";
-	        name1  += participant.get().getFirstName();
-	        if(participant.get().getMiddleName() != null && participant.get().getMiddleName().length()>0) {
-	        	name1  +=" "+ participant.get().getMiddleName();
-	        }
-	        name1  +=" "+ participant.get().getLastName();
-	        EventLoger event = new EventLoger();
-            event.setAccesskey(participant.get().getAccessKey());
-            event.setEmail(participant.get().getEmail());
-            event.setEventTime(LocalDate.now());
-            event.setName(name1);
-            event.setEvent("Registation");
-            event.setUserId(participant.get().getHreId().intValue());
-            if(participant.get().getDesignation()!= null && participant.get().getDesignation().equals("Sales Support")) {
-            	return "redirect:updateTestSalesSupport?accesskey="+ participant.get().getAccessKey();	
-            }else {
-	        return "redirect:" + this.assessmentURL + "assess/IRCreg?accesskey=" + participant.get().getAccessKey();
-            }
-	    }
-	    */
 	    @GetMapping({ "/profileDetails" })
 	    public String getParticipantProfile(@RequestParam("accesskey") final String accesskey, final Model model) {
 	        final Optional<ParticipantRegistration> partipantOptional = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(accesskey);
@@ -272,7 +169,6 @@ public class ParticipantsController {
 	        if(partipantOptional.isPresent()) {
 	        	participant = partipantOptional.get();
 	        }
-	        final Optional<HRE> hre = (Optional<HRE>)this.hreService.getById((long)participant.getHreId());
 	        //final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 	        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	        String assessmentDate = "";
@@ -321,101 +217,16 @@ public class ParticipantsController {
 	            final Optional<ParticipantRegistration> participantOptional = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(accesskey);
 	            final ParticipantRegistration participant = participantOptional.get();
 	            model.addAttribute("language", (Object)this.dlService.getByListName("LANGUAGE"));
-	            final List<DataList> listQuali = (List<DataList>)this.dlService.getByListName("EDUCATION");
-	            final List<DataList> DataList = new ArrayList<DataList>();
-	            for (final DataList l : listQuali) {
-	                if (!l.getListCode().equals("HSC")) {
-	                    if (l.getListCode().equals("SSC")) {
-	                        continue;
-	                    }
-	                    DataList.add(l);
-	                }
-	            }
-	            model.addAttribute("qualification", (Object)DataList);
+	            List<String> educaions = masterDataService.getAllMasterDataByMasterName("Education");
+	            model.addAttribute("educations", educaions);
 	            model.addAttribute("title", (Object)this.dlService.getByListName("TITLE_CD"));
 	            model.addAttribute("ID", (Object)this.dlService.getByListName("ID"));
-	           
-	            /*final Map<String, String> map = new HashMap<String, String>();
-	            final List<Object> cityList = (List<Object>)this.stateCityPinDmsService.getAllCity();
-	            for (final Object city : cityList) {
-	                final Object[] obj = (Object[])city;
-	                map.put((String)obj[1], (String)obj[0]);
-	            }
-	            final Map<String, String> mapState = new HashMap<String, String>();
-	            final List<Object> stateList = (List<Object>)this.stateCityPinDmsService.getAllState();
-	            for (final Object state : stateList) {
-	                final Object[] obj2 = (Object[])state;
-	                mapState.put((String)obj2[1], (String)obj2[0]);
-	            }
-	            //Doing Sorting of state
-	            List<Map.Entry<String, String>> sortedState = mapState.entrySet().stream()
-	            		.sorted(Map.Entry.comparingByValue()).collect(Collectors.toList());
-	            Optional<Outlet> outlet = outletService.getOutletByOutletCode(participant.getOutletCode());
-	            if(outlet.isPresent()) {
-	            	locationCode =outlet.get().getLocation();
-	            }
-	            if(participant.getEmployeeCode() == null || participant.getEmployeeCode().equals("")) {
-	            	
-	            	//participant.setEmployeeCode(locationCode);
-	            }
-	            final Map<String, String> villageMap = new HashMap<String, String>();
-	            final Map<String, String> TehsilMap = new HashMap<String, String>();
-	            if (participantOptional.isPresent() && participantOptional.get().getTehsil() != null) {
-	                final List<Object> tehshilList = (List<Object>)this.tService.findByTehsilCode(participantOptional.get().getTehsil());
-	                for (final Object t : tehshilList) {
-	                    final Object[] obj3 = (Object[])t;
-	                    final String name = (String)obj3[0];
-	                    final String code = (String)obj3[1];
-	                    villageMap.put(code, name);
-	                }
-	                model.addAttribute("village", (Object)villageMap);
-	            }
-	            else {
-	                model.addAttribute("village", (Object)villageMap);
-	            }
-	            if (participantOptional.isPresent() && participantOptional.get().getState() != null) {
-	                final List<Object> tehshilList = (List<Object>)this.tService.findByStateCode(participantOptional.get().getState());
-	                for (final Object t : tehshilList) {
-	                    final Object[] obj3 = (Object[])t;
-	                    final String name = (String)obj3[0];
-	                    final String code = (String)obj3[1];
-	                    TehsilMap.put(code, name);
-	                }
-	                model.addAttribute("tehsil", (Object)TehsilMap);
-	            }
-	            else {
-	                model.addAttribute("tehsil", (Object)TehsilMap);
-	            }
-	            */
-	           // model.addAttribute("stateList", (Object)sortedState);
-	           // model.addAttribute("city", (Object)map);
-	           // model.addAttribute("outletLsit", (Object)this.outletService.findByhreId((long)participant.gethreId()));
 	            model.addAttribute("personal", (Object)participant);
 	            model.addAttribute("locationCode", locationCode);
-	            
 	            return "personal-details";
 	        }
 	        return "redirect:login";
 	    }
-	    /*
-	    @PostMapping({ "/getEmployeeCode" })
-	    @ResponseBody
-	    public String getEmployeeCode(final HttpSession session, @RequestParam("accesskey") final String accesskey,
-	    		@RequestParam("empcode") final String empcode,@RequestParam("hreId") final String hreId, final Model model) {
-	    	String msg="";
-	    	Long hreId2= Long.parseLong(hreId);
-	        if (session.getAttribute("userId") != null) {
-	        	Optional<ParticipantRegistration> participnt =	participantservice.findByEmployeeCode(empcode,hreId2);
-	        	if(participnt.isPresent()) {
-	        		if(accesskey.equals(participnt.get().getAccessKey())) {
-	        		}else {
-	        			msg="This Employee Code already exists";	
-	        		}
-	        	}
-	        }
-	        return msg;
-	    }
-	    */
 	    
 	    @PostMapping({ "/savePersonalDetails" })
 	    public String saveParticipantPersonalDetails(@ModelAttribute("participantRegistration") @Validated final ParticipantRegistration participantRegistration, 
@@ -479,21 +290,6 @@ public class ParticipantsController {
 	        return "employment-details";
 	    }
 	    
-		/*
-		 * @PostMapping({ "/getFinalDesignation" })
-		 * 
-		 * @ResponseBody private String getDesignation(@RequestParam("profile") final
-		 * String profile) { String result = ""; final List<String> listCategary =
-		 * (List<String>)this.designationService.getDesignationCategory(profile); final
-		 * List<DesignationDms> designationList =
-		 * (List<DesignationDms>)this.designationServiceDms.
-		 * getDesignationByDesignationCode((List)listCategary); result =
-		 * "<option value=''>Select</option>"; for (final DesignationDms d :
-		 * designationList) { result = String.valueOf(result) + "<option value=" +
-		 * d.getDesignationCode() + ">" + d.getDesignationDesc() + "</option>"; } return
-		 * result; }
-		 */
-	    
 	    @PostMapping({ "/saveEmploymentDetails" })
 	    public String saveParticipantEmploymentDetails(final ParticipantRegistration participantRegistration, @RequestParam final String accessKey, @RequestParam final String btnSave) {
 	        final Optional<ParticipantRegistration> participantOptional = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(accessKey);
@@ -501,12 +297,17 @@ public class ParticipantsController {
 	        participant.setEmpSalary(participantRegistration.getEmpSalary());
 	        participant.setGender(participantRegistration.getGender());
 	        participant.setPfNumber(participantRegistration.getPfNumber());
+	        participant.setUan(participantRegistration.getUan());
+	        participant.setEpfo(participantRegistration.getEpfo());
+	        participant.setBankName(participantRegistration.getBankName());
+	        participant.setIfscCode(participantRegistration.getIfscCode());
 	        participant.setBankAccountNumber(participantRegistration.getBankAccountNumber());
 	        eventLogin(participant.getHreId().intValue(),"Save Employmen tDetails",participant.getAccessKey(),participant.getFirstName()+
 	        		" "+participant.getLastName()+" "+participant.getLastName(),participant.getEmail());
 	        if (btnSave.equals("Next")) {
 	            participant.setEmploymentFlag("1");
 	        }
+	        System.out.println("All Email :: "+participantRegistration.getIdentitityProofName());
 	        participant.setModifiedDate(LocalDate.now());
 	        this.participantservice.saveData(participant);
 	        if (btnSave.equals("Save")) {
@@ -523,7 +324,6 @@ public class ParticipantsController {
 	        final Optional<ParticipantRegistration> participant = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(accesskey);
 	        model.addAttribute("general", (Object)participant.get());
 	        final List<String> martialStatus = new ArrayList<String>();
-	        final List<String> blodgroup = new ArrayList<String>();
 	        martialStatus.add("Married");
 	        martialStatus.add("Single");
 	        martialStatus.add("Divorced");
@@ -571,7 +371,6 @@ public class ParticipantsController {
 	                participant.get().getExperience().equals("experience");
 	            }
 	        }
-
 	        participant.get().getWorkExperience();
 	        model.addAttribute("workexperience", (Object)participant.get());
 	        return "work-experience";
@@ -809,221 +608,6 @@ public class ParticipantsController {
 	        return "upload-documents";
 	    }
 	    
-	    
-	   /* 
-	    @Async
-	    @PostMapping({ "/feedback" })
-	    @ResponseBody
-	    public String saveFeedback(@RequestParam("accesskey") final String accesskey, @RequestParam("feedback") final String feedback,
-	    		@RequestParam("fsdmRejectionType") final String fsdmRejectionType, @RequestParam("fsdmRejectionReason") final String fsdmRejectionReason,
-	    		@RequestParam("fsdmRejectionComment") final String fsdmRejectionComment) {
-	        final Optional<ParticipantRegistration> participant = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(accesskey);
-	        if (participant.isPresent()) {
-	        	 int rejectCounter=1;
-		            if(participant.get().getFsdmCounter() != null) {
-		            	rejectCounter +=participant.get().getFsdmCounter();
-		            }
-		            participant.get().setFsdmCounter(rejectCounter);
-	            participant.get().setFsdmFeedback(feedback);
-	            participant.get().setFsdmApprovalStatus("1");
-	            participant.get().setDocuments_status("save");
-	            participant.get().setModifiedDate(LocalDate.now());
-	            participant.get().setFsdmRejectionType(fsdmRejectionType);
-	            participant.get().setFsdmRejectionReason(fsdmRejectionReason);
-	            participant.get().setFsdmRejectionComment(fsdmRejectionComment);
-	            participantservice.saveData(participant.get());
-	            sendEmailThatDocsRejected(participant.get());
-	           	        
-	            try {
-	            	if((participant.get().getFinalDesignationStatus() != null &&  participant.get().getFinalDesignationStatus().equals("1"))
-	            			&& (participant.get().getPrarambhStatus() != null && participant.get().getPrarambhStatus().equals("2")) ) {
-	            		 //dmsController.approverFSDM(participant.get().getAccessKey(),"M",dmsURL,"R");	
-	            	
-	            		 final Optional<FSDMNotification> noti = (Optional<FSDMNotification>)this.fsdmMNotificationService.getAccesskey(accesskey);
-	     	            if (noti.isPresent()) {
-	     	                this.fsdmMNotificationService.dellete((int)noti.get().getId());
-	     	            }
-	            		 
-	            	}else if ((participant.get().getDesignation() != null && participant.get().getDesignation().equals("Sales Support")) && (rejectCounter ==10)) {
-	            		dmsController.generateMSPIN(participant.get().getAccessKey(),dmsURL);
-	            		 //dmsController.approverFSDM(participant.get().getAccessKey(),"M",dmsURL,"R");
-	            		 final Optional<FSDMNotification> noti = (Optional<FSDMNotification>)this.fsdmMNotificationService.getAccesskey(accesskey);
-	     	            if (noti.isPresent()) {
-	     	                this.fsdmMNotificationService.dellete((int)noti.get().getId());
-	     	            }
-		            }else if(rejectCounter ==10 ) {
-		            	 dmsController.generateMSPIN(participant.get().getAccessKey(),dmsURL);
-	            		 //dmsController.approverFSDM(participant.get().getAccessKey(),"M",dmsURL,"R");	
-	            		 final Optional<FSDMNotification> noti = (Optional<FSDMNotification>)this.fsdmMNotificationService.getAccesskey(accesskey);
-	     	            if (noti.isPresent()) {
-	     	                this.fsdmMNotificationService.dellete((int)noti.get().getId());
-	     	            }
-	            	}
-	           
-	            
-	            eventLogin(participant.get().getHreId().intValue(),"feedback",participant.get().getAccessKey(),participant.get().getFirstName()+
-		        		" "+participant.get().getLastName()+" "+participant.get().getLastName(),participant.get().getEmail());
-	            }catch(Exception e) {
-	            	e.printStackTrace();
-	            }
-	            
-	        }
-	        return "success";
-	    }
-	    */
-	    /*
-	    @GetMapping({ "/approvel" })
-	    @ResponseBody
-	    public String saveApprovel(@RequestParam("accesskey") final String accesskey) {
-	        final Optional<ParticipantRegistration> participant = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(accesskey);
-	        if (participant.isPresent()) {
-	            participant.get().setFsdmApprovalStatus("2");
-	            participant.get().setFsdmApprovalDate(LocalDate.now());
-	            if(participant.get().getOldMspin() != null && participant.get().getOldMspin().length()>0 ) {
-	            	participant.get().setMspin(participant.get().getOldMspin());
-	            }
-	            participant.get().setModifiedDate(LocalDate.now());
-	            participantservice.saveData((ParticipantRegistration)participant.get());
-	            try {
-	                 dmsController.generateMSPIN(participant.get().getAccessKey(),dmsURL);
-	            
-	            	String result ="";
-	            	String arr_result[] = result.split("##");
-	            	if(arr_result[0] != null && arr_result[0].equals("1")) { 
-	            		    participant.get().setFsdmApprovalStatus("3");
-	            		    participant.get().setFsdmApprovalDate(LocalDate.now());
-	     	  	            participantservice.saveData((ParticipantRegistration)participant.get());
-	     	  	            
-	     	             return arr_result[1];
-	            	}
-	                
-	            this.sendEmailForDocsApproval(participant.get());            
-	            final Optional<FSDMNotification> noti = (Optional<FSDMNotification>)this.fsdmMNotificationService.getAccesskey(accesskey);
-	            if (noti.isPresent()) {
-	                this.fsdmMNotificationService.dellete((int)noti.get().getId());
-	            }
-	            }catch(Exception e) {
-	            	e.printStackTrace();
-	            }
-	            eventLogin(participant.get().getHreId().intValue(),"Save Approvel",participant.get().getAccessKey(),participant.get().getFirstName()+
-		        		" "+participant.get().getLastName()+" "+participant.get().getLastName(),participant.get().getEmail());
-	        }
-	        return "success";
-	    }
-	    */
-	    /*
-	    private String sendEmailForDocsApproval(final ParticipantRegistration participant) {
-	        final String subjectLine = "Application Documents Approved";
-	        String mailBody = DataProccessor.readFileFromResource("fsdmApprovedDocs");
-	        mailBody = mailBody.replace("${candidateName}", String.valueOf(String.valueOf(participant.getFirstName())) + " " + participant.getMiddleName() + " " + participant.getLastName());
-	        final HRE dealer = this.hreService.getById((long)participant.getHreId()).get();
-	        mailBody = mailBody.replace("${dealerName}", dealer.getName());
-	        mailBody = mailBody.replace("${link}", adminLink);
-	        mailBody = mailBody.replace("${accesskey}", participant.getAccessKey());
-	        final SendPayload sendP = new SendPayload();
-	        sendP.setTo(dealer.getEmail());
-	        sendP.setSubjectLine("Application Documents Approved");
-	        sendP.setMsg(mailBody);
-	        sendP.setCc("");
-	        sendP.setBcc("");
-	        sendP.setFrom("Armezo Solutions");
-	        try {
-	         //   EmailUtility.sendMail(sendP.getTo(), sendP.getFrom(), sendP.getCc(), sendP.getBcc(), sendP.getSubjectLine(), sendP.getMsg(), "smtp");
-	        } catch (Exception e) {
-	           e.printStackTrace();
-	        }
-	        
-	        try {
-	        	if(dealer.getMobile() != null && !dealer.getMobile().equals("")) {
-			     //send sms for shortlisted 
-				 String smsMsg = DataProccessor.getSMS("fsdmApproved");
-				 String name="";
-				 name += participant.getFirstName();
-				 if(participant.getMiddleName() != null && !participant.getMiddleName().equals("")) {
-					 name +=  " "+ participant.getFirstName(); 
-				 }
-				 name +=  " "+ participant.getLastName(); 
-				 smsMsg = smsMsg.replace("${name}", name);
-				 smsMsg = smsMsg.replace("${accesskey}", participant.getAccessKey());
-			     SmsUtility.sendSmsHandler(dealer.getMobile(), smsMsg,"MSILOT" );
-			     
-			     String smsMsg1 = DataProccessor.getSMS("recruited");
-			     smsMsg1 = smsMsg1.replace("${name}", name);
-				 smsMsg1 = smsMsg1.replace("${accesskey}", participant.getAccessKey());
-			       SmsUtility.sendSmsHandler(dealer.getMobile(), smsMsg1,"MSILOT" );
-			   
-	        }
-				}catch(Exception e) {
-					e.printStackTrace();
-		    }
-	        return "success";
-	    }
-	    
-	    private String sendEmailThatDocsRejected(final ParticipantRegistration participant) {
-	        final String subjectLine = "iRecruit- Candidate Application Rejected";
-	        String mailBody = "";
-	        mailBody=	DataProccessor.readFileFromResource("fsdmRejectedDocs");
-	        if((participant.getFinalDesignationStatus() != null && participant.getFinalDesignationStatus().equals("1"))
-	        		&& (participant.getMspin() != null && !participant.getMspin().equals(""))) { 
-	        			  mailBody=	DataProccessor.readFileFromResource("fsdmSTRRejectedDocs");
-	        }
-	        mailBody = mailBody.replace("${candidateName}", String.valueOf(String.valueOf(participant.getFirstName())) + " " + participant.getMiddleName() + " " + participant.getLastName());
-	        final Dealer dealer = this.hreService.getById((long)participant.getHreId()).get();
-	        mailBody = mailBody.replace("${dealerName}", dealer.getName());
-	        mailBody = mailBody.replace("${link}", adminLink);
-	        if((participant.getFinalDesignationStatus() != null && participant.getFinalDesignationStatus().equals("1"))
-	        		&& (participant.getMspin() != null && !participant.getMspin().equals(""))) {
-	        	 mailBody = mailBody.replace("${accesskey}", participant.getMspin());
-	        }else {
-	        mailBody = mailBody.replace("${accesskey}", participant.getAccessKey());
-	        }
-	        String fsdmReason = "";
-	        if (participant.getFsdmFeedback() != null && !participant.getFsdmFeedback().equals("")) {
-	            fsdmReason = "<br>Reason:" + participant.getFsdmFeedback();
-	        }
-	        if (participant.getFsdmRejectionType() != null && !participant.getFsdmRejectionType().equals("")) {
-	            fsdmReason = String.valueOf(fsdmReason) + "<br>Id Type: " + participant.getFsdmRejectionType();
-	        }
-	        if (participant.getFsdmRejectionReason() != null && !participant.getFsdmRejectionReason().equals("")) {
-	            fsdmReason = String.valueOf(fsdmReason) + "<br>Details: " + participant.getFsdmRejectionReason();
-	        }
-	        if (participant.getFsdmRejectionComment() != null && !participant.getFsdmRejectionComment().equals("")) {
-	            fsdmReason = String.valueOf(fsdmReason) + "<br>Comments: " + participant.getFsdmRejectionComment();
-	        }
-	        mailBody = mailBody.replace("${fsdmReason}", fsdmReason);
-	        final SendPayload sendP = new SendPayload();
-	        sendP.setTo(dealer.getEmail());
-	        sendP.setSubjectLine("iRecruit- Candidate Application Rejected");
-	        sendP.setMsg(mailBody);
-	        sendP.setCc("");
-	        sendP.setBcc("");
-	        sendP.setFrom("Armezo Solutions");
-	        try {
-	            EmailUtility.sendMailDuflon(sendP.getTo(), sendP.getFrom(), sendP.getCc(), sendP.getBcc(), sendP.getSubjectLine(), sendP.getMsg(), "smtp");
-	        }
-	        catch (Exception e) {
-	          e.printStackTrace();
-	        }
-	        try {
-			    if(dealer.getMobile() != null && !dealer.getMobile().equals("")) {
-				 String smsMsg = DataProccessor.getSMS("rejected");
-				 String name="";
-				 name += participant.getFirstName();
-				 if(participant.getMiddleName() != null && !participant.getMiddleName().equals("")) {
-					 name +=  " "+ participant.getFirstName(); 
-				 }
-				 name +=  " "+ participant.getLastName(); 
-				 smsMsg = smsMsg.replace("${name}", name);
-				 smsMsg = smsMsg.replace("${accesskey}", participant.getAccessKey());
-			     SmsUtility.sendSmsHandler(dealer.getMobile(), smsMsg,"MSILOT" );
-			    }
-				}catch(Exception e) {
-					e.printStackTrace();
-		    }
-	        
-	        return "success";
-	    }
-	    */
 	    @GetMapping({ "/finalSubmit" })
 	    public String finalDocumentSubmit(@RequestParam("accesskey") final String accesskey, final Model model) {
 	        final Optional<ParticipantRegistration> participant = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(accesskey);
