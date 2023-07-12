@@ -30,22 +30,11 @@ String st = "";
     <link rel="stylesheet" type="text/css" href="./css/hiring-in-process.css" />
     <link rel="stylesheet" type="text/css" href="css/dashboard-filter.css">
     <link rel="stylesheet" type="text/css" href="./css/sweetalert.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/jquery.datatable.min.css"/>
     <script type="text/javascript" src="./js/sweetalert.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+	<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"> -->
     <link rel="stylesheet" type="text/css" href="./css/datatable.css"> 
     
-    <!-- <script>
-        var table = $('#data').DataTable({
-            "pageLength": 10,
-            scrollY: '425px',
-            scrollCollapse: true,
-            scrollX: true,
-            fixedColumns:   {
-                left: 2
-            }
-        });
-    </script> -->
-
     <style>
         .collapsible {background-color: #777;color: white;cursor: pointer;padding: 18px;width: 100%;border: none;text-align: left;outline: none;font-size: 15px;}
         .collapsible:after {content: '\002B';color: white;font-weight: bold;float: right;margin-left: 5px;}

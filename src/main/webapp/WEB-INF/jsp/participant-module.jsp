@@ -50,6 +50,7 @@ try {
 .btn-primary {	color: #fff;	background-color: #DC3545;	border-color: #DC3545;	margin-left: 15px;	padding: 11px 0px;	flex-grow: 1;}
 .btn-primary:hover {	background-color: #DC3545 !important;	border-color: #DC3545 !important;}
 .center {	display: flex;	justify-content: center;	margin-top: 20px;}
+.form .form-section .form-block input[type="button"] { width: 60%;	border: 1px solid #D0D0D0;	border-radius: 7px;	padding: 9px 15px;	font-size: 15px;	font-family: Arial !important;	line-height: 18px;	outline: none;	box-sizing: border-box; }
 </style>
 </head>
 <body>
@@ -86,6 +87,12 @@ try {
   						<label for="dataFile">Upload Data</label> 
   						<input type="file" name="dataFile" id="dataFile" class="form-control-file" accept=".xlsx" />
   					 	<small class="form-text text-muted">Accepted file types: XLSX.</small>
+					</div>
+					<div class="form-block">
+					<br>
+					<input type="button" id="download-button" class="submit-btn" value="Template Download">
+					<iframe id="downloadFrame" style="display: none;"></iframe>
+					<!-- <button type="button" class="submit-btn" id=download-button>Download template</button> -->
 					</div>
 				</div>
 				<div class="center">
@@ -216,6 +223,36 @@ try {
 					error : function(){
 						console.log('Error in uploading');
 					}
+				});
+			});
+			$('#download-button').click(function () {
+				console.log('Clicked');
+			 	$.ajax({
+					type : 'get',
+					url : 'pdfTemplateDownload',
+					xhrFields: {
+                        responseType: 'blob' // Set the response type to blob
+                    },
+					success: function (data) {
+						  console.log('Downloaded');
+						  var blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+	                        var url = URL.createObjectURL(blob);
+
+	                        // Create a temporary link and trigger the download
+	                        var link = document.createElement('a');
+	                        link.href = url;
+	                        link.download = 'AdminTemplate.xlsx';
+	                        link.style.display = 'none';
+	                        document.body.appendChild(link);
+	                        link.click();
+
+	                        // Clean up the temporary link and URL
+	                        /*document.body.removeChild(link);
+	                        URL.revokeObjectURL(url);*/
+						},
+						error : function (error) {
+							console.log('Error while downloading');
+						}
 				});
 			});
 			

@@ -25,9 +25,5 @@ pdf:
   downloadPdfFile: E:\\temp\\
   exeUrl: C:\\wkhtmltopdf\\bin\\wkhtmltopdf
 Ap:
-  #assessmentURL: http://assess.armezo.com/iRecruit/
   assessmentURL: https://assess.armezo.com/Armezo/
-  dmsURL: http://staging.dmssales.co.in:9003/iRecruit/
-  adminLink: http://staging.dmssales.co.in:9003/iRecruit/
-  candLink: http://staging.dmssales.co.in:9003/iRecruit/
   url : https://www.duflon.com/

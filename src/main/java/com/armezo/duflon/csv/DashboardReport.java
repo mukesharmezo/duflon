@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -18,9 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.armezo.duflon.Entities.City;
 import com.armezo.duflon.Entities.HRE;
-import com.armezo.duflon.Services.CityService;
 import com.armezo.duflon.Services.HREService;
 import com.armezo.duflon.ServicesImpl.LineManagerServiceImpl;
 import com.armezo.duflon.analytics.entity.AnalyticsAll;
@@ -46,8 +43,7 @@ public class DashboardReport {
 	private HREService hreService;
 	@Autowired
 	LineManagerServiceImpl lmService;
-	@Autowired
-	private CityService cityService;
+	
 	@Autowired
 	private AnalyticsAllService allService;
 
@@ -483,20 +479,6 @@ public class DashboardReport {
 			}
 			name += " " + analytics.getLastName();
 			aggregate.setName(name);
-			// Setting Outlet Related Data
-			// get city name by city code
-			Optional<City> cityOptional = cityService.getCityByCityCode(analytics.getCity());
-			if (cityOptional.isPresent()) {
-				aggregate.setDealerCity(cityOptional.get().getCityName());
-			} else {
-				aggregate.setDealerCity("");
-			}
-			aggregate.setDealership(analytics.getHreName());
-			if (analytics.getDesignation() != null) {
-				aggregate.setProfile(analytics.getDesignation());
-			} else {
-				aggregate.setProfile("");
-			}
 			aggregate.setMobile(analytics.getMobile());
 			if (analytics.getRegistrationDate() != null) {
 				aggregate.setRegistrationDate(DataProccessor.csvDateFormatting(analytics.getRegistrationDate()));
@@ -539,13 +521,6 @@ public class DashboardReport {
 			name += " " + a.getLastName();
 			mpv.setParticipantName(name);
 			// Setting Outlet Related Data
-			// get city name by city code
-			Optional<City> cityOptional = cityService.getCityByCityCode(a.getCity());
-			if (cityOptional.isPresent()) {
-				mpv.setCity(cityOptional.get().getCityName());
-			} else {
-				mpv.setCity("");
-			}
 			mpv.setHreName(a.getHreName());
 			mpv.setDesignation(a.getDesignation());
 			mpv.setMobile(a.getMobile());
@@ -591,13 +566,6 @@ public class DashboardReport {
 			name += " " + a.getLastName();
 			mpv.setParticipantName(name);
 			// Setting Outlet Related Data
-			// get city name by city code
-			Optional<City> cityOptional = cityService.getCityByCityCode(a.getCity());
-			if (cityOptional.isPresent()) {
-				mpv.setCity(cityOptional.get().getCityName());
-			} else {
-				mpv.setCity("");
-			}
 			mpv.setHreName(a.getHreName());
 			mpv.setDesignation(a.getDesignation());
 			mpv.setMobile(a.getMobile());

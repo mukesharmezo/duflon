@@ -1,6 +1,5 @@
 package com.armezo.duflon.controller;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import com.armezo.duflon.Entities.InterviewScore;
 import com.armezo.duflon.Entities.ParticipantRegistration;
 import com.armezo.duflon.Services.HREService;
 import com.armezo.duflon.Services.InterviewScoreService;
-import com.armezo.duflon.Services.StateService;
 import com.armezo.duflon.ServicesImpl.LineManagerServiceImpl;
 import com.armezo.duflon.ServicesImpl.ParticipantServiceImpl;
 import com.armezo.duflon.payload.FilterPayload;
@@ -36,8 +34,6 @@ public class LineManagerController {
 	    LineManagerServiceImpl lmService;
 	    @Autowired
 	    HREService hreService;
-	    @Autowired
-	    StateService stateService;
 	    @Autowired
 	    InterviewScoreService interviewScoreService;
 	    
@@ -186,53 +182,5 @@ public class LineManagerController {
 	            }
 	        }
 	        return listParticipant;
-	    }
-	    
-	    // Set Data in Process*************************************	    
-	    private ModelParticpantView setDataToMPV(ParticipantRegistration p) {
-	    	final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-	    	DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-	    	final ModelParticpantView modelParticpantView = new ModelParticpantView();
-            modelParticpantView.setParticipantName(String.valueOf(p.getFirstName()) + " " + p.getMiddleName() + " " + p.getLastName());
-            modelParticpantView.setAccesskey(p.getAccessKey());
-            modelParticpantView.setDesignation(p.getDesignation());
-            if (p.getTotalMark() != null) {
-                modelParticpantView.setTotalMark(p.getTotalMark());
-            }
-            else {
-                modelParticpantView.setTotalMark("");
-            }
-            if (p.getTestScore() != null) {
-                modelParticpantView.setTestScore(p.getTestScore());
-            }
-            else {
-                modelParticpantView.setTestScore("");
-            }
-            if (p.getPercentageScore() != null) {
-                modelParticpantView.setPercentageScore(p.getPercentageScore());
-            }
-            else {
-                modelParticpantView.setPercentageScore("");
-            }
-            modelParticpantView.setTestStatus(p.getTestStatus());
-            modelParticpantView.setInterViewScore(DataProccessor.getIntegerValue(p.getInterviewScore()));
-            modelParticpantView.setPassFailStatus(p.getPassFailStatus());
-            if (p.getInterviewDate() != null) {
-                final String regDate = formatter.format(p.getInterviewDate());
-                final String s = String.valueOf(regDate) + ", " + p.getInterviewTime();
-                modelParticpantView.setInterViewDate(s);
-            }
-            else {
-                modelParticpantView.setInterViewDate("");
-            }
-            final Optional<InterviewScore> interView = (Optional<InterviewScore>)this.interviewScoreService.findByAccesskey(p.getAccessKey());
-            if (interView.isPresent()) {
-                modelParticpantView.setInterViewStatus(interView.get().getStatus());
-                modelParticpantView.setInterViewPassFailStatus(interView.get().getPass_fail_status());
-            }
-            modelParticpantView.setDateOfRegistration(p.getRegistration_Date().format(df));
-            modelParticpantView.setAptitude(p.getAptitudeScore());
-            modelParticpantView.setAttitude(p.getAttitudeScore());
-            return modelParticpantView;
 	    }
 }

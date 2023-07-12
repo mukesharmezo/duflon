@@ -19,7 +19,6 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,11 +30,9 @@ import com.armezo.duflon.Entities.EventLoger;
 import com.armezo.duflon.Entities.HRE;
 import com.armezo.duflon.Entities.InterviewScore;
 import com.armezo.duflon.Entities.ParticipantRegistration;
-import com.armezo.duflon.Services.CityService;
 import com.armezo.duflon.Services.EventLogerService;
 import com.armezo.duflon.Services.HREService;
 import com.armezo.duflon.Services.InterviewScoreService;
-import com.armezo.duflon.Services.StateService;
 import com.armezo.duflon.ServicesImpl.ParticipantServiceImpl;
 import com.armezo.duflon.client.RestClientReattemp;
 import com.armezo.duflon.email.util.EmailUtility;
@@ -51,19 +48,13 @@ public class HreController {
 	 @Autowired
 	    ParticipantServiceImpl participantserviceImpl;
 	    @Autowired
-	    CityService cityService;
-	    @Autowired
 	    HREService hreService;
-	    @Autowired
-	    StateService stateService;
 	    @Autowired
 	    InterviewScoreService interviewScoreService;
 	    @Autowired
 	    RestClientReattemp restClientReattemp;
 	    @Autowired
 	    EventLogerService eventLogerServer;
-	    @Value("${Ap.candLink}")
-	  	private String candLink;
 	    
 	    @GetMapping({ "/viewProcess" })
 	    private String getParticipantInProcess(@RequestParam(name = "dateFromm", required = false) String dateFromm, @RequestParam(name = "dateToo", required = false) String dateToo,
@@ -285,7 +276,7 @@ public class HreController {
 	        }
 	        mailBody = mailBody.replace("${candidateName}", name);
 	        mailBody = mailBody.replace("${accesskey}", participant.getAccessKey());
-	        mailBody = mailBody.replace("${assessment}", candLink);
+	        //mailBody = mailBody.replace("${assessment}", candLink);
 	        final SendPayload sendP = new SendPayload();
 	        sendP.setTo(participant.getEmail());
 	        sendP.setSubjectLine(subjectLine);

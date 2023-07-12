@@ -5,15 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,9 +39,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.armezo.duflon.Entities.DataList;
 import com.armezo.duflon.Entities.InterviewScore;
-import com.armezo.duflon.Entities.LineManager;
 import com.armezo.duflon.Entities.ParticipantRegistration;
-import com.armezo.duflon.Entities.Region;
 import com.armezo.duflon.Entities.WorkExperience;
 import com.armezo.duflon.Services.AccessKeyMasterService;
 import com.armezo.duflon.Services.DataListService;
@@ -62,7 +55,6 @@ public class NewCandidate {
 	ParticipantServiceImpl participantService;
 	@Autowired
 	InterviewScoreService interviewScoreService;
-	
     @Autowired
     AccessKeyMasterService accessKeyMasterService;
     @Autowired
@@ -713,7 +705,6 @@ public class NewCandidate {
 				}
             }
             
-            final SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
             int count = 1;
             LocalDate currentLocalDate = LocalDate.now();
             for (final ParticipantRegistration pr : partList) {

@@ -21,7 +21,6 @@ import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -51,8 +50,6 @@ public class HOReportController {
 	    InterviewScoreService interviewScoreService;
 	    @Autowired
 	    EventLogerService eventLogerServer;
-	    @Value("${Ap.candLink}")
-	  	private String candLink;
 	    
 		@PostMapping({ "/csvPendingApproval" })
 		@ResponseBody

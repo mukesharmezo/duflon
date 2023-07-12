@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.armezo.duflon.Entities.DataList;
 import com.armezo.duflon.Entities.EmergencyContact;
 import com.armezo.duflon.Entities.ErrorLogger;
 import com.armezo.duflon.Entities.EventLoger;
@@ -73,12 +72,6 @@ public class ParticipantsController {
 	    private DataListService dlService;
 	    @Autowired
 		private MasterDataService masterDataService;
-	    @Value("${Ap.assessmentURL}")
-	    private String assessmentURL;
-	    @Value("${Ap.candLink}")
-		private String candLink;
-	    @Value("${Ap.adminLink}")
-	    private String adminLink;
 	    @Value("${file.path}")
 	    private String filePath;
 	    

@@ -31,12 +31,10 @@ import com.armezo.duflon.Entities.ParticipantRegistration;
 import com.armezo.duflon.Entities.UserLoginLog;
 import com.armezo.duflon.Services.AccessKeyMasterService;
 import com.armezo.duflon.Services.AdminService;
-import com.armezo.duflon.Services.CityService;
 import com.armezo.duflon.Services.EventLogerService;
 import com.armezo.duflon.Services.HODService;
 import com.armezo.duflon.Services.HREService;
 import com.armezo.duflon.Services.InterviewScoreService;
-import com.armezo.duflon.Services.StateService;
 import com.armezo.duflon.Services.UserLoginLogService;
 import com.armezo.duflon.ServicesImpl.LineManagerServiceImpl;
 import com.armezo.duflon.ServicesImpl.ParticipantServiceImpl;
@@ -54,10 +52,6 @@ public class ControllerLogin {
 	ParticipantServiceImpl participantService;
 	@Autowired
 	AccessKeyMasterService accessKeyMasterService;
-	@Autowired
-	CityService cityService;
-	@Autowired
-	StateService stateService;
 	@Autowired
 	InterviewScoreService interviewScoreService;
 	@Autowired
@@ -286,8 +280,6 @@ public class ControllerLogin {
 
 			if (participant.get().getTestStatus() == null) {
 				model.addAttribute("participant", participant.get());
-				model.addAttribute("cityList", cityService.getAllCity());
-				model.addAttribute("stateList", stateService.getAllState());
 				return "redirect:instruction?accesskey=" + accesskey;
 			} else if (participant.get().getDocuments_status() != null) {
 				session.setAttribute("msg", "D");
@@ -326,8 +318,6 @@ public class ControllerLogin {
 		if (participant.isPresent()) {
 			if (participant.get().getTestStatus() == null) {
 				model.addAttribute("participant", participant.get());
-				model.addAttribute("cityList", cityService.getAllCity());
-				model.addAttribute("stateList", stateService.getAllState());
 				model.addAttribute("gender", new ArrayList<>());
 				model.addAttribute("language", (Object) new ArrayList<>());
 				model.addAttribute("title", (Object) new ArrayList<>());

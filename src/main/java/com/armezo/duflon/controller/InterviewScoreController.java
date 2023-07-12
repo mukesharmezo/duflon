@@ -80,7 +80,6 @@ public class InterviewScoreController {
 			model.addAttribute("date",particpant.get().getInterviewDate().format(df));	
 			model.addAttribute("accesskey", particpant.get().getAccessKey());
 			model.addAttribute("photograph", particpant.get().getPhotograph());
-			System.out.println("Intv Count 1 and 2 :: "+particpant.get().getInterviewerCount()+"<>"+particpant.get().getInterviewerCount2());
 			if(interviewCount==1) {
 				model.addAttribute("interviewerCount", particpant.get().getInterviewerCount());
 			}else if (interviewCount == 2) {
@@ -259,7 +258,6 @@ public class InterviewScoreController {
 		}else {
 			model.addAttribute("score", new InterviewScore());	
 		}
-		
 		return "printInterviewScore";
 	}
 	
@@ -287,13 +285,11 @@ public class InterviewScoreController {
 			   path="classpath:static/pdfTemplate/SuggestiveQuestion.pdf";
 			}
 		  File file = null;
-	
 		try {
 			 file = ResourceUtils.getFile(path);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} 
-		
 		InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -307,7 +303,6 @@ public class InterviewScoreController {
 		}
 		return ResponseEntity.ok().headers(headers).contentLength(file.length())
 				.contentType(MediaType.parseMediaType("application/octet-stream"))
-
 				.body(resource);
 	}
 	

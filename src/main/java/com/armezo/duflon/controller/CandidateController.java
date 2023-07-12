@@ -129,7 +129,6 @@ public class CandidateController {
 	
 	@GetMapping("/errorLogger")
 	public String errorLogger(Model model) {
-
 		return null;
 	}
 }
