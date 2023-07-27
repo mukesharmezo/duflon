@@ -39,7 +39,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
     <div class="header">
       <div class="container">
           <!-- <div class="logo"><img src="./img/iRecruit-logo.svg" alt="" /></div> -->
-      <div class="logo"><h2 class="LOGO" style="color: #fff; font-size: 32px; font-weight: 700;"><b>iRecruit</b></h2></div>
+      <div class="logo"><h2 class="LOGO" style="color: #fff; font-size: 32px; font-weight: 700;"><b>DuRecruit</b></h2></div>
 
       </div>
   </div>
@@ -451,7 +451,8 @@ String baseServer = resource.getString("client.url");String title = resource.get
           <div class="acc-tnc">
             <input type="checkbox" id="tnc" /><label for="tnc"
               >By clicking here, I state that I have read and understood the
-              <a href="./termsCondition" target="_blank"><b>Terms & Conditions</b></a> .
+              <a href="#" target="_blank"><b>Terms & Conditions</b></a> .
+<!--               <a href="./termsCondition" target="_blank"><b>Terms & Conditions</b></a> . -->
 			   
 			  </label >
           </div>

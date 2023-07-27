@@ -242,6 +242,16 @@ String baseServer = resource.getString("client.url");String title = resource.get
 		  });
 		});
 	</script>
+	<script>
+		// Use jQuery to select all number input elements
+		const numberInputs = $('input[type="number"]');
+		// Add event handler using jQuery's "on" method
+		numberInputs.on('input', function() {
+			if ($(this).val() < 0) {
+				$(this).val(0); // Reset to 0 if a negative value is entered
+			}
+		});
+	</script>
 </body>
 </html>
 <%

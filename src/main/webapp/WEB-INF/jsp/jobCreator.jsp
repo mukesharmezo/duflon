@@ -25,8 +25,7 @@ try {
 <link rel="stylesheet" type="text/css" href="./css/common.css">
 <link rel="stylesheet" type="text/css" href="./css/fsdm.css" />
 <link rel="stylesheet" type="text/css" href="css/dashboard-filter.css">
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+<link rel="stylesheet" type="text/css" href="./css/jquery.datatable.min.css"/>
 <link rel="stylesheet" type="text/css" href="./css/datatable.css">
 <style>
 .left-panel>ul>li:nth-child(1)>a, .left-panel>ul>li:nth-child(1)>ul>li:nth-child(1)>a
@@ -35,7 +34,7 @@ try {
 }
 
 .left-panel>ul>li:nth-child(1)>ul>li:nth-child(1)>a::after {	content: '';	position: absolute;	right: 0;	top: 50%;	transform: translate(0, -50%);	border-right: 6px solid #fff;	border-top: 6px solid transparent;	border-bottom: 6px solid transparent;}
-.dataTables_scrollBody {	overflow-y: hidden !important;	overflow-x: auto !important;}
+.dataTables_scrollBody {		overflow-x: auto !important;}
 .table-date table tr th {	background: #DC3545 !important;	padding-top: 15px;	padding-bottom: 15px;}
 .table-date table tr td .btn {	padding: 5px 10px 4px !important;}
 table.dataTable.stripe>tbody>tr.odd>*, table.dataTable.display>tbody>tr.odd>*	{	box-shadow: none !important;}
@@ -74,8 +73,7 @@ button.btn.btn-primary {	min-width: 110px;}
 <script src="./js/jquery.validate.js"></script>
 <script src="./js/jobPortal.js"></script>
 <script src="./js/jquery.dataTables.min.js"></script>
-<script
-	src="https://cdn.datatables.net/fixedcolumns/4.2.1/js/dataTables.fixedColumns.min.js"></script>
+ <script src="https://cdn.datatables.net/fixedcolumns/4.2.1/js/dataTables.fixedColumns.min.js"></script> 
 <script src="./js/datatable.js"></script>
 </head>
 <body>
@@ -138,7 +136,6 @@ button.btn.btn-primary {	min-width: 110px;}
     					</c:forEach>
 					</select>
 				</div>
-
 			</div>
 			<div class="form-section">
 				<div class="form-block col-md-12"
@@ -153,7 +150,6 @@ button.btn.btn-primary {	min-width: 110px;}
 							</tr>
 						</thead>
 						<tbody>
-
 							<tr id="skillRow1">
 								<td><input type="text" name="skills[0].skillName"
 									class="form-control autocomplete" required="true" />
@@ -390,7 +386,6 @@ button.btn.btn-primary {	min-width: 110px;}
 			    $("#hrId").val(hred);
 			    $("form").submit();
 			});
-			console.log(hred);
 			$("#myForm").validate({
 				rules : validationRules,
 				messages : validationMessages
@@ -407,7 +402,7 @@ button.btn.btn-primary {	min-width: 110px;}
 			newRow += '<div class="skill-suggestions"></div></td>';
 			newRow += '<td><input type="number" name="skills['
 					+ (skillRowCount - 1)
-					+ '].requiredExperience" class="form-control" required="true" /></td>';
+					+ '].requiredExperience" class="form-control" required="true" min="0"/></td>';
 			newRow += '<td><button type="button" class="btn btn-danger btn-sm" onclick="removeSkillRow(\'skillRow'
 					+ skillRowCount + '\')"> &#8211; </button></td>';
 			newRow += '</tr>';
@@ -442,7 +437,16 @@ button.btn.btn-primary {	min-width: 110px;}
 			skillRowCount--;
 		}
 	</script>
-
+	<script>
+		// Use jQuery to select all number input elements
+		const numberInputs = $('input[type="number"]');
+		// Add event handler using jQuery's "on" method
+		numberInputs.on('input', function() {
+			if ($(this).val() < 0) {
+				$(this).val(0); // Reset to 0 if a negative value is entered
+			}
+		});
+	</script>
 </body>
 </html>
 <%

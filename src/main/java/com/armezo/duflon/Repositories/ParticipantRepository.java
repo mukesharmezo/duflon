@@ -47,7 +47,7 @@ List<ParticipantRegistration> findByHreIdIn(final List<Long> hreId);
     List<ParticipantRegistration> getEmployee(final long hreId, final String hiredStatus, LocalDate from, LocalDate to);
     @Query("From ParticipantRegistration p where p.hreId =:hreId and (p.hiredStatus is NULL OR p.hiredStatus='' OR p.hiredStatus='P')  and p.testStatus ='3' and (Status not IN ('H') or Status is NULL) AND p.registration_Date  BETWEEN :from AND :to Order By modified_date DESC")
     List<ParticipantRegistration> getParticipantInpprocessForHRE(final long hreId, LocalDate from, LocalDate to);
-    @Query("From ParticipantRegistration p where (p.hiredStatus is NULL OR p.hiredStatus='')  and p.testStatus ='3' and (Status not IN ('H') or Status is NULL)AND p.registration_Date  BETWEEN :from AND :to Order By modified_date DESC")
+    @Query("From ParticipantRegistration p where (p.hiredStatus is NULL OR p.hiredStatus='' OR p.hiredStatus='P')  and p.testStatus ='3' and (Status not IN ('H') or Status is NULL)AND p.registration_Date  BETWEEN :from AND :to Order By modified_date DESC")
     List<ParticipantRegistration> getParticipantInpprocessHo(LocalDate from, LocalDate to);
     @Query("From ParticipantRegistration p where p.hiredStatus = ('Y')  and p.testStatus ='3' and (Status not IN ('H') or Status is NULL) AND p.registration_Date  BETWEEN :from AND :to Order By modified_date DESC")
     List<ParticipantRegistration> getParticipantEmployeeHo(LocalDate from, LocalDate to);

@@ -248,7 +248,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 			newRow += '<div class="skill-suggestions"></div></td>';
 			newRow += '<td><input type="number" name="skills['
 					+ (skillRowCount - 1)
-					+ '].requiredExperience" class="form-control" required="true" /></td>';
+					+ '].requiredExperience" class="form-control" required="true" min="0"/></td>';
 			newRow += '<td><button type="button" class="btn btn-danger btn-sm" onclick="removeSkillRow(\'skillRow'
 					+ skillRowCount + '\')"> &#8211;  </button></td>';
 			newRow += '</tr>';
@@ -269,6 +269,16 @@ String baseServer = resource.getString("client.url");String title = resource.get
 				dealerDropdown.val(dealerDropdown.find('option:last').val());
 				dealerDropdown.prop('disabled',true);
 				//dealerDropdown.css('cursor','not-allowed');
+			}
+		});
+	</script>
+	<script>
+		// Use jQuery to select all number input elements
+		const numberInputs = $('input[type="number"]');
+		// Add event handler using jQuery's "on" method
+		numberInputs.on('input', function() {
+			if ($(this).val() < 0) {
+				$(this).val(0); // Reset to 0 if a negative value is entered
 			}
 		});
 	</script>

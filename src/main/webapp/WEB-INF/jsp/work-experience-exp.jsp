@@ -86,6 +86,7 @@ if(session.getAttribute("role") != null){
                       <h5>Work Area</h5>
                       <input type="text"  placeholder="Work Area"  id="workArea" name="workArea"/>
                     </div>
+                    <div class="form-block"></div>
                     <div class="form-block">
                       <div class="form-btn">
                          <input type = "hidden" name="accessKey"  value = "${workexperienceExp.accessKey}" />

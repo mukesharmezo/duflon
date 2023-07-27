@@ -3,7 +3,7 @@ Dear ${dealerName}
 <br><br>
 This is an automated system generated email to inform you that ${candidateName}, ${accesskey} been recruited successfully.
 <br><br>
-You can view more details by logging into duRecruit ${appLink}
+You can view more details by logging into DuRecruit ${appLink}
 <br><br>
 <b>DuRecruit Team</b>
 <br>

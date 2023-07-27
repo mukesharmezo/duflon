@@ -496,7 +496,6 @@ public class ControllerLogin {
 						message = "We couldn't find a user with the email address you provided.";
 					}
 				}
-
 			}
 		}
 		model.addAttribute("msg", message);

@@ -625,7 +625,7 @@ public class DashboardReport {
 			if (a.getDocumentUploadStatus() != null && a.getDocumentUploadStatus().equals("2")) {
 				newStatus = "Document";
 			}
-			if (a.getHiredStatus() != null && a.getHiredStatus().equalsIgnoreCase("Y")) {
+			if (a.getApproval()!=null && a.getApproval().equalsIgnoreCase("P")) {
 				newStatus = "Approval";
 			}
 		} else if (status.equalsIgnoreCase("Source")) {
@@ -669,7 +669,7 @@ public class DashboardReport {
 					newStatus = "Between 40-60";
 				if (Integer.valueOf(a.getAssessmentReport()) >= 60 && Integer.valueOf(a.getAssessmentReport()) < 80)
 					newStatus = "Between 60-80";
-				if (Integer.valueOf(a.getAssessmentReport()) > 80)
+				if (Integer.valueOf(a.getAssessmentReport()) >= 80)
 					newStatus = "More than 80";
 			}
 		} else if (status.equalsIgnoreCase("Designation")) {

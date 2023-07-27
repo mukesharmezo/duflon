@@ -211,7 +211,7 @@ public class UploadDocumentCandidate {
 				participant.getFirstName() + " " + participant.getMiddleName() + " " + participant.getLastName());
 		HRE dealer = hreService.getById(participant.getHreId()).get();
 		mailBody = mailBody.replace("${dealerName}", dealer.getName());
-		mailBody = mailBody.replace("${link}", adminLink); // Docs Upload
+		mailBody = mailBody.replace("${link}", adminLink+"login"); // Docs Upload
 																											// link will
 		mailBody = mailBody.replace("${accesskey}", participant.getAccessKey());
 		if(dealer.getEmail() != null) {

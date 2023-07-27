@@ -20,9 +20,9 @@
                   <span class="tab-btn" id="emergency_contact">
                       <a href="#" onclick="openEmargencyContact()">Emergency Contact</a>
                   </span>
-                  <!-- <span class="tab-btn" id="assessment_scores">
+                  <span class="tab-btn" id="assessment_scores">
                       <a href="#" onclick="openAssessmentScore()">Assessment Scores</a>
-                  </span> -->
+                  </span> 
                   <span class="tab-btn" id="upload_documents">
                       <a href="#" onclick="openUploadDocoment()">Upload Documents</a>
                   </span>
@@ -77,12 +77,11 @@
                     window.location.href="getEmergencyContact?accesskey="+pKey;
                  }
                 
-                /* 
                 function openAssessmentScore(){
                     var pKey =	$('#accesskey').val();
                     
                     window.location.href="getAssessmentScore?accesskey="+pKey;
-                 } */
+                 } 
                 
                 function openUploadDocoment(){
                     var pKey =	$('#accesskey').val();

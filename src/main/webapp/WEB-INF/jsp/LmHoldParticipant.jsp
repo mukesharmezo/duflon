@@ -245,11 +245,11 @@ s.setAttribute("remove_final", "final");
        }
       
       function openReport(key,name,email,mobile){
-	        mywindow=window.open("<%=assessUrl%>player/viewAssessment.jsp?accesskey="+key+"&name="+name+"&email="+email+"&mobile="+mobile+"&testid=41&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
+	        mywindow=window.open("<%=assessUrl%>player/viewAssessment.jsp?accesskey="+key+"&name="+name+"&email="+email+"&mobile="+mobile+"&testid=43&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
 	       mywindow.moveTo(120,90);
      }
        function openAnswerReport(key,name,email,){
-	        mywindow=window.open("<%=assessUrl%>pa/viewTest.do?accesskey="+key+"&name="+name+"&email="+email+"&testid=41&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
+	        mywindow=window.open("<%=assessUrl%>pa/viewTest.do?accesskey="+key+"&name="+name+"&email="+email+"&testid=43&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
 	       mywindow.moveTo(120,90);
      }
       

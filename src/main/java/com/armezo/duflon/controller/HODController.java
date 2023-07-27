@@ -53,23 +53,6 @@ public class HODController {
 	EventLogerService eventLogerServer;
 	
 	
-	@GetMapping("/hodtest")
-	public String showTestkl(Model model) {
-		HashMap<String, String> map = new HashMap<>();
-		map.put("df@gm.com", "Interviewr 1");
-		map.put("df1@gm.com", "Interviewer 2");
-		map.put("df4@gm.com", "Interviewer 3");
-		map.put("df5@gm.com", "Interviewer 4");
-		map.put("df6@gm.com", "Interviewer 5");
-		model.addAttribute("map", map);
-		return "Testing";
-	}
-	
-	@GetMapping("/test2")
-	public String showTest22() {
-		return "Testing2";
-	}
-	
 	@GetMapping("/pendingForApproval")
 	public String pendingForApprovalHOD(
 			@RequestParam(name = "dateFromm", required = false) String dateFromm, @RequestParam(name = "dateToo", required = false) String dateToo,

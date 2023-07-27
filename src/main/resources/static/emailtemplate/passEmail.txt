@@ -1,7 +1,7 @@
 <font style='font-family:verdana;font-size:12px;font-weight:normal;color:black;'> 
 Greetings ${candidateName}
 <br><br>
-Thank you for completing the Online Application and Assessment for duRecruit.
+Thank you for completing the Online Application and Assessment for DuRecruit.
 <br><br>
 As per the next process, you need to submit your documents. 
 <br><br>

@@ -31,6 +31,16 @@ String baseServer = resource.getString("client.url");String title = resource.get
 			</div>
 		</div>
 	</div>
+	
+	<script>
+        // Function to reload the previous page (registration page) when the user clicks the back button
+        function reloadPreviousPage() {
+            window.location.replace("/formPage"); // Redirect to the registration page (form page)
+        }
+
+        // Listen for the popstate event (when the user navigates back or forward)
+        window.addEventListener('popstate', reloadPreviousPage);
+    </script>
 </body>
 </html>
 <%

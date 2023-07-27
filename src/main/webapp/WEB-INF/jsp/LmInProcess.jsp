@@ -199,7 +199,12 @@ if (session.getAttribute("role") != null) {
                              </td>
 							 
                              <td>
-                             --
+                             <c:if test="${participant.hiredStatus == 'P'}">
+                             	<span>Approval Pending</span>
+                             </c:if>
+                             <c:if test="${empty participant.hiredStatus}">
+                             	<span> --</span>
+                             </c:if>
 							<%-- <c:choose>
 											<c:when test="${participant.interViewPassFailStatus2 == 'pass'}">
 													<a href="approveParticipantByLM?accesskey=${participant.accesskey}"> <span
@@ -260,12 +265,12 @@ if (session.getAttribute("role") != null) {
        }
       
       function openReport(key,name,email,mobile){
-	        mywindow=window.open("<%=assessUrl%>player/viewAssessment.jsp?accesskey="+key+"&name="+name+"&email="+email+"&mobile="+mobile+"&testid=41&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
+	        mywindow=window.open("<%=assessUrl%>player/viewAssessment.jsp?accesskey="+key+"&name="+name+"&email="+email+"&mobile="+mobile+"&testid=43&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
 	       mywindow.moveTo(120,90);
      }
 	 
 	  function openAnswerReport(key,name,email,){
-	        mywindow=window.open("<%=assessUrl%>pa/viewTest.do?accesskey="+key+"&name="+name+"&email="+email+"&testid=41&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
+	        mywindow=window.open("<%=assessUrl%>pa/viewTest.do?accesskey="+key+"&name="+name+"&email="+email+"&testid=43&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
 	       mywindow.moveTo(120,90);
      }
       

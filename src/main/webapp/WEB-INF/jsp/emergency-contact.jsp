@@ -154,7 +154,7 @@ if(session.getAttribute("role") != null){
     <input type="hidden" id="accesskey" value="${emergencyContact.accessKey}">
 	<input type="hidden" id="mobile_primery" value="${emergencyContact.mobile}">
     <input type="hidden" id="emgId" value="">
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="./js/jquery.validate.js"></script>
      <script type="text/javascript" src="./js/emergency.js"></script>
     <script>
       $(document).ready(function () {

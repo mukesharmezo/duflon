@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
@@ -24,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -352,6 +354,8 @@ public class JobController {
 	public String saveUserDetails(@ModelAttribute("userRegistration") UserRegistration user,
 			@RequestParam("resumeFile") MultipartFile resume, @RequestParam("photoFile") MultipartFile photo, Model model) {
 		//Generate Accesskey
+		//System.out.println("Sub :: "+submitted);
+		//if(submitted) {
 		user.setAccesskey(generateAccesskeyForUser(user.getHreId()));
 		user.setResume(String.valueOf(user.getAccesskey())+"/"+ StringUtils.cleanPath(resume.getOriginalFilename()));
 		user.setPhoto(String.valueOf(user.getAccesskey())+"/"+ StringUtils.cleanPath(photo.getOriginalFilename()));
@@ -375,7 +379,18 @@ public class JobController {
 		String name = (user.getFirstName() == null ? "" : user.getFirstName()) + " "
 				+ (user.getMiddleName() == null ? "" : user.getMiddleName()) + " "
 				+ (user.getLastName() == null ? "" : user.getLastName());
-		model.addAttribute("name", name);
+		return "redirect:thankYou/"+name;
+		//}else {
+			//return "jobAlreadySubmit";
+		//}
+	}
+	//Show thank You page
+	@GetMapping("thankYou/{name}")
+	public String showThankYouPage(@PathVariable String name,HttpServletResponse response, Model model) {
+		response.setHeader("Cache-Control", "no-store");
+	    response.setHeader("Pragma", "no-cache");
+	    response.setHeader("Expires", "0");
+	    model.addAttribute("name", name);
 		return "jobThankYou";
 	}
 

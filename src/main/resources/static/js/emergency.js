@@ -16,7 +16,7 @@ $(document).ready(function () {
   		  messages: {
   			cname: "<br/>Please enter name",
   			contactNo : {
-				required : "<br/>Please enter your mobile number",
+				required : "<br/>Please enter mobile number",
 				minlength : "<br/>Please enter 10 digit mobile number",
 				maxlength : "<br/>Please enter 10 digit mobile number"
 			 },			

@@ -177,9 +177,6 @@ ul li { margin: 0 !important;}
 	<input type="hidden" id="accesskey" value="${partcipant.accessKey}">
 	<input type="hidden" id="fid_value" value="">
 
-	<script
-		src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-	<!--  <script type="text/javascript" src="/js/register.js"></script> -->
 	<script>
       $(document).ready(function () {
         var profile = document.getElementById("profile");

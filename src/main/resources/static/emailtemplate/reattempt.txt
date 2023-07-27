@@ -1,7 +1,7 @@
 <font style='font-family:verdana;font-size:12px;font-weight:normal;color:black;'> 
 Greetings ${candidateName}
 <br><br>
-Welcome to the recruitment process with duRecruit. 
+Welcome to the recruitment process with DuRecruit. 
 <br><br>
 Begin the online application process by uploading your resume or CV. Fill in a few other details and attempt the Online Assessment and click 'Submit'. 
 <br><br>

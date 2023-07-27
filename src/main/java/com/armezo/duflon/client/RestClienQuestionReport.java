@@ -34,7 +34,7 @@ public class RestClienQuestionReport {
 		for(ParticipantRegistration p:list) {
 			List<QuestiwiseReport>queList=	questiwiseReportService.getByAcesskey(p.getAccessKey());
 			if(queList.size()==0) {
-			String url=assessmentURL+"pa/QuestionReportByAccesskey?accesskey="+p.getAccessKey()+"&testid=41";	
+			String url=assessmentURL+"pa/QuestionReportByAccesskey?accesskey="+p.getAccessKey()+"&testid=43";	
 			ResponseEntity<String> response = restTemplate.getForEntity(url,String.class);
 			JSONArray arr = new JSONArray(response.getBody());
 			List<QuestiwiseReport>saveList = new ArrayList<>();
@@ -60,7 +60,7 @@ public class RestClienQuestionReport {
 		
 			List<QuestiwiseReport>queList=	questiwiseReportService.getByAcesskey(accesskey);
 			if(queList.size()==0) {
-			String url=assessmentURL+"pa/QuestionReportByAccesskey?accesskey="+accesskey+"&testid=41";	
+			String url=assessmentURL+"pa/QuestionReportByAccesskey?accesskey="+accesskey+"&testid=43";	
 			ResponseEntity<String> response = restTemplate.getForEntity(url,String.class);
 			JSONArray arr = new JSONArray(response.getBody());
 			List<QuestiwiseReport>saveList = new ArrayList<>();

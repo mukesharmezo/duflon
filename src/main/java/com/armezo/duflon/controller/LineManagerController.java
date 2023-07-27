@@ -44,7 +44,11 @@ public class LineManagerController {
 	    	Map<String, LocalDate> map = DataProccessor.manageFiltersDate(dateFromm, dateToo);
 	        List<ModelParticpantView> listParticipant = new ArrayList<ModelParticpantView>();
 	        if (session.getAttribute("userId") != null) {
+	        	String role = session.getAttribute("role").toString();
 	            final List<ParticipantRegistration> participant = (List<ParticipantRegistration>)this.participantserviceImpl.getParticipantInpprocessLM( map.get("from"),map.get("to"));
+	            if(role.equalsIgnoreCase("HOD")) {
+	            	participant.removeIf(part -> part.getHiredStatus()!=null && part.getHiredStatus().equalsIgnoreCase("P"));
+	            }
 	            listParticipant = this.setDataToHOProcess(participant);
 	            FilterPayload payload = new FilterPayload();
 	            payload.setDateFrom(dateFromm);
@@ -178,6 +182,7 @@ public class LineManagerController {
 	                }else {
 	                	 modelParticpantView.setAttitude(0);	
 	                }
+	                modelParticpantView.setHiredStatus(p.getHiredStatus());
 	                listParticipant.add(modelParticpantView);
 	            }
 	        }
