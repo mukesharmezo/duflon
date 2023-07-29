@@ -85,19 +85,19 @@ if(session.getAttribute("role") != null){
                       </form:select>
                     </div>
                     <div class="form-block">
-                        <h5>PF Number</h5>
+                        <h5>PF Number<span>*</span></h5>
                         <form:input type="text" path="pfNumber" maxlength="55"  placeholder="PF Number" />
                     </div>
                     <div class="form-block">
-                        <h5>UAN</h5>
+                        <h5>UAN<span>*</span></h5>
                         <form:input type="text" path="uan" maxlength="12"  placeholder="UAN" />
                     </div>
                     <div class="form-block">
-                        <h5>EPFO</h5>
+                        <h5>EPFO<span>*</span></h5>
                         <form:input type="text" path="epfo" maxlength="20"  placeholder="EPFO" />
                     </div>
                     <div class="form-block">
-      					<h5>Bank Name:</h5>
+      					<h5>Bank Name<span>*</span></h5>
       					<form:input path="bankName" id="bankName" required="true" list="bankSuggestions" placeholder="Bank Name" cssClass="form-control" />
       					<datalist id="bankSuggestions">
         					<option value="Axis Bank">
@@ -113,11 +113,11 @@ if(session.getAttribute("role") != null){
       					</datalist>
     				</div>
 							<div class="form-block">
-                        <h5>IFSC Code</h5>
+                        <h5>IFSC Code<span>*</span></h5>
                         <form:input type="text" path="ifscCode" maxlength="10"  placeholder="IFSC Code" />
                     </div>
                     <div class="form-block">
-                        <h5>Bank A/C Number</h5>
+                        <h5>Bank A/C Number<span>*</span></h5>
                         <form:input type="text" path="bankAccountNumber" maxlength="20" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"   placeholder="Bank A/C number" />
                     </div>
                      <%if(role.equalsIgnoreCase("HRE")) { %>

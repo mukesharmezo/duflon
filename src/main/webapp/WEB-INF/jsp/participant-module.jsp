@@ -226,7 +226,12 @@ try {
 				});
 			});
 			$('#download-button').click(function () {
-				console.log('Clicked');
+				
+				document.forms[0].action="./pdfTemplateDownload";
+	   			document.forms[0].method="post";
+	   			document.forms[0].submit();
+				
+				/* console.log('Clicked');
 			 	$.ajax({
 					type : 'get',
 					url : 'pdfTemplateDownload',
@@ -245,15 +250,11 @@ try {
 	                        link.style.display = 'none';
 	                        document.body.appendChild(link);
 	                        link.click();
-
-	                        // Clean up the temporary link and URL
-	                        /*document.body.removeChild(link);
-	                        URL.revokeObjectURL(url);*/
 						},
 						error : function (error) {
 							console.log('Error while downloading');
 						}
-				});
+				}); */
 			});
 			
 			$("#pass-submit-button").click(function() {

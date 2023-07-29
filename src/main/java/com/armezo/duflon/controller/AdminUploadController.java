@@ -1,18 +1,21 @@
 package com.armezo.duflon.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,35 +43,25 @@ public class AdminUploadController {
 		return message;
 	}
 	
-	// Download PDf Template
-	@GetMapping("/pdfTemplateDownload")
-	public void downloadPdfTemplate(HttpServletResponse response) throws IOException {
-		String templatePath = "static/template/AdminTemplate.xlsx";
-		InputStream inputStream = getClass().getClassLoader().getResourceAsStream(templatePath);
-		if (inputStream != null) {
-			response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-			response.setHeader("Content-Disposition", "attachment; filename=AdminTemplate.xlsx");
-
-			// Copy the file to the response output stream
-			FileCopyUtils.copy(inputStream, response.getOutputStream());
-
-			// Force the response to be downloaded instead of displayed in the browser
-			response.flushBuffer();
+	// Download XLSX Template
+	@PostMapping("/pdfTemplateDownload")
+	public ResponseEntity<Resource> downloadPdfTemplate(HttpServletResponse response) throws IOException {
+		String templatePath = "classpath:static/pdfTemplate/AdminTemplate.xlsx";
+		File file = null;
+		try {
+			file = ResourceUtils.getFile(templatePath);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
-	}
-
-		/*Resource resource = new ClassPathResource("static/pdfTemplate/AdminTemplate.xlsx");
+		InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
-		headers.setContentDispositionFormData("attachment", "AdminTemplate.xlsx");
-		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-		return new ResponseEntity<>(resource, headers, HttpStatus.OK);*/
-		/*String path = "static/pdfTemplate/AdminTemplate.xlsx";
-		response.setContentType("application/octet-stream");
-		response.setHeader("Content-Disposition", "attachment; filename=\"AdminTemplate.xlsx\"");
-		FileInputStream fis = new FileInputStream(path);
-		IOUtils.copy(fis, response.getOutputStream());
-		fis.close();*/
-	
-
+		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+		headers.add("Pragma", "no-cache");
+		headers.add("Expires", "0");
+		headers.add("Content-Disposition", "attachment; filename=AdminTemplate.xlsx");
+		return ResponseEntity.ok().headers(headers).contentLength(file.length())
+				.contentType(
+						MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+				.body(resource);
+	}
 }
