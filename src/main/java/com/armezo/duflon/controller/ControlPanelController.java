@@ -45,7 +45,7 @@ public class ControlPanelController {
 			return "redirect:login";
 		}
 	}
-	
+	//Hello
 	//Save new master Data
 	@PostMapping("/saveMasterData")
 	@ResponseBody
