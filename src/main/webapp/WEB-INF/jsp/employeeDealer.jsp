@@ -118,9 +118,9 @@ s.setAttribute("remove_final", "final");
                         <li><a class="toggle-vis" data-column="10"><em>Assessment Report</em></a></li>
 						<li><a class="toggle-vis" data-column="11"><em>Registration Form</em></a></li>
                         <li><a class="toggle-vis" data-column="12"><em>Interview Date</em></a></li>
-                        <li><a class="toggle-vis" data-column="13"><em>Interview Score</em></a></li>
-                        <li><a class="toggle-vis" data-column="14"><em>Interview Date 2</em></a></li>
-                        <li><a class="toggle-vis" data-column="15"><em>Interview Score 2</em></a></li>
+                        <li><a class="toggle-vis" data-column="13"><em>Interview Form</em></a></li>
+                        <li><a class="toggle-vis" data-column="14"><em>Interview 2 Date</em></a></li>
+                        <li><a class="toggle-vis" data-column="15"><em>Interview2 Form</em></a></li>
 						<li><a class="toggle-vis" data-column="16"><em>Approval</em></a></li>
 						
 										
@@ -143,9 +143,9 @@ s.setAttribute("remove_final", "final");
 							<th data-head="Assessment Report" class="sorting"><em>Assessment Report</em></th>
                             <th data-head="Registration Form" class="sorting"><em>Registration Form</em></th>
                             <th data-head="Interview Date" class="sorting"><em>Interview Date</em></th>
-                            <th data-head="Interview Form" class="sorting"><em>Interview Score</em></th>
-                            <th data-head="Interview Date 2" class="sorting"><em>Interview Date 2</em></th>
-                            <th data-head="Interview Form 2" class="sorting"><em>Interview Score 2</em></th>
+                            <th data-head="Interview Form" class="sorting"><em>Interview Form</em></th>
+                            <th data-head="Interview Date 2" class="sorting"><em>Interview 2 Date</em></th>
+                            <th data-head="Interview Form 2" class="sorting"><em>Interview 2 Form</em></th>
 							<th data-head="Approval" class="sorting"><em>Approval</em></th>
                            
                         </tr>

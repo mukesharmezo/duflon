@@ -123,26 +123,28 @@ public class UploadDocumentCandidate {
 	@PostMapping("/savedocument")
 	@ResponseBody
 	public String savedcument(@RequestParam("accesskey") String accessKey, @RequestParam("status") String status) {
-		String msg = "";
+		String msg = "", partStatus="";
 		Optional<ParticipantRegistration> participant = participantService.findByAccesskey(accessKey);
 		if(participant.get().getPhotograph() == null || participant.get().getSignature() == null || participant.get().getIdentitityProof() == null ||
 				participant.get().getAddressProof() == null || participant.get().getQualification() == null || participant.get().getQualification2() == null ||
 				participant.get().getQualification3() == null || participant.get().getResume() == null ) {
 			return  "3";
 		}
-		if (participant.isPresent()) {
-			participant.get().setDocuments_status(status);
-			participant.get().setModifiedDate(LocalDate.now());
-			participantService.saveFiles(participant.get());
-
-		}
+		
 		if (status.equals("save")) {
 			msg = "success";
 		}
 		if (status.equals("final")) {
-			
+			partStatus="Document";
 			msg = "Your Documents are uploaded and your HRE is notified.\r\n" + "\r\n"
 					+ "Please contact your HRE and inform that you have completed the process.";
+		}
+		if (participant.isPresent()) {
+			participant.get().setDocuments_status(status);
+			participant.get().setParticipantStatus(partStatus);
+			participant.get().setModifiedDate(LocalDate.now());
+			
+			participantService.saveFiles(participant.get());
 		}
 		uploaddocumentToCandidate(participant.get());
 		uploaddocumentToDealer(participant.get());
@@ -184,6 +186,7 @@ public class UploadDocumentCandidate {
 			participant.get().setDocuments_status(status);
 			participant.get().setRegStatus("3");
 			participant.get().setModifiedDate(LocalDate.now());
+			participant.get().setParticipantStatus("Final");
 			participantService.saveFiles(participant.get());
 			  eventLogin(participant.get().getHreId().intValue(),"upload Documets by dealer",participant.get().getAccessKey(),participant.get().getFirstName()+
 		        		" "+participant.get().getLastName()+" "+participant.get().getLastName(),participant.get().getEmail());
@@ -275,65 +278,6 @@ public class UploadDocumentCandidate {
 		return "success";
 	}
 	
-	
-	/*
-	private String sendEmailGenetateMSPIN(final ParticipantRegistration participant) {
-		final String subjectLine = "iRecruit – MSPIN "+ participant.getMspin() +" Generated";
-		String mailBody = DataProccessor.readFileFromResource("mspinGeneratedNotification");
-		
-		mailBody = mailBody.replace("${candidateName}", String.valueOf(participant.getFirstName()) + " "
-				+ participant.getMiddleName() + " " + participant.getLastName());
-		// smsMsg = smsMsg.replace("${name}", String.valueOf(participant.getFirstName())
-		// + " " + participant.getMiddleName() + " " + participant.getLastName());
-		final Dealer dealer = this.hreService.getById((long) participant.getHreId()).get();
-		mailBody = mailBody.replace("${dealer}", dealer.getName());
-		if(participant.getMspin() != null) {
-		mailBody = mailBody.replace("${mspin}", participant.getMspin());
-		}else {
-			mailBody = mailBody.replace("${mspin}", "");
-		}
-		mailBody = mailBody.replace("${link}", adminLink);
-		mailBody = mailBody.replace("${accesskey}", participant.getAccessKey());
-		
-		// smsMsg = smsMsg.replace("${accesskey}", participant.getAccessKey());
-		// SmsUtility.sendSmsHandler(participant.getMobile(), smsMsg, "MSILOT");
-		final SendPayload sendP = new SendPayload();
-		sendP.setTo(dealer.getEmail());
-		sendP.setSubjectLine(subjectLine);
-		sendP.setMsg(mailBody);
-		sendP.setCc("");
-		sendP.setBcc("");
-		sendP.setFrom("Armezo Solutions");
-		try {
-			EmailUtility.sendMailDuflon(sendP.getTo(), sendP.getFrom(), sendP.getCc(), sendP.getBcc(), sendP.getSubjectLine(),
-					sendP.getMsg(), "smtp");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		 try {
-		     if(dealer.getMobile() != null && !dealer.getMobile().equals("") ) {
-			 String smsMsg = DataProccessor.getSMS("mspinGenerated");
-			 String name="";
-			 name += participant.getFirstName();
-			 if(participant.getMiddleName() != null && !participant.getMiddleName().equals("")) {
-				 name +=  " "+ participant.getFirstName(); 
-			 }
-			 name +=  " "+ participant.getLastName(); 
-			 smsMsg = smsMsg.replace("${mspin}", participant.getMspin());
-			 smsMsg = smsMsg.replace("${name}", name);
-			 smsMsg = smsMsg.replace("${accesskey}", participant.getAccessKey());
-		     SmsUtility.sendSmsHandler(dealer.getMobile() , smsMsg,"MSILOT" );
-		     
-		     String smsMsg1 = DataProccessor.getSMS("recruited");
-		    // SmsUtility.sendSmsHandler(dealer.getMobile() , smsMsg1,"MSILOT" );
-		     }
-			}catch(Exception e) {
-				e.printStackTrace();
-	    }
-		return "success";
-	}
-	*/
 	 private void eventLogin(int loginId,String eventMSG,String accesskey,String name,String email) {
 		 EventLoger event = new EventLoger();
          event.setAccesskey(accesskey);

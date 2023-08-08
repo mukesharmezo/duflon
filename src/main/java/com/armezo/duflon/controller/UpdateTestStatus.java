@@ -61,7 +61,7 @@ public class UpdateTestStatus {
 	            participant.get().setAptitudeScore(Integer.valueOf((int)section_1));
 	            participant.get().setAttitudeScore(Integer.valueOf((int)section_2));
 	            participant.get().setPsychometricScore(Integer.valueOf((int)testScore));
-	            
+	            participant.get().setParticipantStatus("Assessment");
 	            participant.get().setModifiedDate(LocalDate.now());;
 	            participantserviceImpl.saveData(participant.get());
 	            sendEmail(participant.get(), testStatus);

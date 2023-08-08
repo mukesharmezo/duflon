@@ -251,6 +251,9 @@ public class ParticipantRegistration {
 	    private Integer interviewerCount;
 	    @Column(name = "int_count2")
 	    private Integer interviewerCount2;
+	    @Column(name = "part_status")
+	    private String participantStatus;;
+	    
 	    
 		public Long getId() {
 			return Id;
@@ -905,6 +908,12 @@ public class ParticipantRegistration {
 		}
 		public void setInterviewerCount2(Integer interviewerCount2) {
 			this.interviewerCount2 = interviewerCount2;
+		}
+		public void setParticipantStatus(String participantStatus) {
+			this.participantStatus = participantStatus;
+		}
+		public String getParticipantStatus() {
+			return participantStatus;
 		}
 		
 		

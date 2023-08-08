@@ -207,11 +207,13 @@ public class JobController {
 	}
 
 	// Delete Job
-	@GetMapping("/deleteJob")
-	public String deleteJobDetails(@RequestParam("jobId") Long jobId, HttpSession session, Model model) {
+	@GetMapping("/deleteJob/{jobId}")
+	@ResponseBody
+	public String deleteJobDetails(@PathVariable ("jobId") Long jobId, HttpSession session, Model model) {
 		if (session.getAttribute("userId") != null) {
 			jobService.deleteJobByJobId(jobId);
-			return "redirect:jobCreator";
+			//return "redirect:jobCreator";
+			return "";
 		} else {
 			return "redirect:login";
 		}

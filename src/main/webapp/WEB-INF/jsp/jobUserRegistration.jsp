@@ -159,7 +159,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
                             <input type="number" name="skills[${status.index}].experience" class="form-control" required="true" />
                         </td>
                         <td>
-                            <button type="button" class="btn btn-danger btn-circle rounded-circle btn-btn-circle" onclick="removeSkillRow('skillRow${status.index + 1}')">-</button>
+							 <button type="button" class="btn btn-danger btn-circle rounded-circle btn-btn-circle" onclick="removeSkillRow('skillRow${status.index + 1}')">-</button>
                         </td>
                     </tr>
                 </c:forEach>
@@ -175,8 +175,8 @@ String baseServer = resource.getString("client.url");String title = resource.get
 	</div>
 	
 	<script type="text/javascript">
-	$(document).ready(function() {
 		  var skillRowCount = ${skillLength};
+	$(document).ready(function() {
 		//Focus on next fields if space is entered
 		$('#firstName, #middleName, #lastName, #mobile, #email, #profileExperience').keydown(function(e) {
     		if (e.which === 32) { 
@@ -216,8 +216,25 @@ String baseServer = resource.getString("client.url");String title = resource.get
 		          })));
 
 		    $('#skillsTable tbody').append(newRow);
+		    
+		    //Validation
+		    for (var i = 0; i < skillRowCount; i++) {
+		        $('input[name="skills[' + i + '].skill"]').rules('add', {
+		          required: true,
+		          messages: {
+		            required: "Please enter a skill name."
+		          }
+		        });
 
-		    $('input[name="skills[' + (skillRowCount - 1) + '].skill"]').rules('add', {
+		        $('input[name="skills[' + i + '].experience"]').rules('add', {
+		          required: true,
+		          messages: {
+		            required: "Please enter the required experience for this skill."
+		          }
+		        });
+		      }
+
+		   /*  $('input[name="skills[' + (skillRowCount - 1) + '].skill"]').rules('add', {
 		      required: true,
 		      messages: {
 		        required: "Please enter a skill name."
@@ -229,18 +246,21 @@ String baseServer = resource.getString("client.url");String title = resource.get
 		      messages: {
 		        required: "Please enter the required experience for this skill."
 		      }
-		    });
+		    }); */
 		  }
 
-		  function removeSkillRow(rowId) {
-		    $('#' + rowId).remove();
-		    skillRowCount--;
-		  }
+		  
 
 		  $('#addSkillBtn').click(function() {
 		    addSkillRow();
 		  });
 		});
+	
+	function removeSkillRow(rowId) {
+		  console.log('Row :: '+rowId);
+	    $('#' + rowId).remove();
+	    skillRowCount--;
+	  }
 	</script>
 	<script>
 		// Use jQuery to select all number input elements

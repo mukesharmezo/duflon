@@ -129,7 +129,6 @@ public class HreController {
 	    		@RequestParam("interviewAddress") final String interviewAddress, @RequestParam("emails") String emails,@RequestParam("accesskey") final String accesskey) {
 	        ParticipantRegistration p = null;
 	        String subStr = emails.replaceAll("[\"\\[\\]]", "");
-	        System.out.println("Suc :: "+subStr);
 	        String[] emailArray = subStr.split(",");
 	        // Create a List to store the email addresses
 	        List<String> emailList = new ArrayList<>();
@@ -148,6 +147,7 @@ public class HreController {
 	                		p.setInterviewAddress(interviewAddress);
 	                		p.setModifiedDate(LocalDate.now());
 	                		p.setInterviewerCount(emailList.size());
+	                		p.setParticipantStatus("Schedule1");
 	                	}else if (intCount==2) {
 							p= particpant.get();
 							p.setInterviewDate2(newDate);
@@ -155,6 +155,7 @@ public class HreController {
 	                		p.setInterviewAddress2(interviewAddress);
 	                		p.setModifiedDate(LocalDate.now());
 	                		p.setInterviewerCount2(emailList.size());
+	                		p.setParticipantStatus("Schedule2");
 						}
 	                }
 	                if (p != null) {
@@ -462,6 +463,7 @@ public class HreController {
                  }
                  modelParticpantView.setDocStatus(p2.getDocuments_status());
                  modelParticpantView.setHiredStatus(p2.getHiredStatus());
+                 modelParticpantView.setPartStatus(p2.getParticipantStatus());
                   listParticipant.add(modelParticpantView);
                   
 	    	  }

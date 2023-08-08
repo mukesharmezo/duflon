@@ -33,8 +33,7 @@ if(session.getAttribute("role") != null){
 
 <style>
 ul li { margin: 0 !important;}
-.form-btn{width: 100% !important;}
-
+.form-btn{width: 100% !important;display: flex;    justify-content: center;    align-items: center;}
 </style>
 
 <script src="./js/jquery-3.4.1.min.js"></script>
@@ -65,12 +64,12 @@ ul li { margin: 0 !important;}
 
 						<div class="form-section">
 							<div class="form-block">
-								<h5>Full Name</h5>
-								<input type="text" name="memberName"  placeholder="Full Name" id="memberName" value="" required />
+								<h5>Full Name<span>*</span></h5>
+								<input type="text" name="memberName"  placeholder="Full Name" id="memberName" value="" />
 							</div>
 							<div class="form-block">
-								<h5>Relationship</h5>
-								<select name="relationship" id="relationship" required>
+								<h5>Relationship<span>*</span></h5>
+								<select name="relationship" id="relationship" >
 									<option value="">Select</option>
 									<c:forEach items="${relationship}" var="relationship">
 									<option value="${relationship.listDesc }">${relationship.listDesc }</option>
@@ -80,7 +79,7 @@ ul li { margin: 0 !important;}
 							<div class="form-block">
 								<div class="form-btn">
 									<input class="btn blue-btn"  type="submit" value="Add"
-										id="submit" />
+										id="submitbtn" />
 								</div>
 							</div>
 						</div>
@@ -177,6 +176,9 @@ ul li { margin: 0 !important;}
 	<input type="hidden" id="accesskey" value="${partcipant.accessKey}">
 	<input type="hidden" id="fid_value" value="">
 
+
+ <script src="./js/jquery.validate.js"></script>
+     <script type="text/javascript" src="./js/emergency.js"></script>
 	<script>
       $(document).ready(function () {
         var profile = document.getElementById("profile");

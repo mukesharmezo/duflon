@@ -49,6 +49,7 @@ public class ModelParticpantView {
     private String errorMessage;
     private String errorDateTime;
     private String errorProcess;
+    private String partStatus;
     
     
 	public String getRegionCode() {
@@ -338,6 +339,12 @@ public class ModelParticpantView {
 	}
 	public void setErrorProcess(String errorProcess) {
 		this.errorProcess = errorProcess;
+	}
+	public void setPartStatus(String partStatus) {
+		this.partStatus = partStatus;
+	}
+	public String getPartStatus() {
+		return partStatus;
 	}
 	
 	

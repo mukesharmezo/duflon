@@ -151,6 +151,9 @@ if(session.getAttribute("hreName") != null){
  }
  
  function hideChangeEmail(){
+	 document.getElementById("oldEmail").value = "";
+	    document.getElementById("newEmail").value = "";
+	    document.getElementById("errorEmail").textContent = "";
 	 $('.change-email-popup, .blk-bg').hide(); 
      return false;
  }
@@ -239,14 +242,14 @@ if(session.getAttribute("hreName") != null){
 		var errorEmail= $('#errorEmail');
 		 if (!validateEmail(newEmail)) {
 			 $('.error-chage-email').text('');
- 		     $('.error-chage-email').append('Please Enter Valid Email');
+ 		     $('.error-chage-email').append('Please enter a valid email');
 			 $('.error-chage-email').show();  
 			 return false; 
 	        }
 			
 			 if (oldEmail == newEmail) {
 			 $('.error-chage-email').text('');
- 		     $('.error-chage-email').append('Entered Email id already used, please enter different id');
+ 		     $('.error-chage-email').append('Entered email id already used, please enter a different id');
 			 $('.error-chage-email').show();  
 			 return false; 
 	        }
@@ -293,12 +296,17 @@ if(session.getAttribute("hreName") != null){
 			}); 
 }
  
+ function validateEmail(email) {
+	    var re = /^[A-Za-z0-9]+(\.[A-Za-z0-9]+)?@[A-Za-z]+\.[A-Za-z]+$/;
+	    return re.test(email);
+	}
+
  
- function validateEmail(email) 
+/*  function validateEmail(email) 
  {
      var re = /\S+@\S+\.\S+/;
      return re.test(email);
- }
+ } */
  
   function showMSG(msg){
 		 

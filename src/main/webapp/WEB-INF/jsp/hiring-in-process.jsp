@@ -131,11 +131,12 @@ s.removeAttribute("remove_final");
                         <li><a class="toggle-vis" data-column="10"><em>Assessment Report</em></a></li>
 						<li><a class="toggle-vis" data-column="11"><em>Registration Form</em></a></li>
                         <li><a class="toggle-vis" data-column="12"><em>Interview Date</em></a></li>
-                        <li><a class="toggle-vis" data-column="13"><em>Interview Score</em></a></li>
+                        <li><a class="toggle-vis" data-column="13"><em>Interview Form</em></a></li>
                         <li><a class="toggle-vis" data-column="14"><em>Interview 2 Date</em></a></li>
-                        <li><a class="toggle-vis" data-column="15"><em>Interview 2 Score</em></a></li>
+                        <li><a class="toggle-vis" data-column="15"><em>Interview 2 Form</em></a></li>
 						<li><a class="toggle-vis" data-column="16"><em>Approval</em></a></li>
-						<li><a class="toggle-vis" data-column="17"><em>On-Hold</em></a></li>						
+						<li><a class="toggle-vis" data-column="17"><em>Status</em></a></li>
+						<li><a class="toggle-vis" data-column="18"><em>On-Hold</em></a></li>						
                     </ul>
                 </div>
 				 <div class="export-to-csv"><input type="button" onclick="funexport()" class="ecsvbutton" value="Export To CSV"></div>
@@ -155,10 +156,11 @@ s.removeAttribute("remove_final");
 							<th data-head="Assessment Report" class="sorting"><em>Assessment Report</em></th>
                             <th data-head="Registration Form" class="sorting"><em>Registration Form</em></th>
                             <th data-head="Interview Date" class="sorting"><em>Interview Date</em></th>
-                            <th data-head="Interview Score" class="sorting"><em>Interview Score</em></th>
+                            <th data-head="Interview Score" class="sorting"><em>Interview Form</em></th>
                             <th data-head="Interview Date 2" class="sorting"><em>Interview 2 Date</em></th>
-                            <th data-head="Interview Score 2" class="sorting"><em>Interview 2 Score</em></th>
+                            <th data-head="Interview Score 2" class="sorting"><em>Interview 2 Form</em></th>
 							<th data-head="Approval" class="sorting"><em>Approval</em></th>
+							<th data-head="Status" class="sorting"><em>Status</em></th>
                             <th data-head="On-Hold" class="sorting"><em>On-Hold</em></th>
                         </tr>
                     </thead>
@@ -316,18 +318,39 @@ s.removeAttribute("remove_final");
                                </c:otherwise>
 							   </c:choose>
 							</td>
-                            
 							<td>
 								<c:choose>
 									<c:when test="${participant.hiredStatus == 'P'}"><span>Approval Pending</span> </c:when>
 									<c:otherwise><span>--</span></c:otherwise>
 								</c:choose>
 							</td>
-							<%-- <td>  ${participant.hiredStatus} </td> --%>
+							<td>
+								<c:if test="${participant.partStatus eq 'Assessment'}">
+									<span>Assessment Completed</span>
+								</c:if>
+								<c:if test="${participant.partStatus eq 'Document'}">
+									<span>Document Uploaded</span>
+								</c:if>
+								<c:if test="${participant.partStatus eq 'Final'}">
+									<span>Final Submitted</span>
+								</c:if>
+								<c:if test="${participant.partStatus eq 'Schedule1'}">
+									<span>Interview 1 Scheduled</span>
+								</c:if>
+								<c:if test="${participant.partStatus eq 'Interview1'}">
+									<span>Interview 1 Completed</span>
+								</c:if>
+								<c:if test="${participant.partStatus eq 'Schedule2'}">
+									<span>Interview 2 Scheduled</span>
+								</c:if>
+								<c:if test="${participant.partStatus eq 'Interview2'}">
+									<span>Interview 2Completed</span>
+								</c:if>
+							
+							</td>
                             <td>
 							 <span class="view-btn re-attempt" style="cursor: pointer; margin-left: 10px;" onclick="openOnholdPopup('${participant.accesskey}')">On Hold </span>
 							</td>
-                            
                         </tr>
                         <%i++; %>
                         </c:forEach>
@@ -552,7 +575,7 @@ s.removeAttribute("remove_final");
 				success:function(res){	
                       $('.confirm').prop('disabled', false);
                       swal({   
-					  title: "Email and SMS has been triggered to the candidate.",     
+					  title: "Email has been triggered to the candidate.",     
 					  showCancelButton: false,
 					  confirmButtonColor: "#DC3545",   
 					  confirmButtonText: "OK",   
@@ -616,7 +639,7 @@ s.removeAttribute("remove_final");
 				data:'accesskey='+accesskey,
 				success:function(res){
 					 swal({   
-					  title: "Email and SMS has been triggered to the candidate.",     
+					  title: "Email has been triggered to the candidate.",     
 					  showCancelButton: false,
 					  confirmButtonColor: "#DC3545",   
 					  confirmButtonText: "OK",   

@@ -121,7 +121,18 @@ $(document).ready(function() {
 			},
 			source:{
 				required: true
-			}
+			},
+			salaryMin: {
+                    required: true,
+                    number: true
+                },
+            salaryMax: {
+                    required: true,
+                    number: true,
+                    min: function () {
+                        return parseFloat($("#salaryMin").val());
+                    }
+                }
 		},
 		messages: {
 			title: {
@@ -240,7 +251,16 @@ $(document).ready(function() {
 			},
 			source:{
 				required: "Please select source."
-			}
+			},
+			salaryMin: {
+                    required: "Please enter min salary",
+                    number: "Please enter a valid number"
+                },
+             salaryMax: {
+                    required: "Please enter max salary",
+                    number: "Please enter a valid number",
+                    min: "Max salary cannot be less than min salary"
+                }
 		},
 		errorPlacement: function(error, element) {
 			error.insertAfter(element); // Insert the error message after the dropdown

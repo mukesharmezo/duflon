@@ -73,13 +73,14 @@ if (session.getAttribute("role") != null) {
 						<li><a class="toggle-vis" data-column="8"><em>Attitude</em></a></li> 
                         <li><a class="toggle-vis" data-column="9"><em>Assessment Status</em></a></li>
                         <li><a class="toggle-vis" data-column="10"><em>Assessment Report</em></a></li>
-						<li><a class="toggle-vis" data-column="11"><em>Assessment Sheet</em></a></li>
-						<li><a class="toggle-vis" data-column="12"><em>Registration Form</em></a></li>
-                        <li><a class="toggle-vis" data-column="13"><em>Interview Date</em></a></li>
-                        <li><a class="toggle-vis" data-column="14"><em>Interview Score</em></a></li>
-                        <li><a class="toggle-vis" data-column="15"><em>Interview Date 2</em></a></li>
-                        <li><a class="toggle-vis" data-column="16"><em>Interview Score 2</em></a></li>
-						<li><a class="toggle-vis" data-column="17"><em>Approval</em></a></li>
+						<!-- <li><a class="toggle-vis" data-column="11"><em>Assessment Sheet</em></a></li> -->
+						<li><a class="toggle-vis" data-column="11"><em>Registration Form</em></a></li>
+                        <li><a class="toggle-vis" data-column="12"><em>Interview Date</em></a></li>
+                        <li><a class="toggle-vis" data-column="13"><em>Interview Form</em></a></li>
+                        <li><a class="toggle-vis" data-column="14"><em>Interview 2 Date</em></a></li>
+                        <li><a class="toggle-vis" data-column="15"><em>Interview 2 Form</em></a></li>
+						<li><a class="toggle-vis" data-column="16"><em>Approval</em></a></li>
+						<li><a class="toggle-vis" data-column="17"><em>Status</em></a></li>
 						
                     </ul>
                 </div>
@@ -98,13 +99,14 @@ if (session.getAttribute("role") != null) {
                             <th data-head="Attitude" class="sorting"><em>Attitude</em></th>										
                             <th data-head="Assessment Status" class="sorting"><em>Assessment Status</em></th>
 							<th data-head="Assessment Report" class="sorting"><em>Assessment Report</em></th>
-							<th data-head="Assessment Sheet" class="sorting"><em>Assessment Sheet</em></th>
+							<!-- <th data-head="Assessment Sheet" class="sorting"><em>Assessment Sheet</em></th> -->
                             <th data-head="Registration Form" class="sorting"><em>Registration Form</em></th>
                             <th data-head="Interview Date" class="sorting"><em>Interview Date</em></th>
-                            <th data-head="Interview Score" class="sorting"><em>Interview Score</em></th>
-                            <th data-head="Interview Date 2" class="sorting"><em>Interview Date 2</em></th>
-                            <th data-head="Interview Score 2" class="sorting"><em>Interview Score 2</em></th>
+                            <th data-head="Interview Score" class="sorting"><em>Interview Form</em></th>
+                            <th data-head="Interview Date 2" class="sorting"><em>Interview 2 Date</em></th>
+                            <th data-head="Interview Score 2" class="sorting"><em>Interview 2 Form</em></th>
 							<th data-head="Approval" class="sorting"><em>Approval</em></th>
+							<th data-head="Status" class="sorting"><em>Status</em></th>
                            
                         </tr>
                     </thead>
@@ -148,7 +150,7 @@ if (session.getAttribute("role") != null) {
                                </c:when> 
                                </c:choose> 
                             <td><a href="#"><img src="./img/pdf-icn.svg" onclick="openReport('${participant.accesskey}','${participant.participantName }','${participant.email }','${participant.mobile }')" /></a></td >
-							<td> <a href="#" class="view-btn green"  onclick="openAnswerReport('${participant.accesskey}','${participant.participantName }','${participant.email }')">View</a></td >
+							<%-- <td> <a href="#" class="view-btn green"  onclick="openAnswerReport('${participant.accesskey}','${participant.participantName }','${participant.email }')">View</a></td > --%>
 							<td>
 							  <c:choose>
                                <c:when test="${participant.passFailStatus == '1' }">
@@ -216,7 +218,30 @@ if (session.getAttribute("role") != null) {
 											</c:otherwise>
 										</c:choose> --%>
 							 </td>  
-                           
+                           <td>
+								<c:if test="${participant.partStatus eq 'Assessment'}">
+									<span>Assessment Completed</span>
+								</c:if>
+								<c:if test="${participant.partStatus eq 'Document'}">
+									<span>Document Uploaded</span>
+								</c:if>
+								<c:if test="${participant.partStatus eq 'Final'}">
+									<span>Final Submitted</span>
+								</c:if>
+								<c:if test="${participant.partStatus eq 'Schedule1'}">
+									<span>Interview 1 Scheduled</span>
+								</c:if>
+								<c:if test="${participant.partStatus eq 'Interview1'}">
+									<span>Interview 1 Completed</span>
+								</c:if>
+								<c:if test="${participant.partStatus eq 'Schedule2'}">
+									<span>Interview 2 Scheduled</span>
+								</c:if>
+								<c:if test="${participant.partStatus eq 'Interview2'}">
+									<span>Interview 2Completed</span>
+								</c:if>
+							
+							</td>
                             
                            
                         </tr>

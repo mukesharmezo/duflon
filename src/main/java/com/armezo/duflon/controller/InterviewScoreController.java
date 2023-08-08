@@ -192,6 +192,7 @@ public class InterviewScoreController {
 			if(particpant.isPresent()) {
 				if(interviewCount==1) {
 					particpant.get().setInterviewScore(Integer.parseInt(total));
+					particpant.get().setParticipantStatus("Interview1");
 					participantService.saveData(particpant.get());
 					if(pass_fail_status.equals("pass")) {
 						//String name=DataProccessor.getFullNameOfParticipant(particpant.get());
@@ -199,6 +200,7 @@ public class InterviewScoreController {
 					}
 				}else if (interviewCount==2) {
 					particpant.get().setInterviewScore2(Integer.parseInt(total));
+					particpant.get().setParticipantStatus("Interview2");
 					if(pass_fail_status.equals("pass")) {
 						particpant.get().setHiredStatus("P");
 						/*

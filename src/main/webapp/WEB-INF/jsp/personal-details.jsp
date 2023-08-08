@@ -43,17 +43,7 @@ ul li {
 	width: 100% !important;
 }
 
-#div_emp {
-	color: #f00;
-	width: 290px;
-	height: 18px;
-	font-weight: 300;
-	font-size: 12px;
-	font-family: Roboto, sans-serif;
-	white-space: pointer;
-	text-overflow: ellipsis !important;
-	overflow: hidden;
-}
+
 </style>
 <script src="./js/jquery-3.4.1.min.js"></script>
 <script src="./js/jquery.dataTables.min.js"></script>
@@ -271,11 +261,9 @@ ul li {
 								if (role.equalsIgnoreCase("HRE")) {
 								%>
 								<div class="form-btn">
-									<input class="btn blue-btn" type="button" value="Save"
-										id="submitbtn" onclick="savePersonal('save')" /> <input
-										class="btn blue-btn" type="submit" value="Next"
-										id="submitnext" onclick="save('next')" /> <input
-										type="hidden" value="" id="btn_next" name="btnValue" />
+									<input class="btn blue-btn" type="button" value="Save" id="submitbtn" onclick="savePersonal('save')" /> 
+										<input class="btn blue-btn" type="submit" value="Next" id="submitnext" onclick="save('next')" /> 
+										<input type="hidden" value="" id="btn_next" name="btnValue" />
 								</div>
 								<%
 								}
@@ -289,7 +277,7 @@ ul li {
 				<input type="hidden" name="" id="accesskey"
 					value="${personal.accessKey}"> <input type="hidden"
 					id="designation_selse" value="${personal.designation}"> <input
-					type="hidden" id="mobile" value="${personal.mobile}"> <input
+					type="hidden" id="mobile2" value="${personal.mobile}"> <input
 					type="hidden" id="locationCode" value="${locationCode}"> <input
 					type="hidden" id="tehshil1" value="${personal.tehsil}"> <input
 					type="hidden" id=hreId value="${personal.hreId}">
@@ -301,7 +289,16 @@ ul li {
 			<script type="text/javascript" src="./js/personalDetail.js"></script>
 			<script>
       $(document).ready(function () {
-    	  $('#div_emp').hide();
+    	  
+    	  $('#firstName, #middleName, #lastName').keydown(function(e) {
+      		if (e.which === 32) { 
+        			e.preventDefault(); 
+        			$(this).closest('.form-block').next().find('input').focus(); //Move focus to the next fields box
+      		}
+    		});
+    	  
+    	  
+    	  
 		   $('#pincode').on('input', function() {
 	            var pincode = $(this).val();
 	            
@@ -387,24 +384,13 @@ ul li {
 		 function save(next){
        $("#btn_next").val(next);
       }
-	  
-		
 		function savePersonal(next)
 		{
-						
 			 $("#btn_next").val(next);
 			document.forms[0].action="savePersonalDetails";
 			document.forms[0].method="post";
 			document.forms[0].submit();
 		}
-		
-		<%if (msg.length() > 0) {%>
-		$('#div_emp').show();
-		$('#div_emp').text('');
-		$('#div_emp').append('<%=msg%>
-				');
-			<%}%>
-				
 			</script>
 		</div>
 	</div>

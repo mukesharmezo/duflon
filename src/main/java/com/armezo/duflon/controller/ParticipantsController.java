@@ -577,12 +577,14 @@ public class ParticipantsController {
 	    public String getParticipantAssessmentScore(@Validated final ParticipantRegistration participantRegistration, final BindingResult result, @RequestParam("accesskey") final String accesskey, final Model model) {
 	        final Optional<ParticipantRegistration> participant = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(accesskey);
 	        model.addAttribute("Assmntscore", (Object)participant.get());
+	        /*
 	        final Optional<InterviewScore> interviewScore = (Optional<InterviewScore>)this.interviewScoreService.findByAccesskey(accesskey);
 	        if (interviewScore.isPresent()) {
 	        	Double value = Double.parseDouble(interviewScore.get().getTotal_avt());
 	        	
 	            model.addAttribute("interviewScore", Math.round(value));
 	        }
+	        */
 	        return "assessment-scores";
 	    }
 	    

@@ -78,37 +78,20 @@ if(session.getAttribute("role") != null){
                     <div class="form-block">
                       <h5>Attitude Score</h5>
                                 <input type="number" placeholder="Attitude Score" value="${Assmntscore.attitudeScore}" disabled />
-                      <c:choose>
-                              <c:when test="${Assmntscore.designation eq 'Sales Support'}">
-                              <input type="number" placeholder="NA" value="NA" disabled  />
-                              </c:when>
-                              <c:when test="${Assmntscore.designation eq 'Sales'}">
-                              </c:when>
-                      </c:choose>
-                      
                     </div>
-                    <div class="break-section"></div>
+                  <%--  <div class="break-section"></div>
                     <div class="form-block">
                       <h5>Psychometric Score</h5>
                                 <input type="number" placeholder="Psychometric Score" value="${Assmntscore.attitudeScore}" disabled />
-                      <%-- <c:choose>
-                              <c:when test="${Assmntscore.designation eq 'Sales Support'}">
-                                <input type="number" placeholder="NA" value="NA" disabled  />
-                              </c:when>
-                              <c:when test="${Assmntscore.designation eq 'Sales'}">
-                              </c:when>
-                      </c:choose> --%>
                     </div>
-                    <div class="break-section"></div>
+                     <div class="break-section"></div>
                     <div class="form-block">
                       <h5>Interview Score</h5>
                       <input type="number" placeholder="Interview Score" value="${interviewScore}" disabled />
-                    </div>
+                    </div> --%>
                     <div class="break-section"></div>
 
                   <div class="form-btn">
-                    <!-- <a href="#" class="btn outline-btn">Save</a> -->
-                      <!-- <a href="#" class="btn blue-btn">Next</a> -->
 					   <%if(role.equalsIgnoreCase("HRE")) { %>
 					  <c:if test="${(Assmntscore.documents_status != 'final') && Assmntscore.status !='H'}">
                        <input class="btn blue-btn" type = "button" value = "Next" onclick="openUploadDocoment()"/>

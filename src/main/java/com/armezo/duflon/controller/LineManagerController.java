@@ -183,6 +183,7 @@ public class LineManagerController {
 	                	 modelParticpantView.setAttitude(0);	
 	                }
 	                modelParticpantView.setHiredStatus(p.getHiredStatus());
+	                modelParticpantView.setPartStatus(p.getParticipantStatus());
 	                listParticipant.add(modelParticpantView);
 	            }
 	        }

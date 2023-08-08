@@ -26,7 +26,7 @@ public class InterviewScoreService {
 	}
 	
 	public void delete(InterviewScore interviewScore) {
-	      interviewScoreRepo.delete(interviewScore);;	
+	      interviewScoreRepo.delete(interviewScore);
 	}
 	public Optional<InterviewScore> findByAccesskeyAndInterviewCount(String accesskey, Integer interviewCount) {
 		return interviewScoreRepo.findByAccessKeyAndInterviewCount(accesskey, interviewCount);

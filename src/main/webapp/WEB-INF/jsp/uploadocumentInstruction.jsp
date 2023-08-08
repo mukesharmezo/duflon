@@ -29,7 +29,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
     <div class="section instructions">
         <h1>Upload Documents</h1>
        <!-- <div class="instructions"> -->
-            <h2>Guidelines for uploading your documents in the duRecruit portal</h2>
+            <h2>Guidelines for uploading your documents in the DuRecruit portal</h2>
             <ol type="1">
                 <li>Check the documents which are to be uploaded</li>
                 <li>Keep these documents in one place before uploading them</li>

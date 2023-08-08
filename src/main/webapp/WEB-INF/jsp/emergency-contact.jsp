@@ -27,14 +27,14 @@ if(session.getAttribute("role") != null){
     <link rel="stylesheet" type="text/css" href="./css/emergency-contact.css" />
     <link rel="stylesheet" type="text/css" href="./css/style.css" />
 <link rel="stylesheet" type="text/css" href="./css/sweetalert.css"/>
- <script type="text/javascript" src="./js/sweetalert.min.js"></script>
     
     <style>
-    .form-btn{width: 100% !important;}      
+    .form-btn{width: 100% !important;display: flex;    justify-content: center;    align-items: center;}
 	   ul li{margin: 0px !important;}
     </style>
 
     <script src="./js/jquery-3.4.1.min.js"></script>
+ <script type="text/javascript" src="./js/sweetalert.min.js"></script>
     <script src="./js/jquery.dataTables.min.js"></script>
     <script src="./js/jquery.scrolltabs.js"></script>
   </head>
@@ -59,11 +59,11 @@ if(session.getAttribute("role") != null){
                 <input type = "hidden" name = "accessKey" id = "accessKey" value = "${emergencyContact.accessKey}" /> 
                   <div class="form-section">
                     <div class="form-block">
-                      <h5>Full Name</h5>
+                      <h5>Full Name<span>*</span></h5>
                       <input type="text" placeholder="Full Name" name = "cname"  id="cname"/>
                     </div>
                     <div class="form-block">
-                      <h5>Contact Number</h5>
+                      <h5>Contact Number<span>*</span></h5>
                       <input type="text" name="contactNo" placeholder="Contact Number" id="contactNo"  maxlength="10" onchange="getMobile()" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />                 
 				   </div>
                     <div class="form-block">

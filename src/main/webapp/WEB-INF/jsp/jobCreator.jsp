@@ -72,6 +72,7 @@ button.btn.btn-primary {	min-width: 110px;}
 <script src="./js/jquery-3.4.1.min.js"></script>
 <script src="./js/jquery.validate.js"></script>
 <script src="./js/jobPortal.js"></script>
+<script src="./js/sweetalert.min.js"></script>
 <script src="./js/jquery.dataTables.min.js"></script>
  <script src="https://cdn.datatables.net/fixedcolumns/4.2.1/js/dataTables.fixedColumns.min.js"></script> 
 <script src="./js/datatable.js"></script>
@@ -300,8 +301,11 @@ button.btn.btn-primary {	min-width: 110px;}
 									<td>${job.hreName}</td>
 									<td><a href="editJob?jobId=${job.jobId}"><span
 											class="btn btn-warning">Edit</span></a></td>
-									<td><a href="deleteJob?jobId=${job.jobId}"><span
-											class="btn btn-danger">Delete</span></a></td>
+									<td>
+										<button class="btn btn-danger" onclick="deleteJob('${job.jobId}')">Delete</button>
+									</td>
+									<%-- <td><a href="deleteJob?jobId=${job.jobId}"><span
+											class="btn btn-danger">Delete</span></a></td> --%>
 									<td>
 									<c:choose>
 									<c:when test="${role == 'HRE' || role == 'SA'}">
@@ -446,6 +450,40 @@ button.btn.btn-primary {	min-width: 110px;}
 				$(this).val(0); // Reset to 0 if a negative value is entered
 			}
 		});
+	</script>
+	<script>
+		function deleteJob(jobId) {
+			swal({
+				//console.log('Hii '+jobId);
+				title: 'Are you sure you want to delete this Job?',
+				//text: 'Are you sure you want to delete this Job?',
+				//type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor : '#DC3545',
+				confirmButtonText : 'Yes',
+				closeOnConfirm: true},
+				function(isConfirm){
+				$.ajax({
+					type : 'GET',
+					url : 'deleteJob/'+jobId,
+					success : function(response) {
+						/* swal({
+							title: "Job deleted successfully ",     
+		       				  showCancelButton: false,
+		       				  confirmButtonColor: "#DC3545",   
+		       				  confirmButtonText: "OK",   
+		       				  closeOnConfirm: true },
+		       				  function(isConfirm){			  
+		       					location.reload();
+						}); */
+					},
+					error : function(res){
+						
+					}
+				});
+				location.reload();
+			});
+		}
 	</script>
 </body>
 </html>

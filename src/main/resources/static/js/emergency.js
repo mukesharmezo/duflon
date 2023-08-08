@@ -6,6 +6,8 @@ $(document).ready(function () {
     		 ignore:[],
   		  rules: {	
   			cname:"required",
+  			memberName:"required",
+  			relationship:"required",
   			contactNo : {
 				required : true,
 				number : true,
@@ -15,6 +17,8 @@ $(document).ready(function () {
   		  },
   		  messages: {
   			cname: "<br/>Please enter name",
+  			memberName: "<br/>Please enter name",
+  			relationship: "<br/>Please select relationship",
   			contactNo : {
 				required : "<br/>Please enter mobile number",
 				minlength : "<br/>Please enter 10 digit mobile number",

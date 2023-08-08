@@ -70,20 +70,20 @@ if(session.getAttribute("role") != null){
                 <form action="./saveWorkExperienceExp" class="form" method = "post" id = "testForm">
                   <div class="form-section">
                     <div class="form-block">
-                      <h5>Company Name</h5>
+                      <h5>Company Name<span>*</span></h5>
                       <input type="text" placeholder="Company Name"   id="companyName" name="companyName"/>
                     </div>
                     <div class="form-block">
-                      <h5>Experience In Months</h5>
+                      <h5>Experience In Months<span>*</span></h5>
                       <input type="text"  id="expInMths" placeholder="Experience In Months" maxlength="3"  name="expInMths" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
                     </div>
 
                     <div class="form-block">
-                      <h5>Designation</h5>
+                      <h5>Designation<span>*</span></h5>
                       <input type="text" placeholder="Designation"   id="previousDesignation" name="previousDesignation"/>
                     </div>
                     <div class="form-block">
-                      <h5>Work Area</h5>
+                      <h5>Work Area<span>*</span></h5>
                       <input type="text"  placeholder="Work Area"  id="workArea" name="workArea"/>
                     </div>
                     <div class="form-block"></div>

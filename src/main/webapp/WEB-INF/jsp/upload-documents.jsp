@@ -231,7 +231,7 @@ a#viewresume {
 									<option value="Ration Card with address">Ration Card with address</option>
 									<option value="Bank Passbook">Bank Passbook</option>
 									<option value="Electricity Bill (not older than last three months)">Electricity Bill (not older than last three months)</option>
-									<option value="Telephone Bill (not older than last three months)">PasTelephone Bill (not older than last three months)</option>
+									<option value="Telephone Bill (not older than last three months)">Past Telephone Bill (not older than last three months)</option>
 									<option value="Water Bill (not older than last three months)">Water Bill (not older than last three months)</option>
 									<option value="Registered Sale/ Rent Agreement">Registered Sale/ Rent Agreement</option>
 									<option value="Others">Others</option>
