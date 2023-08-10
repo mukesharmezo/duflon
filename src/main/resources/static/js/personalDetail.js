@@ -1,6 +1,9 @@
 $(document).ready(function() {
-	$("#submitnext").click(function() {
-		console.log('Check');
+	console.log('Hello');
+	$("#submitnext, #submitbtn").click(function() {
+		
+
+	
 		$('#testForm').validate(
 			{
 				// ignore:[],
@@ -130,6 +133,5 @@ $(document).ready(function() {
 						|| value == value
 							.match(/^[a-zA-Z\s]+$/);
 				});
-
 	});
-});
+	});

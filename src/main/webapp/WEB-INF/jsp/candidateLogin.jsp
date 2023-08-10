@@ -100,7 +100,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 		}
 		if (result != temp) 
 		  {
-		    swal("Invalid result. Please enter correct value.");
+		    swal("Invalid result. Please enter the correct value.");
 		    return false;
 		  }
 		 

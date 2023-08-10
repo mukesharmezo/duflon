@@ -139,7 +139,7 @@ ul li {
 									ID Proof <span>*</span>
 								</h5>
 								<form:select path="idProof" id="idProof"
-									style="color: black !important" onchange="getDL()">
+									style="color: black !important">
 									<form:option value="" label="Select" />
 									<c:forEach items="${ID}" var="id">
 										<c:choose>
@@ -160,24 +160,21 @@ ul li {
 									Date of Birth<span>*</span>
 								</h5>
 								<form:input type="date" id="date" path="birthDate"
-									placeholder="Date of Birth" />
+									placeholder="Date of Birth" style="color: black !important" />
 							</div>
 							<div class="form-block">
 								<h5>
 									Mobile <span>*</span>
 								</h5>
-								<form:input type="text" maxlength="10" placeholder="Mobile"
-									oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-									path="mobile" />
+								<form:input type="text" maxlength="15" placeholder="Mobile" 	path="mobile" />
 							</div>
 
 							<div class="form-block">
 								<h5>
 									Alternate/Personal Contact Number <span>*</span>
 								</h5>
-								<form:input type="text" id="alt_co_no" maxlength="10"
+								<form:input type="text" id="alt_co_no" maxlength="15"
 									placeholder="Alternate/Personal Contact Number"
-									onkeyup="alternateCo()"
 									oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
 									path="alternateContactNumber" />
 								<!-- <br><span id="alt_no" style="display:none;color: #f00; margin-top: 5px;bottom: -20px;font-weight: 500;
@@ -261,9 +258,9 @@ ul li {
 								if (role.equalsIgnoreCase("HRE")) {
 								%>
 								<div class="form-btn">
-									<input class="btn blue-btn" type="button" value="Save" id="submitbtn" onclick="savePersonal('save')" /> 
-										<input class="btn blue-btn" type="submit" value="Next" id="submitnext" onclick="save('next')" /> 
-										<input type="hidden" value="" id="btn_next" name="btnValue" />
+									<input class="btn blue-btn" type="button" value="Save" id="submitbtn" />
+									<input class="btn blue-btn" type="submit" value="Next" id="submitnext" />
+									<input type="hidden" value="" id="btn_next" name="btnValue" />
 								</div>
 								<%
 								}
@@ -284,9 +281,8 @@ ul li {
 
 			</form>
 			<div class="blk-bg"></div>
-			<script
-				src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-			<script type="text/javascript" src="./js/personalDetail.js"></script>
+			<script src="./js/jquery.validate.js"></script>
+			<script type="text/javascript" src="./js/personal.js"></script>
 			<script>
       $(document).ready(function () {
     	  
@@ -367,7 +363,6 @@ ul li {
     	    var month = dtToday.getMonth()+1;
     	    var day = dtToday.getDate();
     	    var year = dtToday.getFullYear()-18;
-    	    console.log('Month value :: '+month);
     	    if(month < 10)
     	        month = '0' + month.toString();
     	    if(day < 10)

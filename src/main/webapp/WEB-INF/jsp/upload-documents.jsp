@@ -107,8 +107,6 @@ a#viewresume {
 								onclick="uploadFile('photofile','photo','successphoto','errorphoto','viewphoto','photodiv','loader_photo','imgphoto')" value="Upload"/>
 								<%} %>
 								</c:if>
-								
-								
 								<c:choose>
 								  <c:when test="${not empty participant.photograph }">
 							    <img class="ir-check" src="./img/check-icn.png" id="imgphoto"/>
@@ -179,7 +177,7 @@ a#viewresume {
 								</select>
 							 <p id = "pidenty">Upload file in PDF, JPEG, PNG and JPG under 1MB</p>
                                 <div class="success-tnc" id = "succesidentity"><img src="./img/check-icn.png" /> Successfully uploaded</div>
-                                <div class="error-tnc" id = "erroridentity"><img src="./img/cross-icn.png" /> Please Upload Valid file format</div>
+                                <div class="error-tnc" id = "erroridentity"><img src="./img/cross-icn.png" /> Please select proof type</div>
 							</div>
 							<div class="upload-input">
 								
@@ -239,7 +237,7 @@ a#viewresume {
 								</select>
 							  <p id = "pm">Upload file in PDF, JPEG, PNG and JPG under 1MB</p>
                                 <div class="success-tnc" id = "succesaddress"><img src="./img/check-icn.png" /> Successfully uploaded</div>
-                                <div class="error-tnc" id = "erroraddress"><img src="./img/cross-icn.png" /> Please Upload Valid file format</div>
+                                <div class="error-tnc" id = "erroraddress"><img src="./img/cross-icn.png" /> Please select proof type</div>
 							</div>
 							<div class="upload-input">
 								
@@ -671,19 +669,11 @@ a#viewresume {
                      </c:if>
                   </div>
                   <%} %>
-			
-			
 				</div><!-- Profile container -->
-				
 		</div>
-		
-		
-		
-   
 	</div>
 	<!-- Profile Container-->
 	</div>
-	
 	<div class="blk-bg"></div>
 	<input type="hidden" id="accesskey" value="${participant.accessKey}">
 	<script>
@@ -695,7 +685,6 @@ a#viewresume {
              $(".file-upload").hide();
              $("#btn_next").hide();			
 		   }
-		 
     	  <%if(role.equalsIgnoreCase("LM")) { %>
     	  $('input').attr('disabled', 'disabled');
     	  $('select').attr('disabled', 'disabled');
@@ -947,7 +936,18 @@ a#viewresume {
            },          
        });   
       }
-      
+       function showMSG(msg){
+    	   console.log('Inside Swal');
+ 		  swal({   
+ 				  title: msg,     
+    				  showCancelButton: false,
+    				  confirmButtonColor: "#DC3545",   
+    				  confirmButtonText: "OK",   
+    				  closeOnConfirm: true },
+ 				  function(isConfirm){			  
+ 					  return false; 
+ 				}); 
+ 	 }
       function getExtension(filename) {
       	  var parts = filename.split('.');
       	  return parts[parts.length - 1];
@@ -995,11 +995,15 @@ a#viewresume {
       		   return   true;
       		}
 			
-			function formatother(bytes) {		       
+			function formatother(bytes) {	
+				console.log('Bytes :: '+bytes);
       		       var c=bytes/1024;
+				console.log('CCC :: '+c);
       		       if(c>=1000){
+				console.log('in if');
       		    	   return false;
       		       }  
+				console.log('out if');
       		   return   true;
       		}
 			
@@ -1044,18 +1048,6 @@ a#viewresume {
         		{
         	    	window.location.href="viewFile?accessKey="+accesskey+"&fineName="+fileName;	
         		}
-				
-	 function showMSG(msg){
-		  swal({   
-				  title: msg,     
-				  showCancelButton: true,
-				  confirmButtonColor: "#DC3545",   
-				  confirmButtonText: "OK",   
-				  closeOnConfirm: true },
-				  function(isConfirm){			  
-					  return false; 
-				}); 
-	 }
 		 function next() {
 			 var accesskey = document.getElementById('accesskey').value
 				      /*	var accesskey = $("#accessKey").val();

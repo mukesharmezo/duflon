@@ -168,7 +168,7 @@ input#tnc {
 									<h3></h3>
 									<p>
 										<label> By submitting, I certify that the candidate
-											details provided here is true and complete to the best of my
+											details provided here are true and complete to the best of my
 											knowledge and belief.<br> <br> I further declare
 											that I have verified all the information and documents
 											submitted by the candidate, in this connection.<br> <br>

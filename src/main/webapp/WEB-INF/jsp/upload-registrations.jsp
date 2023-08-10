@@ -151,7 +151,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
             </select>
             <p id = "pm">Upload file in PDF, JPEG, PNG, and JPG under 1MB</p>
                 <div class="success-tnc" id = "succesaddress"><img src="./img/check-icn.png" /> Successfully uploaded</div>
-                <div class="error-tnc" id = "erroraddress"><img src="./img/cross-icn.png" />Please Upload Valid file format</div>
+                <div class="error-tnc" id = "erroraddress"><img src="./img/cross-icn.png" />Please select proof type</div>
           </div>
           <div class="upload-input">         
             <div class="file-upload">
@@ -188,7 +188,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
             <p>Class 10th (SSC / Matriculation)</p>
             <p>Upload file in PDF, JPEG, PNG and JPG under 1MB</p></div>
                 <div class="success-tnc" id = "successqualy"><img src="./img/check-icn.png" /> Successfully uploaded</div>
-                <div class="error-tnc" id = "errorqualy"><img src="./img/cross-icn.png" />Please Upload Valid file format</div>
+                <div class="error-tnc" id = "errorqualy"><img src="./img/cross-icn.png" />Please select proof type</div>
           </div>
           <div class="upload-input">   
             <div class="file-upload">

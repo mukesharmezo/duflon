@@ -102,7 +102,7 @@ button.btn.btn-primary {	min-width: 110px;}
 				</div>
 				<div class="form-block">
 					<label for="designation">Designation</label> 
-					<select class="form-control" id="designation" name="designation">
+					<select class="form-control" id="designation" name="designation" style="color: black !important">
 						<option value="">Select Designation</option>
 						<c:forEach items="${masters}" var="master">
 							<c:if test="${master.masterName == 'Designation'}">
@@ -128,7 +128,7 @@ button.btn.btn-primary {	min-width: 110px;}
 				</div>
 				<div class="form-block">
 					<label for="education">Education</label> 
-					<select name="education" id="education" class="form-control">
+					<select name="education" id="education" class="form-control" style="color: black !important">
 						<option value="">Select Education</option>
     					<c:forEach items="${masters}" var="master">
 							<c:if test="${master.masterName == 'Education'}">
@@ -177,7 +177,7 @@ button.btn.btn-primary {	min-width: 110px;}
 				</div>
 				<div class="form-block">
 					<label for="company">Company Name</label> 
-					<select name="company"  id="company" class="form-control">
+					<select name="company"  id="company" class="form-control" style="color: black !important">
 					<option value="">Select Company</option>
 						<c:forEach items="${masters}" var="master">
 							<c:if test="${master.masterName == 'Company'}">
@@ -188,7 +188,7 @@ button.btn.btn-primary {	min-width: 110px;}
 				</div>
 				<div class="form-block">
 					<label for="region">Region</label> 
-					<select name="region" id="region" class="form-control">
+					<select name="region" id="region" class="form-control" style="color: black !important">
 					<option value="">Select Region</option>
 						<c:forEach items="${masters}" var="master">
 							<c:if test="${master.masterName == 'Region'}">
@@ -199,7 +199,7 @@ button.btn.btn-primary {	min-width: 110px;}
 				</div>
 				<div class="form-block">
 					<label for="location">Location</label> <select name="location"
-						id="location" class="form-control">
+						id="location" class="form-control" style="color: black !important">
 						<option value="">Select Location</option>
 						<c:forEach items="${masters}" var="master">
 							<c:if test="${master.masterName == 'Location'}">
@@ -210,7 +210,7 @@ button.btn.btn-primary {	min-width: 110px;}
 				</div>
 				<div class="form-block">
 					<label for="unit">Unit</label> <select name="unit" id="unit"
-						class="form-control">
+						class="form-control" style="color: black !important">
 						<option value="">Select Unit</option>
 						<c:forEach items="${masters}" var="master">
 							<c:if test="${master.masterName == 'Unit'}">
@@ -221,7 +221,7 @@ button.btn.btn-primary {	min-width: 110px;}
 				</div>
 				<div class="form-block">
 					<label for="business">Business</label> 
-					<select name="business" id="business" class="form-control">
+					<select name="business" id="business" class="form-control" style="color: black !important">
 					<option value="">Select Business</option>
 						<c:forEach items="${masters}" var="master">
 							<c:if test="${master.masterName == 'Business'}">
@@ -232,7 +232,7 @@ button.btn.btn-primary {	min-width: 110px;}
 				</div>
 				<div class="form-block">
 					<label for="function">Function</label> <select name="function"
-						id="function" class="form-control">
+						id="function" class="form-control" style="color: black !important">
 						<option value="">Select Function</option>
 						<c:forEach items="${masters}" var="master">
 							<c:if test="${master.masterName == 'Function'}">
@@ -243,7 +243,7 @@ button.btn.btn-primary {	min-width: 110px;}
 				</div>
 				<div class="form-block">
 					<label for="product">Product</label> <select name="product"
-						id="product" class="form-control">
+						id="product" class="form-control" style="color: black !important">
 						<option value="">Select Product</option>
 						<c:forEach items="${masters}" var="master">
 							<c:if test="${master.masterName == 'Product'}">
@@ -352,13 +352,19 @@ button.btn.btn-primary {	min-width: 110px;}
 												</c:if>
 											</c:otherwise>
 										</c:choose></td>
-									<td><c:if test="${job.status == 'H'}">
-											<a href="unholdJobByHre?jobId=${job.jobId}"><span
-												class="btn btn-secondary">UnHold</span></a>
-										</c:if> <c:if test="${job.status == 'U'}">
-											<a href="holdJobByHre?jobId=${job.jobId}"><span
-												class="btn btn-secondary">Hold</span></a>
-										</c:if></td>
+									<td><c:choose>
+											<c:when test="${job.approvalLm == 'A' && job.approvalHr == 'A'}">
+												<c:if test="${job.status == 'H'}">
+													<a href="unholdJobByHre?jobId=${job.jobId}"><span class="btn btn-secondary">UnHold</span></a>
+												</c:if>
+												<c:if test="${job.status == 'U'}">
+													<a href="holdJobByHre?jobId=${job.jobId}"><span	class="btn btn-secondary">Hold</span></a>
+												</c:if>
+											</c:when>
+											<c:otherwise>
+												<span class="btn btn-secondary" disabled>Hold</span>
+											</c:otherwise>
+										</c:choose></td>
 								</tr>
 							</c:forEach>
 						</tbody>

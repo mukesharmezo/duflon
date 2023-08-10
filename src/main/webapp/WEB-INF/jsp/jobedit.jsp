@@ -57,7 +57,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 			<div class="form-section">
 				<div class="form-block">
 				<label for="hreId" >HRE</label>
-					<select class="form-control" id="hreId" name="hreId">
+					<select class="form-control" id="hreId" name="hreId" style="color: black !important">
 						<option value="">Select HRE</option>
 						<c:forEach items="${hres}" var="hre" varStatus="status">
 							<option value="${hre.id}" <c:if test="${job.hreId eq hre.id || hres.size() eq 1}"> selected</c:if>>${hre.name}</option>
@@ -66,7 +66,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 			</div>
 			<div class="form-block">
 				<label for="designation">Designation</label>
-				<select class="form-control" id="designation" name="designation">
+				<select class="form-control" id="designation" name="designation" style="color: black !important">
 					<option value="">Select Designation</option>
 					<c:forEach items="${masters}" var="master">
 						<c:if test="${master.masterName == 'Designation'}">
@@ -90,7 +90,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 			</div>
 			<div class="form-block">
   				<label for="education">Education</label>
-  				<select name="education" id="education" class="form-control">
+  				<select name="education" id="education" class="form-control" style="color: black !important">
     				<option value="">Select Education</option>
     				<c:forEach items="${masters}" var="master">
 						<c:if test="${master.masterName == 'Education'}">
@@ -145,7 +145,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 			</div>
 			<div class="form-block">
 				<label for="company" >Company Name</label>
-					<select name="company" id="company" class="form-control">
+					<select name="company" id="company" class="form-control" style="color: black !important">
 						<option value="">Select Company Name</option>
 							<c:forEach items="${masters}" var="master">
 							<c:if test="${master.masterName == 'Company'}">
@@ -157,7 +157,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 			</div>
 			<div class="form-block">
 				<label for="region" >Region</label>
-					<select name="region" id="region" class="form-control" >
+					<select name="region" id="region" class="form-control"  style="color: black !important">
 						<option value="">Select Region</option>
 						<c:forEach items="${masters}" var="master">
 							<c:if test="${master.masterName == 'Region'}">
@@ -169,8 +169,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 			</div>
 			<div class="form-block">
 				<label for="location">Location</label>
-					<select name="location" id="location" class="form-control"
-						required="true">
+					<select name="location" id="location" class="form-control" style="color: black !important">
 						<option value="">Select Location</option>
 						<c:forEach items="${masters}" var="master">
 						<c:if test="${master.masterName == 'Location'}">
@@ -181,7 +180,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 			</div>
 			<div class="form-block">
 				<label for="unit" >Unit</label>
-					<select name="unit" id="unit" class="form-control" required="true">
+					<select name="unit" id="unit" class="form-control"  style="color: black !important">
 						<option value="">Select Unit</option>
 						<c:forEach items="${masters}" var="master">
 						<c:if test="${master.masterName == 'Unit'}">
@@ -192,8 +191,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 			</div>
 			<div class="form-block">
 				<label for="business" >Business</label>
-					<select name="business" id="business" class="form-control"
-						required="true">
+					<select name="business" id="business" class="form-control" style="color: black !important">
 						<option value="">Select Business</option>
 						<c:forEach items="${masters}" var="master">
 						<c:if test="${master.masterName == 'Business'}">
@@ -204,7 +202,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 			</div>
 			<div class="form-block">
 				<label for="function" >Function</label>
-					<select name="function" id="function" class="form-control"  required="true">
+					<select name="function" id="function" class="form-control"    style="color: black !important">
 						<option value="">Select Function</option>
 						<c:forEach items="${masters}" var="master">
 						<c:if test="${master.masterName == 'Function'}">
@@ -215,8 +213,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 			</div>
 			<div class="form-block">
 				<label for="product" >Product</label>
-					<select name="product" id="product" class="form-control"
-						required="true">
+					<select name="product" id="product" class="form-control" style="color: black !important">
 						<option value="">Select Product</option>
 						<c:forEach items="${masters}" var="master">
 						<c:if test="${master.masterName == 'Product'}">

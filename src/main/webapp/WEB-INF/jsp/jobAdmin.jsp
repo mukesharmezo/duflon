@@ -39,6 +39,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 		.table-date table tr td .btn{padding:5px 10px 4px !important;}
 		table.dataTable.stripe>tbody>tr.odd>*, table.dataTable.display>tbody>tr.odd>* {box-shadow:none !important;}
 		.btn-success {color: #fff;background-color: #28a745;border-color: #28a745;margin-left: 15px;}
+		.description-column {	max-width: 20ch;	white-space: nowrap;	overflow: hidden;	text-overflow: ellipsis;}
    </style>
 
     <script src="./js/jquery-3.4.1.min.js"></script>
@@ -78,7 +79,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 					<tr>
 						<td>${status.count}</td>
 						<td>${payload.jobDesignation}</td>
-						<td>${payload.jobDescription}</td>
+						<td class="description-column">${payload.jobDescription}</td>
 						<td>${payload.jobPostDate}</td>
 						<td>${payload.hreName}</td>
 						<td>${payload.applicants}</td>

@@ -34,7 +34,7 @@ String assessUrl = resource.getString("client.asseesment");
 <body>
     <div class="header">
         <div class="logo">
-        <h2 class="LOGO" style="color: #fff;"><b>duRecruit</b></h2>
+        <h2 class="LOGO" style="color: #fff;"><b>DuRecruit</b></h2>
             <!-- <img src="./img/iRecruit-logo_1.svg" alt="" /> -->
         </div>
         <h1>Interview Evaluation Sheet</h1>
@@ -298,7 +298,7 @@ String assessUrl = resource.getString("client.asseesment");
 			
             <input type="button" class="btn blue-btn" onclick="save('save')" id="btn_save" value="Save"/>
 			
-            <c:if test="${score.status eq 'final' && editStatus eq '1'}">
+            <c:if test="${score.status eq 'final' && editStatus eq '1' && check eq 'check'}">
             <input type="button" class="btn blue-btn" value="Edit" id="btn_edit" onclick="edit()"/>
             </c:if>
                
@@ -332,8 +332,8 @@ String assessUrl = resource.getString("client.asseesment");
                 <ul>
                     <li>Tell me about yourself (introduce yourself)</li>
                     <li>What is your presence on social networking sites?</li>
-                    <li>What was your job role in your last company/dealership?</li>
-                    <li>Why do you want to switch your current company/dealership?</li>
+                    <li>What was your job role in your last company?</li>
+                    <li>Why do you want to switch your current company ?</li>
                     <li>What kind of salary do you expect?</li>
                 </ul>
             </div>
@@ -374,13 +374,13 @@ String assessUrl = resource.getString("client.asseesment");
                 <ul>
                     <li>Sell a pen/ watch to the interviewer</li>
                     <!-- <li>If you get an offer from competition dealership tomorrow, what will you do?</li> -->
-                    <li>What will you do if you get an offer from a competition dealership tomorrow?</li>
+                    <li>What will you do if you get an offer from a competition company tomorrow?</li>
                 </ul>
                 <h4>Experienced</h4>
                 <ul>
                     <!-- <li>Other than sales, what were your responsibilities when you worked for your last company/dealership?</li> -->
-                    <li>What were your responsibilities when you worked for your last company/dealership besides sales?</li>
-                    <li>If a customer is asks for a delivery on the same day for a particular vehicle and you do not have stock. How will you handle such a customer?</li>
+                    <li>What were your responsibilities when you worked for your last company besides sales?</li>
+                    <li>If a customer asks for a delivery on the same day for a particular vehicle and you do not have stock. How will you handle such a customer?</li>
                     <li>How will you handle a customer complaint logged due to your behavior with the customer while making a deal on a new launch model?</li>
                     <li>References and any other career achievement you want to share</li>
                 </ul>
@@ -673,11 +673,40 @@ String assessUrl = resource.getString("client.asseesment");
         	var attitude_3= Number($("#attitude_3").val());
         	var situation_3 =  Number($("#situation_3").val());
         	
+        	var intvCount = $("#interviewerCount").val();
+        	
         	var total = Number(clarity_1)+Number(presentability_1)+Number(attitude_1)+Number(situation_1)+Number(clarity_2)+Number(presentability_2)
         	           +Number(attitude_2)+Number(situation_2)+Number(clarity_3)+Number(presentability_3)+Number(attitude_3)+Number(situation_3);
             $("#total").val(total);
 	        var averageScore = total/2;
 			
+	        if(intvCount==1){
+	        	var avg2 = total; 
+	        	if(clarity_1 !="" && presentability_1 != "" && attitude_1 != "" && situation_1 != ""){
+	        		$("#total_avt").val(averageScore.toFixed(1));
+		        	 $("#averageScore").text('');
+		 	         $("#averageScore").append(total+'/'+20);
+					 $('#total-marks').text('');
+		             $("#total-marks").append(total+'/'+20);
+		        	   var per = total*100/20;
+		        	   if(per>=60){
+		        		   $('#pass_fail_status').text('');
+		       	           $('#pass_fail_status').append('Selected');  
+		       	           $("#pass_fail").val("pass");
+		       	           $("#pesentage").val(per);
+		        	   }else{
+		        		   $('#pass_fail_status').text('');
+		       	           $('#pass_fail_status').append('Not Selected');
+		       	           $("#pass_fail").val("fail");
+		       	           $("#pesentage").val(per);
+		        	   }
+					   $('#pass_fail_status').show();  
+	            	   $("#total-marks").show();
+					   $("#averageScore").show();
+	        	}
+	        }
+	        
+	        if(intvCount>1){
 	        
 	        if(clarity_1 !="" && presentability_1 != "" && attitude_1 != "" && situation_1 != "" && 
 	           clarity_2 !="" && presentability_2 != "" && attitude_2 != "" && situation_2 != "" &&(clarity_3 =="" && presentability_3 == "" && attitude_3 == "" && situation_3 == ""))
@@ -731,7 +760,7 @@ String assessUrl = resource.getString("client.asseesment");
 				   $("#averageScore").show();
 				    
 		      }
-           
+	        }
         
         }
 		
@@ -754,10 +783,8 @@ String assessUrl = resource.getString("client.asseesment");
         	var total = Number(clarity_1)+Number(presentability_1)+Number(attitude_1)+Number(situation_1)+Number(clarity_2)+Number(presentability_2)
         	           +Number(attitude_2)+Number(situation_2)+Number(clarity_3)+Number(presentability_3)+Number(attitude_3)+Number(situation_3);
             $("#total").val(total);
-           
+            console.log('Total :: '+total);
 	       var  averageScore = total/3;
-	       
-	        
 	        if(clarity_1 !="" && presentability_1 != "" && attitude_1 != "" && situation_1 != "" && 
 	           clarity_2 !="" && presentability_2 != "" && attitude_2 != "" && situation_2 != "")
 	          {
@@ -778,15 +805,9 @@ String assessUrl = resource.getString("client.asseesment");
 	       	           $("#pass_fail").val("fail");
 	       	           $("#pesentage").val(per1);
 	        	   }
-				   
 				   $('#pass_fail_status').show();  
             	   $("#total-marks").show();
-				    
 	         }
-	        
-	        
-           
-        
         }
 		
 		function disableCheck(){

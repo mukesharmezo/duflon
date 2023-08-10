@@ -156,9 +156,9 @@ s.removeAttribute("remove_final");
 							<th data-head="Assessment Report" class="sorting"><em>Assessment Report</em></th>
                             <th data-head="Registration Form" class="sorting"><em>Registration Form</em></th>
                             <th data-head="Interview Date" class="sorting"><em>Interview Date</em></th>
-                            <th data-head="Interview Score" class="sorting"><em>Interview Form</em></th>
-                            <th data-head="Interview Date 2" class="sorting"><em>Interview 2 Date</em></th>
-                            <th data-head="Interview Score 2" class="sorting"><em>Interview 2 Form</em></th>
+                            <th data-head="Interview Form" class="sorting"><em>Interview Form</em></th>
+                            <th data-head="Interview 2 Date" class="sorting"><em>Interview 2 Date</em></th>
+                            <th data-head="Interview 2 Form" class="sorting"><em>Interview 2 Form</em></th>
 							<th data-head="Approval" class="sorting"><em>Approval</em></th>
 							<th data-head="Status" class="sorting"><em>Status</em></th>
                             <th data-head="On-Hold" class="sorting"><em>On-Hold</em></th>
@@ -365,13 +365,15 @@ s.removeAttribute("remove_final");
             
             <div class="form-block">
                 <h5>Date</h5>
-                <input type="date" value="" id="date" style="text-transform: uppercase !important;"  />
+                <input type="date" value="" id="date" style="text-transform: uppercase !important;" />
             </div>
             <div class="form-block">
                 <h5>Time</h5>
 				<input type="time" id="time" name="time" value="21:00" min="09:00" max="21:00" required>
             </div>
 			 <div class="form-block">
+			 <br>
+			 <h5>Address</h5>
        	<textarea rows="4" cols="50" name="addressarea" id="addressarea" placeholder="Address/Meeting Link" maxlength="200" required="required">${participant.interviewAddress}</textarea>
         <input type="hidden" id="intCounter" name="intCounter"  value="0">
         </div>
@@ -742,6 +744,21 @@ s.removeAttribute("remove_final");
                     window.location.href="finalSubmit?accesskey="+pKey;
                  }
     </script>
+    <script>
+    // Get a reference to the date input field
+    var datePicker = document.getElementById('date');
+
+    // Disable the input field
+    datePicker.addEventListener('keydown', function(event) {
+        event.preventDefault();
+    });
+
+    // Prevent paste events
+    datePicker.addEventListener('paste', function(event) {
+        event.preventDefault();
+    });
+</script>
+    
   </body>
 </html>
 <%

@@ -1,93 +1,45 @@
-$(document).ready(function () {
-	
-    $("#submitbtn").click(function () {
-    	
-    	$('#testForm').validate({
-    		// ignore:[],
-  		  rules: {
-  			martialStatus: "required",
-  			date:"required",
-  			blodgroup:"required"    
-  		  },
-  		  messages: {
-  			martialStatus: "<br/>Select Location",
-  			date: "<br/>Please Enter Your Alphanumeric Code",
-  			blodgroup: "<br/>Select option"
-  		  }
-  		
-  		
-    	});
-    	
-    	
-    	
-    	$.validator.addMethod("alpha", function(value, element) {
-    	    return this.optional(element) || value == value.match(/^[a-zA-Z\s]+$/);
-    	});
-    	
-    	
-    	var regx = /^[A-Za-z0-9 _.-]+$/;
-    	$.validator.addMethod("loginRegexChar", function(value, element) {
-            return this.optional(element) || value == value.match(regx);
-        });
-    	
-    	
-    	var alNumRegex = /^[\w.]+$/i;
-    	$.validator.addMethod("loginRegex", function(value, element) {
-            return this.optional(element) || value == value.match(alNumRegex);
-        });
-    	
-    	
-    	if($("#testForm").valid()){
-    	
-    	//document.testForm.submit();
-    		$("#testForm").submit();
-    	}
-    	
-    });
-    
-    
-    
- $("#submitnext").click(function () {
-    	
-    	$('#testForm').validate({
-    		// ignore:[],
-  		  rules: {
-  			location: "required",
-  			//employeeCode:"required",
-  			workedWithMSILBefore:"required",    
-  		  },
-  		  messages: {
-  			location: "<br/>Select Location",
-  			//employeeCode: "<br/>Please Enter Your Alphanumeric Code",
-  			workedWithMSILBefore: "<br/>Select option"
-  		  }
-  		
-  		
-    	});
-    	
-    	
-    	
-    	$.validator.addMethod("alpha", function(value, element) {
-    	    return this.optional(element) || value == value.match(/^[a-zA-Z\s]+$/);
-    	});
-    	
-    	
-    	var regx = /^[A-Za-z0-9 _.-]+$/;
-    	$.validator.addMethod("loginRegexChar", function(value, element) {
-            return this.optional(element) || value == value.match(regx);
-        });
-    	
-    	
-    	var alNumRegex = /^[\w.]+$/i;
-    	$.validator.addMethod("loginRegex", function(value, element) {
-            return this.optional(element) || value == value.match(alNumRegex);
-        });
-    	
-    	
-    	if($("#testForm").valid()){
-    		
-    		$("#testForm").submit();
-    	}
-    	
-    });
+$(document).ready(function() {
+
+	$("#submitbtn, #submitnext").click(function() {
+		if ($("#testForm").valid()) {
+			// Form is valid, perform your action here
+			if (this.id === "submitbtn") {
+				// Handle "Save" button action
+				//save();
+			} else if (this.id === "submitnext") {
+				// Handle "Next" button action
+				//next();
+			}
+			$("#testForm").submit();
+		}
+	});
+
+	$("#testForm").validate({
+		rules: {
+      martialStatus: "required",
+      /*date: {
+        required: function(element) {
+          return $("#martialStatus").val() === "Married";
+        },
+        notFutureDate: true
+      },*/
+      blodgroup: "required"
+    },
+    messages: {
+      martialStatus: "Please select a marital status",
+      /*date: {
+        required: "Please provide a marriage date",
+        notFutureDate: "Marriage date cannot be a future date"
+      },*/
+      blodgroup: "Please select a blood group"
+    },
+	});
+
+	$.validator.addMethod("notFutureDate", function(value, element) {
+    var selectedDate = new Date(value);
+    var currentDate = new Date();
+    return selectedDate <= currentDate;
+  }, "Marriage date cannot be a future date");
+
+
 });

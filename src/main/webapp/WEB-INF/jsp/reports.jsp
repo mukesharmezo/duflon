@@ -609,7 +609,7 @@ String st = "";
                 <thead>
                     <tr>
                         <th data-head="Sr.No." class="sorting" style="z-index:1 !important;"><em>Sr.No.</em></th>
-                        <th data-head="Candidate Name" class="sorting" style="z-index: 1 !important;"><em>Candidate Name</em></th>
+                        <th data-head="Candidate Name" class="sorting" style="z-index:1 !important;"><em>Candidate Name</em></th>
                         <th data-head="Designation" class="sorting"><em>Designation</em></th>
                         <th data-head="Mobile" class="sorting"><em>Mobile</em></th>
                         <th data-head="Access Key" class="sorting"><em>Access Key</em></th>

@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -104,9 +103,9 @@ public class NewCandidate {
             cell = row.createCell(12);
             cell.setCellValue("Interview Score");
             cell = row.createCell(13);
-            cell.setCellValue("Interview Date 2");
+            cell.setCellValue("Interview 2 Date");
             cell = row.createCell(14);
-            cell.setCellValue("Interview Score 2");
+            cell.setCellValue("Interview 2 Score");
             cell = row.createCell(15);
             cell.setCellValue("Status");
             for (int i = 0; i < row.getLastCellNum(); ++i) {
@@ -274,9 +273,11 @@ public class NewCandidate {
             cell = row.createCell(12);
             cell.setCellValue("Interview Score");
             cell = row.createCell(13);
-            cell.setCellValue("Interview Date 2");
+            cell.setCellValue("Interview 2 Date");
             cell = row.createCell(14);
-            cell.setCellValue("Interview Score 2");
+            cell.setCellValue("Interview 2 Score");
+            cell = row.createCell(15);
+            cell.setCellValue("Status");
             for (int i = 0; i < row.getLastCellNum(); ++i) {
                 row.getCell(i).setCellStyle((CellStyle)style);
             }
@@ -370,6 +371,12 @@ public class NewCandidate {
                 }else {
                 	cell.setCellValue("");
                 }
+                cell= row.createCell(15);
+                String status="";
+                if(pr.getParticipantStatus()!=null) {
+                	status = DataProccessor.getParticipantStatus(pr.getParticipantStatus());
+                }
+                cell.setCellValue(status);
                 ++count;
             }
             
@@ -433,9 +440,9 @@ public class NewCandidate {
             cell = row.createCell(12);
             cell.setCellValue("Interview Score");
             cell = row.createCell(13);
-            cell.setCellValue("Interview Date 2");
+            cell.setCellValue("Interview 2 Date");
             cell = row.createCell(14);
-            cell.setCellValue("Interview Score 2");
+            cell.setCellValue("Interview 2 Score");
             for (int i = 0; i < row.getLastCellNum(); ++i) {
                 row.getCell(i).setCellStyle((CellStyle)style);
             }
@@ -636,11 +643,11 @@ public class NewCandidate {
             cell = row.createCell(31);
             cell.setCellValue("Interview Status");
             cell = row.createCell(32);
-            cell.setCellValue("Interview Date");
+            cell.setCellValue("Interview 2 Date");
             cell = row.createCell(33);
-            cell.setCellValue("Interview Score");
+            cell.setCellValue("Interview 2 Score");
             cell = row.createCell(34);
-            cell.setCellValue("Interview Status");
+            cell.setCellValue("Interview 2 Status");
             cell = row.createCell(35);
             cell.setCellValue("Work Experience");
             cell = row.createCell(36);
@@ -661,6 +668,8 @@ public class NewCandidate {
             cell.setCellValue("Marital Status");
             cell = row.createCell(44);
             cell.setCellValue("Blood Group");
+            cell = row.createCell(45);
+            cell.setCellValue("Status");
             for (int i = 0; i < row.getLastCellNum(); ++i) {
                 row.getCell(i).setCellStyle((CellStyle)style);
             }
@@ -711,7 +720,6 @@ public class NewCandidate {
                 if (pr.getRegStatus() != null && pr.getRegStatus() != "" && (pr.getStatus()==null || !pr.getStatus().equalsIgnoreCase("H")) ) {
                 	Optional<InterviewScore> intScore = interviewScoreService.findByAccesskeyAndInterviewCount(pr.getAccessKey(), 1);
                 	Optional<InterviewScore> intScore2 = interviewScoreService.findByAccesskeyAndInterviewCount(pr.getAccessKey(), 2);
-                	System.out.println("accesskey......................."+pr.getAccessKey());
                     row = (Row)sheet.createRow(count);
                     cell = row.createCell(0);
                     cell.setCellValue((double)count);
@@ -809,10 +817,6 @@ public class NewCandidate {
                     cell.setCellValue(recruitmentStage);
                     cell = row.createCell(14);
                     cell.setCellValue(DataProccessor.getAgeFromLocalDate(pr.getBirthDate()));
-                    /*
-                    if (pr.getGender() != null && pr.getGender() != "") {
-                        cell.setCellValue((String)listMap.get(pr.getGender()));
-                    }*/
                     cell = row.createCell(15);
                     if(pr.getPin()!=null) {
                     cell.setCellValue(pr.getPin());
@@ -994,209 +998,12 @@ public class NewCandidate {
                     else {
                         cell.setCellValue("");
                     }
-                    
-                  /*  if (pr.getInterviewDate() != null) {
-                       // cell.setCellValue(DataProccessor.csvDateFormatting(pr.getInterviewDate()));
-                        cell.setCellValue(pr.getInterviewDate());
-                    	cell.setCellStyle(cellStyle);
+                    cell= row.createCell(45);
+                    String status="";
+                    if(pr.getParticipantStatus()!=null) {
+                    	status = DataProccessor.getParticipantStatus(pr.getParticipantStatus());
                     }
-                    cell = row.createCell(41);
-                    if (pr.getInterviewScore() != null) {
-                        cell.setCellValue((double)pr.getInterviewScore());
-                    }
-                    cell = row.createCell(42);
-                    if (intScore.isPresent()) {
-                        cell.setCellValue(intScore.get().getInterviewStatus());
-                    }
-                    else {
-                        cell.setCellValue("");
-                    }
-                    cell = row.createCell(43);
-                    String praarambhStatus = "";
-                    if (pr.getPrarambhStatus() != null && pr.getPrarambhStatus() != "") {
-                        if (pr.getPrarambhStatus().equals("1")) {
-                            praarambhStatus = "Pending";
-                        }
-                        if (pr.getPrarambhStatus().equals("2")) {
-                            praarambhStatus = "Completed";
-                        }
-                    }
-                    cell.setCellValue(praarambhStatus);
-                    cell = row.createCell(44);
-                    if (pr.getFsdmApprovalStatus() != null) {
-                        if (pr.getFsdmApprovalStatus().equals("1")) {
-                            cell.setCellValue("Rejected");
-                        }
-                        else if (pr.getFsdmApprovalStatus().equals("3")) {
-                            cell.setCellValue("Pending");
-                        }
-                        else if (pr.getFsdmApprovalStatus().equals("2")) {
-                            cell.setCellValue("Approved");
-                        }
-                    }
-                    else {
-                        cell.setCellValue("");
-                    }
-                    cell = row.createCell(45);
-                    String fsdmF = "";
-                    if (pr.getFsdmFeedback() != null) {
-                        fsdmF = String.valueOf(fsdmF) + "Reason : " + pr.getFsdmFeedback();
-                    }
-                    if (pr.getFsdmRejectionType() != null) {
-                        fsdmF = String.valueOf(fsdmF) + "%nId Type : " + pr.getFsdmRejectionType();
-                    }
-                    if (pr.getFsdmRejectionReason() != null) {
-                        fsdmF = String.valueOf(fsdmF) + "%nDetails : " + pr.getFsdmRejectionReason();
-                    }
-                    if (pr.getFsdmRejectionComment() != null) {
-                        fsdmF = String.valueOf(fsdmF) + "%nComment : " + pr.getFsdmRejectionComment();
-                    }
-                    cell.setCellValue(String.format(fsdmF, new Object[0]));
-                    cell = row.createCell(46);
-                    if (pr.getFsdmApprovalDate() != null) {
-                        //cell.setCellValue(DataProccessor.csvDateFormatting(pr.getFsdmApprovalDate()));
-                    	
-                    	cell.setCellValue(pr.getFsdmApprovalDate());
-                    	cell.setCellStyle(cellStyle);
-                    }
-                    else {
-                        cell.setCellValue("");
-                    }
-                    cell = row.createCell(47);
-                    cell.setCellValue(pr.getOwnTwoWheeler());
-                    cell = row.createCell(48);
-                    cell.setCellValue(pr.getOwnFourWheeler());
-                    cell = row.createCell(49);
-                    cell.setCellValue(pr.getTwoWheeler());
-                    cell = row.createCell(50);
-                    cell.setCellValue(pr.getFourWheeler());
-                    cell = row.createCell(51);
-                    cell.setCellValue(pr.getMdsCertified());
-                    cell = row.createCell(52);
-                    cell.setCellValue(pr.getDL());
-                    cell = row.createCell(53);
-                    if (pr.getDL() != null && pr.getLicenseNo() != null) {
-                        if (pr.getDL().equalsIgnoreCase("Yes")) {
-                            cell.setCellValue(pr.getLicenseNo());
-                        }
-                    }
-                    else {
-                        cell.setCellValue("");
-                    }
-                    cell = row.createCell(54);
-                    if (pr.getValidityOfLicence() != null) {
-                        final Date validity = DataProccessor.parseDate(pr.getValidityOfLicence());
-                        if (validity != null) {
-                           // cell.setCellValue(DataProccessor.csvDateFormatting(validity));
-                        	cell.setCellValue(validity);
-                        	cell.setCellStyle(cellStyle);
-                        }
-                    }
-                    cell = row.createCell(55);
-                    if (pr.getFresher() != null && !pr.getFresher().equals("")) {
-                        cell.setCellValue(String.valueOf(pr.getFresher().substring(0, 1).toUpperCase()) + pr.getFresher().substring(1));
-                    }
-                    if (pr.getExperience() != null && !pr.getExperience().equals("")) {
-                        cell.setCellValue(String.valueOf(pr.getExperience().substring(0, 1).toUpperCase()) + pr.getExperience().substring(1));
-                    }
-                    cell = row.createCell(56);
-                    if (pr.getTotal() != null) {
-                        cell.setCellValue((double)pr.getTotal());
-                    }
-                    cell = row.createCell(57);
-                    cell.setCellValue(pr.getWorkedWithMSILBefore());
-                    cell = row.createCell(58);
-                    cell.setCellValue(pr.getMsilExp());
-                    cell = row.createCell(59);
-                    String autoIndustryBackground = "";
-                    final List<WorkExperience> workList = (List<WorkExperience>)pr.getWorkExperience();
-                    if (workList != null && workList.size() >= 1) {
-                        final List<String> list4 = new ArrayList<String>();
-                        for (final WorkExperience w : workList) {
-                            list4.add(w.getAutoIndustryExperience());
-                        }
-                        if (list4.contains("Yes") || list4.contains("yes")) {
-                            autoIndustryBackground = "Yes";
-                        }
-                        else {
-                            autoIndustryBackground = "No";
-                        }
-                    }
-                    if (pr.getAutoIndustryExperience() != null && pr.getAutoIndustryExperience() > 0) {
-                        autoIndustryBackground = "Yes";
-                    }
-                    else {
-                        autoIndustryBackground = "No";
-                    }
-                    cell.setCellValue(autoIndustryBackground);
-                    cell = row.createCell(60);
-                    if (pr.getAutoIndustryExperience() != null) {
-                        cell.setCellValue((double)pr.getAutoIndustryExperience());
-                    }
-                    else {
-                        cell.setCellValue("");
-                    }
-                    cell = row.createCell(61);
-                    if (pr.getNonAutoIndustryExperience() != null) {
-                        cell.setCellValue((double)pr.getNonAutoIndustryExperience());
-                    }
-                    else {
-                        cell.setCellValue("");
-                    }
-                    cell = row.createCell(62);
-                    String preCompanyName = "";
-                    if (pr.getWorkExperience() != null && pr.getWorkExperience().size() != 0) {
-                        for (final WorkExperience w : pr.getWorkExperience()) {
-                            preCompanyName = w.getCompanyName();
-                        }
-                    }
-                    if (pr.getWorkExperience() != null && pr.getWorkExperience().size() > 1) {
-                        for (final WorkExperience w : pr.getWorkExperience()) {
-                            preCompanyName = String.valueOf(preCompanyName) + ", " + w.getCompanyName();
-                        }
-                    }
-                    cell.setCellValue(preCompanyName);
-                    cell = row.createCell(63);
-                    cell.setCellValue(pr.getSource());
-                    cell = row.createCell(64);
-                    if (pr.getIdProof() != null && pr.getIdProof() != "") {
-                        cell.setCellValue((String)listMap.get(pr.getIdProof()));
-                    }
-                    else {
-                        cell.setCellValue("");
-                    }
-                    cell = row.createCell(65);
-                    if (pr.getAdharNumber() != null) {
-                        cell.setCellValue(pr.getAdharNumber().toString());
-                    }
-                    else {
-                        cell.setCellValue("");
-                    }
-                    cell = row.createCell(66);
-                    cell.setCellValue(pr.getEmpSalary());
-                    cell = row.createCell(67);
-                    cell.setCellValue(dataScience.getDataScienceReferenceId());
-                    cell = row.createCell(68);
-                    cell.setCellValue(dataScience.getDataSciencePrediction());
-                    cell = row.createCell(69);
-                    if (dataScience.getInterviewStatus() != null) {
-                        cell.setCellValue(String.valueOf(dataScience.getInterviewStatus().substring(0, 1).toUpperCase()) + dataScience.getInterviewStatus().substring(1));
-                    }
-                    else {
-                        cell.setCellValue("");
-                    }
-                    cell = row.createCell(70);
-                    cell.setCellValue(dataScience.getReason());
-                    cell = row.createCell(71);
-                    cell.setCellValue(pr.getPfNumber());
-                    cell = row.createCell(72);
-                    cell.setCellValue(pr.getBankAccountNumber());
-                    cell = row.createCell(73);
-                    cell.setCellValue(pr.getEsiNumber());
-                    cell = row.createCell(74);
-                    cell.setCellValue(pr.getMartialStatus());
-                    cell = row.createCell(75);
-                    */
+                    cell.setCellValue(status);
                     ++count;
                 }
             }

@@ -82,7 +82,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 				</div>
 				<div class="form-block">
   					<label for="gender">Gender</label>
-  					<select id="gender" name="gender" class="form-control">
+  					<select id="gender" name="gender" class="form-control" style="color: black !important">
     					<option value="">Select Gender</option>
     					<c:forEach items="${genders}" var="gender">
     						<option value="${gender.listCode}">${gender.listDesc}</option>
@@ -101,7 +101,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 				</div>
 				<div class="form-block">
 					<label for="education">Education</label>
-					<select name="education" id="education" class="form-control">
+					<select name="education" id="education" class="form-control" style="color: black !important">
 						<option value="">Select Education</option>
     					<c:forEach items="${educations}" var="education">
     						<option value="${education}">${education}</option>

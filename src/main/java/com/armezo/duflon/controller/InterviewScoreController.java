@@ -80,11 +80,17 @@ public class InterviewScoreController {
 			model.addAttribute("date",particpant.get().getInterviewDate().format(df));	
 			model.addAttribute("accesskey", particpant.get().getAccessKey());
 			model.addAttribute("photograph", particpant.get().getPhotograph());
+			//Checking 2nd interview scheduled or not
+			String int2 = "check";
 			if(interviewCount==1) {
+				if(particpant.get().getInterviewDate2()!=null) {
+					int2 = "interview2sch";
+				}
 				model.addAttribute("interviewerCount", particpant.get().getInterviewerCount());
 			}else if (interviewCount == 2) {
 				model.addAttribute("interviewerCount", particpant.get().getInterviewerCount2());
 			}
+			model.addAttribute("check", int2);
 			if(particpant.get().getDocuments_status() == null) {
 			   model.addAttribute("editStatus", 1);
 			}
@@ -173,11 +179,11 @@ public class InterviewScoreController {
 			   }else if (interviewCount==2) {
 			   msg="The Candidate is shortlisted in the Interview Process.\r\n" + 
 			   		"\r\n" + 
-			   		"You must speak with selected candidate to complete the Joining Formalities. \r\n" + 
+			   		"You must speak with the selected candidate to complete the Joining Formalities. \r\n" + 
 			   		"\r\n" + 
 			   		"An Automated Email and SMS sent to Candidates for this.\r\n" + 
 			   		"\r\n" + 
-			   		"NOTE: You may choose to share the Letter of Intent (LOI) / Offer Letter to selected candidate if required.";
+			   		"NOTE: You may choose to share the Letter of Intent (LOI) / Offer Letter to the selected candidate if required.";
 			}}else {
 				msg="The Candidate is NOT shortlisted in the Interview Process.";
 				score.setInterviewStatus("Not Selected");	

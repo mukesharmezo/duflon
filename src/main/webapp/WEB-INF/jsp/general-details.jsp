@@ -64,7 +64,6 @@ if(session.getAttribute("role") != null){
                       </select>
                     </div>
                     <div class="form-block" id="inv_date" style="display:none">
-                     <!-- <h5>Anniversary Date</h5> -->
 					 <h5>Marriage Date</h5> 
                       <input type="date" value = "${general.anniversaryDate }" id="date" placeholder="Anniversary Date" />
                     </div>
@@ -81,9 +80,8 @@ if(session.getAttribute("role") != null){
                      <%if(role.equalsIgnoreCase("HRE")) { %>
                   <div class="form-btn">
                      
-                      <a href="#" class="btn outline-btn" onclick="save()">Save</a>
-                      <!-- <a href="#" class="btn blue-btn">Next</a> -->
-                      <input class="btn blue-btn" type = "button" value = "Next" onclick="next()" />
+                      <a href="#" class="btn outline-btn" id="submitbtn">Save</a>
+                      <input class="btn blue-btn" type = "button" value = "Next" id="submitnext"/>
                       </div>
                       <%} %>
                     </c:if>
@@ -95,8 +93,8 @@ if(session.getAttribute("role") != null){
     </div>
 	<div class="blk-bg"></div>
       <input type="hidden" id="accesskey" value="${general.accessKey}">
-<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="./js/register.js"></script>
+			<script src="./js/jquery.validate.js"></script>
+			<script type="text/javascript" src="./js/generalDetail.js"></script>
     <script>
       $(document).ready(function () {
     	  <%if(role.equalsIgnoreCase("LM") || role.equalsIgnoreCase("SA") || role.equalsIgnoreCase("HOD")) { %>
@@ -115,7 +113,6 @@ if(session.getAttribute("role") != null){
       
       
       function save() {
-    	
     	var accesskey = $("#accessKey").val();
     	var martialStatus  = $("#martialStatus").val();
     	var anniversary_date = $("#date").val();

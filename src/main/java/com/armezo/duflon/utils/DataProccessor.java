@@ -259,5 +259,35 @@ public class DataProccessor {
 	        return sb.toString();
 	    }
 		
+		//Get Participant Status :
+		public static String getParticipantStatus(String status) {
+			String rs= "";
+			if(status!=null && status.equalsIgnoreCase("Assessment")) {
+				rs="Assessment Completed";
+			}
+			if(status!=null && status.equalsIgnoreCase("Document")) {
+				rs="Document Uploaded";
+			}
+			if(status!=null && status.equalsIgnoreCase("Final")) {
+				rs="Final Submitted";
+			}
+			if(status!=null && status.equalsIgnoreCase("Schedule1")) {
+				rs="Interview 1 Scheduled";
+			}
+			if(status!=null && status.equalsIgnoreCase("Schedule2")) {
+				rs="Interview 2 Scheduled";
+			}
+			if(status!=null && status.equalsIgnoreCase("Interview1")) {
+				rs="Interview 1 Completed";
+			}
+			if(status!=null && status.equalsIgnoreCase("Interview2")) {
+				rs="Interview 2 Completed";
+			}
+			if(status!=null && status.equalsIgnoreCase("Recruited")) {
+				rs="Recruited";
+			}
+			return rs;
+		}
+		
 
 }
