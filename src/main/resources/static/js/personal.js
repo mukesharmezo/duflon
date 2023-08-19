@@ -106,8 +106,8 @@ $(document).ready(function() {
 			pin: {
 						required: "<br/>Please enter pin code",
 						number: "<br/>Please Enter your pin number as a numerical value",
-						minlength: "<br/>Minlength should be 6 digit for pin number",
-						maxlength: "<br/>Maxlength should be 6 digit  for pin number"
+						minlength: "<br/>Min. length should be 6 digit for Pin Code",
+						maxlength: "<br/>Max. length should be 6 digit  for Pin Code"
 					},
 			address: {
 				required:"Please enter address."

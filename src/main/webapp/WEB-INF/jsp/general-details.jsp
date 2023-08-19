@@ -80,8 +80,11 @@ if(session.getAttribute("role") != null){
                      <%if(role.equalsIgnoreCase("HRE")) { %>
                   <div class="form-btn">
                      
-                      <a href="#" class="btn outline-btn" id="submitbtn">Save</a>
+                     <!-- <a href="#" class="btn outline-btn" id="submitbtn">Save</a>
                       <input class="btn blue-btn" type = "button" value = "Next" id="submitnext"/>
+                      -->
+                      <a href="#" class="btn outline-btn" onclick="save()" id="submitbtn">Save</a>
+                      <input class="btn blue-btn" type = "button" value = "Next" onclick="next()" id="submitnext"/>
                       </div>
                       <%} %>
                     </c:if>
@@ -93,8 +96,8 @@ if(session.getAttribute("role") != null){
     </div>
 	<div class="blk-bg"></div>
       <input type="hidden" id="accesskey" value="${general.accessKey}">
-			<script src="./js/jquery.validate.js"></script>
-			<script type="text/javascript" src="./js/generalDetail.js"></script>
+			<!-- <script src="./js/jquery.validate.js"></script>
+			<script type="text/javascript" src="./js/generalDetail.js"></script> -->
     <script>
       $(document).ready(function () {
     	  <%if(role.equalsIgnoreCase("LM") || role.equalsIgnoreCase("SA") || role.equalsIgnoreCase("HOD")) { %>

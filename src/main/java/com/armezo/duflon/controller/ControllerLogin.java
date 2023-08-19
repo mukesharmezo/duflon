@@ -286,7 +286,7 @@ public class ControllerLogin {
 				return "redirect:candidateLogin";
 			} else if (Integer.parseInt(participant.get().getTestStatus()) == 1) {
 				return "redirect:" + assessmentURL + "assess/alloginpro?accesskey=" + participant.get().getAccessKey();
-			} else if (Integer.parseInt(participant.get().getTestStatus()) == 3) {
+			} else if (Integer.parseInt(participant.get().getTestStatus()) == 3 && participant.get().getPassFailStatus() ==1) {
 				return "redirect:instructionUploadFile?accesskey=" + accesskey;
 				/*session.setAttribute("msg", "C");
 				return "redirect:candidateLogin";*/

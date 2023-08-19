@@ -40,7 +40,7 @@ Please read the instructions carefully and attempt the Online Assessment within 
 <br>
 <b>7.</b> In case, you are facing any technical issues, please reach out to your respective recruiter/HRE.
 <br><br>
-<br>Registration/Assessment Link: </b> https://assess.armezo.com/duflon/candidateLogin
+<br>Registration/Assessment Link: </b> https://durecruit.duflon.com/tap/candidateLogin
 <br><br>
 <b>Your Access Key:</b> ${accesskey}
 <br><br>

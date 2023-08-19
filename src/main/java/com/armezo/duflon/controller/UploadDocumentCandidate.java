@@ -123,7 +123,7 @@ public class UploadDocumentCandidate {
 	@PostMapping("/savedocument")
 	@ResponseBody
 	public String savedcument(@RequestParam("accesskey") String accessKey, @RequestParam("status") String status) {
-		String msg = "", partStatus="";
+		String msg = "", partStatus="Assessment";
 		Optional<ParticipantRegistration> participant = participantService.findByAccesskey(accessKey);
 		if(participant.get().getPhotograph() == null || participant.get().getSignature() == null || participant.get().getIdentitityProof() == null ||
 				participant.get().getAddressProof() == null || participant.get().getQualification() == null || participant.get().getQualification2() == null ||
@@ -132,6 +132,7 @@ public class UploadDocumentCandidate {
 		}
 		
 		if (status.equals("save")) {
+			partStatus="Document";
 			msg = "success";
 		}
 		if (status.equals("final")) {

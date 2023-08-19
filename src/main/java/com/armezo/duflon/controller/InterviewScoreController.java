@@ -80,6 +80,7 @@ public class InterviewScoreController {
 			model.addAttribute("date",particpant.get().getInterviewDate().format(df));	
 			model.addAttribute("accesskey", particpant.get().getAccessKey());
 			model.addAttribute("photograph", particpant.get().getPhotograph());
+			System.out.println("Count :: "+interviewCount+"<>"+particpant.get().getPhotograph());
 			//Checking 2nd interview scheduled or not
 			String int2 = "check";
 			if(interviewCount==1) {
@@ -259,6 +260,7 @@ public class InterviewScoreController {
 			}
 			model.addAttribute("accesskey", particpant.get().getAccessKey());	
 			model.addAttribute("photograph", particpant.get().getPhotograph());
+			System.out.println("Count :: "+interviewCount+"<>"+particpant.get().getPhotograph());
 			model.addAttribute("name", DataProccessor.getFullNameOfParticipant(particpant.get()));	
 		}
 		if (score.isPresent()) {
@@ -316,7 +318,7 @@ public class InterviewScoreController {
 	
 	
 	private String sendEmailShortlisted(ParticipantRegistration participant, int count) {
-		String subjectLine="duRecruit – Your Job Application: Shortlisted";
+		String subjectLine="DuRecruit – Your Job Application: Shortlisted";
 		String mailBody ="";
 		if(count==1) {
 		mailBody=DataProccessor.readFileFromResource("shortlistedEmail");
@@ -353,7 +355,7 @@ public class InterviewScoreController {
 		return "success";
 	}
 	private String sendEmailHiredToHRE(ParticipantRegistration participant) {
-		String subjectLine="duRecruit – Your Job Application: Shortlisted";
+		String subjectLine="DuRecruit – Your Job Application: Shortlisted";
 		String mailBody=DataProccessor.readFileFromResource("hiredStatusHRE");
 		//String smsMsg = DataProccessor.getSMS("shortlist");
 		mailBody = mailBody.replace("${candidateName}", DataProccessor.getFullNameOfParticipant(participant));

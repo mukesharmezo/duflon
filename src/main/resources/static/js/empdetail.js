@@ -13,8 +13,7 @@ $(document).ready(function () {
             digits: true
           },
           pfNumber: {
-            required: true,
-            digits: true
+            required: true
           },
           bankName: {
             required: true
@@ -43,8 +42,7 @@ $(document).ready(function () {
             digits: "EPFO must be a numeric value."
           },
           pfNumber: {
-            required: "Please enter PF Number.",
-            digits: "PF Number must be a numeric value."
+            required: "Please enter PF Number."
           },
           bankName: {
             required: "Please enter Bank Name."
@@ -91,8 +89,7 @@ $(document).ready(function () {
             digits: true
           },
           pfNumber: {
-            required: true,
-            digits: true
+            required: true
           },
           bankName: {
             required: true
@@ -121,8 +118,7 @@ $(document).ready(function () {
             digits: "EPFO must be a numeric value."
           },
           pfNumber: {
-            required: "Please enter PF Number.",
-            digits: "PF Number must be a numeric value."
+            required: "Please enter PF Number."
           },
           bankName: {
             required: "Please enter Bank Name."

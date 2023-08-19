@@ -110,7 +110,7 @@
 									}, 14.5 * 60 * 1000);
 							setInterval(
 									function() {
-										window.location.href = 'https://assess.armezo.com/duflon/session-expired?param=a';
+										window.location.href = 'https://durecruit.duflon.com/tap/session-expired?param=a';
 									}, 15 * 60 * 1000);
 
 							if (localStorage.getItem('windows') === '1') {

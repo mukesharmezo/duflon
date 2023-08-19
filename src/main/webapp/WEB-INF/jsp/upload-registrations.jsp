@@ -643,6 +643,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
       	  var ext = getExtension(filename);
       	  switch (ext.toLowerCase()) {
       	    case 'jpg':
+      	    case 'jpeg':
       	    case 'png':
       	    case 'pdf':
 			// case 'txt':
@@ -655,6 +656,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
         	  var ext = getExtension(filename);
         	  switch (ext.toLowerCase()) {
         	    case 'jpg':
+        	    case 'jpeg':
         	    case 'png':
         	    case 'pdf':
         	      return true;

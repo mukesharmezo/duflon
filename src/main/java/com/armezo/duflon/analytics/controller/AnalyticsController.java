@@ -131,9 +131,12 @@ public class AnalyticsController {
 					// Document
 					if (part.getDocuments_status() == null) {
 						analytics.setDocumentUploadStatus("2");
-					}
+					} 
+//						  else { analytics.setDocumentUploadStatus("1"); }
+						 
 					// Interview
 					if (part.getDocuments_status() != null && part.getDocuments_status().equalsIgnoreCase("final")) {
+						analytics.setDocumentUploadStatus("1");
 						if (iScore.isPresent()) {
 							interviewStatus = "Completed";
 							InterviewScore is = iScore.get();
@@ -153,6 +156,7 @@ public class AnalyticsController {
 				if (part.getHiredStatus() != null) {
 					if (part.getHiredStatus().equals("Y")) {
 						analytics.setRecruitedStatus("Yes");
+						analytics.setApproval("Y");
 					}else if (part.getHiredStatus().equalsIgnoreCase("P")) {
 						analytics.setApproval("P");
 						analytics.setRecruitedStatus("No");

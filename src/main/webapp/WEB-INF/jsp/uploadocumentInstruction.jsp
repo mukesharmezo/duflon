@@ -43,7 +43,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
                 <li>Once the document is selected, click OK and then click on the upload button.</li>
                 <li>On uploading each document, you will get a confirmation message.</li>
                 <li>You need to repeat the process every time for uploading all documents.</li>
-                <li>Please reach out to your respective recruiter/dealer if you face any issues while uploading documents
+                <li>Please reach out to your respective recruiter/hre if you face any issues while uploading documents
                     <h4>Govt ID Card</h4>
                     <ul class="sublist">
                         <li>Upload the full image of your Govt. ID Card</li>

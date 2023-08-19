@@ -5,7 +5,11 @@
 try
     {
       ResourceBundle resource = ResourceBundle.getBundle("application");
-String baseServer = resource.getString("client.url");String title = resource.getString("app.title");
+	  String baseServer = resource.getString("client.url");
+	  String title = resource.getString("app.title");
+	  if(session.getAttribute("role") != null)
+	  {
+		String role = session.getAttribute("role").toString().trim();
 	%>
 <!DOCTYPE html>
 <html lang="en"><head>
@@ -111,7 +115,6 @@ String baseServer = resource.getString("client.url");String title = resource.get
                   <div class="category_five"  onclick="getAnalyticsByAccesskeyList('${overview.recruited}','recruited')">
                     <h6 class="value">${fn:length(overview.recruited)}</h6>
                   </div>
-                 
                 </div>
                 <div class="pyramid_legend_pointers">
                   <span>Registered</span>
@@ -564,6 +567,34 @@ chart.render();
     window.location.href="duflon/showAllLinksCSV";
 }
     </script>
+    <script>
+$(document).ready(function() {
+    var userType = "${role}"; // Replace with the actual user type value
+
+    if (userType === "SA") {
+        $(".category_one").click(function() {
+            getAnalyticsByAccesskeyList(overview.registered, 'registered');
+        });
+
+        $(".category_two").click(function() {
+            getAnalyticsByAccesskeyList(overview.assessments, 'assessment');
+        });
+
+        $(".category_three").click(function() {
+            getAnalyticsByAccesskeyList(overview.pass, 'passed');
+        });
+
+        $(".category_four").click(function() {
+            getAnalyticsByAccesskeyList(overview.offer, 'offred');
+        });
+
+        $(".category_five").click(function() {
+            getAnalyticsByAccesskeyList(overview.recruited, 'recruited');
+        });
+    }
+});
+</script>
+    
 </body>
 <style>
    @media (max-width: 768px){
@@ -590,6 +621,9 @@ chart.render();
 </style>
 </html>
 <%
+	  }else{
+		    response.sendRedirect("login");
+		}
  }catch(Exception e)
     {
     	 System.out.println("Errror....."+e);

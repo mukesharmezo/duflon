@@ -5,10 +5,10 @@ $(document).ready(function() {
 			// Form is valid, perform your action here
 			if (this.id === "submitbtn") {
 				// Handle "Save" button action
-				//save();
+				save();
 			} else if (this.id === "submitnext") {
 				// Handle "Next" button action
-				//next();
+				next();
 			}
 			$("#testForm").submit();
 		}

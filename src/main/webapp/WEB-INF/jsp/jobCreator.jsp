@@ -373,6 +373,7 @@ button.btn.btn-primary {	min-width: 110px;}
 			</div>
 		</div>
 	</div>
+	<div class="blk-bg"></div>
 	<script>
 		var skillRowCount = 1;
 		//Define the validation rules and messages

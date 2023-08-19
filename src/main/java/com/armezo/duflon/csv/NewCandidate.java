@@ -681,7 +681,7 @@ public class NewCandidate {
                 listMap.put(list.getListCode(), list.getListDesc());
             }
          // Date YTD wise Data
-         			LocalDate dateFrom = LocalDate.now();
+         			//LocalDate dateFrom = LocalDate.now();
          			LocalDate dateTo = LocalDate.now();
          			LocalDate currentDate = LocalDate.now();
          			int currentMonthvalue = currentDate.getMonthValue();
@@ -696,7 +696,7 @@ public class NewCandidate {
          				yearStartDate = yearMonth.atDay(1);
          				//dateFrom = Date.from(yearStartDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
          			}
-         			dateFrom=yearStartDate;
+         			//dateFrom=yearStartDate;
             final String role = session.getAttribute("role").toString();
             Map<String, LocalDate> map = DataProccessor.manageFiltersDate(dateFromm, dateToo);
             if (role.equalsIgnoreCase("HRE")) {

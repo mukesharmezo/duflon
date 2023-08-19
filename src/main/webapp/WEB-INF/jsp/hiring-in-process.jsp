@@ -296,7 +296,8 @@ s.removeAttribute("remove_final");
                            <td>
                             <c:choose>
                                <c:when test="${participant.interViewStatus2 == 'final'}">
-                               <Span> <a href="#" class="view-btn green"  onclick="openIterviewForm('${participant.accesskey}' , 2)">View</a> </span>
+                               <%-- <Span> <a href="#" class="view-btn green"  onclick="opentInterviewForm('${participant.accesskey}' , 2)">View</a> </span> --%>
+                               <Span> <a href="#" class="view-btn green"  onclick="opentInterview('${participant.accesskey}' , 2)">View</a> </span>
                                </c:when>
 							    <c:when test="${(participant.interViewDate2 != '') && (intDate2 le todayDate2)}">
                                  <span><a href="#" class="view-btn green" onclick="opentInterview('${participant.accesskey}' , 2)">Fill</a></span>
@@ -344,7 +345,7 @@ s.removeAttribute("remove_final");
 									<span>Interview 2 Scheduled</span>
 								</c:if>
 								<c:if test="${participant.partStatus eq 'Interview2'}">
-									<span>Interview 2Completed</span>
+									<span>Interview 2 Completed</span>
 								</c:if>
 							
 							</td>
@@ -369,7 +370,7 @@ s.removeAttribute("remove_final");
             </div>
             <div class="form-block">
                 <h5>Time</h5>
-				<input type="time" id="time" name="time" value="21:00" min="09:00" max="21:00" required>
+				<input type="time" id="time" name="time" value="10:00" min="09:00" max="21:00" required>
             </div>
 			 <div class="form-block">
 			 <br>

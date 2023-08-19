@@ -231,6 +231,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 		</form>
 	
 	</div>
+	<div class="blk-bg"></div>
 	<script type="text/javascript">
 		document.getElementById("education").value ="${job.education}"; 
 	</script>

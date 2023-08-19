@@ -222,10 +222,9 @@ a#viewresume {
 							<div class="upload-tnc">
 								<select id="address_proof">
 									<option value="">Select</option>
-									<option value="Aadhar Card">Aadhar Card</option>
-									<option value="Voter ID Card">Voter ID Card</option>
-									<option value="Passport">Passport</option>
-									
+									<option value="AD">Aadhar Card</option>
+			 						<option value="VI">Voter ID Card</option>
+			 						<option value="PS">Passport</option>
 									<option value="Ration Card with address">Ration Card with address</option>
 									<option value="Bank Passbook">Bank Passbook</option>
 									<option value="Electricity Bill (not older than last three months)">Electricity Bill (not older than last three months)</option>
@@ -937,13 +936,12 @@ a#viewresume {
        });   
       }
        function showMSG(msg){
-    	   console.log('Inside Swal');
  		  swal({   
  				  title: msg,     
     				  showCancelButton: false,
     				  confirmButtonColor: "#DC3545",   
     				  confirmButtonText: "OK",   
-    				  closeOnConfirm: true },
+    				  closeOnConfirm: true },           
  				  function(isConfirm){			  
  					  return false; 
  				}); 
@@ -957,6 +955,7 @@ a#viewresume {
       	  var ext = getExtension(filename);
       	  switch (ext.toLowerCase()) {
       	    case 'jpg':
+      	    case 'jpeg':
       	    case 'png':
       	    case 'pdf':
       	      return true;
@@ -968,6 +967,7 @@ a#viewresume {
       	  var ext = getExtension(filename);
       	  switch (ext.toLowerCase()) {
       	    case 'jpg':
+      	    case 'jpeg':
       	    case 'png':
       	    case 'pdf': 
       	      return true;
