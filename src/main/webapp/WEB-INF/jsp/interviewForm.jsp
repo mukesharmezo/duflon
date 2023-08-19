@@ -290,7 +290,7 @@ String assessUrl = resource.getString("client.asseesment");
         </div>
         <div class="tnc"><span onclick="oenPopup()">Suggestive Questions</span>   <span style="margin-left: 10px;" onclick="funexport('suggestive')"><a href="#"><img src="./img/pdf-icn.svg"/></a></span></div>
 		<div class="tnc">
-				<span >Interview Evaluation Sheet</span>    <span style="margin-left: 10px;" onclick="funexport('interview')"><a href="#"><img src="./img/pdf-icn.svg"/></a></span>
+				<span style="cursor: default;">Interview Evaluation Sheet</span>    <span style="margin-left: 10px;" onclick="funexport('interview')"><a href="#"><img src="./img/pdf-icn.svg"/></a></span>
 			</div>
         
         <div class="action-section">
@@ -1083,7 +1083,7 @@ String assessUrl = resource.getString("client.asseesment");
 		
 	if(clarity_1<1 && clarity_2<1 && clarity_3<1){
 		 
-		swal('Form is empty, Please provide your inputs');
+		swal('The form is empty, Please provide your inputs');
 		return;
 	}	
 			

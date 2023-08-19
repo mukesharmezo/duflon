@@ -551,14 +551,18 @@ chart.render();
 		    form.submit();
         }
     	function getAnalyticsByAccesskeyList(list,status){
+    		var role = '<%=role%>'; // This inserts the value of 'role' into the JavaScript code
+            if (role === 'SA') {
     		var accesskeyList = JSON.stringify(list);
     		accesskeyList=accesskeyList.replace('[','');
     		accesskeyList=accesskeyList.replace(']','');
-    		
-    		if(accesskeyList.length>5){	
-    			mywindow=window.open("analyticsByAccesskey?accesskeyList="+accesskeyList+"&status="+status, "detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
- 	       		mywindow.moveTo(120,90);  
-    		}    		
+            	if(accesskeyList.length>5){	
+        			mywindow=window.open("analyticsByAccesskey?accesskeyList="+accesskeyList+"&status="+status, "detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
+     	       		mywindow.moveTo(120,90);  
+        		}   
+            } /* else {
+                console.log('User has a different role.');
+            } */
     	}
     </script>
 

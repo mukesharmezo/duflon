@@ -108,6 +108,8 @@ public class NewCandidate {
             cell.setCellValue("Interview 2 Score");
             cell = row.createCell(15);
             cell.setCellValue("Status");
+            cell = row.createCell(16);
+            cell.setCellValue("Approval");
             for (int i = 0; i < row.getLastCellNum(); ++i) {
                 row.getCell(i).setCellStyle((CellStyle)style);
             }
@@ -209,6 +211,12 @@ public class NewCandidate {
                 }
                 cell = row.createCell(15);
                 cell.setCellValue("Hold");
+                cell= row.createCell(16);
+                if(pr.getHiredStatus()!=null && pr.getHiredStatus().equalsIgnoreCase("P")) {
+                	cell.setCellValue("Pending");
+                }else {
+                	cell.setCellValue("");
+                }
                 ++count;
             }
             
@@ -278,6 +286,8 @@ public class NewCandidate {
             cell.setCellValue("Interview 2 Score");
             cell = row.createCell(15);
             cell.setCellValue("Status");
+            cell = row.createCell(16);
+            cell.setCellValue("Approval");
             for (int i = 0; i < row.getLastCellNum(); ++i) {
                 row.getCell(i).setCellStyle((CellStyle)style);
             }
@@ -334,7 +344,6 @@ public class NewCandidate {
                     else {
                         cell.setCellValue("");
                     }
-                
                 cell = row.createCell(10);
                 if (pr.getReAtampStatus() == null) {
                     cell.setCellValue("No");
@@ -377,6 +386,13 @@ public class NewCandidate {
                 	status = DataProccessor.getParticipantStatus(pr.getParticipantStatus());
                 }
                 cell.setCellValue(status);
+                cell= row.createCell(16);
+                if(pr.getHiredStatus()!=null && pr.getHiredStatus().equalsIgnoreCase("P")) {
+                	cell.setCellValue("Pending");
+                }else {
+                	cell.setCellValue("");
+                }
+                
                 ++count;
             }
             
@@ -569,7 +585,6 @@ public class NewCandidate {
             final XSSFFont font = workbook.createFont();
             font.setBold(true);
             style.setFont((Font)font);
-            
             
             CellStyle cellStyle = workbook.createCellStyle();
             CreationHelper createHelper = workbook.getCreationHelper();

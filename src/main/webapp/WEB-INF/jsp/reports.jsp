@@ -732,6 +732,7 @@ String st = "";
     </div> 
 </div>
   </div>      
+  <div class="blk-bg"></div>
         <script src="./js/jquery.dataTables.min.js"></script>
         <script src="./js/reportDataTable.js"></script>
          

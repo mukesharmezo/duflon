@@ -94,7 +94,7 @@ if(session.getAttribute("role") != null){
                     </div>
                     <div class="form-block">
                         <h5>EPFO<span>*</span></h5>
-                        <form:input type="text" path="epfo" maxlength="20"  placeholder="EPFO" />
+                        <form:input type="text" path="epfo" maxlength="25"  placeholder="EPFO" />
                     </div>
                     <div class="form-block">
       					<h5>Bank Name<span>*</span></h5>
@@ -114,7 +114,7 @@ if(session.getAttribute("role") != null){
     				</div>
 							<div class="form-block">
                         <h5>IFSC Code<span>*</span></h5>
-                        <form:input type="text" path="ifscCode" maxlength="10"  placeholder="IFSC Code" />
+                        <form:input type="text" path="ifscCode" maxlength="11"  placeholder="IFSC Code" />
                     </div>
                     <div class="form-block">
                         <h5>Bank A/C Number<span>*</span></h5>

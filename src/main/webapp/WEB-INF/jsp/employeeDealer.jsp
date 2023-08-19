@@ -144,8 +144,8 @@ s.setAttribute("remove_final", "final");
                             <th data-head="Registration Form" class="sorting"><em>Registration Form</em></th>
                             <th data-head="Interview Date" class="sorting"><em>Interview Date</em></th>
                             <th data-head="Interview Form" class="sorting"><em>Interview Form</em></th>
-                            <th data-head="Interview Date 2" class="sorting"><em>Interview 2 Date</em></th>
-                            <th data-head="Interview Form 2" class="sorting"><em>Interview 2 Form</em></th>
+                            <th data-head="Interview 2 Date" class="sorting"><em>Interview 2 Date</em></th>
+                            <th data-head="Interview 2 Form" class="sorting"><em>Interview 2 Form</em></th>
 							<th data-head="Approval" class="sorting"><em>Approval</em></th>
                            
                         </tr>
@@ -240,7 +240,7 @@ s.setAttribute("remove_final", "final");
             </div>
         </div>
     </div>
- 
+ <div class="blk-bg"></div>
     <script>
       $(document).ready(function () {
     	  var form = $('#formFilter');

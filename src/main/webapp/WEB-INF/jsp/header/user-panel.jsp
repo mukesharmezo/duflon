@@ -151,7 +151,7 @@ if(session.getAttribute("hreName") != null){
  }
  
  function hideChangeEmail(){
-	 document.getElementById("oldEmail").value = "";
+	// document.getElementById("oldEmail").value = "";
 	    document.getElementById("newEmail").value = "";
 	    document.getElementById("errorEmail").textContent = "";
 	 $('.change-email-popup, .blk-bg').hide(); 
