@@ -383,7 +383,7 @@ s.removeAttribute("remove_final");
        	<textarea rows="4" cols="50" name="addressarea" id="addressarea" placeholder="Address/Meeting Link" maxlength="200" required="required">${participant.interviewAddress}</textarea>
         <input type="hidden" id="intCounter" name="intCounter"  value="0">
         </div>
-			<div class="form-block">
+			<%-- <div class="form-block">
 				<br>
 				<h5>Interviewer's Email</h5>
 				<select id="select-email" multiple="multiple"  style="width: 100% !important;" class="form-block">
@@ -391,7 +391,7 @@ s.removeAttribute("remove_final");
 						<option value="${entry.key}">${entry.value}</option>
 					</c:forEach>
 				</select>
-			</div>
+			</div> --%>
 		</div>
         <div class="text-center">
             <input class="cancel-btn outline-btn" onclick="btndDateCancel()" value="Cancel" type="button">
@@ -442,10 +442,10 @@ s.removeAttribute("remove_final");
 			</div>
             </div>
             <div class="text-center">
-            <input class="cancel-btn outline-btn" onclick="btndDateCancel()" value="Cancel" type="button">
-            <button class="submit-btn" onclick="submit()" id="btndDate">OK</button>
-             <input type="hidden" id="accesskey" name="accesskey" />
-			  <input type="hidden" id="canName" value="" />
+            <input class="cancel-btn outline-btn" value="Cancel" type="button" id="invite-cancel">
+            <button class="submit-btn" onclick="submitInvitation()" id="btndDate">OK</button>
+             <input type="hidden" id="access_key" name="accesskey" />
+			  <input type="hidden" id="can_Name" value="" />
         </div>
     </div>
     <div class="blk-bg"></div>
@@ -484,10 +484,35 @@ s.removeAttribute("remove_final");
     	    	       e.preventDefault(); // Prevent selecting new tags if the maximum limit is reached
     	    	    }
     	    	});*/
+    	    	
+    	    	$('#invite-cancel').click(function (){
+    	    		$('.invite-popup, .blk-bg').hide(); 
+    	    	});
     	  var form = $('#formFilter');
     	  form.attr('action', 'viewProcess');
       });
-	  
+	  function submitInvitation(){
+		    var dateTimes = $('input[name="datetime"]').map(function() {
+		        return this.value;
+		    }).get();
+		    var selectedEmails = $('#select-email').val();
+		    var data = {
+		        datetime: dateTimes,
+		        'select-email': selectedEmails
+		    };
+		    $.ajax({
+		        type: 'POST',
+		        url: 'inviteLM', 
+		        data: JSON.stringify(data),
+		        contentType: 'application/json',
+		        success: function(response) {
+		            console.log(response);
+		        },
+		        error: function(xhr, status, error) {
+		            console.error(xhr.responseText);
+		        }
+		    });
+	  }
 	  function btndDateCancel(){
 		   $('#btndDate').prop('disabled', false);
 			 $('#btndDate').val('Please wait');
@@ -497,7 +522,8 @@ s.removeAttribute("remove_final");
       
 	  function openInvitation(accesskey, name){
 		  console.log(accesskey+'<>'+name);
-		  
+		  $('#access_key').val(accesskey);
+			$('#can_Name').val(name);
 		  $('.invite-popup, .blk-bg').show();
 	  }
 	  

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -38,6 +39,7 @@ import com.armezo.duflon.client.RestClientReattemp;
 import com.armezo.duflon.email.util.EmailUtility;
 import com.armezo.duflon.email.util.SendPayload;
 import com.armezo.duflon.payload.FilterPayload;
+import com.armezo.duflon.payload.InvitationPayload;
 import com.armezo.duflon.tc.entities.ModelParticpantView;
 import com.armezo.duflon.utils.DataProccessor;
 
@@ -121,6 +123,21 @@ public class HreController {
 	        else {
 	        }
 	        return "Success";
+	    }
+	    
+	    @PostMapping("/inviteLM")
+	    @ResponseBody
+	    public String inviteLMForInterviewDate(@RequestBody InvitationPayload payload) {
+	    	System.out.println("Calledddddddddddddd");
+	    	System.out.println("Received Data: " + payload);
+	        
+	        List<String> datetimeList = payload.getDatetime();
+	        List<String> emailList = payload.getSelectEmail();
+
+	        System.out.println("Datetime List: " + datetimeList);
+	        System.out.println("Email List: " + emailList);
+			return "";
+	    	
 	    }
 	    
 	    @PostMapping({ "/fixedInterViewDate" })
