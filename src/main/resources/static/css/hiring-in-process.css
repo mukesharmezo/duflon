@@ -25,6 +25,20 @@
 .fixdate-popup h2{font-size: 24px; line-height: 30px; font-weight: 500; margin: 0 0 50px; color: #DC3545; text-align: center;}
 .fixdate-popup .text-center{margin-top: 50px;}
 
+.invite{cursor: pointer;}
+.invite-2nd-btn{display: none; margin-bottom: 30px; padding-top: 50px; border-top: 1px solid #ddd;}
+.invite-2nd-btn a{margin: 0 10px; font-size: 12px; line-height: 16px; color: #fff; text-decoration: none; border: none; padding: 11px 35px; background-color: #DC3545; border: 1px solid #DC3545; border-radius: 30px; cursor: pointer;}
+.invite-2nd{cursor: pointer;}
+.invite-popup{padding: 30px; box-sizing: border-box; background-color: #fff; border-radius: 15px; width: 500px; position: fixed; top: 50%; left: 50%; z-index: 99999; transform: translate(-50%, -50%); display: none;}
+.invite-popup .form-section{display: flex; flex-wrap: wrap; margin: 0 -10px;}
+.invite-popup .form-section .form-block{width: calc(50% - 20px); margin: 0 10px;}
+.invite-popup .form-section .form-block h5{font-weight: 500; margin: 0 0 10px; color: #555; text-transform: uppercase; font-size: 12px; line-height: 14px;}
+.invite-popup .form-section .form-block input[type="date"], .invite-popup .form-section .form-block select, .select2-selection{font-family: 'Roboto', sans-serif; width: 100%; background: #F7F7F7; border: 1px solid #D0D0D0; border-radius: 7px; color: #4D4D4D; padding: 11px 15px; font-size: 13px; line-height: 18px; outline: none; box-sizing: border-box;}
+.invite-popup .form-section .form-block input[type="datetime-local"], .invite-popup .form-section .form-block select{font-family: 'Roboto', sans-serif; width: 100%; background: #F7F7F7; border: 1px solid #D0D0D0; border-radius: 7px; color: #4D4D4D; padding: 11px 15px; font-size: 13px; line-height: 18px; outline: none; box-sizing: border-box;}
+.invite-popup p{font-size: 15px; line-height: 24px; margin: 0 0 15px; color: #000; text-align: center;}
+.invite-popup h2{font-size: 24px; line-height: 30px; font-weight: 500; margin: 0 0 50px; color: #DC3545; text-align: center;}
+.invite-popup .text-center{margin-top: 50px;}
+
 .communications-popup{padding: 30px; box-sizing: border-box; background-color: #fff; border-radius: 15px; width: 780px; position: fixed; top: 50%; left: 50%; z-index: 99999; transform: translate(-50%, -50%); display: none;}
 .communications-popup h3{margin: 0 0 30px; text-align: center; font-weight: 500; font-size: 24px; line-height: 32px; color: #000;}
 .communications-popup .form-section{display: flex; flex-wrap: wrap; margin: 0 -10px;}

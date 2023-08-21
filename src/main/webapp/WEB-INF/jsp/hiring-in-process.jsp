@@ -226,7 +226,9 @@ s.removeAttribute("remove_final");
                             	</c:when>
                             </c:choose>
 							</td>
-							<td>LM Invitation</td>
+							<td>
+								<span> <a href="#" class="view-btn" onclick="openInvitation('${participant.accesskey}','${participant.participantName}')">Invite</a></span>
+							</td>
 							
 						<!-- Interview 1 -->
 							<c:choose>
@@ -399,6 +401,7 @@ s.removeAttribute("remove_final");
         </div>
        
     </div>
+    
 	<div class="delete-popup">
         <p>Are you sure, you want to allow a re-attempt of assessment for the candidate?</p>
         <div class="form-button">
@@ -417,8 +420,56 @@ s.removeAttribute("remove_final");
             <input type="hidden"  value="" id="reAttempAccesskey">
         </div>
     </div>
-	
+	<div class="invite-popup">
+        <div class="form-section">
+            <div class="form-block" id="datetime-container">
+                <!-- Initial Date Time Input -->
+                <div class="datetime-input">
+                    <h5>Date Time</h5>
+                    <input type="datetime-local" name="datetime" required>
+                </div>
+            </div>
+        </div>
+            <button id="add-datetime">Add Date Time</button>
+            <div class="form-section">
+            <div class="form-block">
+				<h5>Interviewer's Email</h5>
+				<select id="select-email" multiple="multiple"  style="width: 100% !important;" class="form-block">
+					<c:forEach items="${map}" var="entry">
+						<option value="${entry.key}">${entry.value}</option>
+					</c:forEach>
+				</select>
+			</div>
+            </div>
+            <div class="text-center">
+            <input class="cancel-btn outline-btn" onclick="btndDateCancel()" value="Cancel" type="button">
+            <button class="submit-btn" onclick="submit()" id="btndDate">OK</button>
+             <input type="hidden" id="accesskey" name="accesskey" />
+			  <input type="hidden" id="canName" value="" />
+        </div>
+    </div>
     <div class="blk-bg"></div>
+   <script>
+        // Function to add a new Date Time input
+        function addDateTimeInput() {
+            const numDateTimeInputs = $(".datetime-input").length;
+
+            if (numDateTimeInputs < 5) {
+                const newDateTimeInput = `
+                    <div class="datetime-input">
+                        <h5>Date Time</h5>
+                        <input type="datetime-local" name="datetime" required>
+                    </div>`;
+                
+                $("#datetime-container").append(newDateTimeInput);
+            } else {
+                alert("You can add a maximum of 5 date and time inputs.");
+            }
+        }
+
+        // Add Date Time input when the button is clicked using jQuery
+        $("#add-datetime").click(addDateTimeInput);
+    </script>
     <script>
       $(document).ready(function () {
     	  $('#select-email').select2({
@@ -444,6 +495,12 @@ s.removeAttribute("remove_final");
         return false;		
 	  }
       
+	  function openInvitation(accesskey, name){
+		  console.log(accesskey+'<>'+name);
+		  
+		  $('.invite-popup, .blk-bg').show();
+	  }
+	  
       function openDateTime(key,temp,name,dateNtime,intCount)
   	{ 
   		$('#accesskey').val(key);
