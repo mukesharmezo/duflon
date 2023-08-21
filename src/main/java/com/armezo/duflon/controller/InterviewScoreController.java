@@ -216,7 +216,7 @@ public class InterviewScoreController {
 							particpant.get().setJoiningDate(LocalDate.now());
 						}*/
 						//String name=DataProccessor.getFullNameOfParticipant(particpant.get());
-						sendEmailHiredToHRE(particpant.get());
+						//sendEmailHiredToHRE(particpant.get());
 						sendEmailShortlisted(particpant.get(),2);	
 					}
 					participantService.saveData(particpant.get());
@@ -323,7 +323,7 @@ public class InterviewScoreController {
 		if(count==1) {
 		mailBody=DataProccessor.readFileFromResource("shortlistedEmail");
 		}else if (count==2) {
-			mailBody=DataProccessor.readFileFromResource("hiredStatus");
+			mailBody=DataProccessor.readFileFromResource("shortlistedEmail2");
 		}
 		//String smsMsg = DataProccessor.getSMS("shortlist");
 		mailBody = mailBody.replace("${candidateName}", DataProccessor.getFullNameOfParticipant(participant));
@@ -354,7 +354,7 @@ public class InterviewScoreController {
 				sendP.getMsg(), "smtp");
 		return "success";
 	}
-	private String sendEmailHiredToHRE(ParticipantRegistration participant) {
+	/*private String sendEmailHiredToHRE(ParticipantRegistration participant) {
 		String subjectLine="DuRecruit – Your Job Application: Shortlisted";
 		String mailBody=DataProccessor.readFileFromResource("hiredStatusHRE");
 		//String smsMsg = DataProccessor.getSMS("shortlist");
@@ -385,7 +385,7 @@ public class InterviewScoreController {
 				sendP.getMsg(), "smtp");
 		return "success";
 	}
-	
+	*/
 	
 	 private void eventLogin(int loginId,String eventMSG,String accesskey) {
 		 EventLoger event = new EventLoger();

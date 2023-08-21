@@ -65,7 +65,8 @@ $(document).ready(function() {
 				date: true
 			},
 			adharNumber:{
-				required:true
+				required:true,
+				minlength: 12
 			},
 			idProof:{
 				required:true
@@ -146,7 +147,8 @@ $(document).ready(function() {
 				date: "Please enter a valid date"
 			},
 			adharNumber:{
-				required:"Please enter aadhar number."
+				required:"Please enter aadhar number.",
+				minlength: "Aadhar number should be 12 digits."
 			},
 			idProof:{
 				required:"Please select id proof."

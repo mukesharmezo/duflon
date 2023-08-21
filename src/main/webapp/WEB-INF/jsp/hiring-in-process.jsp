@@ -130,13 +130,14 @@ s.removeAttribute("remove_final");
                         <li><a class="toggle-vis" data-column="9"><em>Assessment Status</em></a></li>
                         <li><a class="toggle-vis" data-column="10"><em>Assessment Report</em></a></li>
 						<li><a class="toggle-vis" data-column="11"><em>Registration Form</em></a></li>
-                        <li><a class="toggle-vis" data-column="12"><em>Interview Date</em></a></li>
-                        <li><a class="toggle-vis" data-column="13"><em>Interview Form</em></a></li>
-                        <li><a class="toggle-vis" data-column="14"><em>Interview 2 Date</em></a></li>
-                        <li><a class="toggle-vis" data-column="15"><em>Interview 2 Form</em></a></li>
-						<li><a class="toggle-vis" data-column="16"><em>Approval</em></a></li>
-						<li><a class="toggle-vis" data-column="17"><em>Status</em></a></li>
-						<li><a class="toggle-vis" data-column="18"><em>On-Hold</em></a></li>						
+                        <li><a class="toggle-vis" data-column="12"><em>LM Invitation</em></a></li>
+                        <li><a class="toggle-vis" data-column="13"><em>Interview Date</em></a></li>
+                        <li><a class="toggle-vis" data-column="14"><em>Interview Form</em></a></li>
+                        <li><a class="toggle-vis" data-column="15"><em>Interview 2 Date</em></a></li>
+                        <li><a class="toggle-vis" data-column="16"><em>Interview 2 Form</em></a></li>
+						<li><a class="toggle-vis" data-column="17"><em>Approval</em></a></li>
+						<li><a class="toggle-vis" data-column="18"><em>Status</em></a></li>
+						<li><a class="toggle-vis" data-column="19"><em>On-Hold</em></a></li>						
                     </ul>
                 </div>
 				 <div class="export-to-csv"><input type="button" onclick="funexport()" class="ecsvbutton" value="Export To CSV"></div>
@@ -155,6 +156,7 @@ s.removeAttribute("remove_final");
                             <th data-head="Assessment Status" class="sorting"><em>Assessment Status</em></th>
 							<th data-head="Assessment Report" class="sorting"><em>Assessment Report</em></th>
                             <th data-head="Registration Form" class="sorting"><em>Registration Form</em></th>
+                            <th data-head="LM Invitation" class="sorting"><em>LM Invitation</em></th>
                             <th data-head="Interview Date" class="sorting"><em>Interview Date</em></th>
                             <th data-head="Interview Form" class="sorting"><em>Interview Form</em></th>
                             <th data-head="Interview 2 Date" class="sorting"><em>Interview 2 Date</em></th>
@@ -224,6 +226,7 @@ s.removeAttribute("remove_final");
                             	</c:when>
                             </c:choose>
 							</td>
+							<td>LM Invitation</td>
 							
 						<!-- Interview 1 -->
 							<c:choose>

@@ -99,7 +99,7 @@ if(session.getAttribute("role") != null){
                               <td>${status.index + 1}</td>
                               <td>${emcy.cname}</td>
                               <td>${emcy.contactNo}</td>
-							    <c:if test="${(emergencyContact.hiredStatus != 'Y') && emergencyContact.status != 'H'}">
+							    <c:if test="${(emergencyContact.documents_status != 'final') && emergencyContact.status != 'H'}">
                                  <%if(role.equalsIgnoreCase("HRE")) { %>
                                <td><a onclick="editPop('${emcy.id}','${emcy.cname}','${emcy.contactNo}')"><img src="./img/edit-icn.svg" /></a></td>
                               <td><a onclick="deletePop('${emcy.id}')"><img src="./img/delete-icn.svg" /></a></td>
