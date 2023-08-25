@@ -114,7 +114,7 @@ if(session.getAttribute("role") != null){
 				  <c:if test="${(emergencyContact.hiredStatus != 'Y') && emergencyContact.status != 'H'}">
                  <%if(role.equalsIgnoreCase("HRE")) { %>
                 <div class="form-btn" style="position: relative; right: -10px;">
-                  <a href="#" class="btn blue-btn" onclick="openUploadDocoment()">Next</a>
+                  <a href="#" class="btn blue-btn" onclick="openAssessmentScore()">Next</a>
               </div>
                <%} %>
 			      </c:if>

@@ -194,23 +194,24 @@ public class ControllerLogin {
 	// Add email handler
 	@PostMapping("/addEmailAddress")
 	public String addEmailAddressToAdminLogin(HttpSession session, @RequestParam String email,
-			@RequestParam String user, @RequestParam String password, @RequestParam String empCode) {
+			@RequestParam String user, @RequestParam String password) {
 		Optional<HRE> hre = hreService.getByempCodeAndPassword(user, password);
 		if (hre.isPresent()) {
 			hreService.addEmailAddress(hre.get().getId(), email);
+			eventLogin((hre.get().getId().intValue()), "Add Email");
 		} else {
 			session.setAttribute("msgEmail", "I");
 		}
 		Optional<LineManager> lm = lmService.getByEmpCodeAndPassword(user, password);
 		if (lm.isPresent()) {
 			lmService.addEmailAddressAfterLogin(lm.get().getEmpCode(), email);
+			eventLogin((lm.get().getId().intValue()), "Add Email");
 		}
 
 		/*Optional<HO> ho = hoService.findHOByempCode(empCode);
 		if (ho.isPresent()) {
 			hoService.changeEmail(empCode, email);
 		}*/
-		eventLogin(Integer.parseInt(user), "Add Email");
 		// loginPro(user, password, session);
 		return "redirect:loginPro?user=" + user + "&password=" + password;
 		// ?user=mayank&pass=pass

@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,9 +16,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,10 +33,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.armezo.duflon.Entities.EventLoger;
 import com.armezo.duflon.Entities.HRE;
 import com.armezo.duflon.Entities.InterviewScore;
+import com.armezo.duflon.Entities.LMAccesskey;
+import com.armezo.duflon.Entities.LMInterview;
+import com.armezo.duflon.Entities.LineManager;
 import com.armezo.duflon.Entities.ParticipantRegistration;
 import com.armezo.duflon.Services.EventLogerService;
 import com.armezo.duflon.Services.HREService;
 import com.armezo.duflon.Services.InterviewScoreService;
+import com.armezo.duflon.Services.LMAccesskeyService;
+import com.armezo.duflon.Services.LMInterviewService;
+import com.armezo.duflon.ServicesImpl.LineManagerServiceImpl;
 import com.armezo.duflon.ServicesImpl.ParticipantServiceImpl;
 import com.armezo.duflon.client.RestClientReattemp;
 import com.armezo.duflon.email.util.EmailUtility;
@@ -57,6 +66,12 @@ public class HreController {
 	    RestClientReattemp restClientReattemp;
 	    @Autowired
 	    EventLogerService eventLogerServer;
+	    @Autowired
+	    LineManagerServiceImpl lmService;
+	    @Autowired
+	    LMInterviewService lMInterviewService;
+	    @Autowired
+	    LMAccesskeyService lMAccesskeyService;
 	    
 	    @GetMapping({ "/viewProcess" })
 	    private String getParticipantInProcess(@RequestParam(name = "dateFromm", required = false) String dateFromm, @RequestParam(name = "dateToo", required = false) String dateToo,
@@ -72,11 +87,11 @@ public class HreController {
 	            payload.setDateTo(dateToo);
 	            final List<ParticipantRegistration> participant = participantserviceImpl.getParticipantInpprocessForHRE(hreId, map.get("from"),map.get("to"));	          
 	            HashMap<String, String> map2 = new LinkedHashMap<>();
-	            map2.put("mukesh.bind@armezosolutions.com", "Interviewer 5");
-	    		map2.put("df4@gm.com", "Interviewer 3");
-	    		map2.put("df@gm.com", "Interviewer 1");
-	    		map2.put("df5@gm.com", "Interviewer 4");
-	    		map2.put("df1@gm.com", "Interviewer 2");
+	            List<LineManager> lmList =   lmService.getAllLMs();
+	            for(LineManager l:lmList) {
+	            	map2.put(l.getEmail(),l.getName());	
+	            }
+				
 	    		// Convert the entries of the map2 LinkedHashMap into a list
 	    		List<Map.Entry<String, String>> entryList = new ArrayList<>(map2.entrySet());
 	    		// Sort the entryList based on the values (interviewer names)
@@ -86,6 +101,10 @@ public class HreController {
 	    		for (Map.Entry<String, String> entry : entryList) {
 	    		    sortedMap.put(entry.getKey(), entry.getValue());
 	    		}
+	    		LocalDateTime now = LocalDateTime.now();
+	            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+	            String formattedDateTime = now.format(formatter);
+	            model.addAttribute("inviteDate", formattedDateTime);
 	    		model.addAttribute("map", sortedMap);
 	            model.addAttribute("participantList",   getParticpant(participant,dealer,hreId+""));
                 model.addAttribute("hreId", (Object)hreId);
@@ -117,7 +136,6 @@ public class HreController {
 	            particpant.get().setModifiedDate(LocalDate.now());
 	            particpant.get().setReAtampCount(count);
 	            participantserviceImpl.saveData((ParticipantRegistration)particpant.get());
-	            System.out.println("Reattempt Called");
 	            sendEmailToReAttemp(particpant.get());
 	        }
 	        else {
@@ -128,17 +146,104 @@ public class HreController {
 	    @PostMapping("/inviteLM")
 	    @ResponseBody
 	    public String inviteLMForInterviewDate(@RequestBody InvitationPayload payload) {
-	    	System.out.println("Calledddddddddddddd");
-	    	System.out.println("Received Data: " + payload);
-	        
 	        List<String> datetimeList = payload.getDatetime();
 	        List<String> emailList = payload.getSelectEmail();
-
-	        System.out.println("Datetime List: " + datetimeList);
-	        System.out.println("Email List: " + emailList);
-			return "";
+	        List<LMInterview>listLIn = new ArrayList<>();
+	        //Check for duplicate
+	        List<LMInterview> optInt = lMInterviewService.findByAccesskey(payload.getAccesskey());
+	        if(optInt.size()>0) {
+	        	//Delete Old Data
+	        	lMInterviewService.deleteByAccesskey(payload.getAccesskey());
+	        }
+	        List<LMAccesskey> lmAccesskey = lMAccesskeyService.findByAccesskey(payload.getAccesskey());
+	        if(lmAccesskey.size()>0) {
+	        	lMAccesskeyService.deleteByAccesskey(payload.getAccesskey());
+	        }
+	        for(String  d : datetimeList) {
+	        LMInterview lm = new LMInterview();
+	        lm.setAccesskey(payload.getAccesskey());
+	        lm.setSlotDate(parseDate(d));
+	        listLIn.add(lm);
+	        }
+	        lMInterviewService.saveAll(listLIn);
+	        for(String e:emailList) {
+	        	LMAccesskey la = new LMAccesskey();
+	        	la.setAccesskey(payload.getAccesskey());
+	        	la.setEmail(e);
+	        	Optional<LineManager>lm =  lmService.findByEmail(e);
+	        	if(lm.isPresent()) {
+	        		la.setLmId(lm.get().getId());
+	        	}
+	        	 lMAccesskeyService.save(la);
+	        }
+	        String commaSeparatedString = emailList.stream()
+	                .collect(Collectors.joining(", "));
+	        Optional<ParticipantRegistration> par = participantserviceImpl.getParticipantByAccesskey(payload.getAccesskey());
+	        sendEmailToScheduleInterviewToLM(par.get(),commaSeparatedString);
+			return "success";
 	    	
 	    }
+	    private String parseDate(String input) {   
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+            DateFormat outputformat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            Date date = null;
+            String output = null;
+            try{
+          	 date= df.parse(input);
+          	 output = outputformat.format(date);
+            }catch(ParseException pe){
+               pe.printStackTrace();
+             }
+            return output;
+	    }
+	    //Get Lm who have date choosen
+	    @PostMapping("/getInvitedLM")
+	    @ResponseBody
+	    public String getAllInvitedLM(@RequestParam("accesskey") String accesskey) {
+	    	List<LMAccesskey> lmAccesskeys = lMAccesskeyService.findByAccesskey(accesskey);
+	    	List<LMInterview> lmInterviews = lMInterviewService.findByAccesskey(accesskey);
+	    	StringBuilder builder= new StringBuilder();
+	    	StringBuilder selectCode = new StringBuilder();
+			//selectCode.append("<select id='lmSelect' multiple='multiple' >");
+//			selectCode.append("<select id='lmSelect' multiple='multiple' style='width100%:  !important; margin-left: 100%;' class='form-block'>");
+			for (LMAccesskey lmAcck : lmAccesskeys) {
+				//Get Lm By Id
+				Optional<LineManager> lmOptional = lmService.findById(lmAcck.getLmId());
+				if(lmOptional.isPresent()) {
+					selectCode.append("<option value='" + lmOptional.get().getEmail() + "'>" +lmOptional.get().getName()  + "</option>");
+				}
+			}
+	    	int count=1;
+	    	for(LMAccesskey lmac : lmAccesskeys) {
+	    		List<Long> selectedDate = DataProccessor.stringToList(lmac.getDateId());
+	    		builder.append("<tr>");
+	    		builder.append("<td>"+count+"</td>");
+	    		Optional<LineManager> lineOpt= lmService.findById(lmac.getLmId());
+				String lmName="";
+				if(lineOpt.isPresent()) {
+					lmName=lineOpt.get().getName();
+				}
+				builder.append("<td>" + lmName + "</td>");
+				for(int i=0; i<5;i++) {
+					if(i<lmInterviews.size()) {
+						LMInterview lmintv = lmInterviews.get(i);
+						if(selectedDate!=null) {
+						String style = selectedDate.contains(lmintv.getId()) ? "background-color: green  !important; color: white;" : "";
+						builder.append("<td style='").append(style).append("'>").append(lmintv.getSlotDate()).append("</td>");
+						}
+					}else {
+						builder.append("<td></td>");
+					}
+				}
+				builder.append("</tr>");
+				count++;
+	    	}
+	    	JSONObject jsonObject = new JSONObject();
+			jsonObject.put("select2Lm", selectCode.toString());
+			jsonObject.put("tableData", builder.toString());
+			return jsonObject.toString();
+	    }
+	    
 	    
 	    @PostMapping({ "/fixedInterViewDate" })
 	    @ResponseBody
@@ -200,7 +305,7 @@ public class HreController {
 	            participantserviceImpl.saveData((ParticipantRegistration)particpant.get());
 	        }
 	        if (status.equals("H")) {
-	            msg = "Candidate Holde ";
+	            msg = "Candidate Hold ";
 	        }
 	        if (status.equals("I")) {
 	            msg = "Candidate UnHold ";
@@ -218,21 +323,61 @@ public class HreController {
 	    }
 	    
 	    private String sendEmailToScheduleInterview(final ParticipantRegistration participant, Integer intCount, String ccs) {
-	        final String subjectLine = "DuRecruit- Your Job Application: Interview Notification";
-	        String mailBody = DataProccessor.readFileFromResource("interviewScheduleEmail");
+	    	final String subjectLine = "DuRecruit- Your Job Application: Interview Notification";
+	    	String mailBody = DataProccessor.readFileFromResource("interviewScheduleEmail");
+	    	mailBody = mailBody.replace("${candidateName}", String.valueOf(participant.getFirstName()) + " " + participant.getMiddleName() + " " + participant.getLastName());
+	    	final HRE dealer = hreService.getById((long)participant.getHreId()).get();
+	    	mailBody = mailBody.replace("${dealerName}", dealer.getName());
+	    	if(intCount==1) {
+	    		mailBody = mailBody.replace("${interviewDate}", DataProccessor.dateToString(participant.getInterviewDate()));
+	    		mailBody = mailBody.replace("${interviewTime}", participant.getInterviewTime());
+	    		mailBody = mailBody.replace("${location}", participant.getInterviewAddress());
+	    	}
+	    	if(intCount==2) {
+	    		mailBody = mailBody.replace("${interviewDate}", DataProccessor.dateToString(participant.getInterviewDate2()));
+	    		mailBody = mailBody.replace("${interviewTime}", participant.getInterviewTime2());
+	    		mailBody = mailBody.replace("${location}", participant.getInterviewAddress2());
+	    	}
+	    	if(dealer.getMobile() != null && !dealer.getMobile().equals("")) {
+	    		mailBody = mailBody.replace("${mobile}", dealer.getMobile());
+	    	}else {
+	    		mailBody = mailBody.replace("${mobile}", "");
+	    	}
+	    	if(dealer.getEmail() != null && !dealer.getEmail().equals("")) {
+	    		mailBody = mailBody.replace("${email}", dealer.getEmail());
+	    	}else {
+	    		mailBody = mailBody.replace("${email}", "");
+	    	}
+	    	//Add HRE Email is CC also
+	    	ccs = ccs+","+dealer.getEmail();
+	    	
+	    	final SendPayload sendP = new SendPayload();
+	    	sendP.setTo(participant.getEmail());
+	    	sendP.setSubjectLine(subjectLine);
+	    	sendP.setMsg(mailBody);
+	    	sendP.setCc(ccs);
+	    	sendP.setBcc("");
+	    	sendP.setFrom("Armezo Solutions");
+	    	EmailUtility.sendMailDuflon(sendP.getTo(), sendP.getFrom(), sendP.getCc(), sendP.getBcc(), sendP.getSubjectLine(), sendP.getMsg(), "smtp");
+	    	EventLoger event = new EventLoger();
+	    	event.setAccesskey(participant.getAccessKey());
+	    	event.setEmail(participant.getEmail());
+	    	event.setEventTime(LocalDate.now());
+	    	event.setName("");
+	    	event.setEvent("Scheduled Interview");
+	    	event.setUserId(participant.getHreId().intValue());
+	    	eventLogerServer.save(event);
+	    	return "success";
+	    }
+	    
+	    
+	    private String sendEmailToScheduleInterviewToLM(final ParticipantRegistration participant, String ccs) {
+	        final String subjectLine = "DuRecruit-Interview Invitation Notification";
+	        String mailBody = DataProccessor.readFileFromResource("LMInvitation");
 	        mailBody = mailBody.replace("${candidateName}", String.valueOf(participant.getFirstName()) + " " + participant.getMiddleName() + " " + participant.getLastName());
 	        final HRE dealer = hreService.getById((long)participant.getHreId()).get();
 	        mailBody = mailBody.replace("${dealerName}", dealer.getName());
-	        if(intCount==1) {
-	        mailBody = mailBody.replace("${interviewDate}", DataProccessor.dateToString(participant.getInterviewDate()));
-	        mailBody = mailBody.replace("${interviewTime}", participant.getInterviewTime());
-	        mailBody = mailBody.replace("${location}", participant.getInterviewAddress());
-	        }
-	        if(intCount==2) {
-	        	mailBody = mailBody.replace("${interviewDate}", DataProccessor.dateToString(participant.getInterviewDate2()));
-	        	mailBody = mailBody.replace("${interviewTime}", participant.getInterviewTime2());
-	        	mailBody = mailBody.replace("${location}", participant.getInterviewAddress2());
-	        }
+
 	        if(dealer.getMobile() != null && !dealer.getMobile().equals("")) {
 	           mailBody = mailBody.replace("${mobile}", dealer.getMobile());
 	        }else {
@@ -244,13 +389,13 @@ public class HreController {
 	           mailBody = mailBody.replace("${email}", "");
 	        }
 	        //Add HRE Email is CC also
-	        ccs = ccs+","+dealer.getEmail();
+	       // ccs = ccs+","+dealer.getEmail();
 	       
 	        final SendPayload sendP = new SendPayload();
-	        sendP.setTo(participant.getEmail());
+	        sendP.setTo(ccs);
 	        sendP.setSubjectLine(subjectLine);
 	        sendP.setMsg(mailBody);
-	        sendP.setCc(ccs);
+	        sendP.setCc("");
 	        sendP.setBcc("");
 	        sendP.setFrom("Armezo Solutions");
 	        EmailUtility.sendMailDuflon(sendP.getTo(), sendP.getFrom(), sendP.getCc(), sendP.getBcc(), sendP.getSubjectLine(), sendP.getMsg(), "smtp");
@@ -303,7 +448,6 @@ public class HreController {
 	        sendP.setBcc("");
 	        sendP.setFrom("Armezo Solutions");
 	        try {
-	        	System.out.println("Email try : "+sendP.getTo());
 	            EmailUtility.sendMailDuflon(sendP.getTo(), sendP.getFrom(), sendP.getCc(), sendP.getBcc(), sendP.getSubjectLine(), sendP.getMsg(), "smtp");
 	            EventLoger event = new EventLoger();
 	            event.setAccesskey(participant.getAccessKey());
@@ -468,6 +612,11 @@ public class HreController {
    	        	}
                  modelParticpantView.setAptitude(p2.getAptitudeScore());
                  modelParticpantView.setAttitude(p2.getAttitudeScore());
+                 if(p2.getSection3()!=null) {
+                	 modelParticpantView.setMechanical(p2.getSection3());
+                 }else {
+                	 modelParticpantView.setMechanical(0);
+				}
                  if(p2.getInterviewAddress() != null) {
                  modelParticpantView.setInterviewAddress(p2.getInterviewAddress());
                  }else {

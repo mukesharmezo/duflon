@@ -69,14 +69,15 @@ s.setAttribute("remove_final", "final");
                         <li><a class="toggle-vis" data-column="6"><em>Assessment Date</em></a></li>				
                         <li><a class="toggle-vis" data-column="7"><em>Aptitude</em></a></li> 
                         <li><a class="toggle-vis" data-column="8"><em>Attitude</em></a></li> 
-                        <li><a class="toggle-vis" data-column="9"><em>Assessment Status</em></a></li>
-                        <li><a class="toggle-vis" data-column="10"><em>Assessment Report</em></a></li>
-                        <li><a class="toggle-vis" data-column="11"><em>Registration Form</em></a></li>
-                        <li><a class="toggle-vis" data-column="12"><em>Interview Date</em></a></li>
-                        <li><a class="toggle-vis" data-column="13"><em>Interview Form</em></a></li>
-                        <li><a class="toggle-vis" data-column="14"><em>Interview Date 2</em></a></li>
-                        <li><a class="toggle-vis" data-column="15"><em>Interview 2 Form</em></a></li>
-                        <li><a class="toggle-vis" data-column="16"><em>Approval</em></a></li>
+                        <li><a class="toggle-vis" data-column="9"><em>Mechanical</em></a></li> 
+                        <li><a class="toggle-vis" data-column="10"><em>Assessment Status</em></a></li>
+                        <li><a class="toggle-vis" data-column="11"><em>Assessment Report</em></a></li>
+                        <li><a class="toggle-vis" data-column="12"><em>Registration Form</em></a></li>
+                        <li><a class="toggle-vis" data-column="13"><em>Interview Date</em></a></li>
+                        <li><a class="toggle-vis" data-column="14"><em>Interview Form</em></a></li>
+                        <li><a class="toggle-vis" data-column="15"><em>Interview Date 2</em></a></li>
+                        <li><a class="toggle-vis" data-column="16"><em>Interview 2 Form</em></a></li>
+                        <li><a class="toggle-vis" data-column="17"><em>Approval</em></a></li>
                     </ul>
                 </div>
                  <div class="export-to-csv"><input type="button" onclick="funexport()" class="ecsvbutton" value="Export To CSV"></div>
@@ -92,6 +93,7 @@ s.setAttribute("remove_final", "final");
 							<th data-head="Assessment Date" class="sorting"><em>Assessment Date</em></th>                       
                             <th data-head="Aptitude" class="sorting"><em>Aptitude</em></th>		
                             <th data-head="Attitude" class="sorting"><em>Attitude</em></th>									
+                            <th data-head="Mechanical" class="sorting"><em>Mechanical</em></th>									
                             <th data-head="Assessment Status" class="sorting"><em>Assessment Status</em></th>
 							<th data-head="Assessment Report" class="sorting"><em>Assessment Report</em></th>
                             <th data-head="Registration Form" class="sorting"><em>Registration Form</em></th>
@@ -130,6 +132,16 @@ s.setAttribute("remove_final", "final");
 								 </c:when>
                                <c:when test="${participant.attitude < 12 }">
 							    <span class="red">${participant.attitude} </span>
+								</c:when>
+							    </c:choose>
+							    </td>
+							    <td>
+							 <c:choose> 
+                               <c:when test="${participant.mechanical >= 12 }">
+							    <span class="green">${participant.mechanical} </span>
+								 </c:when>
+                               <c:when test="${participant.mechanical < 12 }">
+							    <span class="red">${participant.mechanical} </span>
 								</c:when>
 							    </c:choose>
 							    </td>		
@@ -247,12 +259,12 @@ s.setAttribute("remove_final", "final");
        }
       
       function openReport(key,name,email,mobile){
-	        mywindow=window.open("<%=assessUrl%>player/viewAssessment.jsp?accesskey="+key+"&name="+name+"&email="+email+"&mobile="+mobile+"&testid=43&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
+	        mywindow=window.open("<%=assessUrl%>player/viewAssessment.jsp?accesskey="+key+"&name="+name+"&email="+email+"&mobile="+mobile+"&testid=44&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
 	       mywindow.moveTo(120,90);
      }
 	 
 	 function openAnswerReport(key,name,email,){
-	        mywindow=window.open("<%=assessUrl%>pa/viewTest.do?accesskey="+key+"&name="+name+"&email="+email+"&testid=43&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
+	        mywindow=window.open("<%=assessUrl%>pa/viewTest.do?accesskey="+key+"&name="+name+"&email="+email+"&testid=44&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
 	       mywindow.moveTo(120,90);
      }
       
@@ -299,12 +311,12 @@ s.setAttribute("remove_final", "final");
        }
       
       function openReport(key,name,email,mobile){
-	        mywindow=window.open("<%=assessUrl%>player/viewAssessment.jsp?accesskey="+key+"&name="+name+"&email="+email+"&mobile="+mobile+"&testid=43&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
+	        mywindow=window.open("<%=assessUrl%>player/viewAssessment.jsp?accesskey="+key+"&name="+name+"&email="+email+"&mobile="+mobile+"&testid=44&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
 	       mywindow.moveTo(120,90);
      }
 	 
 	 function openAnswerReport(key,name,email,){
-	        mywindow=window.open("<%=assessUrl%>pa/viewTest.do?accesskey="+key+"&name="+name+"&email="+email+"&testid=43&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
+	        mywindow=window.open("<%=assessUrl%>pa/viewTest.do?accesskey="+key+"&name="+name+"&email="+email+"&testid=44&attemptid=1","detailwindow","resizable=1,scrollbars=1,width=1170,height=600");
 	       mywindow.moveTo(120,90);
      }
       

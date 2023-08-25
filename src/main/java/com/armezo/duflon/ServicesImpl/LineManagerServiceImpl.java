@@ -85,4 +85,8 @@ public class LineManagerServiceImpl implements LineManagerService {
 		return lmRepository.findByEmpCodeAndPassword(user,password);
 	}
 
+	public Optional<LineManager> findById(Long lmId) {
+		return lmRepository.findById(lmId);
+	}
+
 }

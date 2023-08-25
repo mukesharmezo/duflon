@@ -111,18 +111,51 @@ public class HoldEmployeeController {
                     else {
                         modelParticpantView.setInterViewDate("");
                     }
+                    if (p.getInterviewDate2() != null) {
+                    	final String regDate = p.getInterviewDate2().format(formatter2);
+                    	final String s = String.valueOf(regDate) + " " + p.getInterviewTime2();
+                    	modelParticpantView.setInterViewDate2(s);
+                    }
+                    else {
+                    	modelParticpantView.setInterViewDate2("");
+                    }
                     modelParticpantView.setDesignation(p.getDesignation());
                     modelParticpantView.setStatus("Hold");
-                    final Optional<InterviewScore> interView = (Optional<InterviewScore>)this.interviewScoreService.findByAccesskey(p.getAccessKey());
+                    
+                    final Optional<InterviewScore> interView = interviewScoreService.findByAccesskeyAndInterviewCount(p.getAccessKey(),1);
+                    final Optional<InterviewScore> interView2 = interviewScoreService.findByAccesskeyAndInterviewCount(p.getAccessKey(),2);
                     if (interView.isPresent()) {
-                        modelParticpantView.setInterViewStatus(DataProccessor.getStringValue(interView.get().getStatus()));
-                        modelParticpantView.setInterViewPassFailStatus(DataProccessor.getStringValue(interView.get().getPass_fail_status()));
+                        modelParticpantView.setInterViewStatus(interView.get().getStatus());
+                        modelParticpantView.setInterViewPassFailStatus(interView.get().getPass_fail_status());
+                    }else {
+                        modelParticpantView.setInterViewStatus("");
+                        modelParticpantView.setInterViewPassFailStatus("");
                     }
+                    if(interView2.isPresent()) {
+                  	  modelParticpantView.setInterViewStatus2(interView2.get().getStatus());
+                  	  modelParticpantView.setInterViewPassFailStatus2(interView2.get().getPass_fail_status());
+                    }
+                    else {
+                        modelParticpantView.setInterViewStatus2("");
+                        modelParticpantView.setInterViewPassFailStatus2("");
+                    }
+                   // final Optional<InterviewScore> interView = (Optional<InterviewScore>)this.interviewScoreService.findByAccesskey(p.getAccessKey());
+//                    if (interView.isPresent()) {
+//                        modelParticpantView.setInterViewStatus(DataProccessor.getStringValue(interView.get().getStatus()));
+//                        modelParticpantView.setInterViewPassFailStatus(DataProccessor.getStringValue(interView.get().getPass_fail_status()));
+//                    }
                     if (hre.isPresent()) {
                         modelParticpantView.setHreName(DataProccessor.getStringValue(hre.get().getName()));
                     }
 	                   modelParticpantView.setAptitude(DataProccessor.getIntegerValue(p.getAptitudeScore()));
 	                   modelParticpantView.setAttitude(DataProccessor.getIntegerValue(p.getAttitudeScore()));
+	                   if(p.getSection3()!=null) {
+	                  	 modelParticpantView.setMechanical(p.getSection3());
+	                   }else {
+	                  	 modelParticpantView.setMechanical(0);
+	  				}
+	                   modelParticpantView.setHiredStatus(p.getHiredStatus());
+	                   modelParticpantView.setPartStatus(p.getParticipantStatus());
                     listParticipant.add(modelParticpantView);
                 }
             }

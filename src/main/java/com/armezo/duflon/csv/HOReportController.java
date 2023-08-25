@@ -85,18 +85,20 @@ public class HOReportController {
 				cell = row.createCell(8);
 				cell.setCellValue("Attitude");
 				cell = row.createCell(9);
-				cell.setCellValue("Assessment Status");
+				cell.setCellValue("Mechanical");
 				cell = row.createCell(10);
-				cell.setCellValue("Re-attempt");
+				cell.setCellValue("Assessment Status");
 				cell = row.createCell(11);
-				cell.setCellValue("Interview Date");
+				cell.setCellValue("Re-attempt");
 				cell = row.createCell(12);
-				cell.setCellValue("Interview Score");
+				cell.setCellValue("Interview Date");
 				cell = row.createCell(13);
-				cell.setCellValue("Interview Date 2");
+				cell.setCellValue("Interview Score");
 				cell = row.createCell(14);
-				cell.setCellValue("Interview Score 2");
+				cell.setCellValue("Interview Date 2");
 				cell = row.createCell(15);
+				cell.setCellValue("Interview Score 2");
+				cell = row.createCell(16);
 				cell.setCellValue("Approval");
 				for (int i = 0; i < row.getLastCellNum(); ++i) {
 					row.getCell(i).setCellStyle((CellStyle) style);
@@ -136,6 +138,13 @@ public class HOReportController {
 						cell = row.createCell(8);
 						cell.setCellValue((double) pr.getAttitudeScore());
 						cell = row.createCell(9);
+						if (pr.getSection3() != null) {
+	                        cell.setCellValue((double)pr.getSection3());
+	                    }
+	                    else {
+	                        cell.setCellValue("");
+	                    }
+						cell = row.createCell(10);
 						if (pr.getTestStatus() != null && pr.getTestStatus().equalsIgnoreCase("3")) {
 							if (pr.getPassFailStatus() == 1) {
 								cell.setCellValue("Pass");
@@ -145,19 +154,19 @@ public class HOReportController {
 						} else {
 							cell.setCellValue("");
 						}
-						cell = row.createCell(10);
+						cell = row.createCell(11);
 						if (pr.getReAtampStatus() == null) {
 							cell.setCellValue("No");
 						} else {
 							cell.setCellValue("Yes");
 						}
-						cell = row.createCell(11);
+						cell = row.createCell(12);
 						if (pr.getInterviewDate() != null) {
 							cell.setCellValue(DataProccessor.csvDateFormatting(pr.getInterviewDate()));
 						} else {
 							cell.setCellValue("");
 						}
-						cell = row.createCell(12);
+						cell = row.createCell(13);
 						final Optional<InterviewScore> intScore = (Optional<InterviewScore>) this.interviewScoreService
 								.findByAccesskeyAndInterviewCount(pr.getAccessKey(), 1);
 						final Optional<InterviewScore> intScore2 = (Optional<InterviewScore>) this.interviewScoreService
@@ -167,19 +176,19 @@ public class HOReportController {
 						} else {
 							cell.setCellValue("");
 						}
-						cell = row.createCell(13);
+						cell = row.createCell(14);
 						if (pr.getInterviewDate2() != null) {
 							cell.setCellValue(DataProccessor.csvDateFormatting(pr.getInterviewDate2()));
 						} else {
 							cell.setCellValue("");
 						}
-						cell = row.createCell(14);
+						cell = row.createCell(15);
 						if (intScore2.isPresent()) {
 							cell.setCellValue(intScore2.get().getTotal());
 						} else {
 							cell.setCellValue("");
 						}
-						cell = row.createCell(15);
+						cell = row.createCell(16);
 						if (pr.getHiredStatus() != null && pr.getHiredStatus().equalsIgnoreCase("P")) {
 							cell.setCellValue("Approval Pending");
 						} else {

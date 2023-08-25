@@ -13,9 +13,11 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -287,6 +289,22 @@ public class DataProccessor {
 				rs="Recruited";
 			}
 			return rs;
+		}
+		public static List<Long> stringToList(String input) {
+		    List<Long> result = new ArrayList<>();
+		    System.out.println("Inputs :: "+input);
+		    if(input!=null) {
+		    String[] parts = input.split(",");
+		    for (String part : parts) {
+		        try {
+		            Long number = Long.parseLong(part.trim());
+		            result.add(number);
+		        } catch (NumberFormatException e) {
+		            e.printStackTrace();
+		        }
+		    }
+		    }
+		    return result;
 		}
 		
 

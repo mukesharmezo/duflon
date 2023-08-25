@@ -21,9 +21,9 @@ public class InterviewScoreService {
 		return interviewScoreRepo.save(interviewScore);
 		
 	}
-	public Optional<InterviewScore> findByAccesskey(String accesskey) {
-     return interviewScoreRepo.findByAccessKey(accesskey);		
-	}
+//	public Optional<InterviewScore> findByAccesskey(String accesskey) {
+//     return interviewScoreRepo.findByAccessKey(accesskey);		
+//	}
 	
 	public void delete(InterviewScore interviewScore) {
 	      interviewScoreRepo.delete(interviewScore);

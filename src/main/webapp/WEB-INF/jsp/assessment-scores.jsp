@@ -79,11 +79,12 @@ if(session.getAttribute("role") != null){
                       <h5>Attitude Score</h5>
                                 <input type="number" placeholder="Attitude Score" value="${Assmntscore.attitudeScore}" disabled />
                     </div>
-                  <%--  <div class="break-section"></div>
+                  <div class="break-section"></div>
                     <div class="form-block">
-                      <h5>Psychometric Score</h5>
-                                <input type="number" placeholder="Psychometric Score" value="${Assmntscore.attitudeScore}" disabled />
+                      <h5>Mechanical Score</h5>
+                                <input type="number" placeholder="Mechanical Score" value="${Assmntscore.section3}" disabled />
                     </div>
+                  <%--  
                      <div class="break-section"></div>
                     <div class="form-block">
                       <h5>Interview Score</h5>

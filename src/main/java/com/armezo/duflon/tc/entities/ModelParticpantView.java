@@ -40,6 +40,7 @@ public class ModelParticpantView {
     private String intterviewFormStatus2;  
     private int aptitude;
     private int attitude ;
+    private int mechanical ;
     private String expNonAutoStatus;
     private String expAutoStatus;
     private int reAttempCount;
@@ -105,6 +106,12 @@ public class ModelParticpantView {
 	}
 	public void setTestScore(String testScore) {
 		this.testScore = testScore;
+	}
+	public void setMechanical(int mechanical) {
+		this.mechanical = mechanical;
+	}
+	public int getMechanical() {
+		return mechanical;
 	}
 	public String getTestStatus() {
 		return testStatus;

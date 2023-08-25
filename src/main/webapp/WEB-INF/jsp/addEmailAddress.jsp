@@ -4,8 +4,7 @@ try
     {
 	ResourceBundle resource = ResourceBundle.getBundle("application");
     String baseServer = resource.getString("client.url");String title = resource.getString("app.title");
- String mspin2="", user="", password=""; 
-mspin2=session.getAttribute("mspin").toString().trim();
+ String user="", password=""; 
 user=session.getAttribute("user").toString().trim();
 password=session.getAttribute("password").toString().trim();
 String msg="";
@@ -20,7 +19,7 @@ if(session.getAttribute("msgEmail") != null){
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="shortcut icon" type="image/svg" href="<%=baseServer%>img/iRecruit-favicon.ico"/>
+	<link rel="icon" type="image/x-icon" href="<%=baseServer%>img/DuflonFavicon.png"/>   
     <title><%=title %></title>
     <link rel="stylesheet" type="text/css" href="./css/login.css" />
     <style>
@@ -42,7 +41,6 @@ display:none;
 		var email     =  $("#email").val();		
 		var user      =  $("#user").val();		
 		var password  =  $("#password").val();		
-		var mspin     =  $("#mspin").val();		
 		var errorEmail=$("#errorEmail");
 		
 		if (!validateEmail(email)) {
@@ -74,12 +72,11 @@ display:none;
     <div >
         <div class="form" style="max-width: 600px!important;">
             <form class="form__section"   id="testForm">
-                    <input type="hidden" name="mspin" id="mspin"	value="<%=mspin2%>" />
 					<input type="hidden" name="user" id="user"	value="<%=user%>" />
 					<input type="hidden" name="password" id="password"	value="<%=password%>" />
                 <h1 style="font-size:25px !important;">Please provide your official email ID to proceed.</h1>
                 <div class="form__block">
-                    <input type="email" name="email" id="email" placeholder="eg: john@example.com">
+                    <input type="email" name="email" id="email" placeholder="eg: hre@example.com">
                 </div>
                  <div class="error-chage-email" id="errorEmail"></div>
                 <div class="form__block">

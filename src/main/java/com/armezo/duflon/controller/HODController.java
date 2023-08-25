@@ -142,6 +142,11 @@ public class HODController {
 	                }else {
 	                	 modelParticpantView.setAttitude(0);	
 	                }
+	                if(p.getSection3()!=null) {
+	                	 modelParticpantView.setMechanical(p.getSection3());
+	                 }else {
+	                	 modelParticpantView.setMechanical(0);
+					}
 	                listParticipant.add(modelParticpantView);
 	            }
 	        }

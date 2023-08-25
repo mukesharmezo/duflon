@@ -95,20 +95,22 @@ public class NewCandidate {
             cell = row.createCell(8);
             cell.setCellValue("Attitude");
             cell = row.createCell(9);
-            cell.setCellValue("Assessment Status");
+            cell.setCellValue("Mechanical");
             cell = row.createCell(10);
-            cell.setCellValue("Re-attempt");
+            cell.setCellValue("Assessment Status");
             cell = row.createCell(11);
-            cell.setCellValue("Interview Date");
+            cell.setCellValue("Re-attempt");
             cell = row.createCell(12);
-            cell.setCellValue("Interview Score");
+            cell.setCellValue("Interview Date");
             cell = row.createCell(13);
-            cell.setCellValue("Interview 2 Date");
+            cell.setCellValue("Interview Score");
             cell = row.createCell(14);
-            cell.setCellValue("Interview 2 Score");
+            cell.setCellValue("Interview 2 Date");
             cell = row.createCell(15);
-            cell.setCellValue("Status");
+            cell.setCellValue("Interview 2 Score");
             cell = row.createCell(16);
+            cell.setCellValue("Status");
+            cell = row.createCell(17);
             cell.setCellValue("Approval");
             for (int i = 0; i < row.getLastCellNum(); ++i) {
                 row.getCell(i).setCellStyle((CellStyle)style);
@@ -161,6 +163,13 @@ public class NewCandidate {
                     cell = row.createCell(8);
                     cell.setCellValue((double)pr.getAttitudeScore());
                     cell = row.createCell(9);
+                    if (pr.getSection3() != null) {
+                        cell.setCellValue((double)pr.getSection3());
+                    }
+                    else {
+                        cell.setCellValue("");
+                    }
+                    cell = row.createCell(10);
                     if (pr.getTestStatus() != null && pr.getTestStatus().equalsIgnoreCase("3")) {
                         if (pr.getPassFailStatus() == 1) {
                             cell.setCellValue("Pass");
@@ -173,21 +182,21 @@ public class NewCandidate {
                         cell.setCellValue("");
                     }
                 
-                cell = row.createCell(10);
+                cell = row.createCell(11);
                 if (pr.getReAtampStatus() == null) {
                     cell.setCellValue("No");
                 }
                 else {
                     cell.setCellValue("Yes");
                 }
-                cell = row.createCell(11);
+                cell = row.createCell(12);
                 if (pr.getInterviewDate() != null) {
                     cell.setCellValue(DataProccessor.csvDateFormatting(pr.getInterviewDate()));
                 }
                 else {
                     cell.setCellValue("");
                 }
-                cell = row.createCell(12);
+                cell = row.createCell(13);
                 final Optional<InterviewScore> intScore = (Optional<InterviewScore>)this.interviewScoreService.findByAccesskeyAndInterviewCount(pr.getAccessKey(),1);
                 final Optional<InterviewScore> intScore2 = (Optional<InterviewScore>)this.interviewScoreService.findByAccesskeyAndInterviewCount(pr.getAccessKey(),2);
                 if (intScore.isPresent()) {
@@ -196,22 +205,22 @@ public class NewCandidate {
                 else {
                     cell.setCellValue("");
                 }
-                cell = row.createCell(13);
+                cell = row.createCell(14);
                 if (pr.getInterviewDate2() != null) {
                     cell.setCellValue(DataProccessor.csvDateFormatting(pr.getInterviewDate2()));
                 }
                 else {
                     cell.setCellValue("");
                 }
-                cell = row.createCell(14);
+                cell = row.createCell(15);
                 if(intScore2.isPresent()) {
                 	cell.setCellValue(intScore2.get().getTotal());
                 }else {
                 	cell.setCellValue("");
                 }
-                cell = row.createCell(15);
+                cell = row.createCell(16);
                 cell.setCellValue("Hold");
-                cell= row.createCell(16);
+                cell= row.createCell(17);
                 if(pr.getHiredStatus()!=null && pr.getHiredStatus().equalsIgnoreCase("P")) {
                 	cell.setCellValue("Pending");
                 }else {
@@ -273,20 +282,22 @@ public class NewCandidate {
             cell = row.createCell(8);
             cell.setCellValue("Attitude");
             cell = row.createCell(9);
-            cell.setCellValue("Assessment Status");
+            cell.setCellValue("Mechanical");
             cell = row.createCell(10);
-            cell.setCellValue("Re-attempt");
+            cell.setCellValue("Assessment Status");
             cell = row.createCell(11);
-            cell.setCellValue("Interview Date");
+            cell.setCellValue("Re-attempt");
             cell = row.createCell(12);
-            cell.setCellValue("Interview Score");
+            cell.setCellValue("Interview Date");
             cell = row.createCell(13);
-            cell.setCellValue("Interview 2 Date");
+            cell.setCellValue("Interview Score");
             cell = row.createCell(14);
-            cell.setCellValue("Interview 2 Score");
+            cell.setCellValue("Interview 2 Date");
             cell = row.createCell(15);
-            cell.setCellValue("Status");
+            cell.setCellValue("Interview 2 Score");
             cell = row.createCell(16);
+            cell.setCellValue("Status");
+            cell = row.createCell(17);
             cell.setCellValue("Approval");
             for (int i = 0; i < row.getLastCellNum(); ++i) {
                 row.getCell(i).setCellStyle((CellStyle)style);
@@ -333,6 +344,13 @@ public class NewCandidate {
                     cell = row.createCell(8);
                     cell.setCellValue((double)pr.getAttitudeScore());
                     cell = row.createCell(9);
+                    if (pr.getSection3() != null) {
+                        cell.setCellValue((double)pr.getSection3());
+                    }
+                    else {
+                        cell.setCellValue("");
+                    }
+                    cell = row.createCell(10);
                     if (pr.getTestStatus() != null && pr.getTestStatus().equalsIgnoreCase("3")) {
                         if (pr.getPassFailStatus() == 1) {
                             cell.setCellValue("Pass");
@@ -344,21 +362,21 @@ public class NewCandidate {
                     else {
                         cell.setCellValue("");
                     }
-                cell = row.createCell(10);
+                cell = row.createCell(11);
                 if (pr.getReAtampStatus() == null) {
                     cell.setCellValue("No");
                 }
                 else {
                     cell.setCellValue("Yes");
                 }
-                cell = row.createCell(11);
+                cell = row.createCell(12);
                 if (pr.getInterviewDate() != null) {
                     cell.setCellValue(DataProccessor.csvDateFormatting(pr.getInterviewDate()));
                 }
                 else {
                     cell.setCellValue("");
                 }
-                cell = row.createCell(12);
+                cell = row.createCell(13);
                 final Optional<InterviewScore> intScore = (Optional<InterviewScore>)this.interviewScoreService.findByAccesskeyAndInterviewCount(pr.getAccessKey(),1);
                 final Optional<InterviewScore> intScore2 = (Optional<InterviewScore>)this.interviewScoreService.findByAccesskeyAndInterviewCount(pr.getAccessKey(),2);
                 if (intScore.isPresent()) {
@@ -367,35 +385,33 @@ public class NewCandidate {
                 else {
                     cell.setCellValue("");
                 }
-                cell = row.createCell(13);
+                cell = row.createCell(14);
                 if (pr.getInterviewDate2() != null) {
                     cell.setCellValue(DataProccessor.csvDateFormatting(pr.getInterviewDate2()));
                 }
                 else {
                     cell.setCellValue("");
                 }
-                cell = row.createCell(14);
+                cell = row.createCell(15);
                 if(intScore2.isPresent()) {
                 	cell.setCellValue(intScore2.get().getTotal());
                 }else {
                 	cell.setCellValue("");
                 }
-                cell= row.createCell(15);
+                cell= row.createCell(16);
                 String status="";
                 if(pr.getParticipantStatus()!=null) {
                 	status = DataProccessor.getParticipantStatus(pr.getParticipantStatus());
                 }
                 cell.setCellValue(status);
-                cell= row.createCell(16);
+                cell= row.createCell(17);
                 if(pr.getHiredStatus()!=null && pr.getHiredStatus().equalsIgnoreCase("P")) {
                 	cell.setCellValue("Pending");
                 }else {
                 	cell.setCellValue("");
                 }
-                
                 ++count;
             }
-            
             String  fileName = DataProccessor.getReportName("In Progress");
             String responseExcelUrl = fileName+".csv";
 			try (FileOutputStream outputStream = new FileOutputStream(responseExcelUrl)) {
@@ -448,16 +464,18 @@ public class NewCandidate {
             cell = row.createCell(8);
             cell.setCellValue("Attitude");
             cell = row.createCell(9);
-            cell.setCellValue("Assessment Status");
+            cell.setCellValue("Mechanical");
             cell = row.createCell(10);
-            cell.setCellValue("Re-attempt");
+            cell.setCellValue("Assessment Status");
             cell = row.createCell(11);
-            cell.setCellValue("Interview Date");
+            cell.setCellValue("Re-attempt");
             cell = row.createCell(12);
-            cell.setCellValue("Interview Score");
+            cell.setCellValue("Interview Date");
             cell = row.createCell(13);
-            cell.setCellValue("Interview 2 Date");
+            cell.setCellValue("Interview Score");
             cell = row.createCell(14);
+            cell.setCellValue("Interview 2 Date");
+            cell = row.createCell(15);
             cell.setCellValue("Interview 2 Score");
             for (int i = 0; i < row.getLastCellNum(); ++i) {
                 row.getCell(i).setCellStyle((CellStyle)style);
@@ -504,6 +522,13 @@ public class NewCandidate {
                     cell = row.createCell(8);
                     cell.setCellValue((double)pr.getAttitudeScore());
                     cell = row.createCell(9);
+                    if (pr.getSection3() != null) {
+                        cell.setCellValue((double)pr.getSection3());
+                    }
+                    else {
+                        cell.setCellValue("");
+                    }
+                    cell = row.createCell(10);
                     if (pr.getTestStatus() != null && pr.getTestStatus().equalsIgnoreCase("3")) {
                         if (pr.getPassFailStatus() == 1) {
                             cell.setCellValue("Pass");
@@ -515,21 +540,21 @@ public class NewCandidate {
                     else {
                         cell.setCellValue("");
                     }
-                cell = row.createCell(10);
+                cell = row.createCell(11);
                 if (pr.getReAtampStatus() == null) {
                     cell.setCellValue("No");
                 }
                 else {
                     cell.setCellValue("Yes");
                 }
-                cell = row.createCell(11);
+                cell = row.createCell(12);
                 if (pr.getInterviewDate() != null) {
                     cell.setCellValue(DataProccessor.csvDateFormatting(pr.getInterviewDate()));
                 }
                 else {
                     cell.setCellValue("");
                 }
-                cell = row.createCell(12);
+                cell = row.createCell(13);
                 final Optional<InterviewScore> intScore = (Optional<InterviewScore>)this.interviewScoreService.findByAccesskeyAndInterviewCount(pr.getAccessKey(),1);
                 final Optional<InterviewScore> intScore2 = (Optional<InterviewScore>)this.interviewScoreService.findByAccesskeyAndInterviewCount(pr.getAccessKey(),2);
                 if (intScore.isPresent()) {
@@ -538,14 +563,14 @@ public class NewCandidate {
                 else {
                     cell.setCellValue("");
                 }
-                cell = row.createCell(13);
+                cell = row.createCell(14);
                 if (pr.getInterviewDate2() != null) {
                     cell.setCellValue(DataProccessor.csvDateFormatting(pr.getInterviewDate2()));
                 }
                 else {
                     cell.setCellValue("");
                 }
-                cell = row.createCell(14);
+                cell = row.createCell(15);
                 if(intScore2.isPresent()) {
                 	cell.setCellValue(intScore2.get().getTotal());
                 }else {
@@ -644,46 +669,48 @@ public class NewCandidate {
             cell = row.createCell(24);
             cell.setCellValue("Attitude Score");
             cell = row.createCell(25);
-            cell.setCellValue("Total Marks");
+            cell.setCellValue("Mechanical Score");
             cell = row.createCell(26);
-            cell.setCellValue("Marks Obtained");
+            cell.setCellValue("Total Marks");
             cell = row.createCell(27);
-            cell.setCellValue("Percentage");
+            cell.setCellValue("Marks Obtained");
             cell = row.createCell(28);
-            cell.setCellValue("Assessment Status");
+            cell.setCellValue("Percentage");
             cell = row.createCell(29);
-            cell.setCellValue("Interview Date");
+            cell.setCellValue("Assessment Status");
             cell = row.createCell(30);
-            cell.setCellValue("Interview Score");
+            cell.setCellValue("Interview Date");
             cell = row.createCell(31);
-            cell.setCellValue("Interview Status");
+            cell.setCellValue("Interview Score");
             cell = row.createCell(32);
-            cell.setCellValue("Interview 2 Date");
+            cell.setCellValue("Interview Status");
             cell = row.createCell(33);
-            cell.setCellValue("Interview 2 Score");
+            cell.setCellValue("Interview 2 Date");
             cell = row.createCell(34);
-            cell.setCellValue("Interview 2 Status");
+            cell.setCellValue("Interview 2 Score");
             cell = row.createCell(35);
-            cell.setCellValue("Work Experience");
+            cell.setCellValue("Interview 2 Status");
             cell = row.createCell(36);
-            cell.setCellValue("Total Work Experience (in months)");
+            cell.setCellValue("Work Experience");
             cell = row.createCell(37);
-            cell.setCellValue("Previous Company");
+            cell.setCellValue("Total Work Experience (in months)");
             cell = row.createCell(38);
-            cell.setCellValue("Recruitment Source");
+            cell.setCellValue("Previous Company");
             cell = row.createCell(39);
-            cell.setCellValue("ID Proof");
+            cell.setCellValue("Recruitment Source");
             cell = row.createCell(40);
-            cell.setCellValue("ID Proof Number");
+            cell.setCellValue("ID Proof");
             cell = row.createCell(41);
-            cell.setCellValue("Emp Salary (Per Month)");
+            cell.setCellValue("ID Proof Number");
             cell = row.createCell(42);
-            cell.setCellValue("Bank A/C number");
+            cell.setCellValue("Emp Salary (Per Month)");
             cell = row.createCell(43);
-            cell.setCellValue("Marital Status");
+            cell.setCellValue("Bank A/C number");
             cell = row.createCell(44);
-            cell.setCellValue("Blood Group");
+            cell.setCellValue("Marital Status");
             cell = row.createCell(45);
+            cell.setCellValue("Blood Group");
+            cell = row.createCell(46);
             cell.setCellValue("Status");
             for (int i = 0; i < row.getLastCellNum(); ++i) {
                 row.getCell(i).setCellStyle((CellStyle)style);
@@ -886,20 +913,27 @@ public class NewCandidate {
                         cell.setCellValue("");
                     }
                     cell = row.createCell(25);
+                    if (pr.getSection3() != null) {
+                        cell.setCellValue((double)pr.getSection3());
+                    }
+                    else {
+                        cell.setCellValue("");
+                    }
+                    cell = row.createCell(26);
                     if (pr.getTotalMark() != null) {
                         cell.setCellValue(pr.getTotalMark());
                     }
                     else {
                         cell.setCellValue("");
                     }
-                    cell = row.createCell(26);
+                    cell = row.createCell(27);
                     if (pr.getTestScore() != null) {
                         cell.setCellValue(pr.getTestScore());
                     }
                     else {
                         cell.setCellValue("");
                     }
-                    cell = row.createCell(27);
+                    cell = row.createCell(28);
                     if (pr.getTestScore() != null && pr.getTotalMark() != null) {
                         final double score = Double.valueOf(pr.getTestScore());
                         final double total = Double.valueOf(pr.getTotalMark());
@@ -909,7 +943,7 @@ public class NewCandidate {
                     }else {
 						cell.setCellValue("");
 					}
-                    cell = row.createCell(28);
+                    cell = row.createCell(29);
                     if (pr.getTestStatus() != null && pr.getTestStatus().equalsIgnoreCase("3")) {
                         if (pr.getPassFailStatus() == 1) {
                             cell.setCellValue("Pass");
@@ -922,15 +956,15 @@ public class NewCandidate {
                         cell.setCellValue("");
                     }
                     
-                    cell = row.createCell(29);
-                    cell.setCellValue(DataProccessor.dateToString(pr.getInterviewDate()));
                     cell = row.createCell(30);
+                    cell.setCellValue(DataProccessor.dateToString(pr.getInterviewDate()));
+                    cell = row.createCell(31);
                     if(pr.getInterviewScore()!=null) {
                     cell.setCellValue(pr.getInterviewScore());
                     }else {
 						cell.setCellValue("");
 					}
-                    cell = row.createCell(31);
+                    cell = row.createCell(32);
                     if(intScore.isPresent() && intScore.get().getInterviewStatus()!=null) {
                     	if(intScore.get().getInterviewStatus().equalsIgnoreCase("Selected")) {
                     		cell.setCellValue("Selected");
@@ -940,15 +974,15 @@ public class NewCandidate {
                     }else {
                     	cell.setCellValue("");
 					}
-                    cell = row.createCell(32);
-                    cell.setCellValue(DataProccessor.dateToString(pr.getInterviewDate2()));
                     cell = row.createCell(33);
+                    cell.setCellValue(DataProccessor.dateToString(pr.getInterviewDate2()));
+                    cell = row.createCell(34);
                     if(pr.getInterviewScore2()!=null) {
                     cell.setCellValue(pr.getInterviewScore2());
                     }else {
 						cell.setCellValue("");
 					}
-                    cell = row.createCell(34);
+                    cell = row.createCell(35);
                     if(intScore2.isPresent() && intScore2.get().getInterviewStatus()!=null) {
                     	if(intScore2.get().getInterviewStatus().equalsIgnoreCase("Selected")) {
                     		cell.setCellValue("Selected");
@@ -958,20 +992,20 @@ public class NewCandidate {
                     }else {
                     	cell.setCellValue("");
 					}
-                    cell = row.createCell(35);
+                    cell = row.createCell(36);
                     if(pr.getWorkExperience().size()>0) {
                 	   cell.setCellValue("Yes");
                     }else {
                 	   cell.setCellValue("");
                     }
-                    cell = row.createCell(36);
+                    cell = row.createCell(37);
                     int workExp = 0;
                     final List<WorkExperience> workList = pr.getWorkExperience();
                     for(WorkExperience w : workList) {
                     	workExp = workExp+w.getExpInMths();
                     }
                     cell.setCellValue(workExp);
-                    cell = row.createCell(37);
+                    cell = row.createCell(38);
                     String preCompanyName = "";
                     if (pr.getWorkExperience() != null && pr.getWorkExperience().size() != 0) {
                         for (final WorkExperience w : pr.getWorkExperience()) {
@@ -984,36 +1018,36 @@ public class NewCandidate {
                         }
                     }
                     cell.setCellValue(preCompanyName);
-                    cell = row.createCell(38);
-                    cell.setCellValue(pr.getSource());
                     cell = row.createCell(39);
+                    cell.setCellValue(pr.getSource());
+                    cell = row.createCell(40);
                     if (pr.getIdProof() != null && pr.getIdProof() != "") {
                         cell.setCellValue((String)listMap.get(pr.getIdProof()));
                     }
                     else {
                         cell.setCellValue("");
                     }
-                    cell = row.createCell(40);
+                    cell = row.createCell(41);
                     if (pr.getAdharNumber() != null) {
                         cell.setCellValue(pr.getAdharNumber().toString());
                     }
                     else {
                         cell.setCellValue("");
                     }
-                    cell = row.createCell(41);
-                    cell.setCellValue(pr.getEmpSalary());
                     cell = row.createCell(42);
-                    cell.setCellValue(pr.getBankAccountNumber());
+                    cell.setCellValue(pr.getEmpSalary());
                     cell = row.createCell(43);
-                    cell.setCellValue(pr.getMartialStatus());
+                    cell.setCellValue(pr.getBankAccountNumber());
                     cell = row.createCell(44);
+                    cell.setCellValue(pr.getMartialStatus());
+                    cell = row.createCell(45);
                     if (pr.getBloodGroup() != null && pr.getBloodGroup() != "") {
                         cell.setCellValue((String)listMap.get(pr.getBloodGroup()));
                     }
                     else {
                         cell.setCellValue("");
                     }
-                    cell= row.createCell(45);
+                    cell= row.createCell(46);
                     String status="";
                     if(pr.getParticipantStatus()!=null) {
                     	status = DataProccessor.getParticipantStatus(pr.getParticipantStatus());

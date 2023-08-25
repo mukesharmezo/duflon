@@ -136,6 +136,11 @@ public class EmlopyeeController {
 				}
 	             modelParticpantView.setAptitude(p.getAptitudeScore());
                  modelParticpantView.setAttitude(p.getAttitudeScore());
+                 if(p.getSection3()!=null) {
+                	 modelParticpantView.setMechanical(p.getSection3());
+                 }else {
+                	 modelParticpantView.setMechanical(0);
+				}
                  modelParticpantView.setHiredStatus(p.getHiredStatus());
 				listParticipant.add(modelParticpantView);
 				}

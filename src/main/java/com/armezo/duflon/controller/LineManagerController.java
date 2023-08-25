@@ -9,19 +9,31 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.armezo.duflon.Entities.HRE;
 import com.armezo.duflon.Entities.InterviewScore;
+import com.armezo.duflon.Entities.LMAccesskey;
+import com.armezo.duflon.Entities.LMInterview;
+import com.armezo.duflon.Entities.LineManager;
 import com.armezo.duflon.Entities.ParticipantRegistration;
 import com.armezo.duflon.Services.HREService;
 import com.armezo.duflon.Services.InterviewScoreService;
+import com.armezo.duflon.Services.LMAccesskeyService;
+import com.armezo.duflon.Services.LMInterviewService;
 import com.armezo.duflon.ServicesImpl.LineManagerServiceImpl;
 import com.armezo.duflon.ServicesImpl.ParticipantServiceImpl;
 import com.armezo.duflon.payload.FilterPayload;
+import com.armezo.duflon.payload.InterviewLMAccesskey;
+import com.armezo.duflon.payload.LmDate;
 import com.armezo.duflon.tc.entities.ModelParticpantView;
 import com.armezo.duflon.utils.DataProccessor;
 
@@ -36,6 +48,135 @@ public class LineManagerController {
 	    HREService hreService;
 	    @Autowired
 	    InterviewScoreService interviewScoreService;
+	    @Autowired
+	    LMInterviewService lMInterviewService;
+	    @Autowired
+	    LMAccesskeyService lMAccesskeyService;
+	    
+		@GetMapping({ "/viewInterview" })
+		private String viewInterview(final HttpSession session, Model model) {
+			if (session.getAttribute("role") != null) {
+				String role = session.getAttribute("role").toString();
+				if (role.equalsIgnoreCase("LM")) {
+					Long lmId = Long.parseLong(session.getAttribute("userId").toString());
+					List<InterviewLMAccesskey> lmList = new ArrayList<>();
+					List<LMAccesskey> list = lMAccesskeyService.getInterviewAccesskeyByLMId(lmId);
+					for (LMAccesskey lm : list) {
+						InterviewLMAccesskey lmAcc = new InterviewLMAccesskey();
+						Optional<ParticipantRegistration> p = participantserviceImpl.findByAccesskey(lm.getAccesskey());
+						Long hreId = 0L;
+						if(p.isPresent()) {
+							hreId = p.get().getHreId();
+						}
+						Optional<HRE> hreOptional = hreService.getById(hreId);
+						String hreName="";
+						if(hreOptional.isPresent()) {
+							hreName = hreOptional.get().getName();
+						}
+						String name = "";
+						name = p.get().getFirstName();
+						if (p.get().getMiddleName() != null && p.get().getMiddleName().length() > 0) {
+							name += " " + p.get().getMiddleName();
+						}
+						name += " " + p.get().getLastName();
+						lmAcc.setName(name);
+						lmAcc.setHreName(hreName);
+						lmAcc.setAccesskey(p.get().getAccessKey());
+						lmAcc.setLmId(lm.getLmId());
+						lmList.add(lmAcc);
+					}
+					model.addAttribute("participantList", lmList);
+				}
+			} else {
+				return "redirect:login";
+			}
+			return "lm_accesskey";
+		}
+	    
+		@PostMapping({ "/getDate" })
+		@ResponseBody
+		private String getDate(@RequestParam("accesskey") String accesskey, final HttpSession session, Model model) {
+			if (session.getAttribute("role") != null) {
+				String role = session.getAttribute("role").toString();
+				if (role.equalsIgnoreCase("LM")) {
+					Long lmId = Long.parseLong(session.getAttribute("userId").toString());
+					//SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+					//Map<Long, String> map = new HashMap<>();
+					List<LMInterview> lmDate = lMInterviewService.findByAccesskey(accesskey);
+					List<LMAccesskey> lmAccesskey = lMAccesskeyService.findOtherLM(accesskey, lmId);
+					StringBuilder selectCode = new StringBuilder();
+					StringBuilder tableBodyCode = new StringBuilder();
+					selectCode.append(
+							"<select id='dateSelect' multiple='multiple' class='form-block'>");
+					for (LMInterview lmInt : lmDate) {
+						selectCode.append("<option value='" + lmInt.getId() + "'>" + lmInt.getSlotDate() + "</option>");
+					}
+					selectCode.append("</select>");
+					// Table Data Code
+					int count=1;
+					for(LMAccesskey lmAcc : lmAccesskey) {
+						List<Long> selectedDate = DataProccessor.stringToList(lmAcc.getDateId());
+						tableBodyCode.append("<tr>");
+						tableBodyCode.append("<td>" + count+ "</td>");
+						//Get Lm name by id
+						Optional<LineManager> lineOpt= lmService.findById(lmAcc.getLmId());
+						String lmName="";
+						if(lineOpt.isPresent()) {
+							lmName=lineOpt.get().getName();
+						}
+						tableBodyCode.append("<td>" + lmName + "</td>");
+						//Set Date in column
+						for(int i=0; i<5;i++) {
+							if(i<lmDate.size()) {
+								LMInterview lmintv = lmDate.get(i);
+								//String styleClass = selectedDate.contains(lmintv.getId()) ? "green-date" : "";
+								//tableBodyCode.append("<td class='").append(styleClass).append("'>").append(lmintv.getSlotDate()).append("</td>");
+								if(selectedDate!=null) {
+								String style = selectedDate.contains(lmintv.getId()) ? "background-color: green !important;color: white;" : "";
+								tableBodyCode.append("<td style='").append(style).append("'>").append(lmintv.getSlotDate()).append("</td>");
+								}
+							}else {
+								tableBodyCode.append("<td></td>");
+							}
+						}
+						tableBodyCode.append("</tr>");
+						count++;
+					}
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("select2Date", selectCode.toString());
+					jsonObject.put("tableData", tableBodyCode.toString());
+					return jsonObject.toString();
+				}
+			} else {
+				return "redirect:login";
+			}
+			return "";
+		}
+		
+		
+	    
+	    @PostMapping({ "/save" })
+	    @ResponseBody
+	    private String save(@RequestBody LmDate payload,final HttpSession session) {
+	    	
+	    	String dates ="";
+	    	for(Long l :payload.getDateId()) {
+	    		if(dates.equals("")) {
+	    			dates = l.toString();
+	    		}else {
+	    			dates += ","+ l.toString();
+	    		}
+	    	}
+	    String accesskey = 	payload.getAccesskey();
+	    Long lmId = payload.getLmId();
+		Optional<LMAccesskey> lm =  lMAccesskeyService.findByAccesskeyAndLmId(accesskey,lmId);
+		if(lm.isPresent()) {
+			lm.get().setDateId(dates);
+			lMAccesskeyService.save(lm.get());
+		}
+		
+	    	return  "success";
+	    }
 	    
 	    @GetMapping({ "/viewAllParticapants" })
 	    private String viewAllParticipantsOnHO(
@@ -182,6 +323,11 @@ public class LineManagerController {
 	                }else {
 	                	 modelParticpantView.setAttitude(0);	
 	                }
+	                if(p.getSection3()!=null) {
+	                	 modelParticpantView.setMechanical(p.getSection3());
+	                 }else {
+	                	 modelParticpantView.setMechanical(0);
+					}
 	                modelParticpantView.setHiredStatus(p.getHiredStatus());
 	                modelParticpantView.setPartStatus(p.getParticipantStatus());
 	                listParticipant.add(modelParticpantView);
@@ -189,4 +335,6 @@ public class LineManagerController {
 	        }
 	        return listParticipant;
 	    }
+	    
+	    
 }

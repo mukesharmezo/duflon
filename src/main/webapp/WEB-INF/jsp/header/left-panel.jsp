@@ -47,6 +47,11 @@
 				</li>
 			<%}%>
 			<%if( !userId.equalsIgnoreCase("HRE")) { %>
+			<%if( userId.equalsIgnoreCase("LM")) { %>
+				<li>
+					<a href="./viewInterview">Interview Request</a>
+				</li>
+			<%} %>
 				<li>
 					<a href="./viewAllParticapants">In Progress </a>
 				</li>

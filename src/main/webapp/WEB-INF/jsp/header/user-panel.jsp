@@ -214,7 +214,7 @@ if(session.getAttribute("hreName") != null){
 	        		 $('.success-chage-pass').text('');
 	        		 errorPass.removeClass( "error-chage-pass" );
 	        		 errorPass.addClass('success-chage-pass' );
-	        		 $('.success-chage-pass').append('Password have been Changed');
+	        		 $('.success-chage-pass').append('Password has been changed');
 	    			 $('.success-chage-pass').show();  
 	    			 $('#newPassword').val('');
 					 swal({   

@@ -80,7 +80,6 @@ public class InterviewScoreController {
 			model.addAttribute("date",particpant.get().getInterviewDate().format(df));	
 			model.addAttribute("accesskey", particpant.get().getAccessKey());
 			model.addAttribute("photograph", particpant.get().getPhotograph());
-			System.out.println("Count :: "+interviewCount+"<>"+particpant.get().getPhotograph());
 			//Checking 2nd interview scheduled or not
 			String int2 = "check";
 			if(interviewCount==1) {
@@ -260,7 +259,6 @@ public class InterviewScoreController {
 			}
 			model.addAttribute("accesskey", particpant.get().getAccessKey());	
 			model.addAttribute("photograph", particpant.get().getPhotograph());
-			System.out.println("Count :: "+interviewCount+"<>"+particpant.get().getPhotograph());
 			model.addAttribute("name", DataProccessor.getFullNameOfParticipant(particpant.get()));	
 		}
 		if (score.isPresent()) {

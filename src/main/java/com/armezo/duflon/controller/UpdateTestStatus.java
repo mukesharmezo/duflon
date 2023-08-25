@@ -43,7 +43,7 @@ public class UpdateTestStatus {
 	    @ResponseBody
 	    public String updateAptitute(@RequestParam("accesskey") final String accesskey, @RequestParam("testScore") final double testScore,
 	    		@RequestParam("testStatus") final int testStatus,@RequestParam("totalMark") final double totalMark,
-	    		@RequestParam("section_1") final double section_1, @RequestParam("section_2") final double section_2) {
+	    		@RequestParam("section_1") final double section_1, @RequestParam("section_2") final double section_2, @RequestParam("section_3") final double section_3) {
 	        final Optional<ParticipantRegistration> participant = (Optional<ParticipantRegistration>)this.participantserviceImpl.findByAccesskey(accesskey);
 	        if (participant.isPresent()) {
 	            participant.get().setTestStatus("3");
@@ -60,6 +60,7 @@ public class UpdateTestStatus {
 	            participant.get().setTestCompletionDate(LocalDate.now());
 	            participant.get().setAptitudeScore(Integer.valueOf((int)section_1));
 	            participant.get().setAttitudeScore(Integer.valueOf((int)section_2));
+	            participant.get().setSection3(Integer.valueOf((int)section_2));
 	            participant.get().setPsychometricScore(Integer.valueOf((int)testScore));
 	            participant.get().setParticipantStatus("Assessment");
 	            participant.get().setModifiedDate(LocalDate.now());;

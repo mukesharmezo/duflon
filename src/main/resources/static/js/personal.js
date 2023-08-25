@@ -30,13 +30,21 @@ $(document).ready(function() {
 				maxlength: 6
 			},
 			address: {
-				required:true
+				required:true,
+				minlength: 5,
+				maxlength: 150
 			},
 			state: {
-				required:true
+				required:true,
+				lettersOnly: true,
+				minlength: 3,
+				maxlength: 30
 			},
 			city:{
-				required:true
+				required:true,
+				lettersOnly: true,
+				minlength: 3,
+				maxlength: 30
 			},
 			mobile: {
 				minlength: 10,
@@ -89,35 +97,43 @@ $(document).ready(function() {
 				required: "Please enter your first name.",
 				minlength: "Your first name must be at least 3 characters long.",
 				maxlength: "Your first name cannot be more than 15 characters long.",
-				lettersOnly: "Please enter only letters (A-Z) in your first name.",
+				lettersOnly: "Please enter only letters in your first name.",
 				notEqual: "Your first name and last name cannot be the same."
 			},
 			middleName: {
-				minlength: "Your first name must be at least 3 characters long.",
-				maxlength: "Your first name cannot be more than 15 characters long.",
-				lettersOnly: "Please enter only letters (A-Z) in your first name."
+				minlength: "Your middle name must be at least 3 characters long.",
+				maxlength: "Your middle name cannot be more than 15 characters long.",
+				lettersOnly: "Please enter only letters in your middle name."
 			},
 			lastName: {
 				required: "Please enter your last name.",
 				minlength: "Your last name must be at least 3 characters long.",
 				maxlength: "Your last name cannot be more than 15 characters long.",
-				lettersOnly: "Please enter only letters (A-Z) in your last name.",
+				lettersOnly: "Please enter only letters in your last name.",
 				notEqual: "Your first name and last name cannot be the same."
 			},
 			pin: {
-						required: "<br/>Please enter pin code",
-						number: "<br/>Please Enter your pin number as a numerical value",
-						minlength: "<br/>Min. length should be 6 digit for Pin Code",
-						maxlength: "<br/>Max. length should be 6 digit  for Pin Code"
+						required: "Please enter pin code",
+						number: "Please Enter your pin number as a numerical value",
+						minlength: "Min. length should be 6 digit for Pin Code",
+						maxlength: "Max. length should be 6 digit  for Pin Code"
 					},
 			address: {
-				required:"Please enter address."
+				required:"Please enter address.",
+				minlength: "Min. length should be 5 digit for address." ,
+				maxlength: "Min. length should be 150 digit for address."
 			},
 			state: {
-				required:"Please enter state."
+				required:"Please enter state.",
+				lettersOnly: "Please enter only letters in state.",
+				minlength: "Min. length should be 3 digit for state.",
+				maxlength: "Max. length should be 30 digit  for state."
 			},
 			city: {
-				required:"Please enter city."
+				required:"Please enter city.",
+				lettersOnly: "Please enter only letters in city.",
+				minlength: "Min. length should be 3 digit for city.",
+				maxlength: "Max. length should be 30 digit  for city."
 			},
 			mobile: {
 				required: "Please enter your mobile number.",
@@ -177,7 +193,7 @@ $(document).ready(function() {
 		return this.optional(element) || value !== $(param).val();
 	}, "First name and last name cannot be the same.");
 	$.validator.addMethod("lettersOnly", function(value, element) {
-		return this.optional(element) || /^[a-zA-Z]+$/i.test(value);
+		return this.optional(element) || /^[a-zA-Z]+(\s[a-zA-Z]+)*$/i.test(value);
 	}, "Please enter only letters (A-Z) in this field.");
 	$.validator.addMethod("maxRepeatDigits", function(value, element) {
 		var repeatCount = 0;

@@ -20,6 +20,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Table(name = "participant")
 public class ParticipantRegistration {
 
+	
 	 @Id
 	    @GeneratedValue(strategy = GenerationType.AUTO)
 	    @Column(name = "id")
@@ -92,6 +93,8 @@ public class ParticipantRegistration {
 	    private Integer aptitudeScore;
 	    @Column(name = "Attitude_Score")
 	    private Integer attitudeScore;
+	    @Column(name = "section_3")
+	    private Integer section3;
 	    @Column(name = "InterView_Score")
 	    private Integer interviewScore;
 	    @Column(name = "InterView_Score2")
@@ -252,7 +255,7 @@ public class ParticipantRegistration {
 	    @Column(name = "int_count2")
 	    private Integer interviewerCount2;
 	    @Column(name = "part_status")
-	    private String participantStatus;;
+	    private String participantStatus;
 	    
 	    
 		public Long getId() {
@@ -344,6 +347,12 @@ public class ParticipantRegistration {
 		}
 		public void setBirthDate(LocalDate birthDate) {
 			this.birthDate = birthDate;
+		}
+		public void setSection3(Integer section3) {
+			this.section3 = section3;
+		}
+		public Integer getSection3() {
+			return section3;
 		}
 		public String getMobile() {
 			return mobile;

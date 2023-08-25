@@ -99,12 +99,6 @@ s.removeAttribute("remove_final");
     top: 145px !important;
 }
         }
-        
-        .table-responsive{margin: 20px 0;}
-        .table-responsive table{border-left: 1px solid #ccc; border-top: 1px solid #ccc; width: 100%; box-sizing: border-box;}
-.table-responsive table tr th{border-right: 1px solid #fff; border-bottom: 1px solid #fff; font-size: 14px; line-height: 18px; font-weight: bold; color: #fff; background-color: #dc3545; padding: 10px; text-align: center;}
-        .table-responsive table tr td{border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; font-size: 14px; line-height: 18px; color: #333; padding: 10px; text-align: center;}
-        .sweet-alert{left: 51% !important;}
 		</style>
   </head>
   <body>
@@ -133,18 +127,17 @@ s.removeAttribute("remove_final");
 						<li><a class="toggle-vis" data-column="6"><em>Assessment Date</em></a></li>				
                         <li><a class="toggle-vis" data-column="7"><em>Aptitude</em></a></li>
                         <li><a class="toggle-vis" data-column="8"><em>Attitude</em></a></li>
-                        <li><a class="toggle-vis" data-column="9"><em>Mechanical</em></a></li>
-                        <li><a class="toggle-vis" data-column="10"><em>Assessment Status</em></a></li>
-                        <li><a class="toggle-vis" data-column="11"><em>Assessment Report</em></a></li>
-						<li><a class="toggle-vis" data-column="12"><em>Registration Form</em></a></li>
-                        <li><a class="toggle-vis" data-column="13"><em>LM Invitation</em></a></li>
-                        <li><a class="toggle-vis" data-column="14"><em>Interview Date</em></a></li>
-                        <li><a class="toggle-vis" data-column="15"><em>Interview Form</em></a></li>
-                        <li><a class="toggle-vis" data-column="16"><em>Interview 2 Date</em></a></li>
-                        <li><a class="toggle-vis" data-column="17"><em>Interview 2 Form</em></a></li>
-						<li><a class="toggle-vis" data-column="18"><em>Approval</em></a></li>
-						<li><a class="toggle-vis" data-column="19"><em>Status</em></a></li>
-						<li><a class="toggle-vis" data-column="20"><em>On-Hold</em></a></li>						
+                        <li><a class="toggle-vis" data-column="9"><em>Assessment Status</em></a></li>
+                        <li><a class="toggle-vis" data-column="10"><em>Assessment Report</em></a></li>
+						<li><a class="toggle-vis" data-column="11"><em>Registration Form</em></a></li>
+                        <li><a class="toggle-vis" data-column="12"><em>LM Invitation</em></a></li>
+                        <li><a class="toggle-vis" data-column="13"><em>Interview Date</em></a></li>
+                        <li><a class="toggle-vis" data-column="14"><em>Interview Form</em></a></li>
+                        <li><a class="toggle-vis" data-column="15"><em>Interview 2 Date</em></a></li>
+                        <li><a class="toggle-vis" data-column="16"><em>Interview 2 Form</em></a></li>
+						<li><a class="toggle-vis" data-column="17"><em>Approval</em></a></li>
+						<li><a class="toggle-vis" data-column="18"><em>Status</em></a></li>
+						<li><a class="toggle-vis" data-column="19"><em>On-Hold</em></a></li>						
                     </ul>
                 </div>
 				 <div class="export-to-csv"><input type="button" onclick="funexport()" class="ecsvbutton" value="Export To CSV"></div>
@@ -160,7 +153,6 @@ s.removeAttribute("remove_final");
 							<th data-head="Assessment Date" class="sorting"><em>Assessment Date</em></th>                       
                             <th data-head="Aptitude" class="sorting"><em>Aptitude</em></th>
                             <th data-head="Attitude" class="sorting"><em>Attitude</em></th>
-                            <th data-head="Mechanical" class="sorting"><em>Mechanical</em></th>
                             <th data-head="Assessment Status" class="sorting"><em>Assessment Status</em></th>
 							<th data-head="Assessment Report" class="sorting"><em>Assessment Report</em></th>
                             <th data-head="Registration Form" class="sorting"><em>Registration Form</em></th>
@@ -185,7 +177,7 @@ s.removeAttribute("remove_final");
 							<td>${participant.accesskey}</td>
 							<td>${participant.dateOfRegistration}</td>
 							<td>${participant.assessment_Completion_date}</td>
-							<td>
+							<td class="text-center">
 							 <c:choose>
                                <c:when test="${participant.aptitude >= 12 }">
 							    <span class="green">${participant.aptitude} </span>
@@ -202,16 +194,6 @@ s.removeAttribute("remove_final");
 								 </c:when>
                                <c:when test="${participant.attitude < 12 }">
 							    <span class="red">${participant.attitude} </span>
-								</c:when>
-							    </c:choose>
-							    </td>
-							<td>
-							 <c:choose> 
-                               <c:when test="${participant.mechanical >= 12 }">
-							    <span class="green">${participant.mechanical} </span>
-								 </c:when>
-                               <c:when test="${participant.mechanical < 12 }">
-							    <span class="red">${participant.mechanical} </span>
 								</c:when>
 							    </c:choose>
 							    </td>
@@ -245,17 +227,7 @@ s.removeAttribute("remove_final");
                             </c:choose>
 							</td>
 							<td>
-							<c:choose>
-							<c:when test="${participant.docStatus != 'final' }">
-							<span>--</span>
-							</c:when>
-							<c:when test="${participant.docStatus == 'final' && participant.interViewStatus == ''  }">
 								<span> <a href="#" class="view-btn" onclick="openInvitation('${participant.accesskey}','${participant.participantName}')">Invite</a></span>
-							</c:when>
-							<c:otherwise>                                
-                                    <span >Invited</span>
-                                 </c:otherwise>
-							</c:choose>
 							</td>
 							
 						<!-- Interview 1 -->
@@ -380,6 +352,7 @@ s.removeAttribute("remove_final");
 								<c:if test="${participant.partStatus eq 'Interview2'}">
 									<span>Interview 2 Completed</span>
 								</c:if>
+							
 							</td>
                             <td>
 							 <span class="view-btn re-attempt" style="cursor: pointer; margin-left: 10px;" onclick="openOnholdPopup('${participant.accesskey}')">On Hold </span>
@@ -410,33 +383,16 @@ s.removeAttribute("remove_final");
        	<textarea rows="4" cols="50" name="addressarea" id="addressarea" placeholder="Address/Meeting Link" maxlength="200" required="required">${participant.interviewAddress}</textarea>
         <input type="hidden" id="intCounter" name="intCounter"  value="0">
         </div>
-			<div class="form-block">
+			 <%-- <div class="form-block">
 				<br>
-				<h5>Line Manager</h5>
+				<h5>Interviewer's Email</h5>
 				<select id="select-email" multiple="multiple"  style="width: 100% !important;" class="form-block">
-					<%-- <c:forEach items="${map}" var="entry">
+					<c:forEach items="${map}" var="entry">
 						<option value="${entry.key}">${entry.value}</option>
-					</c:forEach> --%>
+					</c:forEach>
 				</select>
-			</div> 
+			</div> --%>
 		</div>
-		 <div class="table-responsive">
-				<table cellspacing="0" cellpadding="0"  >
-					<thead>
-						<tr>
-								<th >Sr. No.</th>
-							    <th>LM Name</th>
-                                <th>Date 1</th>							
-                                <th>Date 2</th>							
-                                <th>Date 3</th>							
-                                <th>Date 4</th>							
-                                <th>Date 5</th>					
-						</tr>
-					</thead>
-					<tbody id="dateBody">
-					</tbody>
-				</table>
-			</div>
         <div class="text-center">
             <input class="cancel-btn outline-btn" onclick="btndDateCancel()" value="Cancel" type="button">
             <button class="submit-btn" onclick="submit()" id="btndDate">OK</button>
@@ -464,21 +420,21 @@ s.removeAttribute("remove_final");
             <input type="hidden"  value="" id="reAttempAccesskey">
         </div>
     </div>
-	<div class="invite-popup full-block-popup">
+	<div class="invite-popup">
         <div class="form-section">
             <div class="form-block" id="datetime-container">
                 <!-- Initial Date Time Input -->
                 <div class="datetime-input">
                     <h5>Date Time</h5>
-                    <input type="datetime-local" name="datetime" id="inviteDate" required>
+                    <input type="datetime-local" name="datetime" id="datetime1" value="${inviteDate}" required>
                 </div>
             </div>
         </div>
-            <button id="add-datetime">Add More</button>
+            <button id="add-datetime">Add Date Time</button>
             <div class="form-section">
             <div class="form-block">
-				<h5>Line Manager</h5>
-				<select id="select-lm" multiple="multiple"  style="width: 100% !important;" class="form-block">
+				<h5>Interviewer's Email</h5>
+				<select id="select-email" multiple="multiple"  style="width: 100% !important;" class="form-block">
 					<c:forEach items="${map}" var="entry">
 						<option value="${entry.key}">${entry.value}</option>
 					</c:forEach>
@@ -493,94 +449,29 @@ s.removeAttribute("remove_final");
         </div>
     </div>
     <div class="blk-bg"></div>
-    <script>
-    // Function to add a new Date Time input
-    function addDateTimeInput() {
-        const numDateTimeInputs = $(".datetime-input").length;
-
-        if (numDateTimeInputs < 5) {
-            const currentDate = new Date();
-            const nextMonthDate = new Date();
-            nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
-
-            const minDate = currentDate.toISOString().slice(0, 16); // Format: 'YYYY-MM-DDTHH:MM'
-            const maxDate = nextMonthDate.toISOString().slice(0, 16); // Format: 'YYYY-MM-DDTHH:MM'
-		console.log('MinDate : '+minDate+'<>Max : '+maxDate);
-            const newDateTimeInput = `
-                <div class="datetime-input extra-input">
-                    <input type="datetime-local" name="datetime" id="inviteDate" required value="${minDate}" min="${minDate}" max="${maxDate}">
-                    <span class="remove-btn">Remove</span>
-                </div>`;
-
-            $("#datetime-container").append(newDateTimeInput);
-
-            // Add an event listener to the newly created "Remove" button
-            $(".remove-btn").last().on("click", function () {
-                $(this).parent(".datetime-input").remove(); // Remove the corresponding input
-            });
-        } else {
-            swal({
-                title: "You can add only 5 date and time.",
-                showCancelButton: false,
-                confirmButtonColor: "#DC3545",
-                confirmButtonText: "OK",
-                closeOnConfirm: true
-            });
-        }
-    }
-
-    // Add Date Time input when the button is clicked using jQuery
-    $("#add-datetime").click(addDateTimeInput);
-</script>
-    
-	<!-- <script>
+   <script>
         // Function to add a new Date Time input
         function addDateTimeInput() {
-    const numDateTimeInputs = $(".datetime-input").length;
+            const numDateTimeInputs = $(".datetime-input").length;
 
-    if (numDateTimeInputs < 5) {
-        const newDateTimeInput = `
-            <div class="datetime-input extra-input">
-                <input type="datetime-local" name="datetime" id="inviteDate" required>
-                <span class="remove-btn">Remove</span>
-            </div>`;
-
-        $("#datetime-container").append(newDateTimeInput);
-
-        // Add an event listener to the newly created "Remove" button
-        $(".remove-btn").last().on("click", function() {
-            $(this).parent(".datetime-input").remove(); // Remove the corresponding input
-        });
-    } else {
-    	swal({   
-			  title: "You can add only 5 date and time.",     
-			  showCancelButton: false,
-			  confirmButtonColor: "#DC3545",   
-			  confirmButtonText: "OK",   
-			  closeOnConfirm: true }	); 
-    }
-}
-
+            if (numDateTimeInputs < 5) {
+                const newDateTimeInput = `
+                    <div class="datetime-input">
+                        <h5>Date Time</h5>
+                        <input type="datetime-local" name="datetime" required value="${currentDateTime}">
+                    </div>`;
+                
+                $("#datetime-container").append(newDateTimeInput);
+            } else {
+                alert("You can add a maximum of 5 date and time inputs.");
+            }
+        }
         // Add Date Time input when the button is clicked using jQuery
         $("#add-datetime").click(addDateTimeInput);
-    </script> -->
-	<script>
+    </script>
+    <script>
       $(document).ready(function () {
-    	  
-    	// Get the current date to set for invitation date
-    	    var currentDate = new Date();
-    	    // Set the 'min' attribute to today's date
-    	    var minDate = currentDate.toISOString().slice(0, 16); // Format: 'YYYY-MM-DDTHH:MM'
-    	    $('#inviteDate').prop('min', minDate);
-    	    $('#inviteDate').prop('value', minDate);
-    	    // Calculate the date for next month
-    	    currentDate.setMonth(currentDate.getMonth() + 1);
-    	    // Set the 'max' attribute to next month's date
-    	    var maxDate = currentDate.toISOString().slice(0, 16); // Format: 'YYYY-MM-DDTHH:MM'
-    	    $('#inviteDate').prop('max', maxDate);
-    	  
-    	  
-    	  $('#select-lm').select2({
+    	  $('#select-email').select2({
     	        tags: false, // Allow custom tags
     	        tokenSeparators: [','], // Specify token separators for custom tags
     	        placeholder: 'Select Interviewer', // Default placeholder text
@@ -600,66 +491,26 @@ s.removeAttribute("remove_final");
     	  form.attr('action', 'viewProcess');
       });
 	  function submitInvitation(){
-		  
 		    var dateTimes = $('input[name="datetime"]').map(function() {
 		        return this.value;
 		    }).get();
-		    var isEmpty = dateTimes.some(function(date) {
-		        return date.trim() === '';
-		    });
-		    if (isEmpty) {
-		        swal({
-		            title: "Please choose date and time.",
-		            showCancelButton: false,
-		            confirmButtonColor: "#DC3545",
-		            confirmButtonText: "OK",
-		            closeOnConfirm: true
-		        });
-		    }
-		    var selectedEmails = $('#select-lm').val();
-		    if (selectedEmails.length < 1) {
-		        swal({
-		            title: "You must select a line manager.",
-		            showCancelButton: false,
-		            confirmButtonColor: "#DC3545",
-		            confirmButtonText: "OK",
-		            closeOnConfirm: true
-		        });
-		    }
-		    
-		    var access_key  = $("#access_key").val();
+		    var selectedEmails = $('#select-email').val();
 		    var data = {
-		        'datetime': dateTimes,
-		        'select-email': selectedEmails,
-		        'accesskey':access_key
+		        datetime: dateTimes,
+		        'select-email': selectedEmails
 		    };
-		   // alert(dateTimes);
-		   if (selectedEmails.length >= 1 && !isEmpty) {
 		    $.ajax({
 		        type: 'POST',
 		        url: 'inviteLM', 
 		        data: JSON.stringify(data),
 		        contentType: 'application/json',
 		        success: function(response) {
-		        	 swal({   
-						  title: "Emails have been sent",     
-						  showCancelButton: false,
-						  confirmButtonColor: "#DC3545",   
-						  confirmButtonText: "OK",   
-						  closeOnConfirm: false },
-						  function(isConfirm){
-						  if(isConfirm){
-						  location.reload(); 
-						 }else{
-						 return false;
-						}
-						}); 
+		            console.log(response);
 		        },
 		        error: function(xhr, status, error) {
 		            console.error(xhr.responseText);
 		        }
 		    });
-		   }
 	  }
 	  function btndDateCancel(){
 		   $('#btndDate').prop('disabled', false);
@@ -688,24 +539,8 @@ s.removeAttribute("remove_final");
 		}
 		$('#addressarea').text(temp);
 		$('#intCounter').val(intCount);
-		$.ajax({
-			url: 'getInvitedLM',
-	         type:'post',
-	         data:'accesskey='+key,
-	         success:function(jsonObject){
-	        	 var jsonRes = JSON.parse(jsonObject);
-	        	 $("#select-email").html(jsonRes.select2Lm);
-                // Initialize the select2 dropdown
-                $("#select-email").select2();
-                //$("#dateSelect option:first").prop("selected", true);
-                //Now set for table
-                $("#dateBody").html(jsonRes.tableData)
-                $('.fixdate-popup, .blk-bg').show();
-	    	  },
-	          error:function(ress){
-				window.close();
-	    	  }
-		});
+  	    $('.fixdate-popup, .blk-bg').show();
+  	    
   	}
 	
 	function getAdddress(accesskey){
@@ -791,7 +626,7 @@ s.removeAttribute("remove_final");
         	   }
 		   var selectedValue = $('#select-email').val();
 		   if (selectedValue.length < 1) {
-		     swal("Please select a line manager");
+		     swal("Please select an email address");
 		     return false;
 		   }
             var date1 = new Date(date);
