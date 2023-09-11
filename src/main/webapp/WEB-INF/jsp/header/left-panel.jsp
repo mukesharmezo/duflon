@@ -137,6 +137,7 @@
 							$(this).toggleClass('left-moved');
 							$('.left-panel').toggleClass('left-moved');
 							$('.right-section').toggleClass('left-moved');
+							$('.dataTables_scrollHeadInner, table.dataTable').css('width', '100%');
 						});
 						if ($(window).innerWidth() < 768) {
 							$('.left-panel, .menu-left').addClass('left-moved');

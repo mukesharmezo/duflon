@@ -25,7 +25,7 @@ s.setAttribute("remove_final", "final");
     <link rel="stylesheet" type="text/css" href="./css/common.css" />
     <link rel="stylesheet" type="text/css" href="./css/fsdm.css" />
     <link rel="stylesheet" type="text/css" href="css/dashboard-filter.css">
-      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+     <link rel="stylesheet" type="text/css" href="./css/jquery.datatable.min.css"/>
     <link rel="stylesheet" type="text/css" href="./css/datatable.css">
     <style>
         .left-panel > ul > li:nth-child(1) > a, .left-panel > ul > li:nth-child(1) > ul > li:nth-child(3) > a{opacity: 1;}
@@ -59,8 +59,8 @@ s.setAttribute("remove_final", "final");
 			<div class="add-remove-columns">
                     <span>Add/Remove Columns</span>
                     <ul>
-                        <li><a class="toggle-vis" data-column="0"><em>S. No.</em></a></li>
-                        <li><a class="toggle-vis" data-column="1"><em>Candidate Name</em></a></li>
+                        <!-- <li><a class="toggle-vis" data-column="0"><em>S. No.</em></a></li>
+                        <li><a class="toggle-vis" data-column="1"><em>Candidate Name</em></a></li> -->
 						<li><a class="toggle-vis" data-column="2"><em>Designation</em></a></li>
 						<li><a class="toggle-vis" data-column="3"><em>Mobile Number</em></a></li>
 						<li><a class="toggle-vis" data-column="4"><em>Access Key</em></a></li>

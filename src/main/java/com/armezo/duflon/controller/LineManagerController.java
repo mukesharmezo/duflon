@@ -158,7 +158,6 @@ public class LineManagerController {
 	    @PostMapping({ "/save" })
 	    @ResponseBody
 	    private String save(@RequestBody LmDate payload,final HttpSession session) {
-	    	
 	    	String dates ="";
 	    	for(Long l :payload.getDateId()) {
 	    		if(dates.equals("")) {

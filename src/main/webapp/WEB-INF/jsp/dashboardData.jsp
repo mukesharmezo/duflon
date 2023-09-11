@@ -1,36 +1,52 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    pageEncoding="ISO-8859-1"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import = "java.util.ResourceBundle" %>
-
 <%
 try
     {
-	ResourceBundle resource = ResourceBundle.getBundle("application");
-String baseServer = resource.getString("client.url");String title = resource.getString("app.title");
-	%>
+		ResourceBundle resource = ResourceBundle.getBundle("application");
+    		  String baseServer = resource.getString("client.url");String title = resource.getString("app.title");
+              String assessUrl = resource.getString("client.asseesment");
+HttpSession s = request.getSession();
+s.setAttribute("remove_final", "final");
+%>
 
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" type="text/css" href="./css/datatable.css">
-  <script src="./js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/fixedcolumns/4.2.1/js/dataTables.fixedColumns.min.js"></script>
-  <link rel="icon" type="image/x-icon" href="<%=baseServer%>img/DuflonFavicon.png"/>
- 
-	 <h3>Overview</h3>
-		<div class="table-date">
-		
-			<div class="export-to-csv"><input type="button" onclick="funexport()" class="ecsvbutton" value="Export To CSV"></div>
-			<table id="data" cellspacing="0" cellpadding="0" border="0" class="stripe display nowrap cell-border" width="50" style="width: 100% !important;height: auto !important;padding:4px">
-			<!-- <table id="data" cellspacing="0" cellpadding="0" border="0" class="display nowrap cell-border" width="50" style="width: 100% !important;height: auto !important;"> -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+    <link rel="icon" type="image/x-icon" href="<%=baseServer%>img/DuflonFavicon.png"/>
+
+    <title><%=title %></title>
+    <link rel="stylesheet" type="text/css" href="./css/common.css" />
+    <link rel="stylesheet" type="text/css" href="./css/hiring-in-process.css" />
+    <link rel="stylesheet" type="text/css" href="./css/jquery.datatable.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/datatable.css">
+
+    <script src="./js/jquery-3.4.1.min.js"></script>
+    <script src="./js/jquery.dataTables.min.js"></script>
+	<script src="./js/datatable.js"></script>
+    <style>
+		.dataTables_scrollBody {overflow-y: hidden !important;overflow-x: auto !important;}  
+		.table-date {    margin: 10px;}
+		h1 {    text-align: center;}
+    </style>
+  </head>
+  <body>
+        <div class="container-1100">
+  <h1  >Dashboard Data</h1>
+            <div class="table-date">
+                <table id="data" cellspacing="0" cellpadding="0" border="0" class="display nowrap cell-border" style="width: 100% !important">
                     <thead>
                         <tr>
-                            <th data-head="Sr.No." class="sorting" style="z-index: 1 !important;"><em>Sr.No.</em></th>
-							<th data-head="Candidate Name" class="sorting" style="z-index: 1 !important;"><em>Candidate Name</em></th>
-							<!-- <th data-head="Designation" class="sorting"><em>Designation</em></th> -->
-							<th data-head="Profile" class="sorting"><em>Profile</em></th>
-
+                           <th data-head="Sr. No." style="z-index: 1 !important;"><em>Sr. No.</em></th>
+							<th data-head="Candidate Name" class="sorting" style="z-index: 1 !important;"><em>Candidate Name</em></span></th>
+							<th data-head="Designation" class="sorting"><em>Designation</em></span></th>
 							<th data-head="Mobile Number" class="sorting"><em>Mobile Number</em></th>
 							<th data-head="Access Key" class="sorting"><em>Access Key</em></th>
 							<th data-head="Registration Date" class="sorting"><em>Registration Date</em></th>
@@ -38,20 +54,18 @@ String baseServer = resource.getString("client.url");String title = resource.get
                             <th data-head="Marks Obtained" class="sorting"><em>Marks Obtained</em></th>				
                             <th data-head="Assessment Status" class="sorting"><em>Assessment Status</em></th>
 							<th data-head="Candidate Status" class="sorting"><em>Candidate Status</em></th>
+                           
                         </tr>
                     </thead>
-                    
-                     <tbody>
-                    <%int i=1; %>
-                    <c:forEach items="${participantList}" var="participant">
+                    <tbody>
+                    <c:forEach items="${participantList}" var="participant" varStatus="status">
                         <tr>
-                            <td><%=i %></td>
-							<td>${participant.participantName }</td>
+                            <td>${status.count}</td>
+                            <td>${participant.participantName }</td>
 							<td>${participant.designation}</td>
 							<td>${participant.mobile}</td>
 							<td>${participant.accesskey}</td>
 							<td>${participant.dateOfRegistration}</td>
-						<!--	<td>${participant.assessment_Completion_date}</td>        -->
 						<c:choose>
 							<c:when  test="${empty participant.assessment_Completion_date}">
 							<td><span >NA</span></td>
@@ -83,41 +97,16 @@ String baseServer = resource.getString("client.url");String title = resource.get
                                   <td ><span >NA</span> </td>
                                </c:when>
                                </c:choose>	
-
-							    <td>${participant.status}</td>														
-                           
-                    
-                    </tr>
-                    <%i++; %>
-                    </c:forEach>
+							    <td>${participant.status}</td>			
+                        </tr>
+                        </c:forEach>
                     </tbody>
-                   
-                    
-                    
-                    </table>   <!-- TBL -->
-		</div> <!-- TableData -->
- 
- 
- <script >
-  $(document).ready(function () {
-  
-    var table = $('#data').DataTable({
-        "pageLength": 10,
-        scrollY: '444px',
-        scrollCollapse: true,
-        scrollX: true,
-		fixedColumns:   {
-            left: 2
-        }
-    });
-
-	 
-
-    // var dt = $('#data').DataTable();
-    // dt.columns([0,2]).visible(false);
-});
-  </script>
-  <%
+                </table>
+            </div>
+        </div>
+  </body>
+</html>
+<%
  }catch(Exception e)
     {
     	 System.out.println("Errror....."+e);

@@ -287,13 +287,22 @@ ul li {
       $(document).ready(function () {
     	  
     	  $('#firstName, #middleName, #lastName').keydown(function(e) {
-      		if (e.which === 32) { 
+      		var keyCode = e.keyCode || e.which;
+      		if (keyCode === 32) { 
         			e.preventDefault(); 
         			$(this).closest('.form-block').next().find('input').focus(); //Move focus to the next fields box
       		}
+      		if (keyCode === 8) {
+                return;
+            }
+      		if (keyCode >= 96 && keyCode <= 105) {
+                e.preventDefault();
+            }
+            var pattern = /[a-zA-Z\s]/;
+            if (!pattern.test(String.fromCharCode(keyCode))) {
+                e.preventDefault();
+            }
     		});
-    	  
-    	  
     	  
 		   $('#pincode').on('input', function() {
 	            var pincode = $(this).val();

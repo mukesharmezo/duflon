@@ -70,12 +70,14 @@ public class AdminTypeService {
 						lm.setEmpCode(getStringCellValue(row.getCell(1)));
 						lm.setEmail(getStringCellValue(row.getCell(2)));
 						lm.setMobile(getMobileFromCell(row.getCell(3)));
-						// lm.set(getStringCellValue(row.getCell(5))); //Location
+						lm.setLocation(getStringCellValue(row.getCell(5))); //Location
+						lm.setDepartment(getStringCellValue(row.getCell(5)));
 						lm.setPassword(DataProccessor.generatePassword(8));
 						lm.setStatus(true);
 						Optional<LineManager> lmOpt = lmService.findByempCodeAndEmail(lm.getEmpCode(), lm.getEmail());
 						if (!lmOpt.isPresent()) {
 							lmService.saveLineManager(lm);
+						}else {
 						}
 					}
 				}

@@ -200,6 +200,23 @@ if(session.getAttribute("role") != null){
     
     <script>
       $(document).ready(function () {
+    	  
+    	  $('#companyName, #previousDesignation, #workArea,#ed_companyName,#ed_previousDesignation,#ed_workArea').keydown(function(e) {
+        		var keyCode = e.keyCode || e.which;
+        		if (keyCode === 8) {
+                    return;
+                }
+        		if (keyCode >= 96 && keyCode <= 105) {
+                    e.preventDefault();
+                }
+              var pattern = /[a-zA-Z\s]/;
+              if (!pattern.test(String.fromCharCode(keyCode))) {
+                  e.preventDefault();
+              }
+      		});
+    	  
+    	  
+    	  
     	
         $('#tabs').scrollTabs();
         var profile = document.getElementById("profile");

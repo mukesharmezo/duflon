@@ -31,7 +31,6 @@ import com.armezo.duflon.Entities.ErrorLogger;
 import com.armezo.duflon.Entities.EventLoger;
 import com.armezo.duflon.Entities.FamilyDetails;
 import com.armezo.duflon.Entities.HRE;
-import com.armezo.duflon.Entities.InterviewScore;
 import com.armezo.duflon.Entities.ParticipantRegistration;
 import com.armezo.duflon.Entities.WorkExperience;
 import com.armezo.duflon.Services.DataListService;
@@ -300,7 +299,6 @@ public class ParticipantsController {
 	        if (btnSave.equals("Next")) {
 	            participant.setEmploymentFlag("1");
 	        }
-	        System.out.println("All Email :: "+participantRegistration.getIdentitityProofName());
 	        participant.setModifiedDate(LocalDate.now());
 	        this.participantservice.saveData(participant);
 	        if (btnSave.equals("Save")) {

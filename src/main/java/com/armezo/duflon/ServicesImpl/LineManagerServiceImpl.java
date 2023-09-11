@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.armezo.duflon.Entities.LineManager;
 import com.armezo.duflon.Repositories.LineManagerRepository;
@@ -73,6 +74,7 @@ public class LineManagerServiceImpl implements LineManagerService {
 	public Optional<LineManager>findByIdAndEmail(Long id,String email){
 		return lmRepository.findByIdAndEmail(id, email);
 	}
+	@Transactional
 	public void updatePassword( Long id,String password) {
 		lmRepository.updatePassword(  id, password);
 	}

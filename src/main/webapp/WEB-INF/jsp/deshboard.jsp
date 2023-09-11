@@ -376,7 +376,7 @@ chart.render();
 
       //GENDER DIVERSITY
       var options = {
-          series: [${fn:length(gender.male)}, ${fn:length(gender.female)}],
+          series: [${fn:length(gender.male)}, ${fn:length(gender.female)}, ${fn:length(gender.other)}],
           chart: {
           width: '100%',
           height: 390,
@@ -397,7 +397,7 @@ chart.render();
         legend: {
           position: 'bottom'
         },
-        labels: ["Male","Female"]
+        labels: ["Male","Female","Other"]
         
         };
 

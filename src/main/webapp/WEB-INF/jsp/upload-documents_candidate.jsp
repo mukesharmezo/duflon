@@ -15,7 +15,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="icon" type="image/x-icon" href="<%=baseServer%>img/DuflonFavicon.png"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>iRecruitsdfsdf</title>
+    <title>DuRecruit</title>
     <link rel="stylesheet" type="text/css" href="./css/common.css" />
     <link rel="stylesheet" type="text/css" href="./css/profile.css" />
     <link rel="stylesheet" href="/css/scrolltabs.css">

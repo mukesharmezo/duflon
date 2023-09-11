@@ -133,7 +133,6 @@ public class EmailUtility {
 			transport.sendMessage(msg, msg.getAllRecipients());
 			
 			FLAG=true;
-			System.out.println("Email sent!");
 		}
 		
 		catch (UnsupportedEncodingException | MessagingException e2) {
@@ -145,8 +144,6 @@ public class EmailUtility {
             error.setErrorTime(LocalDateTime.now());
             error.setProcess("Email Sending");
             errorService.saveErrorLogger(error);
-			System.out.println("The email was not sent.");
-			System.out.println("Error message: " + e2.getMessage());
 			return false;
 		}
 		finally

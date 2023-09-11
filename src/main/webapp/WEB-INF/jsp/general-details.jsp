@@ -65,7 +65,7 @@ if(session.getAttribute("role") != null){
                     </div>
                     <div class="form-block" id="inv_date" style="display:none">
 					 <h5>Marriage Date</h5> 
-                      <input type="date" value = "${general.anniversaryDate }" id="date" placeholder="Anniversary Date" />
+                      <input type="date" value = "${general.anniversaryDate }" id="date" placeholder="Anniversary Date" onkeydown="return false;" />
                     </div>
                     <div class="form-block">
                       <h5>Blood Group</h5>
@@ -100,6 +100,14 @@ if(session.getAttribute("role") != null){
 			<script type="text/javascript" src="./js/generalDetail.js"></script> -->
     <script>
       $(document).ready(function () {
+    	  
+    	  const currentDate = new Date().toISOString().split('T')[0];
+
+    	    // Set the maximum attribute of the input to the current date
+    	    $('#date').attr('max', currentDate);
+    	    
+    	  
+    	  
     	  <%if(role.equalsIgnoreCase("LM") || role.equalsIgnoreCase("SA") || role.equalsIgnoreCase("HOD")) { %>
     	  $('input').attr('disabled', 'disabled');
     	  $('select').attr('disabled', 'disabled');

@@ -168,7 +168,6 @@ public class JobController {
 			if (role.equalsIgnoreCase("LM") || role.equalsIgnoreCase("SA")) {
 				hres = hreService.findByAll();
 			}
-			System.out.println("Role : "+role);
 			// Get Job By Id
 			Optional<JobDetails> optional = jobService.getJobDetailsById(jobId);
 			JobDetails job = new JobDetails();
@@ -339,7 +338,7 @@ public class JobController {
 		skillLength = skills.size();
 		String jsonSkills = (new JSONArray(skills)).toString();
 		List<String> designations = masterDataService.getAllMasterDataByMasterName("Designation");
-		List<String> educaions = masterDataService.getAllMasterDataByMasterName("Education");
+		List<String> educations = masterDataService.getAllMasterDataByMasterName("Education");
 		model.addAttribute("userRegistration", user);
 		model.addAttribute("skills", skills);
 		model.addAttribute("jobTitle", jobTitle);
@@ -347,7 +346,7 @@ public class JobController {
 		model.addAttribute("skillLength", skillLength);
 		model.addAttribute("genders", this.dlService.getByListName("GENDER"));
 		model.addAttribute("sources", this.dlService.getByListName("SOURCE"));
-		model.addAttribute("educations", educaions);
+		model.addAttribute("educations", educations);
 		model.addAttribute("designations", designations);
 		return "jobUserRegistration";
 	}
@@ -356,7 +355,6 @@ public class JobController {
 	public String saveUserDetails(@ModelAttribute("userRegistration") UserRegistration user,
 			@RequestParam("resumeFile") MultipartFile resume, @RequestParam("photoFile") MultipartFile photo, Model model) {
 		//Generate Accesskey
-		//System.out.println("Sub :: "+submitted);
 		//if(submitted) {
 		user.setAccesskey(generateAccesskeyForUser(user.getHreId()));
 		user.setResume(String.valueOf(user.getAccesskey())+"/"+ StringUtils.cleanPath(resume.getOriginalFilename()));
@@ -472,7 +470,6 @@ public class JobController {
 				payload.setEmail(user.getEmail());
 				payload.setMobile(user.getMobile());
 				if(user.getJoinedStatus()!=null && user.getJoinedStatus().equalsIgnoreCase("Y")) {
-					System.out.println("Access ::::: "+user.getAccesskey());
 					payload.setJoined(2);
 				}
 				// Get Required Job Skill
@@ -492,6 +489,16 @@ public class JobController {
 				}
 				payload.setInvitationFlag(flag);
 				payload.setAssessmentStatus(user.getAssessmentStatus());
+				//Get Participant By Accesskey
+				if(user.getInvitationDate()!=null) {
+					int tm = 0;
+					Long t1 = user.getInvitationDate().getTime();
+					Long t2 = new Date().getTime();
+					tm = (int) (t2 - t1) / (60 * 60 * 1000);
+					if(tm>=72) {
+						payload.setReActivateStatus("Y");
+					}
+				}
 				payloads.add(payload);
 			}
 			// Sort User By Percentage
@@ -571,6 +578,7 @@ public class JobController {
 						prService.saveData(pr);
 						// Update accesskey
 						accessService.updateStatus(accesskey);
+						optional.get().setInvitationDate(new Date());
 						userService.saveUser(optional.get());
 					// Send Email
 						sendEmail(optional.get(), "invitation");

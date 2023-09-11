@@ -158,6 +158,10 @@ if(session.getAttribute("role") != null){
      <script type="text/javascript" src="./js/emergency.js"></script>
     <script>
       $(document).ready(function () {
+    	  
+    	  
+    	  
+    	  
         $('#tabs').scrollTabs();
 		var profile = document.getElementById("profile");
 		var emergency_contact = document.getElementById("emergency_contact");

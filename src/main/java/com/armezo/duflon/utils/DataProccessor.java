@@ -292,7 +292,6 @@ public class DataProccessor {
 		}
 		public static List<Long> stringToList(String input) {
 		    List<Long> result = new ArrayList<>();
-		    System.out.println("Inputs :: "+input);
 		    if(input!=null) {
 		    String[] parts = input.split(",");
 		    for (String part : parts) {

@@ -69,7 +69,6 @@ public class HREService {
 		
 	}
 
-
 	public void changePassword(String empCode, String newPassword) {
 		hreRepository.changePassword(empCode, newPassword);
 	}

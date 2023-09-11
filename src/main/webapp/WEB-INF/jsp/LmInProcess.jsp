@@ -28,7 +28,7 @@ if (session.getAttribute("role") != null) {
     <link rel="stylesheet" type="text/css" href="./css/common.css" />
     <link rel="stylesheet" type="text/css" href="./css/fsdm.css" />
     <link rel="stylesheet" type="text/css" href="css/dashboard-filter.css">
-      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+      <link rel="stylesheet" type="text/css" href="./css/jquery.datatable.min.css"/>
     <link rel="stylesheet" type="text/css" href="./css/datatable.css">
     <style>
         .left-panel > ul > li:nth-child(1) > a, .left-panel > ul > li:nth-child(1) > ul > li:nth-child(1) > a{opacity: 1;}
@@ -62,8 +62,8 @@ if (session.getAttribute("role") != null) {
 			<div class="add-remove-columns">
                     <span>Add/Remove Columns</span>
                     <ul>
-                        <li><a class="toggle-vis" data-column="0"><em>Sr. No.</em></a></li>
-                        <li><a class="toggle-vis" data-column="1"><em>Candidate Name</em></a></li>
+                        <!-- <li><a class="toggle-vis" data-column="0"><em>Sr. No.</em></a></li>
+                        <li><a class="toggle-vis" data-column="1"><em>Candidate Name</em></a></li> -->
 						<li><a class="toggle-vis" data-column="2"><em>Designation</em></a></li>
 						<li><a class="toggle-vis" data-column="3"><em>Mobile Number</em></a></li>
 						<li><a class="toggle-vis" data-column="4"><em>Access Key</em></a></li>
@@ -80,8 +80,13 @@ if (session.getAttribute("role") != null) {
                         <li><a class="toggle-vis" data-column="14"><em>Interview Form</em></a></li>
                         <li><a class="toggle-vis" data-column="15"><em>Interview 2 Date</em></a></li>
                         <li><a class="toggle-vis" data-column="16"><em>Interview 2 Form</em></a></li>
+                        <%if(!role.equalsIgnoreCase("HOD")) {%>
 						<li><a class="toggle-vis" data-column="17"><em>Approval</em></a></li>
 						<li><a class="toggle-vis" data-column="18"><em>Status</em></a></li>
+						<%} %>
+                        <%if(role.equalsIgnoreCase("HOD")) {%>
+                        <li><a class="toggle-vis" data-column="17"><em>Status</em></a></li>
+						<%} %>
 						
                     </ul>
                 </div>
@@ -107,7 +112,9 @@ if (session.getAttribute("role") != null) {
                             <th data-head="Interview Form" class="sorting"><em>Interview Form</em></th>
                             <th data-head="Interview 2 Date" class="sorting"><em>Interview 2 Date</em></th>
                             <th data-head="Interview 2 Form" class="sorting"><em>Interview 2 Form</em></th>
+                            <%if(!role.equalsIgnoreCase("HOD")) {%>
 							<th data-head="Approval" class="sorting"><em>Approval</em></th>
+							<%} %>  
 							<th data-head="Status" class="sorting"><em>Status</em></th>
                            
                         </tr>
@@ -211,7 +218,7 @@ if (session.getAttribute("role") != null) {
                                </c:otherwise>
                                </c:choose>
                              </td>
-							 
+							 <%if(!role.equalsIgnoreCase("HOD")) {%>
                              <td>
                              <c:if test="${participant.hiredStatus == 'P'}">
                              	<span>Approval Pending</span>
@@ -229,7 +236,8 @@ if (session.getAttribute("role") != null) {
 												<span>--</span>
 											</c:otherwise>
 										</c:choose> --%>
-							 </td>  
+							 </td>
+							 <%} %>  
                            <td>
 								<c:if test="${participant.partStatus eq 'Assessment'}">
 									<span>Assessment Completed</span>

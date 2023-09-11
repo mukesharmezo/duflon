@@ -3,6 +3,7 @@ package com.armezo.duflon.Repositories;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +22,11 @@ public Optional<AdminTable> findAdminByEmpCode(String empCode);
 
 public Optional<AdminTable> findByEmail(String email);
 
+
+@Modifying
+@Query("UPDATE AdminTable a SET a.password = :password WHERE a.empCode = :empCode")
+public void changePassword(String empCode, String password);
+
+public Optional<AdminTable> findByIdAndEmail(Long id, String email);
 	
-   //public Optional<User> findByMspin(String mspin);
 }

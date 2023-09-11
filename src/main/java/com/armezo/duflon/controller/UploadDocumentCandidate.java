@@ -240,7 +240,6 @@ public class UploadDocumentCandidate {
 
 		EmailUtility.sendMailDuflon(sendP.getTo(), sendP.getFrom(), sendP.getCc(), sendP.getBcc(), sendP.getSubjectLine(),
 				sendP.getMsg(), "smtp");
-		System.out.println("Email Sent for Assessment Passing");
 		return "success";
 	}
 	

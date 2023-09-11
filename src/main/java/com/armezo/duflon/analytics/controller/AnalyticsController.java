@@ -25,7 +25,6 @@ import com.armezo.duflon.Entities.ParticipantRegistration;
 import com.armezo.duflon.Entities.WorkExperience;
 import com.armezo.duflon.Services.HREService;
 import com.armezo.duflon.Services.InterviewScoreService;
-import com.armezo.duflon.Services.WorkExperienceService;
 import com.armezo.duflon.ServicesImpl.ParticipantServiceImpl;
 import com.armezo.duflon.analytics.entity.AnalyticsAll;
 import com.armezo.duflon.analytics.payload.ActionPointsPayload;
@@ -54,8 +53,6 @@ public class AnalyticsController {
 	private InterviewScoreService interviewService;
 	@Autowired
 	private HREService hreService;
-	@Autowired
-	private WorkExperienceService expService;
 
 	// Insert into Analytics Table From Participants Table
 	private void insertAnalyticsData(HttpSession session, List<Long> hreIdList) {
@@ -219,7 +216,6 @@ public class AnalyticsController {
 			LocalDate dateFrom = LocalDate.now();
 			LocalDate dateTo = LocalDate.now();
 			if (dateFromm != null && dateFromm != "" && dateToo != null && dateToo != "") {
-				System.out.println("Date From and to : "+dateFromm+"<>"+dateToo);
 				Map<String, LocalDate> fullDate = DataProccessor.manageFiltersDate(dateFromm, dateToo);
 				dateFrom = fullDate.get("from");
 				dateTo = fullDate.get("to");

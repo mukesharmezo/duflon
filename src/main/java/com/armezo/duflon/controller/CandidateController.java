@@ -77,7 +77,6 @@ public class CandidateController {
 	@GetMapping("/findParticipantByAccesskey")
 	@ResponseBody
 	public ModelParticpantView findEmployee(@RequestParam("accesskey") String accesskey) {
-		System.out.println("Accesskey : "+accesskey);
 		ModelParticpantView mpv = new ModelParticpantView();
 		Optional<ParticipantRegistration> part = participantService.findByAccesskey(accesskey);
 		if(part.isPresent()) {
@@ -85,7 +84,6 @@ public class CandidateController {
 			mpv.setParticipantName(DataProccessor.getFullNameOfParticipant(part.get()));
 			mpv.setDateOfRegistration(DataProccessor.dateToString(part.get().getRegistration_Date()));
 		}
-		System.out.println("MV"+mpv.getDateOfRegistration());
 		return mpv;
 	}
 	@GetMapping("/deleteCandidate")

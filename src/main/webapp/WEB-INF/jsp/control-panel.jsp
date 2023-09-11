@@ -1,10 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@page import="com.armezo.duflon.Entities.ParticipantRegistration"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+    pageEncoding="ISO-8859-1"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import = "java.util.ResourceBundle" %>
-
 <%
 try
     {
@@ -15,50 +13,46 @@ String role="";
 if(session.getAttribute("role") != null){
 	role = session.getAttribute("role").toString().trim();
 %>
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="icon" type="image/x-icon" href="<%=baseServer%>img/DuflonFavicon.png"/>
-<title><%=title %></title>
-<link rel="stylesheet" type="text/css" href="./css/common.css" />
-<link rel="stylesheet" type="text/css" href="./css/profile.css" />
-<link rel="stylesheet" type="text/css" href="./css/sweetalert.css"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="<%=baseServer%>img/DuflonFavicon.png"/>
+    <title><%=title %></title>
+    <link rel="stylesheet" type="text/css" href="./css/common.css" />
+    <link rel="stylesheet" type="text/css" href="./css/hiring-in-process.css" />
+    <link rel="stylesheet" type="text/css" href="css/dashboard-filter.css">
+    <link rel="stylesheet" type="text/css" href="./css/sweetalert.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/jquery.datatable.min.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/datatable.css">
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <script src="./js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="./js/sweetalert.min.js"></script>
-<link rel="stylesheet" href="./css/scrolltabs.css">
-<link rel="stylesheet" type="text/css"	href="./css/family-member-details.css" />
-<link rel="stylesheet" type="text/css" href="./css/style.css" />
-
-<style>
-.center {	display: flex;	justify-content: center;	margin-top: 20px;}
-ul li { margin: 0 !important;}
-.form-btn{width: 100% !important;}
-#customMaster, #customMasterEdit {
-      display: none;
-    }
-</style>
-
-<script src="./js/jquery-3.4.1.min.js"></script>
-<script src="./js/jquery.dataTables.min.js"></script>
-<script src="./js/jquery.scrolltabs.js"></script>
-</head>
-<body>
-	<div class="left-panel-include">
-	<%@include file="./header/left-panel.jsp"%>
-	</div>
-	<div class="user-panel-include">
+    <script src="./js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/fixedcolumns/4.2.1/js/dataTables.fixedColumns.min.js"></script>
+	<script src="./js/datatable.js"></script>
+    <style>
+		.dataTables_scrollBody {overflow-y: hidden !important;overflow-x: auto !important;}  
+        .table-date table tr td {    padding-top: 10px !important;    padding-bottom: 10px !important;}
+h1 {    text-align: inherit;}
+.delete-popup {    width: 40%;    }
+#customMaster, #customMasterEdit {      display: none;    }
+    </style>
+  </head>
+  <body>
+    <div class="left-panel-include">
+    <%@include file="./header/left-panel.jsp"%> 
+    </div>
+    <div class="user-panel-include">
 	<%@include file="./header/user-panel.jsp"%>
 	</div>
-
-	<div class="right-section">
-		<h1>Upload Master Data</h1>
-		<div class="container-1100">
-			<div class="profile-container">
-				<%-- <%@include file="./header/profileMenu.jsp"%> --%>
-				<div class="profile-content">
-					<form class="form"	id="testForm">
+        <div class="right-section">
+        <h1>Master Data</h1>
+        <div class="container-1100">
+        <form class="form"	id="testForm">
 						<div class="form-section">
 							<div class="form-block">
 								<h5>Master Data</h5>
@@ -89,19 +83,18 @@ ul li { margin: 0 !important;}
 					<button type="button" class="submit-btn" id=master-button>Add</button>
 				</div>
 					</form>
-					<div class="table-date">
-						<table width="100%" border="0" cellpadding="0" cellspacing="0"
-							id="data">
-							<thead>
-								<tr>
-									<th><span><em>Sr. No.</em></span></th>
-									<th data-head="Master Data"><span><img src="./img/filter-icn.svg" /></span></th>
-									<th data-head="Master Name"><span><img 	src="./img/filter-icn.svg" /></span></th>
-									<th data-head="Edit"><span></span></th>
-									<th data-head="Delete"><span></span></th>
-								</tr>
-							</thead>
-							<tbody>
+            <div class="table-date">
+                <table id="data" cellspacing="0" cellpadding="0" border="0" class="display nowrap cell-border" width="50" style="width: 100% !important">
+                    <thead>
+                        <tr>
+                           <th data-head="Sr. No." style="z-index: 1 !important;"><em>Sr. No.</em></th>
+							<th data-head="Master Data" class="sorting" style="z-index: 1 !important;"><em>Master Data</em></th>
+							<th data-head="Master Name" class="sorting"><em>Master Name</em></th>
+							<th data-head="Edit" class="sorting"><em>Edit</em></th>
+							<th data-head="Delete" class="sorting"><em>Delete</em></th>
+                        </tr>
+                    </thead>
+                    <tbody>
 								<c:forEach var="master" items="${masters}" varStatus="status">
 									<tr>
 										<td>${status.count}</td>
@@ -112,15 +105,12 @@ ul li { margin: 0 !important;}
 									</tr>
 								</c:forEach>
 							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="edit-popup">
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="edit-popup">
 		<h3>Edit Details</h3>
-		<%-- <form class="form-section" action="updateFamilyDetails" method="post"  > --%>
 		<form class="form-section" id=editForm>
 			<input type="hidden" name="id" id="idEdit" />
 			<div class="form-block">
@@ -159,15 +149,9 @@ ul li { margin: 0 !important;}
 				onclick="deleteEntry(event); deleteParticipant('fid');">Yes</button>
 		</div>
 	</div>
-	<div class="hold-popup">
-        <p></p>
-        <div class="form-button">
-            <button class="submit-btn" onclick="closePopup()">Ok</button>
-        </div>
-    </div>
-	<div class="blk-bg"></div>
 	 <%} %>
-	<script src="./js/jquery.validate.js"></script>
+ <div class="blk-bg"></div>
+    <script src="./js/jquery.validate.js"></script>
 	<script>
       $(document).ready(function () {
        
@@ -210,16 +194,12 @@ ul li { margin: 0 !important;}
     		        url: 'saveMasterData',
     		        data: formData,
     		        success: function(data) {
-    		            $('.hold-popup, .blk-bg').show();
-    		            var para = $('.hold-popup p');
-    		            para.text(successMsg);
+    		            //window.location.reload();
+    		            showMSG(successMsg);
     		            $('#' + formId)[0].reset();
-    		            window.location.reload();
     		        },
     		        error: function() {
-    		            $('.hold-popup, .blk-bg').show();
-    		            var para = $('.hold-popup p');
-    		            para.text(errorMsg);
+    		        	showMSG(errorMsg);
     		        }
     		    });
     		}
@@ -239,41 +219,22 @@ ul li { margin: 0 !important;}
     			    );
     		});
 
-        var table = $('#data').DataTable({
-                "orderCellsTop": true,
-                "responsive": true,
-                autoWidth: false
-            });
-            $('#data thead tr')
-                .clone(true)
-                .find('th')
-                .removeClass('sorting_asc sorting_asc sorting')
-                .off('click')
-                .end()
-                .appendTo('#data thead');
-
-            $('#data thead tr:eq(1) th').each(function (i) {
-                var title = $(this).data('head');
-                if(title){
-                    $(this).html('<input type="text" placeholder="' + title + '" />');
-                } else{
-                    $(this).html('');
-                }
-                $('input', this).on('keyup change', function () {
-                    if (table.column(i).search() !== this.value) {
-                        table
-                            .column(i)
-                            .search(this.value)
-                            .draw();
-                    }
-                });
-            });
-            
-            
       });  // Doc ready
-      
+      function showMSG(msg){
+		  swal({   
+				  title: msg,     
+				  showCancelButton: false,
+				  confirmButtonColor: "#DC3545",   
+				  confirmButtonText: "OK",   
+				  closeOnConfirm: true },
+				  function(isConfirm){
+					  window.location.reload();
+					  return false; 
+				}); 
+	 }
+	
       function closePopup(){
-    	  $('.hold-popup, .edit-popup, .delete-popup, .blk-bg').hide(); 
+    	  $('.edit-popup, .delete-popup, .blk-bg').hide(); 
     	  $('#customMasterEdit').hide();
       }
       
@@ -296,17 +257,16 @@ ul li { margin: 0 !important;}
 	 			  url:  "deleteMasterData",
 	 			  data: "id="+id,
 	 			  success: function(data){
-	 				 window.location.reload();
- 		            var para = $('.hold-popup p');
- 		            para.text(data);
-	 				 $('.hold-popup, .blk-bg').show();
+	 				 showMSG(data);
+	 				 //window.location.reload();
 	 			  },
 	 			  error: function(errorThrown){
+	 				 showMSG('Error in delete process.');
 	 			  }
 	 		  });
     	}
     </script>
-</body>
+  </body>
 </html>
 <%}else{
 	 response.sendRedirect("login");

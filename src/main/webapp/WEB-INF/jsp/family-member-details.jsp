@@ -181,6 +181,9 @@ ul li { margin: 0 !important;}
      <script type="text/javascript" src="./js/emergency.js"></script>
 	<script>
       $(document).ready(function () {
+    	  
+    	  
+    	  
         var profile = document.getElementById("profile");
 		var family_member_details = document.getElementById("family_member_details");
 		

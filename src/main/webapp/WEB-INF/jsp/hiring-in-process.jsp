@@ -24,7 +24,7 @@ s.removeAttribute("remove_final");
     <link rel="stylesheet" type="text/css" href="./css/common.css" />
     <link rel="stylesheet" type="text/css" href="css/dashboard-filter.css">
 	 <link rel="stylesheet" type="text/css" href="./css/sweetalert.css"/>
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="./css/jquery.datatable.min.css"/>
     <link rel="stylesheet" type="text/css" href="./css/datatable.css">
     <link rel="stylesheet" type="text/css" href="./css/select2-4.0.13.min.css" />
     <link rel="stylesheet" type="text/css" href="./css/hiring-in-process.css" />
@@ -124,8 +124,8 @@ s.removeAttribute("remove_final");
 				<div class="add-remove-columns irc-add-remove-columns">
                     <span>Add/Remove Columns</span>
                     <ul>
-                        <li><a class="toggle-vis" data-column="0"><em>Sr. No.</em></a></li>
-                        <li><a class="toggle-vis" data-column="1"><em>Candidate Name</em></a></li>
+                       <!--  <li><a class="toggle-vis" data-column="0"><em>Sr. No.</em></a></li>
+                        <li><a class="toggle-vis" data-column="1"><em>Candidate Name</em></a></li> -->
 						<li><a class="toggle-vis" data-column="2"><em>Designation</em></a></li>
 						<li><a class="toggle-vis" data-column="3"><em>Mobile Number</em></a></li>
 						<li><a class="toggle-vis" data-column="4"><em>Access Key</em></a></li>
@@ -508,7 +508,7 @@ s.removeAttribute("remove_final");
 		console.log('MinDate : '+minDate+'<>Max : '+maxDate);
             const newDateTimeInput = `
                 <div class="datetime-input extra-input">
-                    <input type="datetime-local" name="datetime" id="inviteDate" required value="${minDate}" min="${minDate}" max="${maxDate}">
+                    <input type="datetime-local" name="datetime" id="inviteDate" required value="`+minDate+`" min="`+minDate+`" max="`+maxDate+`" onkeydown="return false;">
                     <span class="remove-btn">Remove</span>
                 </div>`;
 
@@ -532,38 +532,6 @@ s.removeAttribute("remove_final");
     // Add Date Time input when the button is clicked using jQuery
     $("#add-datetime").click(addDateTimeInput);
 </script>
-    
-	<!-- <script>
-        // Function to add a new Date Time input
-        function addDateTimeInput() {
-    const numDateTimeInputs = $(".datetime-input").length;
-
-    if (numDateTimeInputs < 5) {
-        const newDateTimeInput = `
-            <div class="datetime-input extra-input">
-                <input type="datetime-local" name="datetime" id="inviteDate" required>
-                <span class="remove-btn">Remove</span>
-            </div>`;
-
-        $("#datetime-container").append(newDateTimeInput);
-
-        // Add an event listener to the newly created "Remove" button
-        $(".remove-btn").last().on("click", function() {
-            $(this).parent(".datetime-input").remove(); // Remove the corresponding input
-        });
-    } else {
-    	swal({   
-			  title: "You can add only 5 date and time.",     
-			  showCancelButton: false,
-			  confirmButtonColor: "#DC3545",   
-			  confirmButtonText: "OK",   
-			  closeOnConfirm: true }	); 
-    }
-}
-
-        // Add Date Time input when the button is clicked using jQuery
-        $("#add-datetime").click(addDateTimeInput);
-    </script> -->
 	<script>
       $(document).ready(function () {
     	  
@@ -593,6 +561,11 @@ s.removeAttribute("remove_final");
     	    	    }
     	    	});*/
     	    	
+    	    	//It will not allow user to enter date manually
+    	    	$("#inviteDate").on("keydown", function(e) {
+                    e.preventDefault();
+                });
+    	    	
     	    	$('#invite-cancel').click(function (){
     	    		$('.invite-popup, .blk-bg').hide(); 
     	    	});
@@ -600,16 +573,27 @@ s.removeAttribute("remove_final");
     	  form.attr('action', 'viewProcess');
       });
 	  function submitInvitation(){
-		  
 		    var dateTimes = $('input[name="datetime"]').map(function() {
 		        return this.value;
 		    }).get();
 		    var isEmpty = dateTimes.some(function(date) {
 		        return date.trim() === '';
 		    });
+		    var hasDuplicates = dateTimes.some(function(date, index, array) {
+	            return array.indexOf(date) !== index;
+	        });
 		    if (isEmpty) {
 		        swal({
 		            title: "Please choose date and time.",
+		            showCancelButton: false,
+		            confirmButtonColor: "#DC3545",
+		            confirmButtonText: "OK",
+		            closeOnConfirm: true
+		        });
+		    }
+		    if (hasDuplicates) {
+		        swal({
+		            title: "Please choose different date and time.",
 		            showCancelButton: false,
 		            confirmButtonColor: "#DC3545",
 		            confirmButtonText: "OK",
@@ -634,7 +618,7 @@ s.removeAttribute("remove_final");
 		        'accesskey':access_key
 		    };
 		   // alert(dateTimes);
-		   if (selectedEmails.length >= 1 && !isEmpty) {
+		   if (selectedEmails.length >= 1 && !isEmpty && !hasDuplicates) {
 		    $.ajax({
 		        type: 'POST',
 		        url: 'inviteLM', 
@@ -691,7 +675,7 @@ s.removeAttribute("remove_final");
 		$.ajax({
 			url: 'getInvitedLM',
 	         type:'post',
-	         data:'accesskey='+key,
+	         data:'accesskey='+key+'&intCount='+intCount,
 	         success:function(jsonObject){
 	        	 var jsonRes = JSON.parse(jsonObject);
 	        	 $("#select-email").html(jsonRes.select2Lm);
@@ -699,7 +683,12 @@ s.removeAttribute("remove_final");
                 $("#select-email").select2();
                 //$("#dateSelect option:first").prop("selected", true);
                 //Now set for table
-                $("#dateBody").html(jsonRes.tableData)
+                if(intCount === 1){
+               		$("#dateBody").html(jsonRes.tableData)
+                	$('.table-responsive').show();
+                }else{
+                	$('.table-responsive').hide();
+                }
                 $('.fixdate-popup, .blk-bg').show();
 	    	  },
 	          error:function(ress){

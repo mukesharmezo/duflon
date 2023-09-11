@@ -70,7 +70,6 @@ public class DashboardReport {
 			LocalDate dateFrom = LocalDate.now();
 			LocalDate dateTo = LocalDate.now();
 			if (dateFromm != null && dateFromm != "" && dateToo != null && dateToo != "") {
-				System.out.println("Date From and to : " + dateFromm + "<>" + dateToo);
 				Map<String, LocalDate> fullDate = DataProccessor.manageFiltersDate(dateFromm, dateToo);
 				dateFrom = fullDate.get("from");
 				dateTo = fullDate.get("to");

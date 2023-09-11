@@ -1,9 +1,11 @@
 package com.armezo.duflon.jobportal;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,6 +41,8 @@ public class UserRegistration {
     private String resume;
     private String photo;
     private String invitationStatus;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date invitationDate;
     private String assessmentStatus;
     private String interviewStatus;
     private String selectedStatus;
@@ -227,6 +231,12 @@ public class UserRegistration {
 
 	public void setInvitationFlag(Integer invitationFlag) {
 		this.invitationFlag = invitationFlag;
+	}
+	public void setInvitationDate(Date invitationDate) {
+		this.invitationDate = invitationDate;
+	}
+	public Date getInvitationDate() {
+		return invitationDate;
 	}
 
 	@Override

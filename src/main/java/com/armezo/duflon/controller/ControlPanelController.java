@@ -66,7 +66,6 @@ public class ControlPanelController {
 				master.setMasterName(masterName);
 			}
 			masterDataService.saveMasterData(master);
-			System.out.println(master);
 			return "success";
 	}
 	
@@ -74,7 +73,6 @@ public class ControlPanelController {
 	@ResponseBody
 	public String deleteMasterData(@RequestParam("id") Long id) {
 		String message = "";
-		System.out.println("Id ::: "+id);
 		Optional<MasterData> masterOptional = masterDataService.getMasterDataById(id);
 		if(masterOptional.isPresent()) {
 			masterDataService.deleteMaster(masterOptional.get());
@@ -82,7 +80,6 @@ public class ControlPanelController {
 		}else {
 			message = "Master data not found.";
 		}
-		System.out.println("message ::: "+message);
 		return message;
 	}
 

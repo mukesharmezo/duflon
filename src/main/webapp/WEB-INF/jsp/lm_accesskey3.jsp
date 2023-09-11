@@ -202,8 +202,7 @@
             <div class="table-date">
 			
 		
-                <!-- <table  id="data" cellspacing="0" cellpadding="0" border="0" class="stripe display nowrap cell-border" width="50" style="width:100%"> -->
-                <table  id="data" cellspacing="0" cellpadding="0" border="0" class="cell-border" width="100" style="width: 100% !important">
+                <table  id="data" cellspacing="0" cellpadding="0" border="0" class="stripe display nowrap cell-border" width="50" style="width:100%">
                    <thead>
                             <tr>
                                 <th data-head="Sr. No."  class="sorting" style="z-index: 1 !important;" ><em >Sr. No.</em></th>
@@ -310,9 +309,6 @@
 		    var lmId = $("#lmId").val();
 		    var accesskey = $("#accesskey").val();
 		    var dates = $('#dateSelect').val();
-		    if(dates.length < 1){
-		    	showMSG('Please select atleast one date.');
-		    }else{
 		    var data = {
 		        'dateId': dates,
 		        'accesskey':accesskey,
@@ -325,8 +321,8 @@
 		        data: JSON.stringify(data),
 		        contentType: 'application/json',
 		        success: function(response) {
-		        	 swal({   
-						  title: "Dates are saved successfully.",     
+		        	/* swal({   
+						  title: "Dates are saved",     
 						  showCancelButton: false,
 						  confirmButtonColor: "#DC3545",   
 						  confirmButtonText: "OK",   
@@ -337,13 +333,12 @@
 						 }else{
 						 return false;
 						}
-						}); 
+						}); 	*/
 		        },
 		        error: function(xhr, status, error) {
 		            console.error(xhr.responseText);
 		        }
 		    });
-		    }//Else
 	  }
 </script>
    

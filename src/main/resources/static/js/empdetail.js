@@ -1,90 +1,76 @@
 $(document).ready(function () {
 	
     $("#submitbtn").click(function () {
-    	
     	$('#testForm').validate({
     		// ignore:[],
   		  rules: {
           uan: {
-            required: true,
             customUAN: 10
           },
           epfo: {
-            required: true,
             digits: true,
             customEPFO: true
           },
           pfNumber: {
-            required: true,
             customPF : true
           },
           bankName: {
-            required: true
+            minlength: 4,
+    		maxlength: 80
           },
           ifscCode: {
-            required: true,
             customIFSC: true,
             minlength: 11,
     		maxlength: 11
           },
           bankAccountNumber: {
-            required: true,
             digits: true,
             minlength: 9,
 			maxlength: 18
           },
           empSalary: {
-            required: true,
-            number: true
-          },
-          gender: {
-            required: true
+            number: true,
+            minlength: 4,
+			maxlength: 12
           }
         },
   		  messages: {
           uan: {
-            required: "Please enter UAN.",
-            customUAN:"UAN must be 12 digits long and consist only of numbers."
+            customUAN:"UAN must be 12 digits long and ppppconsist only of numbers."
           },
           epfo: {
-            required: "Please enter EPFO.",
             digits: "EPFO must be a numeric value.",
             customEPFO: "EPFO number must have at least 7 digits."
           },
           pfNumber: {
-            required: "Please enter PF number.",
             customPF: "PF number must be alphanumeric and have a minimum of 7 characters."
           },
-          bankName: {
-            required: "Please enter Bank Name."
-          },
           ifscCode: {
-            required: "Please enter IFSC Code.",
     		customIFSC: "IFSC Code must start with 4 alphabetic characters, followed by '0' and then 6 digits.",
     		minlength: "IFSC Code must be exactly 11 characters long.",
         	maxlength: "IFSC Code must be exactly 11 characters long."
           },
+          bankName:{
+			minlength: "Bank name must be at least 4 characters.",
+        	maxlength: "Bank name cannot exceed 80 characters."
+			},
           bankAccountNumber: {
-            required: "Please enter bank account number.",
             digits: "Bank account number must be a numeric value.",
             minlength: "Bank account number must be at least 9 digits long.",
         	maxlength: "Bank account number cannot exceed 18 digits."
           },
           empSalary: {
-            required: "Please enter Emp Salary.",
-            number: "Emp Salary must be a numeric value."
-          },
-          gender: {
-            required: "Please select Gender."
+            number: "Emp Salary must be a numeric value.",
+            minlength: "Emp salary must be 4 digits.",
+			maxlength: "Emp salary cannot exceed 12 digits. "
           }
-        },
+        }
     	});
     	
     	
     	$("#btn").val($(this).val());
     	//alert(a);
     	if($("#testForm").valid()){
-    	
     	//document.testForm.submit();
     		$("#testForm").submit();
     	}
@@ -111,7 +97,9 @@ $(document).ready(function () {
             customPF : true
           },
           bankName: {
-            required: true
+            required: true,
+            minlength: 4,
+    		maxlength: 80
           },
           ifscCode: {
             required: true,
@@ -127,7 +115,9 @@ $(document).ready(function () {
           },
           empSalary: {
             required: true,
-            number: true
+            number: true,
+            minlength: 4,
+			maxlength: 12
           },
           gender: {
             required: true
@@ -148,7 +138,9 @@ $(document).ready(function () {
             customPF: "PF number must be alphanumeric and have a minimum of 7 characters."
           },
           bankName: {
-            required: "Please enter Bank Name."
+            required: "Please enter bank name.",
+            minlength: "Bank name must be at least 4 characters.",
+        	maxlength: "Bank name cannot exceed 80 characters."
           },
           ifscCode: {
             required: "Please enter IFSC Code.",
@@ -163,16 +155,31 @@ $(document).ready(function () {
         	maxlength: "Bank account number cannot exceed 18 digits."
           },
           empSalary: {
-            required: "Please enter Emp Salary.",
-            number: "Emp Salary must be a numeric value."
+            required: "Please enter emp salary.",
+            number: "Emp Salary must be a numeric value.",
+            minlength: "Emp salary must be 4 digits.",
+			maxlength: "Emp salary cannot exceed 12 digits. "
           },
           gender: {
-            required: "Please select Gender."
+            required: "Please select gender."
           }
         },
     	});
     	
-    	$.validator.addMethod("customIFSC", function(value, element) {
+    	
+
+    	
+    	$("#btn").val($(this).val());
+    	//alert(a);
+    	if($("#testForm").valid()){
+    	
+    	//document.testForm.submit();
+    		$("#testForm").submit();
+    	}
+    	
+    });
+
+$.validator.addMethod("customIFSC", function(value, element) {
     var pattern = /^[A-Z]{4}0\d{6}$/;
     return this.optional(element) || pattern.test(value);
 }, "IFSC Code must start with 4 alphabetic characters, followed by '0' and then 6 digits.");
@@ -189,18 +196,5 @@ $.validator.addMethod("customUAN", function(value, element) {
     var pattern = /^[0-9]{12}$/; // UAN is typically 12 digits long and consists only of numbers
     return this.optional(element) || pattern.test(value);
 }, "UAN must be 12 digits long and consist only of numbers.");
-
-
-    	
-    	$("#btn").val($(this).val());
-    	//alert(a);
-    	if($("#testForm").valid()){
-    	
-    	//document.testForm.submit();
-    		$("#testForm").submit();
-    	}
-    	
-    });
-    
 
 });

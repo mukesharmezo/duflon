@@ -101,10 +101,8 @@ try {
 								<c:otherwise>
 								  <td><a href="#"><span
 								  class="btn btn-primary" onclick="sendEmail('${payload.userId}', '${payload.email}')">
-								  <c:if test="${payload.invitationFlag<=1}"> Invite Candidate
-								  </c:if>
-								  <c:if test="${payload.invitationFlag>1}"> Reinvite Candidate
-								  </c:if>
+								  <c:if test="${payload.invitationFlag<=1}"> Invite Candidate</c:if>
+								  <c:if test="${payload.invitationFlag>1}"> Reinvite Candidate</c:if>
 								  </span></a></td>
 							  </c:otherwise>
 						  </c:choose>

@@ -98,7 +98,7 @@ if(session.getAttribute("role") != null){
                     </div>
                     <div class="form-block">
       					<h5>Bank Name<span>*</span></h5>
-      					<form:input path="bankName" id="bankName" required="true" list="bankSuggestions" placeholder="Bank Name" cssClass="form-control" />
+      					<form:input path="bankName" id="bankName" list="bankSuggestions" placeholder="Bank Name" cssClass="form-control" />
       					<datalist id="bankSuggestions">
         					<option value="Axis Bank">
         					<option value="Bank of Baroda (BoB)">
@@ -123,7 +123,8 @@ if(session.getAttribute("role") != null){
                      <%if(role.equalsIgnoreCase("HRE")) { %>
                   <div class="form-btn">
                      <c:if test="${(emp.hiredStatus != 'Y') && emp.status !='H'}">
-					   <input class="btn blue-btn" type="button" value="Save" id="submitbtnrr" onclick="saveEployment('Save')"/>
+					   <input class="btn blue-btn" type="button" value="Save" id="submitbtn"/>
+<!-- 					   <input class="btn blue-btn" type="button" value="Save" id="submitbtn" onclick="saveEployment('Save')"/> -->
                          <input class="btn blue-btn" type="submit" value="Next" id="submitnext"/>
                      </c:if>
                   </div>

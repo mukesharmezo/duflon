@@ -1,6 +1,6 @@
 
 <%
-String log="",empCode="",name="",city="",state="",region="",roleType="",email="",hreName="";
+String log="",empCode="",name="",location="",roleType="",email="",hreName="";
 if(session.getAttribute("lastLogin") != null){
 	log = session.getAttribute("lastLogin").toString().trim();
 }
@@ -10,15 +10,8 @@ if(session.getAttribute("empCode") != null){
 if(session.getAttribute("name") != null){
 	name = session.getAttribute("name").toString().trim();	
 }
-if(session.getAttribute("city") != null){
-	city = session.getAttribute("city").toString().trim();	
-}
-if(session.getAttribute("state") != null){
-	state = session.getAttribute("state").toString().trim();	
-}
-
-if(session.getAttribute("region") != null){
-	region = session.getAttribute("region").toString().trim();	
+if(session.getAttribute("location") != null){
+	location = session.getAttribute("location").toString().trim();	
 }
 if(session.getAttribute("role") != null){
 	roleType = session.getAttribute("role").toString().trim();
@@ -48,13 +41,8 @@ if(session.getAttribute("hreName") != null){
         </li>
 		
         <li>
-            <em>Region: <%=region%></em>
+            <em>Location: <%=location%></em>
         </li>
-		<%if(roleType.equalsIgnoreCase("HRE")) {%>
-        <li>
-             <em>State: <%=state%></em>
-        </li>
-		<%}%>
         <li>
             <a href="#" onclick="showChangePassword()">Change Password</a>
         </li>
@@ -214,11 +202,11 @@ if(session.getAttribute("hreName") != null){
 	        		 $('.success-chage-pass').text('');
 	        		 errorPass.removeClass( "error-chage-pass" );
 	        		 errorPass.addClass('success-chage-pass' );
-	        		 $('.success-chage-pass').append('Password has been changed');
+	        		 $('.success-chage-pass').append('The password has been changed');
 	    			 $('.success-chage-pass').show();  
 	    			 $('#newPassword').val('');
 					 swal({   
-				  title: 'Password have been Changed',     
+				  title: 'The password has been changed',     
 				  showCancelButton: false,
 				  confirmButtonColor: "#DC3545",   
 				  confirmButtonText: "OK",   

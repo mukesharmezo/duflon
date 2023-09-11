@@ -5,11 +5,13 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.armezo.duflon.Entities.HOD;
 import com.armezo.duflon.Repositories.HODRepository;
 
 @Service
+@Transactional
 public class HODService {
 	
 	@Autowired

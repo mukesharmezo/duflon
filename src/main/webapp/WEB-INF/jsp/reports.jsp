@@ -32,7 +32,7 @@ String st = "";
     <link rel="stylesheet" type="text/css" href="./css/sweetalert.css"/>
     <link rel="stylesheet" type="text/css" href="./css/jquery.datatable.min.css"/>
     <script type="text/javascript" src="./js/sweetalert.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"> 
+	<link rel="stylesheet" type="text/css" href="./css/jquery.datatable.min.css"/>
     <link rel="stylesheet" type="text/css" href="./css/datatable.css"> 
     
     <style>
@@ -609,7 +609,7 @@ String st = "";
                 <thead>
                     <tr>
                         <th data-head="Sr.No." class="sorting" style="z-index:1 !important;"><em>Sr.No.</em></th>
-                        <th data-head="Candidate Name" class="sorting" style="z-index:1 !important;"><em>Candidate Name</em></th>
+                        <th data-head="Candidate Name" class="sorting" style="z-index:1 !important;"><em>Candidate Name</em><span><img src="./img/filter-icn.svg" /></span></th>
                         <th data-head="Designation" class="sorting"><em>Designation</em></th>
                         <th data-head="Mobile" class="sorting"><em>Mobile</em></th>
                         <th data-head="Access Key" class="sorting"><em>Access Key</em></th>

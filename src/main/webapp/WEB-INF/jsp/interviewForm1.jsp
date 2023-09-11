@@ -706,10 +706,28 @@ String assessUrl = resource.getString("client.asseesment");
 	        	}
 	        }
 	        
+	        var interviewer = false;
+	        if(intvCount===1){
+	        	 if(clarity_1 !="" && presentability_1 != "" && attitude_1 != "" && situation_1 != ""){
+	        		 interviewer=true;
+	        	 }
+	        }
+	        if(intvCount===2){
+	        	 if(clarity_1 !="" && presentability_1 != "" && attitude_1 != "" && situation_1 != "" && clarity_2 !="" && presentability_2 != "" && attitude_2 != "" && situation_2 != "" ){
+	        		 interviewer=true;
+	        	 }
+	        }
+	        if(intvCount===2){
+	        	 if(clarity_1 !="" && presentability_1 != "" && attitude_1 != "" && situation_1 != "" && clarity_2 !="" && presentability_2 != "" && attitude_2 != "" && situation_2 != ""
+	        		 &&(clarity_3 =="" && presentability_3 == "" && attitude_3 == "" && situation_3 == ""		 
+	        	 ){
+	        		 interviewer=true;
+	        	 }
+	        }
+	        
 	        if(intvCount>1){
 	        
-	        if(clarity_1 !="" && presentability_1 != "" && attitude_1 != "" && situation_1 != "" && 
-	           clarity_2 !="" && presentability_2 != "" && attitude_2 != "" && situation_2 != "" &&(clarity_3 =="" && presentability_3 == "" && attitude_3 == "" && situation_3 == ""))
+	        if(interviewer)
 	          {
 	        	 $("#total_avt").val(averageScore.toFixed(1));
 	        	 $("#averageScore").text('');

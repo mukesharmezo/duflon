@@ -22,6 +22,7 @@ public class AdminPayload {
 	private Integer joined;
 	private Integer invitationFlag;
 	private String assessmentStatus;
+	private String reActivateStatus;
 	
 	public Long getJobId() {
 		return jobId;
@@ -130,6 +131,12 @@ public class AdminPayload {
 	}
 	public void setJobPostDate(String jobPostDate) {
 		this.jobPostDate = jobPostDate;
+	}
+	public void setReActivateStatus(String reActivateStatus) {
+		this.reActivateStatus = reActivateStatus;
+	}
+	public String getReActivateStatus() {
+		return reActivateStatus;
 	}
 	
 	

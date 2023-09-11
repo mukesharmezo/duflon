@@ -47,6 +47,8 @@ import com.armezo.duflon.ServicesImpl.ParticipantServiceImpl;
 import com.armezo.duflon.client.RestClientReattemp;
 import com.armezo.duflon.email.util.EmailUtility;
 import com.armezo.duflon.email.util.SendPayload;
+import com.armezo.duflon.jobportal.UserRegistration;
+import com.armezo.duflon.jobportal.UserService;
 import com.armezo.duflon.payload.FilterPayload;
 import com.armezo.duflon.payload.InvitationPayload;
 import com.armezo.duflon.tc.entities.ModelParticpantView;
@@ -72,10 +74,12 @@ public class HreController {
 	    LMInterviewService lMInterviewService;
 	    @Autowired
 	    LMAccesskeyService lMAccesskeyService;
+	    @Autowired
+	    private UserService userService;
 	    
 	    @GetMapping({ "/viewProcess" })
-	    private String getParticipantInProcess(@RequestParam(name = "dateFromm", required = false) String dateFromm, @RequestParam(name = "dateToo", required = false) String dateToo,
-	    		final HttpSession session, final Model model) {
+	    private String getParticipantInProcess(@RequestParam(name = "dateFromm", required = false) String dateFromm, 
+	    		@RequestParam(name = "dateToo", required = false) String dateToo, final HttpSession session, final Model model) {
 	        //final List<ModelParticpantView> listParticipant = new ArrayList<ModelParticpantView>();
 	    	Map<String, LocalDate> map = DataProccessor.manageFiltersDate(dateFromm, dateToo);
 	        long hreId = 0L;
@@ -135,7 +139,14 @@ public class HreController {
 	            particpant.get().setReAtampStatus("Yes");
 	            particpant.get().setModifiedDate(LocalDate.now());
 	            particpant.get().setReAtampCount(count);
+	            particpant.get().setSendMailDate(new Date());
 	            participantserviceImpl.saveData((ParticipantRegistration)particpant.get());
+	            
+	            Optional<UserRegistration> userOptional = userService.getUserByAccesskey(accesskey);
+	            if(userOptional.isPresent()) {
+	            	userOptional.get().setAssessmentStatus("N");
+	            	userService.saveUser(userOptional.get());
+	            }
 	            sendEmailToReAttemp(particpant.get());
 	        }
 	        else {
@@ -181,7 +192,6 @@ public class HreController {
 	        Optional<ParticipantRegistration> par = participantserviceImpl.getParticipantByAccesskey(payload.getAccesskey());
 	        sendEmailToScheduleInterviewToLM(par.get(),commaSeparatedString);
 			return "success";
-	    	
 	    }
 	    private String parseDate(String input) {   
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
@@ -199,18 +209,25 @@ public class HreController {
 	    //Get Lm who have date choosen
 	    @PostMapping("/getInvitedLM")
 	    @ResponseBody
-	    public String getAllInvitedLM(@RequestParam("accesskey") String accesskey) {
+	    public String getAllInvitedLM(@RequestParam("accesskey") String accesskey, @RequestParam("intCount") int intCount) {
 	    	List<LMAccesskey> lmAccesskeys = lMAccesskeyService.findByAccesskey(accesskey);
 	    	List<LMInterview> lmInterviews = lMInterviewService.findByAccesskey(accesskey);
 	    	StringBuilder builder= new StringBuilder();
 	    	StringBuilder selectCode = new StringBuilder();
 			//selectCode.append("<select id='lmSelect' multiple='multiple' >");
 //			selectCode.append("<select id='lmSelect' multiple='multiple' style='width100%:  !important; margin-left: 100%;' class='form-block'>");
-			for (LMAccesskey lmAcck : lmAccesskeys) {
-				//Get Lm By Id
-				Optional<LineManager> lmOptional = lmService.findById(lmAcck.getLmId());
-				if(lmOptional.isPresent()) {
-					selectCode.append("<option value='" + lmOptional.get().getEmail() + "'>" +lmOptional.get().getName()  + "</option>");
+			if (intCount == 1) {
+				for (LMAccesskey lmAcck : lmAccesskeys) {
+					// Get Lm By Id
+					Optional<LineManager> lmOptional = lmService.findById(lmAcck.getLmId());
+					if (lmOptional.isPresent()) {
+						selectCode.append("<option value='" + lmOptional.get().getEmail() + "'>"+ lmOptional.get().getName() + "</option>");
+					}
+				}
+			} else {
+				List<LineManager> lms = lmService.getAllLMs();
+				for (LineManager lm : lms) {
+					selectCode.append("<option value='" + lm.getEmail() + "'>"+ lm.getName() + "</option>");
 				}
 			}
 	    	int count=1;

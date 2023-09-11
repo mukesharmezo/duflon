@@ -15,7 +15,7 @@ $(document).ready(function () {
   		  },
   		  messages: {
   			autoIndustryExperience: "<br/>Please select ",
-  			companyName: "<br/>Please enter company Name",
+  			companyName: "<br/>Please enter company name",
   			expInMths: "<br/>Please enter experience",
   			previousDesignation: "<br/>Please enter designation",
   			workArea: "<br/>Please enter work area"

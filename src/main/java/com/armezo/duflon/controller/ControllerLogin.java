@@ -107,8 +107,7 @@ public class ControllerLogin {
 					session.setAttribute("email", lm.get().getEmail());
 					session.setAttribute("name", lm.get().getName());
 					session.setAttribute("empCode", lm.get().getEmpCode());
-					String region = "";
-					session.setAttribute("region", region);
+					session.setAttribute("location", lm.get().getLocation());
 					eventLogin(lm.get().getId().intValue(), "LM Login");
 					return "redirect:analytics";
 				} else {
@@ -126,9 +125,7 @@ public class ControllerLogin {
 						session.setAttribute("empCode", hre.get().getEmpCode());
 						session.setAttribute("name", hre.get().getName());
 						session.setAttribute("hreName", hre.get().getName());
-						session.setAttribute("city", "Delhi");
-						session.setAttribute("state", "New Delhi");
-						session.setAttribute("region", "North");
+						session.setAttribute("location", hre.get().getLocation());
 						session.setAttribute("email", hre.get().getEmail());
 						session.setAttribute("role", "HRE");
 						session.setAttribute("userId", hre.get().getId());
@@ -150,11 +147,10 @@ public class ControllerLogin {
 			Optional<AdminTable> ad = adminService.findByEmpCodeAndPassword(user, password);
 			if (ad.isPresent()) {
 				if (ad.get().getStatus()) {
+					session.setAttribute("empCode", ad.get().getEmpCode());
 					session.setAttribute("name", ad.get().getName());
 					session.setAttribute("email", ad.get().getEmail());
-					session.setAttribute("city", "India"); // dynamic value will be here
-					session.setAttribute("state", "India");
-					session.setAttribute("region", "India");
+					session.setAttribute("location", "India");
 					session.setAttribute("role", "SA");
 					session.setAttribute("userId", ad.get().getId());
 					eventLogin(ad.get().getId(), "adminLogin");
@@ -169,11 +165,10 @@ public class ControllerLogin {
 			Optional<HOD> hod = hodService.getByEmpCodeAndPassword(user, password);
 			if (hod.isPresent()) {
 				if (hod.get().getStatus()) {
+					session.setAttribute("empCode", hod.get().getEmpCode());
 					session.setAttribute("name", hod.get().getName());
 					session.setAttribute("email", hod.get().getEmail());
-					session.setAttribute("city", "India"); // dynamic value will be here
-					session.setAttribute("state", "India");
-					session.setAttribute("region", "India");
+					session.setAttribute("location", "India");
 					session.setAttribute("role", "HOD");
 					session.setAttribute("userId", hod.get().getId());
 					eventLogin(hod.get().getId().intValue(), "adminLogin");

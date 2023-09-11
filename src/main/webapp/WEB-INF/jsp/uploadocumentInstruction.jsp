@@ -82,7 +82,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
                                 <td>PDF, JPEG, PNG, JPG</td>
                             </tr>
                             <tr>
-                                <td><b>Identity Proof (Any one)</b>
+                                <td><b>Address Proof (Any one)</b>
                                     <ol type="1">
                                         <li>1. Aadhar Card, 2. Voter ID 
                                             Card, 3. Passport, 4. Ration Card with address, 5. Bank Passbook, 6. 

@@ -60,7 +60,7 @@ public class UpdateTestStatus {
 	            participant.get().setTestCompletionDate(LocalDate.now());
 	            participant.get().setAptitudeScore(Integer.valueOf((int)section_1));
 	            participant.get().setAttitudeScore(Integer.valueOf((int)section_2));
-	            participant.get().setSection3(Integer.valueOf((int)section_2));
+	            participant.get().setSection3(Integer.valueOf((int)section_3));
 	            participant.get().setPsychometricScore(Integer.valueOf((int)testScore));
 	            participant.get().setParticipantStatus("Assessment");
 	            participant.get().setModifiedDate(LocalDate.now());;
@@ -121,7 +121,6 @@ public class UpdateTestStatus {
 	        		 mailBody = mailBody.replace("${email}", "");
 	        	}
 	        }
-	       
 	        final SendPayload sendP = new SendPayload();
 	        sendP.setTo(participant.getEmail());
 	        sendP.setSubjectLine(subjectLine);

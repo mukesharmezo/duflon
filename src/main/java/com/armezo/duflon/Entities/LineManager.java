@@ -22,6 +22,8 @@ public class LineManager {
     private String password;
     private LocalDate deactivationDate;
     private Boolean status;
+    private String location;
+    private String department;
     
     
     
@@ -67,10 +69,30 @@ public class LineManager {
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public String getLocation() {
+		return location;
+	}
 	public void setEmpCode(String empCode) {
 		this.empCode = empCode;
 	}
 	public String getEmpCode() {
 		return empCode;
 	}
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+	public String getDepartment() {
+		return department;
+	}
+	@Override
+	public String toString() {
+		return "LineManager [id=" + id + ", name=" + name + ", email=" + email + ", empCode=" + empCode + ", mobile="
+				+ mobile + ", password=" + password + ", deactivationDate=" + deactivationDate + ", status=" + status
+				+ "]";
+	}
+	
+	
 }
