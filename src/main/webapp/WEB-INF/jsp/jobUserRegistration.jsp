@@ -9,6 +9,10 @@ try
     {
 	ResourceBundle resource = ResourceBundle.getBundle("application");
 String baseServer = resource.getString("client.url");String title = resource.getString("app.title");
+
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", -1);
 %>
 <!DOCTYPE html>
 <html>
@@ -55,8 +59,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
 	  </div>
 	  <h2>You are applying for ${jobTitle}</h2>
 	<div class="container">
-		<form:form action="jobUserRegistration" class="form"  method="post" 
-			modelAttribute="userRegistration" enctype="multipart/form-data"  id="jobPage">
+		<form:form action="jobUserRegistration" class="form"  method="post" modelAttribute="userRegistration" enctype="multipart/form-data"  id="jobPage">
 			<form:input type="hidden" path="jobId" />
 			<form:input type="hidden" path="hreId" />
 			<div class="form-section">
@@ -156,7 +159,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
                             </datalist>
                         </td>
                         <td>
-                            <input type="number" name="skills[${status.index}].experience" class="form-control" required="true" />
+                            <input type="number" name="skills[${status.index}].experience" class="form-control"/>
                         </td>
                         <td>
 							 <button type="button" class="btn btn-danger btn-circle rounded-circle btn-btn-circle" onclick="removeSkillRow('skillRow${status.index + 1}')">-</button>
@@ -168,8 +171,9 @@ String baseServer = resource.getString("client.url");String title = resource.get
 		<button type="button" class="btn-remove btn-success" id="addSkillBtn">&#43;</button>
     </div>
 </div>
+<%-- <input type="hidden" name="formToken" value="${formToken}"> --%> <!-- For handling multiple resubmission -->
 			<div class="text-center mt-3 mb-3">
-				<button type="submit" class="btn btn-primary" style="background-color: #DC3545;border: none;">Submit</button>
+				<button type="submit" class="btn btn-primary" style="background-color: #DC3545;border: none;" id="submitButton">Submit</button>
 				</div>
 		</form:form>
 	</div>
@@ -184,6 +188,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
       			$(this).closest('.form-block').next().find('input, select').focus(); //Move focus to the next fields box
     		}
   		});
+		
 		  function addSkillRow() {
 		    skillRowCount++;
 		    var newRow = $('<tr>').attr('id', 'skillRow' + skillRowCount);
@@ -263,6 +268,9 @@ String baseServer = resource.getString("client.url");String title = resource.get
 	  }
 	</script>
 	<script>
+	
+	
+	
 		// Use jQuery to select all number input elements
 		const numberInputs = $('input[type="number"]');
 		// Add event handler using jQuery's "on" method

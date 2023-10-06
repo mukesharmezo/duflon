@@ -279,11 +279,17 @@ public class DataProccessor {
 			if(status!=null && status.equalsIgnoreCase("Schedule2")) {
 				rs="Interview 2 Scheduled";
 			}
-			if(status!=null && status.equalsIgnoreCase("Interview1")) {
-				rs="Interview 1 Completed";
+			if(status!=null && status.equalsIgnoreCase("pass1")) {
+				rs="Interview 1 Cleared";
 			}
-			if(status!=null && status.equalsIgnoreCase("Interview2")) {
-				rs="Interview 2 Completed";
+			if(status!=null && status.equalsIgnoreCase("fail1")) {
+				rs="Interview 1 Not Cleared";
+			}
+			if(status!=null && status.equalsIgnoreCase("pass2")) {
+				rs="Interview 2 Cleared";
+			}
+			if(status!=null && status.equalsIgnoreCase("fail2")) {
+				rs="Interview 2 Not Cleared";
 			}
 			if(status!=null && status.equalsIgnoreCase("Recruited")) {
 				rs="Recruited";

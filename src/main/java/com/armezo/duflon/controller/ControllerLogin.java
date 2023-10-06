@@ -70,6 +70,10 @@ public class ControllerLogin {
 	public String login() {
 		return "login";
 	}
+	@GetMapping("/login2")
+	public String login2() {
+		return "login2";
+	}
 
 	@RequestMapping(value = "/loginPro", method = { RequestMethod.GET, RequestMethod.POST })
 	public String loginPro(@RequestParam("user") String user, @RequestParam("password") String password,

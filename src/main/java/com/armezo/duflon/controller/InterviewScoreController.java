@@ -42,17 +42,13 @@ import com.armezo.duflon.jobportal.UserRegistration;
 import com.armezo.duflon.jobportal.UserService;
 import com.armezo.duflon.utils.DataProccessor;
 
-
-
 @Controller
 public class InterviewScoreController {
 	
 	@Value("${pdf.exeUrl}")
 	private String exeUrl;
-	
 	@Value("${pdf.downloadPdfFile}")
 	private String downloadPath; 
-
 	@Autowired
 	InterviewScoreService interviewScoreService;
 	@Autowired
@@ -144,7 +140,7 @@ public class InterviewScoreController {
 			@RequestParam("percentage") String percentage,
 			@RequestParam("interviewCount") Integer interviewCount,
 			@RequestParam("total")String total,HttpSession session) {
-		String msg="";
+		String msg="", interviewStatus="";
 		if (session.getAttribute("userId") != null) {
 		Optional<InterviewScore> interviewscore = interviewScoreService.findByAccesskeyAndInterviewCount(accesskey,interviewCount);
 		InterviewScore score = new InterviewScore();
@@ -153,8 +149,7 @@ public class InterviewScoreController {
 		}else {
 			score.setAccessKey(accesskey);
 		}
-		
-		 score.setName_a(name_a);score.setName_b(name_b);score.setName_c(name_c);
+		 	score.setName_a(name_a);score.setName_b(name_b);score.setName_c(name_c);
 			score.setDesignation_a(designation_a);score.setDesignation_b(designation_b);score.setDesignation_c(designation_c);
 			score.setMobile_a(mobile_a);score.setMobile_b(mobile_b);score.setMobile_c(mobile_c);		
 			score.setClarity_a(clarity_a);score.setClarity_b(clarity_b);score.setClarity_c(clarity_c);
@@ -168,25 +163,32 @@ public class InterviewScoreController {
 			score.setStatus(status);
 			score.setPass_fail_status(pass_fail_status);
 			score.setPercentage(percentage);
-		score.setInterviewCount(interviewCount);
+			score.setInterviewCount(interviewCount);
 		if(status.equals("final")) {
 			
 			if(pass_fail_status.equals("pass")) {
 			   score.setInterviewStatus("Selected");
 			   if(interviewCount==1) {
+				   interviewStatus="pass1";
 				   msg="Candidate is shortlisted in first round interview.\r\n"+
-						   "An automated email and sms sent to candidates for this.";
+						   "An automated email sent to candidate for this.";
 			   }else if (interviewCount==2) {
+				   interviewStatus="pass2";
 			   msg="The Candidate is shortlisted in the Interview Process.\r\n" + 
 			   		"\r\n" + 
 			   		"You must speak with the selected candidate to complete the Joining Formalities. \r\n" + 
 			   		"\r\n" + 
-			   		"An Automated Email and SMS sent to Candidates for this.\r\n" + 
+			   		"An Automated Email sent to Candidates for this.\r\n" + 
 			   		"\r\n" + 
 			   		"NOTE: You may choose to share the Letter of Intent (LOI) / Offer Letter to the selected candidate if required.";
 			}}else {
 				msg="The Candidate is NOT shortlisted in the Interview Process.";
 				score.setInterviewStatus("Not Selected");	
+				if(interviewCount==1) {
+					interviewStatus="fail1";
+				}else if (interviewCount==2) {
+					interviewStatus="fail2";
+				}
 			}
 		}else {
 		msg="save";	
@@ -198,7 +200,8 @@ public class InterviewScoreController {
 			if(particpant.isPresent()) {
 				if(interviewCount==1) {
 					particpant.get().setInterviewScore(Integer.parseInt(total));
-					particpant.get().setParticipantStatus("Interview1");
+					//particpant.get().setParticipantStatus("Interview1");
+					particpant.get().setParticipantStatus(interviewStatus);
 					participantService.saveData(particpant.get());
 					if(pass_fail_status.equals("pass")) {
 						//String name=DataProccessor.getFullNameOfParticipant(particpant.get());
@@ -206,7 +209,7 @@ public class InterviewScoreController {
 					}
 				}else if (interviewCount==2) {
 					particpant.get().setInterviewScore2(Integer.parseInt(total));
-					particpant.get().setParticipantStatus("Interview2");
+					//particpant.get().setParticipantStatus("Interview2");
 					if(pass_fail_status.equals("pass")) {
 						particpant.get().setHiredStatus("P");
 						/*
@@ -218,6 +221,7 @@ public class InterviewScoreController {
 						//sendEmailHiredToHRE(particpant.get());
 						sendEmailShortlisted(particpant.get(),2);	
 					}
+					particpant.get().setParticipantStatus(interviewStatus);
 					participantService.saveData(particpant.get());
 					//Save User Registration Hire Status
 					Optional<UserRegistration> userOptional = userService.getUserByAccesskey(accesskey);

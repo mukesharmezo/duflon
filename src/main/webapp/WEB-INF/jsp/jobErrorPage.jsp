@@ -26,8 +26,8 @@ String baseServer = resource.getString("client.url");String title = resource.get
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 text-center mt-5">
-				<h1>Thank You ${name}</h1>
-				<p>Thank you for applying, HRE will reach you soon.</p>
+				<h1>Form not submitted</h1>
+				<p>You are trying to reapply same job.</p>
 			</div>
 		</div>
 	</div>
@@ -37,7 +37,7 @@ String baseServer = resource.getString("client.url");String title = resource.get
         function reloadPreviousPage() {
             window.location.replace("/formPage"); // Redirect to the registration page (form page)
         }
-		window.history.forward();
+
         // Listen for the popstate event (when the user navigates back or forward)
         window.addEventListener('popstate', reloadPreviousPage);
     </script>

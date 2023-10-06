@@ -51,6 +51,8 @@ try {
 .btn-primary:hover {	background-color: #DC3545 !important;	border-color: #DC3545 !important;}
 .center {	display: flex;	justify-content: center;	margin-top: 20px;}
 .form .form-section .form-block input[type="button"] { width: 60%;	border: 1px solid #D0D0D0;	border-radius: 7px;	padding: 9px 15px;	font-size: 15px;	font-family: Arial !important;	line-height: 18px;	outline: none;	box-sizing: border-box; }
+.details-column {	max-width: 20ch;	white-space: nowrap;	overflow: hidden;	text-overflow: ellipsis;}
+
 </style>
 </head>
 <body>
@@ -151,7 +153,7 @@ try {
 			</form>
 		</div>
 		<div id="error-logger-page" style="display: none;" class="table-date page">
-			<table id="data" cellspacing="0" cellpadding="0" border="0" class="stripe display nowrap cell-border" width="50">
+			<table id="data" cellspacing="0" cellpadding="0" border="0" class="stripe display nowrap cell-border" style="width: 100% !important">
 				<thead>
 					<tr>
 						<th data-head="Sr. No." class="sorting"><em>Sr. No.</em></th>
@@ -167,7 +169,7 @@ try {
 					<td>${status.count}</td>
 					<td>${error.accesskey}</td>
 					<td>${error.errorDateTime}</td>
-					<td>${error.errorMessage}</td>
+					<td class="details-column">${error.errorMessage}</td>
 					<td>${error.errorProcess}</td>
 					</tr>
 				</c:forEach>

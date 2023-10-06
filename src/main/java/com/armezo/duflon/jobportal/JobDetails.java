@@ -39,6 +39,10 @@ public class JobDetails {
 	private String hreName;
 	private String jobCreaterNameId;
 	private LocalDate jobPostDate;
+	private String rejectionReasonHRE;
+	private String approveReasonHRE;
+	private String rejectionReasonLM;
+	private String approveReasonHRELM;
 	@Column(columnDefinition = "VARCHAR(1)")
 	private String status="U";       // U: Unhold , H: Hold
 	@Column(columnDefinition = "VARCHAR(1)")
@@ -230,6 +234,39 @@ public class JobDetails {
 
 	public void setJobCreaterNameId(String jobCreaterNameId) {
 		this.jobCreaterNameId = jobCreaterNameId;
+	}
+	
+
+	public String getRejectionReasonHRE() {
+		return rejectionReasonHRE;
+	}
+
+	public void setRejectionReasonHRE(String rejectionReasonHRE) {
+		this.rejectionReasonHRE = rejectionReasonHRE;
+	}
+
+	public String getApproveReasonHRE() {
+		return approveReasonHRE;
+	}
+
+	public void setApproveReasonHRE(String approveReasonHRE) {
+		this.approveReasonHRE = approveReasonHRE;
+	}
+
+	public String getRejectionReasonLM() {
+		return rejectionReasonLM;
+	}
+
+	public void setRejectionReasonLM(String rejectionReasonLM) {
+		this.rejectionReasonLM = rejectionReasonLM;
+	}
+
+	public String getApproveReasonHRELM() {
+		return approveReasonHRELM;
+	}
+
+	public void setApproveReasonHRELM(String approveReasonHRELM) {
+		this.approveReasonHRELM = approveReasonHRELM;
 	}
 
 	@Override

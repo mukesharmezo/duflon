@@ -45,7 +45,7 @@ public class AdminUploadController {
 	
 	// Download XLSX Template
 	@PostMapping("/pdfTemplateDownload")
-	public ResponseEntity<Resource> downloadPdfTemplate(HttpServletResponse response) throws IOException {
+	public ResponseEntity<Resource> downloadTemplate(HttpServletResponse response) throws IOException {
 		String templatePath = "classpath:static/pdfTemplate/AdminTemplate.xlsx";
 		File file = null;
 		try {

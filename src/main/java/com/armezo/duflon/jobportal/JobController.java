@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
@@ -220,13 +221,14 @@ public class JobController {
 
 	// Hold Job
 	@GetMapping("/rejectJobByHre")
-	public String rejectJobByHre(@RequestParam("jobId") Long jobId, HttpSession session, Model model) {
+	@ResponseBody
+	public String rejectJobByHre(@RequestParam("rejectReason") String rejectReason, @RequestParam("rejectJobId") Long rejectJobId, HttpSession session, Model model) {
 		if (session.getAttribute("userId") != null) {
 			// Get Job By Id
-			Optional<JobDetails> job = jobService.getJobDetailsById(jobId);
+			Optional<JobDetails> job = jobService.getJobDetailsById(rejectJobId);
 			if (job.isPresent()) {
 				job.get().setApprovalHr("R");
-				jobService.saveJobDetails(job.get());
+				//jobService.saveJobDetails(job.get());
 			}
 			return "redirect:jobCreator";
 		} else {
@@ -235,13 +237,14 @@ public class JobController {
 	}
 	// Hold Job
 	@GetMapping("/rejectJobByLM")
-	public String rejectJobDetailsByLM(@RequestParam("jobId") Long jobId, HttpSession session, Model model) {
+	@ResponseBody
+	public String rejectJobDetailsByLM(@RequestParam("rejectReason") String rejectReason, @RequestParam("rejectJobId") Long rejectJobId, HttpSession session, Model model) {
 		if (session.getAttribute("userId") != null) {
 			// Get Job By Id
-			Optional<JobDetails> job = jobService.getJobDetailsById(jobId);
+			Optional<JobDetails> job = jobService.getJobDetailsById(rejectJobId);
 			if (job.isPresent()) {
 				job.get().setApprovalLm("R");
-				jobService.saveJobDetails(job.get());
+				//jobService.saveJobDetails(job.get());
 			}
 			return "redirect:jobCreator";
 		} else {
@@ -281,29 +284,34 @@ public class JobController {
 	}
 	// Hold Job
 	@GetMapping("/approveJobByHre")
-	public String approveJobDetailsByHre(@RequestParam("jobId") Long jobId, HttpSession session, Model model) {
+	@ResponseBody
+	public String approveJobDetailsByHre(@RequestParam("approveReason") String approveReason, @RequestParam("approveJobId") Long approveJobId, HttpSession session, Model model) {
 		if (session.getAttribute("userId") != null) {
+			System.out.println("******"+approveReason+">***"+approveJobId);
 			// Get Job By Id
-			Optional<JobDetails> job = jobService.getJobDetailsById(jobId);
+			Optional<JobDetails> job = jobService.getJobDetailsById(approveJobId);
 			if (job.isPresent()) {
 				job.get().setApprovalHr("A");
-				jobService.saveJobDetails(job.get());
+				System.out.println("MKKKKK :: "+job.get().getJobId()+"<>"+job.get().getDescription());
+				//jobService.saveJobDetails(job.get());
 			}
-			return "redirect:jobCreator";
+			//return "redirect:jobCreator";
+			return "Approved";
 		} else {
 			return "redirect:login";
 		}
 	}
 	// Hold Job
 	@GetMapping("/approveJobByLM")
-	public String unholdJobDetails(@RequestParam("jobId") Long jobId, HttpSession session, Model model) {
+	@ResponseBody
+	public String approveJobDetailsByLM(@RequestParam("approveReason") String approveReason, @RequestParam("approveJobId") Long approveJobId, HttpSession session, Model model) {
 		if (session.getAttribute("userId") != null) {
 			// Get Job By Id
-			Optional<JobDetails> job = jobService.getJobDetailsById(jobId);
+			Optional<JobDetails> job = jobService.getJobDetailsById(approveJobId);
 			if (job.isPresent()) {
 				job.get().setApprovalLm("A");
 				job.get().setJobPostDate(LocalDate.now());
-				jobService.saveJobDetails(job.get());
+				//jobService.saveJobDetails(job.get());
 			}
 			return "redirect:jobCreator";
 		} else {
@@ -321,7 +329,7 @@ public class JobController {
 	}
 
 	@GetMapping("/applyForJob")
-	public String showRegistrationPage(@RequestParam("jobId") Long jobId, Model model) {
+	public String showRegistrationPage(@RequestParam("jobId") Long jobId, Model model, HttpSession session) {
 		UserRegistration user = new UserRegistration();
 		String jobTitle = "";
 		user.setJobId(jobId);
@@ -339,6 +347,10 @@ public class JobController {
 		String jsonSkills = (new JSONArray(skills)).toString();
 		List<String> designations = masterDataService.getAllMasterDataByMasterName("Designation");
 		List<String> educations = masterDataService.getAllMasterDataByMasterName("Education");
+		//For Resubmiision prevent
+		//String uniqueToken=UUID.randomUUID().toString();
+		//session.setAttribute("formToken", uniqueToken);
+	    //model.addAttribute("formToken", uniqueToken);
 		model.addAttribute("userRegistration", user);
 		model.addAttribute("skills", skills);
 		model.addAttribute("jobTitle", jobTitle);
@@ -352,10 +364,16 @@ public class JobController {
 	}
 
 	@PostMapping("/jobUserRegistration")
-	public String saveUserDetails(@ModelAttribute("userRegistration") UserRegistration user,
-			@RequestParam("resumeFile") MultipartFile resume, @RequestParam("photoFile") MultipartFile photo, Model model) {
+	public String saveUserDetails(
+			@ModelAttribute("userRegistration") UserRegistration user, /*
+																		 * @RequestParam("formToken") String formToken,
+																		 */
+			@RequestParam("resumeFile") MultipartFile resume, @RequestParam("photoFile") MultipartFile photo, Model model, HttpSession session) {
 		//Generate Accesskey
 		//if(submitted) {
+		//String storedToken = (String) session.getAttribute("formToken");
+	    //if (storedToken != null && storedToken.equals(formToken)) {
+	    //session.removeAttribute("formToken");
 		user.setAccesskey(generateAccesskeyForUser(user.getHreId()));
 		user.setResume(String.valueOf(user.getAccesskey())+"/"+ StringUtils.cleanPath(resume.getOriginalFilename()));
 		user.setPhoto(String.valueOf(user.getAccesskey())+"/"+ StringUtils.cleanPath(photo.getOriginalFilename()));
@@ -383,6 +401,10 @@ public class JobController {
 		//}else {
 			//return "jobAlreadySubmit";
 		//}
+	  //  } else {
+	        // Token is invalid; reject the submission or display an error message
+	     //   return "jobErrorPage";
+	  //  }
 	}
 	//Show thank You page
 	@GetMapping("thankYou/{name}")

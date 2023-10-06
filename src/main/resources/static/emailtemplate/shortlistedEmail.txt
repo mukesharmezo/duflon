@@ -3,7 +3,7 @@ Greetings ${candidateName}
 <br><br>
 Thank You for completing your recruitment process successfully. 
 <br><br>
-Congratulations! You are shortlisted in 1st round interview. 
+Congratulations! You have completed your 1st round of interview.
 <br><br>
 Wishing you all the best!<br> 
 ${dealerName}<br>

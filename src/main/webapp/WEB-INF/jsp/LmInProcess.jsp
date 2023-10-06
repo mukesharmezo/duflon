@@ -251,14 +251,20 @@ if (session.getAttribute("role") != null) {
 								<c:if test="${participant.partStatus eq 'Schedule1'}">
 									<span>Interview 1 Scheduled</span>
 								</c:if>
-								<c:if test="${participant.partStatus eq 'Interview1'}">
-									<span>Interview 1 Completed</span>
+								<c:if test="${participant.partStatus eq 'pass1'}">
+									<span>Interview 1 Cleared</span>
+								</c:if>
+								<c:if test="${participant.partStatus eq 'fail1'}">
+									<span>Interview 1 Not Cleared</span>
 								</c:if>
 								<c:if test="${participant.partStatus eq 'Schedule2'}">
 									<span>Interview 2 Scheduled</span>
 								</c:if>
-								<c:if test="${participant.partStatus eq 'Interview2'}">
-									<span>Interview 2Completed</span>
+								<c:if test="${participant.partStatus eq 'pass2'}">
+									<span>Interview 2 Cleared</span>
+								</c:if>
+								<c:if test="${participant.partStatus eq 'fail2'}">
+									<span>Interview 2 Not Cleared</span>
 								</c:if>
 							
 							</td>

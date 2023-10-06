@@ -27,7 +27,8 @@
     <link rel="stylesheet" type="text/css" href="./css/hiring-new.css" />
 	<link rel="stylesheet" type="text/css" href="./css/sweetalert.css"/>
     <script type="text/javascript" src="./js/sweetalert.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+	<!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"> -->
+	<link rel="stylesheet" type="text/css" href="./css/jquery.datatable.min.css"/>
     <link rel="stylesheet" type="text/css" href="./css/datatable.css">
     
     <link rel="stylesheet" type="text/css" href="./css/select2-4.0.13.min.css" />
@@ -51,7 +52,7 @@
 		.th.sorting.dtfc-fixed-left{z-index: 1 !important;}
 		.cancel-btn{color: #DC3545 !important;background-color:#fff !important;}
 		#data_paginate a:hover{background-color: #DC3545 !important;}
-		.dataTables_scrollBody {overflow-y: hidden !important;overflow-x: auto !important;}  
+		.dataTables_scrollBody {overflow-y: hidden !important;overflow-x: auto !important;max-height: 825px !important;}  
 		.dataTables_wrapper .dataTables_filter input{padding: 10px 0px 10px 0px !important;}
 		.dataTables_wrapper .dataTables_scroll div.dataTables_scrollBody>table>tbody>tr>td {vertical-align: middle;z-index: 1;}
 		@media (max-width:1024px){
