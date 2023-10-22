@@ -1,5 +1,7 @@
 package com.armezo.duflon.Entities;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "work_experience")
@@ -35,6 +39,12 @@ public class WorkExperience {
 	
 	@Column(name = "Work_Area")
 	private String workArea;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "from_Date")
+	private LocalDate fromDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "to_Date")
+	private LocalDate toDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "Id", referencedColumnName = "Id")
@@ -95,6 +105,22 @@ public class WorkExperience {
 
 	public void setParticipantRegistration(ParticipantRegistration participantRegistration) {
 		this.participantRegistration = participantRegistration;
+	}
+
+	public LocalDate getFromDate() {
+		return fromDate;
+	}
+
+	public void setFromDate(LocalDate fromDate) {
+		this.fromDate = fromDate;
+	}
+
+	public LocalDate getToDate() {
+		return toDate;
+	}
+
+	public void setToDate(LocalDate toDate) {
+		this.toDate = toDate;
 	}
 
 	@Override

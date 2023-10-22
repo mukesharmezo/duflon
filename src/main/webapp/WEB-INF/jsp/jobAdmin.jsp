@@ -41,6 +41,11 @@ String baseServer = resource.getString("client.url");String title = resource.get
 		table.dataTable.stripe>tbody>tr.odd>*, table.dataTable.display>tbody>tr.odd>* {box-shadow:none !important;}
 		.btn-success {color: #fff;background-color: #28a745;border-color: #28a745;margin-left: 15px;}
 		.description-column {	max-width: 20ch;	white-space: nowrap;	overflow: hidden;	text-overflow: ellipsis;}
+		.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #DC3545;
+    border-color: #005cbf;
+}
    </style>
 
     <script src="./js/jquery-3.4.1.min.js"></script>

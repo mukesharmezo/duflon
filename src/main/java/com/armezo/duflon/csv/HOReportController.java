@@ -85,7 +85,7 @@ public class HOReportController {
 				cell = row.createCell(8);
 				cell.setCellValue("Attitude");
 				cell = row.createCell(9);
-				cell.setCellValue("Mechanical");
+				cell.setCellValue("Engineering Aptitude");
 				cell = row.createCell(10);
 				cell.setCellValue("Assessment Status");
 				cell = row.createCell(11);

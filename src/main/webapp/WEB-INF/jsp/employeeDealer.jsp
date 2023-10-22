@@ -140,7 +140,7 @@ s.setAttribute("remove_final", "final");
 							<th data-head="Assessment Date" class="sorting"><em>Assessment Date</em></span></th>                       
                             <th data-head="Aptitude" class="sorting"><em>Aptitude</em></th>		
                             <th data-head="Attitude" class="sorting"><em>Attitude</em></th>							
-                            <th data-head="Mechanical" class="sorting"><em>Mechanical</em></th>							
+                            <th data-head="Engineering Aptitude" class="sorting"><em>Engineering Aptitude</em></th>							
                             <th data-head="Assessment Status" class="sorting"><em>Assessment Status</em></th>
 							<th data-head="Assessment Report" class="sorting"><em>Assessment Report</em></th>
                             <th data-head="Registration Form" class="sorting"><em>Registration Form</em></th>

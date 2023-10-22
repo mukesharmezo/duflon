@@ -133,7 +133,7 @@ s.removeAttribute("remove_final");
 						<li><a class="toggle-vis" data-column="6"><em>Assessment Date</em></a></li>				
                         <li><a class="toggle-vis" data-column="7"><em>Aptitude</em></a></li>
                         <li><a class="toggle-vis" data-column="8"><em>Attitude</em></a></li>
-                        <li><a class="toggle-vis" data-column="9"><em>Mechanical</em></a></li>
+                        <li><a class="toggle-vis" data-column="9"><em>Engineering Aptitude</em></a></li>
                         <li><a class="toggle-vis" data-column="10"><em>Assessment Status</em></a></li>
                         <li><a class="toggle-vis" data-column="11"><em>Assessment Report</em></a></li>
 						<li><a class="toggle-vis" data-column="12"><em>Registration Form</em></a></li>
@@ -160,7 +160,7 @@ s.removeAttribute("remove_final");
 							<th data-head="Assessment Date" class="sorting"><em>Assessment Date</em></th>                       
                             <th data-head="Aptitude" class="sorting"><em>Aptitude</em></th>
                             <th data-head="Attitude" class="sorting"><em>Attitude</em></th>
-                            <th data-head="Mechanical" class="sorting"><em>Mechanical</em></th>
+                            <th data-head="Engineering Aptitude" class="sorting"><em>Engineering Aptitude</em></th>
                             <th data-head="Assessment Status" class="sorting"><em>Assessment Status</em></th>
 							<th data-head="Assessment Report" class="sorting"><em>Assessment Report</em></th>
                             <th data-head="Registration Form" class="sorting"><em>Registration Form</em></th>
@@ -511,7 +511,6 @@ s.removeAttribute("remove_final");
 
             const minDate = currentDate.toISOString().slice(0, 16); // Format: 'YYYY-MM-DDTHH:MM'
             const maxDate = nextMonthDate.toISOString().slice(0, 16); // Format: 'YYYY-MM-DDTHH:MM'
-		console.log('MinDate : '+minDate+'<>Max : '+maxDate);
             const newDateTimeInput = `
                 <div class="datetime-input extra-input">
                     <input type="datetime-local" name="datetime" id="inviteDate" required value="`+minDate+`" min="`+minDate+`" max="`+maxDate+`" onkeydown="return false;">

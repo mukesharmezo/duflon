@@ -66,9 +66,10 @@ label {	font-weight: 500;	font-size: 15px;	display: inline-block;	line-height: 1
 .btn-danger:hover {	color: #fff;	background-color: #DC3545;	border-color: #DC3545 !important;}
 button.btn.btn-primary {	min-width: 110px;}
 .description-column {	max-width: 20ch;	white-space: nowrap;	overflow: hidden;	text-overflow: ellipsis;}
-.select-container {    display: flex;    justify-content: center;    align-items: center;}
+.reason-container {    display: flex;   padding-left: 10px;    padding-top: 12px;   align-items: center;}
 .delete-popup .select-container select, .hold-popup .select-container select {    width: 70%;    background: #F7F7F7;    border: 1px solid #D0D0D0;    border-radius: 7px;    color: #4D4D4D;    padding: 9px 15px;    font-size: 15px;    font-family: Arial !important;    line-height: 18px;    outline: none;    box-sizing: border-box;}
-
+.table-date table tr td .btn-danger {    color: #ffffff;}
+.btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show>.btn-secondary.dropdown-toggle {    color: #fff;    background-color: #dc3545;    border-color: #4e555b;}
 </style>
 
 
@@ -303,7 +304,7 @@ button.btn.btn-primary {	min-width: 110px;}
 										</c:forEach></td>
 									<td>${job.hreName}</td>
 									<td><a href="editJob?jobId=${job.jobId}"><span
-											class="btn btn-warning">Edit</span></a></td>
+											class="btn btn-secondary">Edit</span></a></td>
 									<td>
 										<button class="btn btn-danger" onclick="deleteJob('${job.jobId}')">Delete</button>
 									</td>
@@ -313,12 +314,10 @@ button.btn.btn-primary {	min-width: 110px;}
 									<c:choose>
 									<c:when test="${role == 'HRE' || role == 'SA'}">
 									<c:if test="${job.approvalHr == 'R'}">
-											<a href="#" onclick="showApprovalPopup('${job.jobId}')"><span	class="btn btn-secondary">Approve</span></a>
-											<%-- <a href="approveJobByHre?jobId=${job.jobId}"><span	class="btn btn-secondary">Approve</span></a> --%>
+											<a href="approveJobByHre?jobId=${job.jobId}"><span	class="btn btn-secondary">Approve</span></a>
 										</c:if> 
 										<c:if test="${job.approvalHr != 'R'}">
-											<a href="#" onclick="showRejectionPopup('${job.jobId}')"><span class="btn btn-secondary">Reject</span></a>
-											<%-- <a href="rejectJobByHre?jobId=${job.jobId}"><span class="btn btn-secondary">Reject</span></a> --%>
+											<a href="rejectJobByHre?jobId=${job.jobId}"><span class="btn btn-secondary">Reject</span></a>
 										</c:if>
 										</c:when>
 										<c:otherwise>
@@ -334,13 +333,11 @@ button.btn.btn-primary {	min-width: 110px;}
 									<td><c:choose>
 											<c:when test="${role == 'LM' || role == 'SA'}">
 												<c:if test="${job.approvalLm == 'R' && job.approvalHr == 'A'}">
-													<a href="approveJobByLM?jobId=${job.jobId}"> <span
-														class="btn btn-secondary">Approve</span>
+													<a href="#" onclick="showApprovalPopup('${job.jobId}')"> <span	class="btn btn-secondary">Approve/Reject</span>
 													</a>
 												</c:if>
 												<c:if test="${job.approvalLm != 'R'}">
-													<a href="rejectJobByLM?jobId=${job.jobId}"> <span
-														class="btn btn-secondary">Reject</span>
+													<a href="#" onclick="showApprovalPopup('${job.jobId}')"> <span class="btn btn-secondary">Reject</span>
 													</a>
 												</c:if>
 												<c:if test="${job.approvalHr == 'R'}">
@@ -378,56 +375,42 @@ button.btn.btn-primary {	min-width: 110px;}
 		</div>
 	</div>
 	<div class="delete-popup" style="width: 35%;">
-		<p>Job Approval Reason</p>
+		<h5 class="text-center">Job Approval/Rejection Reason</h5>
 		<div class="form-button">
-			<button class="submit-btn" onclick="approveJob()">Reject</button>
-			<button class="submit-btn" onclick="approveJob()">Approve</button>
+			<button class="submit-btn" onclick="showReason('Reject')">Reject</button>
+			<button class="submit-btn" onclick="showReason('Approve')">Approve</button><br>
 			<input type="hidden" value="" id="approveJobId">
 		</div>
-		<div class="select-container">
-			<select name="approveReason" id="approveReason" class="form-control" style="color: black !important">
-				<option value="">Select Reason</option>
-				<option value="Best Suitable">Best Suitable</option>
-				<option value="Most Required">Most Required</option>
-			</select>
+		<div class="reason-container">
+			<div class="reject-reason" id="reject-reason"  style="display: none;">
+				<label>
+                    <input type="radio" name="rejection-reason" value="Not a good fit"> Not a good fit
+                </label><br>
+                <label>
+                    <input type="radio" name="rejection-reason" value="Position filled"> Position filled
+                </label><br>
+                <label>
+                    <input type="radio" name="rejection-reason" value="Other Rejection Reason"> Other Rejection Reason
+                </label><br>
+			</div>
+			<div class="approve-reason" id="approve-reason" style="display: none;">
+				<label>
+                    <input type="radio" name="approval-reason" value="Suitable"> Suitable
+                </label><br>
+                <label>
+                    <input type="radio" name="approval-reason" value="Other Approval Reason"> Other Approval Reason
+                </label><br>
+			</div>
 		</div>
 		<div class="form-button">
 			<button class="cancel-btn outline-btn" onclick="hidePopup()">Cancel</button>
-			<button class="submit-btn" onclick="approveJob()">Approve</button>
+			<button class="submit-btn" id="submit-button-ar" onclick="submitReason()"  style="display: none;">Submit</button>
 			<input type="hidden" value="" id="approveJobId">
+			<input type="hidden" value="" id="actionButton">
 		</div>
 		</div>
-	<div class="delete-popup2" style="width: 35%;">
-		<p>Job Approval Reason</p>
-		<div class="select-container">
-			<select name="approveReason" id="approveReason" class="form-control" style="color: black !important">
-				<option value="">Select Reason</option>
-				<option value="Best Suitable">Best Suitable</option>
-				<option value="Most Required">Most Required</option>
-			</select>
-		</div>
-		<div class="form-button">
-			<button class="cancel-btn outline-btn" onclick="hidePopup()">Cancel</button>
-			<button class="submit-btn" onclick="approveJob()">Approve</button>
-			<input type="hidden" value="" id="approveJobId">
-		</div>
-	</div>
-	<div class="hold-popup"  style="width: 35%;">
-		<p>Job Reject Reason</p>
-		<div class="select-container">
-			<select name="rejectReason" id="rejectReason" class="form-control" style="color: black !important">
-				<option value="">Select Reason</option>
-				<option value="Not Suitable">Not Suitable</option>
-				<option value="Duplicate">Duplicate</option>
-				<option value="Not Required">Not Required</option>
-			</select>
-		</div>
-		<div class="form-button">
-			<button class="cancel-btn outline-btn" onclick="hidePopup()">Cancel</button>
-			<button class="submit-btn" onclick="rejectJob()">Reject</button>
-			<input type="hidden" value="" id="rejectJobId">
-		</div>
-	</div>
+	
+	
 	<div class="blk-bg"></div>
 	<script>
 		var skillRowCount = 1;
@@ -457,7 +440,41 @@ button.btn.btn-primary {	min-width: 110px;}
 				rules : validationRules,
 				messages : validationMessages
 			});
+			
+			$("input[name='approval-reason'], input[name='rejection-reason']").change(function() {
+			    if ($("input[name='approval-reason']:checked, input[name='rejection-reason']:checked").length > 0) {
+			        $("#submit-button-ar").show();
+			    } else {
+			        $("#submit-button-ar").hide();
+			    }
+			});
+			
 		});
+		
+		function submitReason(){
+			var selectedReason = $("input[name='approval-reason']:checked, input[name='rejection-reason']:checked").val();
+			var approveJobId =  $('#approveJobId').val();
+			var actionButton =  $('#actionButton').val();
+			var data = {
+					selectedReason: selectedReason,
+					approveJobId: approveJobId,
+					actionButton: actionButton
+		        };	
+			$.ajax({
+	            url: 'approveRejectJobByLM',
+	            type: 'GET', 
+	            data: data,
+	            success: function(response) {
+					$('.delete-popup, .blk-bg').hide();
+					showSwal('Job '+actionButton+'ed Successfully.');
+	                //location.reload();
+	            },
+	            error: function(xhr, status, error) {
+	                console.error("Error: " + status, error);
+	            }
+	        });
+			
+		}
 
 		function showApprovalPopup(jobId) {
 			$("#approveJobId").val(jobId);
@@ -467,10 +484,20 @@ button.btn.btn-primary {	min-width: 110px;}
 			$("#rejectJobId").val(jobId);
 			$('.hold-popup, .blk-bg').show();
 		}
+		function showReason(buttonType){
+			if (buttonType === 'Approve') {
+	            $("#approve-reason").show();
+	            $("#reject-reason").hide();
+	        } else if (buttonType === 'Reject') {
+	            $("#approve-reason").hide();
+	            $("#reject-reason").show();
+	        }
+			$("#actionButton").val(buttonType);
+		}
 		function hidePopup() {
 			$('.delete-popup, .delete-popup2, .hold-popup, .blk-bg').hide();
 		}
-		function approveJob(){
+		function approveeeeeeJob(){
 			var approveReason =  $('#approveReason').val();
 			var approveJobId =  $('#approveJobId').val();
 			var role = '<%=role%>'; 
@@ -503,7 +530,7 @@ button.btn.btn-primary {	min-width: 110px;}
 		        });
 			}
 		}
-		function rejectJob(){
+		function rejecttttttJob(){
 			var rejectReason =  $('#rejectReason').val();
 			var rejectJobId =  $('#rejectJobId').val();
 			var role = '<%=role%>'; 
@@ -541,8 +568,10 @@ button.btn.btn-primary {	min-width: 110px;}
 	            showCancelButton: false,
 	            confirmButtonColor: "#DC3545",
 	            confirmButtonText: "OK",
-	            closeOnConfirm: true
-	        });
+	            closeOnConfirm: false
+		    }, function () {
+		        location.reload(); 
+		    });
 		}
 
 		// Add the validation rules and messages to the dynamic rows

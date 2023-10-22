@@ -95,7 +95,7 @@ public class NewCandidate {
             cell = row.createCell(8);
             cell.setCellValue("Attitude");
             cell = row.createCell(9);
-            cell.setCellValue("Mechanical");
+            cell.setCellValue("Engineering Aptitude");
             cell = row.createCell(10);
             cell.setCellValue("Assessment Status");
             cell = row.createCell(11);
@@ -282,7 +282,7 @@ public class NewCandidate {
             cell = row.createCell(8);
             cell.setCellValue("Attitude");
             cell = row.createCell(9);
-            cell.setCellValue("Mechanical");
+            cell.setCellValue("Engineering Aptitude");
             cell = row.createCell(10);
             cell.setCellValue("Assessment Status");
             cell = row.createCell(11);
@@ -464,7 +464,7 @@ public class NewCandidate {
             cell = row.createCell(8);
             cell.setCellValue("Attitude");
             cell = row.createCell(9);
-            cell.setCellValue("Mechanical");
+            cell.setCellValue("Engineering Aptitude");
             cell = row.createCell(10);
             cell.setCellValue("Assessment Status");
             cell = row.createCell(11);
@@ -669,7 +669,7 @@ public class NewCandidate {
             cell = row.createCell(24);
             cell.setCellValue("Attitude Score");
             cell = row.createCell(25);
-            cell.setCellValue("Mechanical Score");
+            cell.setCellValue("Engineering Aptitude Score");
             cell = row.createCell(26);
             cell.setCellValue("Total Marks");
             cell = row.createCell(27);

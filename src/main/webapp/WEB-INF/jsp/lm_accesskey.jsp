@@ -94,49 +94,25 @@
 	}
 	
 	
-	.rate-block {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  margin: 0;
-  width: 30px;
-  height: 25px;
-  cursor: pointer;
-}
-
-.label {
-  width: 30px;
-  height: 25px;
-  font-size: 12px;
-  line-height: 25px;
-  text-align: center;
-  color: #333;
-  background-color: #CCCCCC;
-  border-radius: 5px;
-  cursor: pointer;
-  display: block;
-  margin: 0;
-}
-
-.rate-block span {
-  margin-right: 5px;
-  position: relative;
-}
-    .green-address {
-        background-color: green;
-    }
+	.rate-block {  position: absolute;  top: 0;  left: 0;  opacity: 0;  margin: 0;  width: 30px;  height: 25px;  cursor: pointer;}
+.label {  width: 30px;  height: 25px;  font-size: 12px;  line-height: 25px;  text-align: center;  color: #333;  background-color: #CCCCCC;  border-radius: 5px;  cursor: pointer;  display: block;  margin: 0;}
+.rate-block span {  margin-right: 5px;  position: relative;}
+    .green-address {        background-color: green;    }
 	.table-responsive{margin: 20px 0;}
         .table-responsive table{border-left: 1px solid #ccc; border-top: 1px solid #ccc; width: 100%; box-sizing: border-box;}
 .table-responsive table tr th{border-right: 1px solid #fff; border-bottom: 1px solid #fff; font-size: 14px; line-height: 18px; font-weight: bold; color: #fff; background-color: #dc3545; padding: 10px; text-align: center;}
         .table-responsive table tr td{border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; font-size: 14px; line-height: 18px; color: #333; padding: 10px; text-align: center;}
-       
+       .form-section .form-block input[type="datetime-local"] {    font-family: 'Roboto', sans-serif;    width: 100%;    background: #F7F7F7;    border: 1px solid #D0D0D0;    border-radius: 7px;    color: #4D4D4D;    padding: 11px 15px;    font-size: 13px;    line-height: 18px;    outline: none;    box-sizing: border-box;    /* margin-left: 10%; */}
+
+#add-datetime {    background-color: #DC3545;    color: #fff;    border: none;    border-radius: 30px;    padding: 10px 30px;    margin-bottom: 20px;    height: 40px;}
+.extra-input span{font-size: 12px; line-height: 15px; border-radius: 30px; padding: 5px 15px; border: 1px solid #DC3545; display: inline-block; color: #DC3545; cursor: pointer; position: absolute; right: 0; bottom: 10px;}
+.extra-input span:hover{background-color: #DC3545; color: #fff;}
+
+
    </style>
 
 <script> 
-	
 	 function showMSG(msg){
-		 
 		  swal({   
 				  title: msg,     
 				  showCancelButton: false,
@@ -148,40 +124,11 @@
 				}); 
 	 }
 	
-	
-	
-
-	/*function openMail(key,lmId)
-	{
-		
-		$("#lmId").val(lmId);
-		$("#accesskey").val(key);
-		$.ajax({
-	         url: 'getDate',
-	         type:'post',
-	         data:'accesskey='+key,
-	         success:function(res){
-	        	 $('#dates').html(res);
-	        	
-	    	  },
-	          error:function(ress){
-	        	  alert(ress);
-				window.close();
-	    	  }
- 			}); 
-		
-		$('.communications-popup, .blk-bg').show();	
-		
-	}*/
 	function cancle(){
 		 $('#reSendMail').prop('disabled', false);
 		 $('#reSendMail').val('Submit');
 	 $('.communications-popup, .blk-bg').hide();		
 	}
-	
-	
-	
-
 	</script>
 </head>
 <body>
@@ -255,7 +202,18 @@
 				<div class="form-block" style="display: contents !important;">
 			<div id="select2DropdownContainer"  style="width: inherit"></div>
 			</div>
-			 
+			<div class="form-block" id="newDateDiv">
+				<div id="datetime-container ">
+					<div class="datetime-input ">
+						<!-- <h5>Date Time</h5> -->
+						<input type="datetime-local" name="datetime" id="inviteDate">
+					</div>
+				</div>
+			<input type="button" id="add-datetime" onclick="addDateTimeInput()" value="+">
+			</div>
+			<div class="form-block">
+				<input type="button" class="cancel-btn" onclick="showDateInput()" value="Add New Date">
+			</div>
 			<div class="form-button">
                 <input type="button" class="cancel-btn" onclick="cancle()" value="Cancel">
                 <input type="button" class="submit-btn" onclick="submitLm()" value="Submit" >
@@ -267,6 +225,42 @@
     </div>
     <div class="blk-bg"></div>
     <script>
+    function addDateTimeInput() {
+        const numDateTimeInputs = $(".datetime-input").length;
+
+        if (numDateTimeInputs < 3) {
+            const currentDate = new Date();
+            const nextMonthDate = new Date();
+            nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
+            const valueDate = new Date(currentDate);
+            valueDate.setDate(valueDate.getDate() + numDateTimeInputs); // Add days
+
+            const minDate = currentDate.toISOString().slice(0, 16); // Format: 'YYYY-MM-DDTHH:MM'
+            const maxDate = nextMonthDate.toISOString().slice(0, 16); 
+            const valDate = valueDate.toISOString().slice(0, 16); 
+            
+            const newDateTimeInput = `
+                <div class="datetime-input extra-input">
+                    <input type="datetime-local" name="datetime" id="inviteDate" required value="`+valDate+`" min="`+minDate+`" max="`+maxDate+`" onkeydown="return false;">
+                    <span class="remove-btn">Remove</span>
+                </div>`;
+
+            $("#datetime-container").append(newDateTimeInput);
+
+            // Add an event listener to the newly created "Remove" button
+            $(".remove-btn").last().on("click", function () {
+                $(this).parent(".datetime-input").remove(); // Remove the corresponding input
+            });
+        } else {
+            swal({
+                title: "You can add only 3 date and time.",
+                showCancelButton: false,
+                confirmButtonColor: "#DC3545",
+                confirmButtonText: "OK",
+                closeOnConfirm: true
+            });
+        }
+    }
     function openMail(key,lmId)	{
 		$("#lmId").val(lmId);
 		$("#accesskey").val(key);
@@ -300,6 +294,24 @@
 	}
     
     $(document).ready(function () {
+    	$("#newDateDiv").hide();
+    	// Get the current date to set for invitation date
+	    var currentDate = new Date();
+	    // Set the 'min' attribute to today's date
+	    var minDate = currentDate.toISOString().slice(0, 16); // Format: 'YYYY-MM-DDTHH:MM'
+	    $('#inviteDate').prop('min', minDate);
+	    $('#inviteDate').prop('value', minDate);
+	    // Calculate the date for next month
+	    currentDate.setMonth(currentDate.getMonth() + 1);
+	    // Set the 'max' attribute to next month's date
+	    var maxDate = currentDate.toISOString().slice(0, 16); // Format: 'YYYY-MM-DDTHH:MM'
+	    $('#inviteDate').prop('max', maxDate);
+	  
+	    //Stop to enter date by keyboard
+	    $("#inviteDate").on("keydown", function(e) {
+            e.preventDefault();
+        });
+	    
   	 /*  $('#select-email').select2({
   	        tags: false, // Allow custom tags
   	        tokenSeparators: [','], // Specify token separators for custom tags
@@ -307,17 +319,41 @@
   	        width: '300px' // Width of the dropdown
   	      });    	 */
     });
+    function showDateInput() {
+		$("#newDateDiv").show();
+	}
+    function isSelect2Empty() {
+        // Check if the Select2 dropdown has any selected values.
+        return $('#select2DropdownContainer').select2('data').length === 0;
+    }
   	  function submitLm(){
 		    var lmId = $("#lmId").val();
 		    var accesskey = $("#accesskey").val();
 		    var dates = $('#dateSelect').val();
+		    var dateTimes = $('input[name="datetime"]').map(function() {
+		        return this.value;
+		    }).get();
+		    var isEmpty = dateTimes.some(function(date) {
+		        return date.trim() === '';
+		    });
+		    var hasDuplicates = dateTimes.some(function(date, index, array) {
+	            return array.indexOf(date) !== index;
+	        });
+		    //if(dates.length < 1){
+		    if ($('#newDateDiv').is(':visible') && newDate.trim() === ''){
+		    	showMSG('Please choose a date.');
+		    }else if(!$('#newDateDiv').is(':visible') && dates.length < 1){
+		    	showMSG('Please select atleast one date.');
+		    }
+		    /* 
 		    if(dates.length < 1){
 		    	showMSG('Please select atleast one date.');
-		    }else{
+		    } */else{
 		    var data = {
 		        'dateId': dates,
 		        'accesskey':accesskey,
-		        'lmId':lmId
+		        'lmId':lmId,
+		        'newDate':newDate
 		    };
 		   
 		    $.ajax({

@@ -6,6 +6,7 @@ public class InterviewLMAccesskey {
 	private String hreName;
 	private String accesskey;
 	private Long lmId;
+	private String status;       //
 	
 	public String getName() {
 		return name;
@@ -30,6 +31,12 @@ public class InterviewLMAccesskey {
 	}
 	public String getHreName() {
 		return hreName;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getStatus() {
+		return status;
 	}
 	
 	

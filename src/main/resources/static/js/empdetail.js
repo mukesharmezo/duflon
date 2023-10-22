@@ -84,31 +84,25 @@ $(document).ready(function () {
     		// ignore:[],
   		  rules: {
           uan: {
-            required: true,
             customUAN: 10
           },
           epfo: {
-            required: true,
             digits: true,
             customEPFO: true
           },
           pfNumber: {
-            required: true,
             customPF : true
           },
           bankName: {
-            required: true,
             minlength: 4,
     		maxlength: 80
           },
           ifscCode: {
-            required: true,
             customIFSC: true,
             minlength: 11,
     		maxlength: 11
           },
           bankAccountNumber: {
-            required: true,
             digits: true,
             minlength: 9,
 			maxlength: 18
@@ -125,31 +119,25 @@ $(document).ready(function () {
         },
   		  messages: {
           uan: {
-            required: "Please enter UAN.",
             customUAN: "UAN must be 12 digits long and consist only of numbers."
           },
           epfo: {
-            required: "Please enter EPFO.",
             digits: "EPFO must be a numeric value.",
             customEPFO: "EPFO number must have at least 7 digits."
           },
           pfNumber: {
-            required: "Please enter PF number.",
             customPF: "PF number must be alphanumeric and have a minimum of 7 characters."
           },
           bankName: {
-            required: "Please enter bank name.",
             minlength: "Bank name must be at least 4 characters.",
         	maxlength: "Bank name cannot exceed 80 characters."
           },
           ifscCode: {
-            required: "Please enter IFSC Code.",
     		customIFSC: "IFSC Code must start with 4 alphabetic characters, followed by '0' and then 6 digits.",
     		minlength: "IFSC Code must be exactly 11 characters long.",
         	maxlength: "IFSC Code must be exactly 11 characters long."
           },
           bankAccountNumber: {
-            required: "Please enter bank account number.",
             digits: "Bank account number must be a numeric value.",
             minlength: "Bank account number must be at least 9 digits long.",
         	maxlength: "Bank account number cannot exceed 18 digits."

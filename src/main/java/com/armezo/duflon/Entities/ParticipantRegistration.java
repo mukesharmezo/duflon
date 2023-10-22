@@ -256,6 +256,8 @@ public class ParticipantRegistration {
 	    private Integer interviewerCount2;
 	    @Column(name = "part_status")
 	    private String participantStatus;
+	    @Column(name = "user_type")
+	    private String userType;
 	    
 	    
 		public Long getId() {
@@ -923,6 +925,12 @@ public class ParticipantRegistration {
 		}
 		public String getParticipantStatus() {
 			return participantStatus;
+		}
+		public void setUserType(String userType) {
+			this.userType = userType;
+		}
+		public String getUserType() {
+			return userType;
 		}
 		
 		

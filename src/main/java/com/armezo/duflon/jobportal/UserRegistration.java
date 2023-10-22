@@ -48,6 +48,7 @@ public class UserRegistration {
     private String selectedStatus;
     private String joinedStatus;
     private Integer invitationFlag;
+    private String linkedIn ;
     
 	public Long getId() {
 		return id;
@@ -237,6 +238,12 @@ public class UserRegistration {
 	}
 	public Date getInvitationDate() {
 		return invitationDate;
+	}
+	public void setLinkedIn(String linkedIn) {
+		this.linkedIn = linkedIn;
+	}
+	public String getLinkedIn() {
+		return linkedIn;
 	}
 
 	@Override

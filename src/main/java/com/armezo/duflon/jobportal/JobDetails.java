@@ -42,7 +42,7 @@ public class JobDetails {
 	private String rejectionReasonHRE;
 	private String approveReasonHRE;
 	private String rejectionReasonLM;
-	private String approveReasonHRELM;
+	private String approveReasonLM;
 	@Column(columnDefinition = "VARCHAR(1)")
 	private String status="U";       // U: Unhold , H: Hold
 	@Column(columnDefinition = "VARCHAR(1)")
@@ -261,12 +261,12 @@ public class JobDetails {
 		this.rejectionReasonLM = rejectionReasonLM;
 	}
 
-	public String getApproveReasonHRELM() {
-		return approveReasonHRELM;
+	public void setApproveReasonLM(String approveReasonLM) {
+		this.approveReasonLM = approveReasonLM;
 	}
-
-	public void setApproveReasonHRELM(String approveReasonHRELM) {
-		this.approveReasonHRELM = approveReasonHRELM;
+	
+	public String getApproveReasonLM() {
+		return approveReasonLM;
 	}
 
 	@Override

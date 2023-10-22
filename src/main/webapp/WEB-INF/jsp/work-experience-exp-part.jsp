@@ -7,10 +7,8 @@
 try
     {
 	ResourceBundle resource = ResourceBundle.getBundle("application");
-String baseServer = resource.getString("client.url");String title = resource.getString("app.title");
-String role="";
-if(session.getAttribute("role") != null){
-	role = session.getAttribute("role").toString().trim();
+	String baseServer = resource.getString("client.url");
+	String title = resource.getString("app.title");
 	 int count=0;
 %>
 <!DOCTYPE html>
@@ -43,30 +41,21 @@ if(session.getAttribute("role") != null){
       </style>
   </head>
   <body>
-    <div class="left-panel-include">
-    <%@include file="./header/left-panel.jsp"%>
-    </div>
-    <div class="user-panel-include">
-	<%@include file="./header/user-panel.jsp"%>
-	</div>
 
-    <div class="right-section">
+    <div class="right-section left-moved">
         <h1>Work Experience</h1>
         <div class="container-1100">
-            <div class="profile-container">
-                <%@include file="./header/profileMenu.jsp"%>
+            <div class="profile-container ">
+                <%@include file="./header/profileMenuPart.jsp"%>
 
               <div class="profile-content">
-			   <%if(role.equalsIgnoreCase("HRE")) { %>
 			  <div class="form-block checkbox">
                      <h5 class="h5">Add work details</h5>
                      
                       <input type="radio" name="experience" id="fresher" value = "fresher"><label for="fresher">Fresher</label>
                       <input type="radio" style="margin-left: 30px;" name="experience" id="experience" value = "experience" checked><label for="experience">Experience</label>
                     </div>
-			   <%}%>
               <c:if test="${(workexperienceExp.documents_status != 'final' ) && workexperienceExp.status !='H'}">
-               <%if(role.equalsIgnoreCase("HRE")) { %>
                 <form action="./saveWorkExperienceExp" class="form" method = "post" id = "testForm">
                   <div class="form-section">
                     <div class="form-block">
@@ -104,7 +93,6 @@ if(session.getAttribute("role") != null){
                     </div>
                   </div>
                 </form>
-                 <%} %>
                  </c:if>
                 
                 <div class="table-date">
@@ -119,10 +107,8 @@ if(session.getAttribute("role") != null){
                               <th data-head="From"><span><img src="./img/filter-icn.svg" /></span></th>
                               <th data-head="To"><span><img src="./img/filter-icn.svg" /></span></th>
 							   <c:if test="${(workexperienceExp.hiredStatus != 'Y') && workexperienceExp.status !='H'}">
-                               <%if(role.equalsIgnoreCase("HRE")) { %>
                                <th data-head="Edit"><span></span></th>
                                <th data-head="Delete"><span></span></th>
-                              <%} %>
 							    </c:if>
                           </tr>
                       </thead>
@@ -138,10 +124,8 @@ if(session.getAttribute("role") != null){
                               <td>${workExp.toDate}</td>
 							   <%count++;%>
                            <c:if test="${(workexperienceExp.hiredStatus != 'Y') && workexperienceExp.status !='H'}">
-                             <%if(role.equalsIgnoreCase("HRE")) { %>
                                <td><a onclick="editPop('${workExp.wid}','${workExp.autoIndustryExperience}','${workExp.companyName}','${workExp.expInMths}','${workExp.previousDesignation}','${workExp.workArea}','${workExp.fromDate}','${workExp.toDate}')"><img src="./img/edit-icn.svg" /></a></td>
                               <td><a onclick="delelet('${workExp.wid}')"><img src="./img/delete-icn.svg" /></a></td>
-                              <%} %>
 	                      </c:if>
                           </tr>
                           </c:forEach>
@@ -149,7 +133,6 @@ if(session.getAttribute("role") != null){
                   </table>
                 </div>
          <c:if test="${(workexperienceExp.hiredStatus != 'Y') && workexperienceExp.status !='H'}">
-           <%if(role.equalsIgnoreCase("HRE")) { %>
                 <div class="form-btn" style="margin: 60px 0px 0 0; position: relative; right: -10px;">
                 <%if(count > 0){%>
                   <a href="#" class="btn blue-btn" onclick="openFamilyMemberDetails()">Next</a>
@@ -157,7 +140,6 @@ if(session.getAttribute("role") != null){
 				    <a href="#" class="btn blue-btn" onclick="checkValidation()">Next</a>
 				  <%}%>
               </div>
-             <%} %>
         </c:if>
               </div>
     </div>
@@ -215,7 +197,7 @@ if(session.getAttribute("role") != null){
      <input type = "hidden"  id="wid" value = ""/>
     
     
-  <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+  <script src="./js/jquery.validate.js"></script>
   <script type="text/javascript" src="./js/workEmp.js"></script>
     
     <script>
@@ -418,15 +400,13 @@ if(session.getAttribute("role") != null){
 	
 	$("#fresher").change(function(){
           var accesskey= $("#accesskey").val();
-      	 window.location.href="getWorkExperience?accesskey="+accesskey+"&param=param";
+      	 window.location.href="getWorkExperiencePart?accesskey="+accesskey+"&param=param";
       	
       });
       </script>
     </body>
   </html>
-<%}else{
-	 response.sendRedirect("login");
-}
+<%
 }catch(Exception e)
     {
     	 System.out.println("Errror....."+e);

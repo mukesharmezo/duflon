@@ -262,16 +262,19 @@ public class ControllerLogin {
 				int tm = 0;
 				Long t1 = participant.get().getSendMailDate().getTime();
 				Long t2 = new Date().getTime();
+				System.out.println("Send mail Date :: "+participant.get().getSendMailDate()+"<>t1 :: "+t1+"<>t2 :: "+t2);
 				if (participant.get().getReactivationDate() != null) {
 					t1 = participant.get().getReactivationDate().getTime();
 					tm = (int) (t2 - t1) / (60 * 60 * 1000);
+					System.out.println("TM in reactdate :: "+tm);
 					if (tm >= 48) {
 						session.setAttribute("msg", "E");
 						return "redirect:candidateLogin";
 					}
 				} else {
 					tm = (int) (t2 - t1) / (60 * 60 * 1000);
-					if (tm >= 72) {
+					System.out.println("TM in else :: "+tm);
+					if (tm >= 600) {  //10 Days Login allowed after assessment date
 						session.setAttribute("msg", "E");
 						return "redirect:candidateLogin";
 					}
@@ -287,7 +290,8 @@ public class ControllerLogin {
 			} else if (Integer.parseInt(participant.get().getTestStatus()) == 1) {
 				return "redirect:" + assessmentURL + "assess/alloginpro?accesskey=" + participant.get().getAccessKey();
 			} else if (Integer.parseInt(participant.get().getTestStatus()) == 3 && participant.get().getPassFailStatus() ==1) {
-				return "redirect:instructionUploadFile?accesskey=" + accesskey;
+				return "redirect:getPersonalDetailsPart?accesskey=" + accesskey;
+				//return "redirect:instructionUploadFile?accesskey=" + accesskey;
 				/*session.setAttribute("msg", "C");
 				return "redirect:candidateLogin";*/
 			} else if (Integer.parseInt(participant.get().getTestStatus()) == 2) {

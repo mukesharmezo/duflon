@@ -100,7 +100,7 @@ response.setDateHeader("Expires", -1);
 				<div class="form-block">
 					<label for="birthDate">Date of Birth</label>
 					<form:input type="date" path="birthDate" id="birthDate"
-						class="form-control" placeholder="YYYY-MM-DD" required="true" min="<%= java.time.LocalDate.now().minusYears(50) %>" max="<%= java.time.LocalDate.now().minusYears(18) %>" />
+						class="form-control" placeholder="YYYY-MM-DD" required="true" min="<%= java.time.LocalDate.now().minusYears(70) %>" max="<%= java.time.LocalDate.now().minusYears(18) %>" />
 				</div>
 				<div class="form-block">
 					<label for="education">Education</label>
@@ -134,6 +134,10 @@ response.setDateHeader("Expires", -1);
   					<label for="resumeFile">Resume</label> 
   					<input type="file" name="resumeFile" id="resumeFile" class="form-control-file" accept=".pdf,.doc,.docx" />
   					 <small class="form-text text-muted">Accepted file types: PDF, DOC, DOCX. Maximum file size: 1 MB.</small>
+				</div>
+				<div class="form-block">
+					<label for="linkedIn">Provide Your LinkedIn Profile</label>
+					<form:input path="linkedIn" id="linkedIn" class="form-control" placeholder="Enter your linkedIn profile url" />
 				</div>
 			</div>
 			<div class="form-section">

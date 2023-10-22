@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -222,16 +223,8 @@ public class ParticipantsController {
 	    
 	    @PostMapping({ "/savePersonalDetails" })
 	    public String saveParticipantPersonalDetails(@ModelAttribute("participantRegistration") @Validated final ParticipantRegistration participantRegistration, 
-	    		final BindingResult result, @RequestParam final String accessKey, @RequestParam final String btnValue,HttpSession session) {
+	    		final BindingResult result, @RequestParam final String accessKey, @RequestParam(required = false, value = "userType") String userType ,@RequestParam final String btnValue,HttpSession session) {
 	      
-	    	 Optional<ParticipantRegistration> p =	participantservice.findByEmployeeCode(participantRegistration.getEmpCode(),participantRegistration.getHreId());
-	        	if(p.isPresent()) {
-	        		if(accessKey.equals(p.get().getAccessKey())) {
-	        		}else {	 
-	        			session.setAttribute("emp_msg", "This Employee Code already exists");
-	        			return "redirect:getPersonalDetails?accesskey=" + accessKey;	
-	        		}
-	        	}  
 	    	final Optional<ParticipantRegistration> participantOptional = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(accessKey);
 	        final ParticipantRegistration participant = participantOptional.get();
 	        participant.setEmpCode(participantRegistration.getEmpCode());
@@ -239,6 +232,7 @@ public class ParticipantsController {
 	        participant.setFirstName(participantRegistration.getFirstName());
 	        participant.setMiddleName(participantRegistration.getMiddleName());
 	        participant.setLastName(participantRegistration.getLastName());
+	        participant.setGender(participantRegistration.getGender());
 	        participant.setAddress(participantRegistration.getAddress());
 	        participant.setState(participantRegistration.getState());
 	        participant.setCity(participantRegistration.getCity());
@@ -261,7 +255,17 @@ public class ParticipantsController {
 		        participantservice.saveData(participant);
 	        eventLogin(participant.getHreId().intValue(),"Save Personal Details",participant.getAccessKey(),participant.getFirstName()+
 	        		" "+participant.getLastName()+" "+participant.getLastName(),participant.getEmail());
-	       
+	        
+	        System.out.println("User :: "+userType);
+	       if(userType!=null  && userType.equalsIgnoreCase("Part")) {
+	    	   if (btnValue.equalsIgnoreCase("next")) {
+		            return "redirect:getempdetailsPart?accesskey=" + accessKey;
+		        }
+		        if (btnValue.equalsIgnoreCase("save")) {
+		            return "redirect:getPersonalDetailsPart?accesskey=" + accessKey;
+		        }
+	    	   return "redirect:getPersonalDetailsPart?accesskey=" + accessKey;
+	       }
 	        if(accessKey == null) {
 	        	  return "redirect:getPersonalDetails?accesskey=" + accessKey;
 	        }
@@ -301,6 +305,15 @@ public class ParticipantsController {
 	        }
 	        participant.setModifiedDate(LocalDate.now());
 	        this.participantservice.saveData(participant);
+	        if(participantRegistration.getUserType()!=null  && participantRegistration.getUserType().equalsIgnoreCase("Part")) {
+		    	   if (btnSave.equalsIgnoreCase("Next")) {
+			            return "redirect:getgeneraldetailsPart?accesskey=" + accessKey;
+			        }
+			        if (btnSave.equalsIgnoreCase("Save")) {
+			            return "redirect:getempdetailsPart?accesskey=" + accessKey;
+			        }
+		    	   return "redirect:getempdetailsPart?accesskey=" + accessKey;
+		       }
 	        if (btnSave.equals("Save")) {
 	            return "redirect:getempdetails?accesskey=" + accessKey;
 	        }
@@ -326,7 +339,7 @@ public class ParticipantsController {
 	    @PostMapping({ "/saveGeneralDetails" })
 	    public String saveParticipantGeneralDetails(@RequestParam("accesskey") final String accesskey, @RequestParam("martialStatus") final String martialStatus, 
 	    		@RequestParam("anniversary_date") final String anniversary_date, @RequestParam("blodgroup") final String blodgroup, 
-	    		@RequestParam("btnStatus") final String btnStatus) {
+	    		@RequestParam("btnStatus") final String btnStatus, @RequestParam(required = false, value = "userType") String userType) {
 	     
 	    	final Optional<ParticipantRegistration> participant = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(accesskey);
 	       // participant.get().setAnniversaryDate(anniversary_date);
@@ -334,14 +347,23 @@ public class ParticipantsController {
 	        participant.get().setMartialStatus(martialStatus);
 	        participant.get().setAnniversaryDate(DataProccessor.parseDate(anniversary_date));
 	        String url = "";
-	        
-	        if (btnStatus.equals("N")) {
-	            participant.get().setGeneralFlag("1");
-	            url = "redirect:getWorkExperience?accesskey=" + accesskey+"&param=";
-	        }
-	        if (btnStatus.equals("S")) {
-	            url = "redirect:getgeneraldetails?accesskey=" + accesskey;
-	        }
+	        if(userType!=null  && userType.equalsIgnoreCase("Part")) {
+		    	   if (btnStatus.equalsIgnoreCase("N")) {
+		    		   url = "redirect:getWorkExperiencePart?accesskey=" + accesskey+"&param=";
+			        }
+			        if (btnStatus.equalsIgnoreCase("S")) {
+			        	url = "redirect:getgeneraldetailsPart?accesskey=" + accesskey;
+			        }
+			        url = "redirect:getgeneraldetailsPart?accesskey=" + accesskey;
+				} else {
+					if (btnStatus.equals("N")) {
+						participant.get().setGeneralFlag("1");
+						url = "redirect:getWorkExperience?accesskey=" + accesskey + "&param=";
+					}
+					if (btnStatus.equals("S")) {
+						url = "redirect:getgeneraldetails?accesskey=" + accesskey;
+					}
+				}
 	        participant.get().setModifiedDate(LocalDate.now());
 	        this.participantservice.saveData((ParticipantRegistration)participant.get());
 	        eventLogin(participant.get().getHreId().intValue(),"Save General Details",participant.get().getAccessKey(),participant.get().getFirstName()+
@@ -368,7 +390,7 @@ public class ParticipantsController {
 	    }
 	    
 	    @PostMapping({ "/saveWorkExperience" })
-	    public String saveParticipantWorkExperienceDetails(@RequestParam("accessKey") final String accessKey, @RequestParam("status") final String status, @RequestParam("btnStatus") final String btnStatus, final Model model) {
+	    public String saveParticipantWorkExperienceDetails(@RequestParam("accessKey") final String accessKey, @RequestParam(required = false, value = "userType") String userType, @RequestParam("status") final String status, @RequestParam("btnStatus") final String btnStatus, final Model model) {
 	        final Optional<ParticipantRegistration> participant = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(accessKey);
 	        if (participant.isPresent()) {
 	            if (status.equals("fresher")) {
@@ -390,10 +412,19 @@ public class ParticipantsController {
 	        String url = "";
 	        if (status.equals("fresher")) {
 	            model.addAttribute("workexperience", (Object)participant.get());
-	            url = "work-experience";
+	            if(userType!=null && userType.equalsIgnoreCase("Part")) {
+	            	url = "work-experience-part";
+	            }else {
+	            	url = "work-experience";
+				}
 	        }
 	        else {
-	            url = "redirect:getWorkExperienceExp?accesskey=" + accessKey;
+	        	if(userType!=null && userType.equalsIgnoreCase("Part")) {
+	        		url = "redirect:getWorkExperienceExpPart?accesskey=" + accessKey;
+	            }else {
+	            	url = "redirect:getWorkExperienceExp?accesskey=" + accessKey;
+				}
+	            
 	        }
 	        return url;
 	    }
@@ -414,15 +445,20 @@ public class ParticipantsController {
 	    }
 	    
 	    @PostMapping({ "/saveWorkExperienceExp" })
-	    public String saveParticipantWorkExperienceExpDetails(@RequestParam final String accessKey, @RequestParam(required = false) final String autoIndustryExperience, @RequestParam final String companyName, @RequestParam final String expInMths, @RequestParam final String previousDesignation, @RequestParam final String workArea) {
+	    public String saveParticipantWorkExperienceExpDetails(@RequestParam final String accessKey, @RequestParam(required = false) final String autoIndustryExperience, @RequestParam final String companyName, @RequestParam final String expInMths, 
+	    		@RequestParam final String previousDesignation, @RequestParam final String workArea, @RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
 	        final Optional<ParticipantRegistration> participant = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(accessKey);
 	        final ArrayList<WorkExperience> ListworkExp = new ArrayList<WorkExperience>();
 	        final WorkExperience workExperience = new WorkExperience();
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	        workExperience.setAutoIndustryExperience(autoIndustryExperience);
 	        workExperience.setCompanyName(companyName);
 	        workExperience.setPreviousDesignation(previousDesignation);
 	        workExperience.setExpInMths(Integer.valueOf(Integer.parseInt(expInMths)));
 	        workExperience.setWorkArea(workArea);
+	        Map<String, LocalDate> dates = DataProccessor.manageFiltersDate(fromDate, toDate);
+	        workExperience.setFromDate(dates.get("from"));
+	        workExperience.setToDate(dates.get("to"));
 	        workExperience.setParticipantRegistration((ParticipantRegistration)participant.get());
 	        ListworkExp.add(workExperience);
 	        if (participant.isPresent()) {
@@ -452,7 +488,8 @@ public class ParticipantsController {
 	    
 	    @PostMapping({ "/updateWorkExperience" })
 	    @ResponseBody
-	    public String updateWorkExperienceExp(@RequestParam("id") final String id, @RequestParam("workArea") final String workArea, @RequestParam("previousDesignation") final String previousDesignation, @RequestParam("expInMths") final String expInMths, @RequestParam("companyName") final String companyName, @RequestParam(required = false) final String autoIndustryExperience, @RequestParam("accesskey") final String accesskey) {
+	    public String updateWorkExperienceExp(@RequestParam("id") final String id, @RequestParam("workArea") final String workArea, @RequestParam("previousDesignation") final String previousDesignation, @RequestParam("expInMths") final String expInMths, @RequestParam("companyName") final String companyName, 
+	    		@RequestParam(required = false) final String autoIndustryExperience, @RequestParam("accesskey") final String accesskey,@RequestParam("fromDate") String fromDate, @RequestParam("toDate") String toDate) {
 	        final Optional<WorkExperience> work = (Optional<WorkExperience>)this.workExperienceService.getById(Long.valueOf(Long.parseLong(id)));
 	        if (work.isPresent()) {
 	            work.get().setAutoIndustryExperience(autoIndustryExperience);
@@ -460,6 +497,9 @@ public class ParticipantsController {
 	            work.get().setExpInMths(Integer.valueOf(Integer.parseInt(expInMths)));
 	            work.get().setPreviousDesignation(previousDesignation);
 	            work.get().setWorkArea(workArea);
+	            Map<String, LocalDate> dates = DataProccessor.manageFiltersDate(fromDate, toDate);
+		        work.get().setFromDate(dates.get("from"));
+		        work.get().setToDate(dates.get("to"));
 	            this.workExperienceService.save((WorkExperience)work.get());
 	            this.participantservice.updateModifiedDate(accesskey);
 	        }
@@ -489,7 +529,7 @@ public class ParticipantsController {
 	    }
 	    
 	    @PostMapping({ "/savefamilydetails" })
-	    public String saveParticipantFamilyDetails(final FamilyDetails familyDetails, @RequestParam final String accessKey, final Model model) {
+	    public String saveParticipantFamilyDetails(final FamilyDetails familyDetails, @RequestParam final String accessKey, @RequestParam(required = false, value = "userType") String userType, final Model model) {
 	        final Optional<ParticipantRegistration> participant = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(accessKey);
 	        familyDetails.setParticipantRegistration((ParticipantRegistration)participant.get());
 	        final ArrayList<FamilyDetails> Listfamily = new ArrayList<FamilyDetails>();
@@ -500,7 +540,11 @@ public class ParticipantsController {
 	        this.participantservice.saveData((ParticipantRegistration)participant.get());
 	        eventLogin(participant.get().getHreId().intValue(),"Save Family Details",participant.get().getAccessKey(),participant.get().getFirstName()+
 	        		" "+participant.get().getLastName()+" "+participant.get().getLastName(),participant.get().getEmail());
-	        return "redirect:getfamilydetails?accesskey=" + participant.get().getAccessKey();
+	        if(userType!=null && userType.equalsIgnoreCase("Part")) {
+        		return "redirect:getfamilydetailsPart?accesskey=" + participant.get().getAccessKey();
+            }else {
+            	return "redirect:getfamilydetails?accesskey=" + participant.get().getAccessKey();
+			}
 	    }
 	    
 	    @GetMapping({ "/deleteOneFamilyDetails" })
@@ -531,7 +575,7 @@ public class ParticipantsController {
 	    }
 	    
 	    @PostMapping({ "/saveEmergencyContact" })
-	    public String saveParticipantEmergencyContact(final EmergencyContact emergencyContact, @RequestParam final String accessKey, final Model model) {
+	    public String saveParticipantEmergencyContact(final EmergencyContact emergencyContact, @RequestParam final String accessKey, @RequestParam(required = false, value = "userType") String userType, final Model model) {
 	        final Optional<ParticipantRegistration> participant = (Optional<ParticipantRegistration>)this.participantservice.findByAccesskey(accessKey);
 	        emergencyContact.setParticipantRegistration((ParticipantRegistration)participant.get());
 	        final ArrayList<EmergencyContact> emergeContact = new ArrayList<EmergencyContact>();
@@ -542,7 +586,11 @@ public class ParticipantsController {
 	        this.participantservice.saveData((ParticipantRegistration)participant.get());
 	        eventLogin(participant.get().getHreId().intValue(),"Save Emergency Contact",participant.get().getAccessKey(),participant.get().getFirstName()+
 	        		" "+participant.get().getLastName()+" "+participant.get().getLastName(),participant.get().getEmail());
-	        return "redirect:getEmergencyContact?accesskey=" + participant.get().getAccessKey();
+	        if(userType!=null && userType.equalsIgnoreCase("Part")) {
+        		return "redirect:getEmergencyContactPart?accesskey=" + participant.get().getAccessKey();
+            }else {
+            	return "redirect:getEmergencyContact?accesskey=" + participant.get().getAccessKey();
+			}
 	    }
 	    
 	    @GetMapping({ "/getOneEmergencyContact" })
@@ -607,6 +655,9 @@ public class ParticipantsController {
 	        model.addAttribute("participant", (Object)participant.get());
 	        return "finalSubmit";
 	    }
+	    
+	    //Show Form to User for Registration
+	    
 	    
 	    private void eventLogin(int loginId,String eventMSG,String accesskey,String name,String email) {
 			 EventLoger event = new EventLoger();

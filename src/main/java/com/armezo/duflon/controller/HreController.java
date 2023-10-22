@@ -35,6 +35,7 @@ import com.armezo.duflon.Entities.HRE;
 import com.armezo.duflon.Entities.InterviewScore;
 import com.armezo.duflon.Entities.LMAccesskey;
 import com.armezo.duflon.Entities.LMInterview;
+import com.armezo.duflon.Entities.LMOptionalDate;
 import com.armezo.duflon.Entities.LineManager;
 import com.armezo.duflon.Entities.ParticipantRegistration;
 import com.armezo.duflon.Services.EventLogerService;
@@ -212,6 +213,7 @@ public class HreController {
 	    public String getAllInvitedLM(@RequestParam("accesskey") String accesskey, @RequestParam("intCount") int intCount) {
 	    	List<LMAccesskey> lmAccesskeys = lMAccesskeyService.findByAccesskey(accesskey);
 	    	List<LMInterview> lmInterviews = lMInterviewService.findByAccesskey(accesskey);
+	    	List<LMOptionalDate> optionalDates = lMInterviewService.findOptionalDatesByAccesskey(accesskey);
 	    	StringBuilder builder= new StringBuilder();
 	    	StringBuilder selectCode = new StringBuilder();
 			//selectCode.append("<select id='lmSelect' multiple='multiple' >");
@@ -249,7 +251,18 @@ public class HreController {
 						builder.append("<td style='").append(style).append("'>").append(lmintv.getSlotDate()).append("</td>");
 						}
 					}else {
-						builder.append("<td></td>");
+						if(i==4) {
+							Optional<LMOptionalDate> optDate = optionalDates.stream()
+									.filter(optionalDate -> lmac.getLmId().equals(optionalDate.getLmId()))
+									.findFirst();
+							if(optDate.isPresent()) {
+								builder.append("<td style='").append("background-color: green !important;color: white;").append("'>").append(optDate.get().getOptionalDate()).append("</td>");
+							}else {
+								builder.append("<td></td>");
+							}
+						}else {
+							builder.append("<td></td>");
+						}
 					}
 				}
 				builder.append("</tr>");

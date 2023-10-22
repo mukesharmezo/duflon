@@ -81,8 +81,8 @@ if(session.getAttribute("role") != null){
                     </div>
                   <div class="break-section"></div>
                     <div class="form-block">
-                      <h5>Mechanical Score</h5>
-                                <input type="number" placeholder="Mechanical Score" value="${Assmntscore.section3}" disabled />
+                      <h5>Engineering Aptitude Score</h5>
+                                <input type="number" placeholder="Engineering Aptitude Score" value="${Assmntscore.section3}" disabled />
                     </div>
                   <%--  
                      <div class="break-section"></div>

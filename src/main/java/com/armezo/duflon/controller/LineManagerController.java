@@ -1,8 +1,12 @@
 package com.armezo.duflon.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,6 +27,7 @@ import com.armezo.duflon.Entities.HRE;
 import com.armezo.duflon.Entities.InterviewScore;
 import com.armezo.duflon.Entities.LMAccesskey;
 import com.armezo.duflon.Entities.LMInterview;
+import com.armezo.duflon.Entities.LMOptionalDate;
 import com.armezo.duflon.Entities.LineManager;
 import com.armezo.duflon.Entities.ParticipantRegistration;
 import com.armezo.duflon.Services.HREService;
@@ -104,10 +109,10 @@ public class LineManagerController {
 					//Map<Long, String> map = new HashMap<>();
 					List<LMInterview> lmDate = lMInterviewService.findByAccesskey(accesskey);
 					List<LMAccesskey> lmAccesskey = lMAccesskeyService.findOtherLM(accesskey, lmId);
+					List<LMOptionalDate> optionalDates = lMInterviewService.findOptionalDatesByAccesskey(accesskey);
 					StringBuilder selectCode = new StringBuilder();
 					StringBuilder tableBodyCode = new StringBuilder();
-					selectCode.append(
-							"<select id='dateSelect' multiple='multiple' class='form-block'>");
+					selectCode.append("<select id='dateSelect' multiple='multiple' class='form-block'>");
 					for (LMInterview lmInt : lmDate) {
 						selectCode.append("<option value='" + lmInt.getId() + "'>" + lmInt.getSlotDate() + "</option>");
 					}
@@ -136,7 +141,18 @@ public class LineManagerController {
 								tableBodyCode.append("<td style='").append(style).append("'>").append(lmintv.getSlotDate()).append("</td>");
 								}
 							}else {
-								tableBodyCode.append("<td></td>");
+								if(i==4) {
+									Optional<LMOptionalDate> optDate = optionalDates.stream()
+											.filter(optionalDate -> lmAcc.getLmId().equals(optionalDate.getLmId()))
+											.findFirst();
+									if(optDate.isPresent()) {
+										tableBodyCode.append("<td style='").append("background-color: green !important;color: white;").append("'>").append(optDate.get().getOptionalDate()).append("</td>");
+									}else {
+										tableBodyCode.append("<td></td>");
+									}
+								}else {
+									tableBodyCode.append("<td></td>");
+								}
 							}
 						}
 						tableBodyCode.append("</tr>");
@@ -158,7 +174,22 @@ public class LineManagerController {
 	    @PostMapping({ "/save" })
 	    @ResponseBody
 	    private String save(@RequestBody LmDate payload,final HttpSession session) {
+	    	if (session.getAttribute("userId") != null) {
+	    	//Long lmId = Long.parseLong(session.getAttribute("userId").toString());	 
+	    	String accesskey = 	payload.getAccesskey();
+	    	Long lmId2 = payload.getLmId();
 	    	String dates ="";
+	    	String newDate = payload.getNewDate();
+	    	//Long newDateId=0L;
+		    if(newDate!=null && newDate.length()>5) {
+		    	LMOptionalDate optDate = lMInterviewService.findOptionalDateByLMIdAndAccesskey(lmId2, accesskey)
+		    		    .orElse(new LMOptionalDate());
+		    	optDate.setAccesskey(accesskey);
+		    	optDate.setOptionalDate(parseDate(newDate));
+		    	optDate.setLmId(lmId2);
+		    	lMInterviewService.saveOptionalDate(optDate);
+		    }
+		    //payload.getDateId().add(newDateId);
 	    	for(Long l :payload.getDateId()) {
 	    		if(dates.equals("")) {
 	    			dates = l.toString();
@@ -166,15 +197,29 @@ public class LineManagerController {
 	    			dates += ","+ l.toString();
 	    		}
 	    	}
-	    String accesskey = 	payload.getAccesskey();
-	    Long lmId = payload.getLmId();
-		Optional<LMAccesskey> lm =  lMAccesskeyService.findByAccesskeyAndLmId(accesskey,lmId);
+		Optional<LMAccesskey> lm =  lMAccesskeyService.findByAccesskeyAndLmId(accesskey,lmId2);
 		if(lm.isPresent()) {
 			lm.get().setDateId(dates);
 			lMAccesskeyService.save(lm.get());
 		}
-		
 	    	return  "success";
+	    	}else {
+	    		 return "redirect:login";
+			}
+	    }
+	    
+	    private String parseDate(String input) {   
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+            DateFormat outputformat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            Date date = null;
+            String output = null;
+            try{
+          	 date= df.parse(input);
+          	 output = outputformat.format(date);
+            }catch(ParseException pe){
+               pe.printStackTrace();
+             }
+            return output;
 	    }
 	    
 	    @GetMapping({ "/viewAllParticapants" })

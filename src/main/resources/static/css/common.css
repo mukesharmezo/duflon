@@ -131,6 +131,7 @@ body {
 .edit-popup .form-section .form-block input[type="text"],
 .edit-popup .form-section .form-block input[type="email"],
 .edit-popup .form-section .form-block input[type="number"],
+.edit-popup .form-section .form-block input[type="date"],
 .edit-popup .form-section .form-block select {
   width: 100%;
   box-sizing: border-box;

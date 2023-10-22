@@ -22,6 +22,17 @@ public class LMInterview {
 	 
 	 @Column(name = "slot_date", length = 50)
 	 private String slotDate;
+	 
+	 private String status;
+	 
+	 
+	 public void setStatus(String status) {
+		this.status = status;
+	}
+	 
+	 public String getStatus() {
+		return status;
+	}
 
 	public Long getId() {
 		return id;

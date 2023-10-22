@@ -219,23 +219,21 @@ public class JobController {
 		}
 	}
 
-	// Hold Job
 	@GetMapping("/rejectJobByHre")
-	@ResponseBody
-	public String rejectJobByHre(@RequestParam("rejectReason") String rejectReason, @RequestParam("rejectJobId") Long rejectJobId, HttpSession session, Model model) {
+	public String rejectJobByHre(@RequestParam("jobId") Long jobId, HttpSession session, Model model) {
 		if (session.getAttribute("userId") != null) {
 			// Get Job By Id
-			Optional<JobDetails> job = jobService.getJobDetailsById(rejectJobId);
+			Optional<JobDetails> job = jobService.getJobDetailsById(jobId);
 			if (job.isPresent()) {
 				job.get().setApprovalHr("R");
-				//jobService.saveJobDetails(job.get());
+				jobService.saveJobDetails(job.get());
 			}
 			return "redirect:jobCreator";
 		} else {
 			return "redirect:login";
 		}
 	}
-	// Hold Job
+	
 	@GetMapping("/rejectJobByLM")
 	@ResponseBody
 	public String rejectJobDetailsByLM(@RequestParam("rejectReason") String rejectReason, @RequestParam("rejectJobId") Long rejectJobId, HttpSession session, Model model) {
@@ -282,35 +280,39 @@ public class JobController {
 			return "redirect:login";
 		}
 	}
-	// Hold Job
 	@GetMapping("/approveJobByHre")
-	@ResponseBody
-	public String approveJobDetailsByHre(@RequestParam("approveReason") String approveReason, @RequestParam("approveJobId") Long approveJobId, HttpSession session, Model model) {
+	public String approveJobDetailsByHre(@RequestParam("jobId") Long jobId, HttpSession session, Model model) {
 		if (session.getAttribute("userId") != null) {
-			System.out.println("******"+approveReason+">***"+approveJobId);
 			// Get Job By Id
-			Optional<JobDetails> job = jobService.getJobDetailsById(approveJobId);
+			Optional<JobDetails> job = jobService.getJobDetailsById(jobId);
 			if (job.isPresent()) {
 				job.get().setApprovalHr("A");
-				System.out.println("MKKKKK :: "+job.get().getJobId()+"<>"+job.get().getDescription());
-				//jobService.saveJobDetails(job.get());
+				jobService.saveJobDetails(job.get());
 			}
-			//return "redirect:jobCreator";
-			return "Approved";
+			return "redirect:jobCreator";
 		} else {
 			return "redirect:login";
 		}
 	}
 	// Hold Job
-	@GetMapping("/approveJobByLM")
+	@GetMapping("/approveRejectJobByLM")
 	@ResponseBody
-	public String approveJobDetailsByLM(@RequestParam("approveReason") String approveReason, @RequestParam("approveJobId") Long approveJobId, HttpSession session, Model model) {
+	public String approveJobDetailsByLM(@RequestParam("selectedReason") String selectedReason, @RequestParam("approveJobId") Long approveJobId, 
+			@RequestParam("actionButton") String actionButton, HttpSession session, Model model) {
 		if (session.getAttribute("userId") != null) {
 			// Get Job By Id
+			System.out.println("Hello :: "+selectedReason+"<>"+approveJobId+"<>"+actionButton);
 			Optional<JobDetails> job = jobService.getJobDetailsById(approveJobId);
 			if (job.isPresent()) {
-				job.get().setApprovalLm("A");
-				job.get().setJobPostDate(LocalDate.now());
+				if(actionButton!=null && actionButton.equalsIgnoreCase("Approve")) {
+					job.get().setApprovalLm("A");
+					job.get().setApproveReasonLM(selectedReason);
+					job.get().setJobPostDate(LocalDate.now());
+				}else if(actionButton!=null && actionButton.equalsIgnoreCase("Reject")){
+					job.get().setApprovalLm("R");
+					job.get().setRejectionReasonLM(selectedReason);
+				}
+				
 				//jobService.saveJobDetails(job.get());
 			}
 			return "redirect:jobCreator";

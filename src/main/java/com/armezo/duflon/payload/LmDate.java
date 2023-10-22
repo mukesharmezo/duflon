@@ -7,6 +7,16 @@ public class LmDate {
 	private List<Long> dateId;
 	private Long lmId;
 	private String accesskey;
+	private String newDate;
+	
+	
+	
+	public void setNewDate(String newDate) {
+		this.newDate = newDate;
+	}
+	public String getNewDate() {
+		return newDate;
+	}
 	public List<Long> getDateId() {
 		return dateId;
 	}
