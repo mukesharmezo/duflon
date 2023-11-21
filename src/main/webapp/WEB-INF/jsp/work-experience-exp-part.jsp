@@ -18,13 +18,13 @@ try
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="icon" type="image/x-icon" href="<%=baseServer%>img/DuflonFavicon.png"/>   <title><%=title %></title>
-    <link rel="stylesheet" type="text/css" href="./css/common.css" />
-    <link rel="stylesheet" type="text/css" href="./css/profile.css" />
-    <link rel="stylesheet" href="./css/scrolltabs.css">
-    <link rel="stylesheet" type="text/css" href="./css/work-experience.css" />
-    <link rel="stylesheet" type="text/css" href="./css/style.css" />
-	<link rel="stylesheet" type="text/css" href="./css/sweetalert.css"/>
-    <script type="text/javascript" src="./js/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/registration/durecruit-common.css" />
+	<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-profile.css" />
+	<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-scrolltabs.css" />
+	<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-work-experience.css" />
+<!--     <link rel="stylesheet" type="text/css" href="./css/style.css" />
+ -->	
+ 	<link rel="stylesheet" type="text/css" href="./css/sweetalert.css"/>
     
   <!--  <style>
         .left-panel > ul > li:nth-child(2) > a, .left-panel > ul > li:nth-child(2) > ul > li:nth-child(2) > a{opacity: 1;}
@@ -35,6 +35,7 @@ try
     <script src="./js/jquery-3.4.1.min.js"></script>
     <script src="./js/jquery.dataTables.min.js"></script>
     <script src="./js/jquery.scrolltabs.js"></script>
+    <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 	  <style>
       	.checkbox {        color: #4D4D4D;        margin-right: 40px;        font-size: 13px;        line-height: 18px;        position: relative;        top: -2px;        margin-left: 7px;         }
  		.h5 {  font-weight: 500;  font-size: 13px;  line-height: 18px;  margin: 0 0 9px;  position: relative;  color: #777777;}
@@ -100,15 +101,15 @@ try
                       <thead>
                           <tr>
                               <th><span><em>Sr. No.</em></span></th>
-                              <th data-head="Company Name"><span><img src="./img/filter-icn.svg" /></span></th>
-                              <th data-head="Experience"><span><img src="./img/filter-icn.svg" /></span></th>
-                              <th data-head="Designation"><span><img src="./img/filter-icn.svg" /></span></th>
-                              <th data-head="Work Area"><span><img src="./img/filter-icn.svg" /></span></th>
-                              <th data-head="From"><span><img src="./img/filter-icn.svg" /></span></th>
-                              <th data-head="To"><span><img src="./img/filter-icn.svg" /></span></th>
+                              <th><span><em> Company Name</em></span></th>
+                              <th><span><em> Experience</em></span></th>
+                              <th><span><em> Designation</em></span></th>
+                              <th><span><em> Work Area</em></span></th>
+                              <th><span><em> From</em></span></th>
+                              <th><span><em> To</em></span></th>
 							   <c:if test="${(workexperienceExp.hiredStatus != 'Y') && workexperienceExp.status !='H'}">
-                               <th data-head="Edit"><span></span></th>
-                               <th data-head="Delete"><span></span></th>
+                               <th><span><em> Edit</em></span></th>
+                               <th><span><em> Delete</em></span></th>
 							    </c:if>
                           </tr>
                       </thead>

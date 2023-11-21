@@ -77,13 +77,43 @@ $(document).ready(function() {
 				required: true,
 				extension: "pdf|doc|docx",
 				accept: "application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-				filesize: 1 // 2 MB
+				filesize: 1 
 			},
 			photoFile: {
 				required: true,
 				extension: "jpeg|jpg|png",
 				accept: "image/jpeg,image/png",
-				filesize: 0.5 // 2 MB
+				filesize: 0.5 
+			},
+			aadhaarFile: {
+				required: true,
+				extension: "jpeg|jpg|png|pdf",
+				accept: "image/jpeg,image/png,application/pdf",
+				filesize: 0.5 
+			},
+			tenThFile: {
+				required: true,
+				extension: "jpeg|jpg|png|pdf",
+				accept: "image/jpeg,image/png,application/pdf",
+				filesize: 0.5 
+			},
+			twelveFile: {
+				required: true,
+				extension: "jpeg|jpg|png|pdf",
+				accept: "image/jpeg,image/png,application/pdf",
+				filesize: 0.5 
+			},
+			graduationFile: {
+				required: true,
+				extension: "jpeg|jpg|png|pdf",
+				accept: "image/jpeg,image/png,application/pdf",
+				filesize: 0.5 
+			},
+			othersFile: {
+				required : true,
+				extension: "jpeg|jpg|png|pdf",
+				accept: "image/jpeg,image/png,application/pdf",
+				filesize: 0.5 
 			},
 			"skills[0].skill": {
 				required: true
@@ -189,20 +219,50 @@ $(document).ready(function() {
 				pattern: "Please enter a valid email address with a valid domain."
 			},
 			birthDate: {
-				required: "Please enter your date of birth",
-				date: "Please enter a valid date"
+				required: "Please enter your date of birth.",
+				date: "Please enter a valid date."
 			},
 			resumeFile: {
-				required: "Please upload your resume",
-				extension: "Please upload a valid PDF or Word document",
-				filesize: "The file size must be less than 1 MB",
-				accept: "Please upload a valid PDF or Word document (doc, docx) file"
+				required: "Please upload your resume.",
+				extension: "Please upload a valid PDF or Word document.",
+				filesize: "The file size must be less than 1 MB.",
+				accept: "Please upload a valid PDF or Word document (doc, docx) file."
 			},
 			photoFile: {
-				required: "Please upload your photo",
-				extension: "Please upload a valid JPG/JPEG or PNG image",
-				filesize: "The photo size must be less than 500 KB",
-				accept: "Please upload a valid JPEG/JPG or PNG file"
+				required: "Please upload your photo.",
+				extension: "Please upload a valid JPG/JPEG or PNG image.",
+				filesize: "The photo size must be less than 500 KB.",
+				accept: "Please upload a valid JPEG/JPG or PNG file."
+			},
+			aadhaarFile: {
+				required: "Please upload your aadhar.",
+				extension: "Please upload a valid JPG/JPEG, PNG or PDF file.",
+				filesize: "The file size must be less than 500 KB.",
+				accept: "Please upload a valid JPEG/JPG, PNGor PDF file."
+			},
+			tenThFile: {
+				required: "Please upload your 10th mark sheet.",
+				extension: "Please upload a valid JPG/JPEG, PNG or PDF file.",
+				filesize: "The file size must be less than 500 KB.",
+				accept: "Please upload a valid JPEG/JPG, PNGor PDF file."
+			},
+			twelveFile: {
+				required: "Please upload your 12th mark sheet.",
+				extension: "Please upload a valid JPG/JPEG, PNG or PDF file.",
+				filesize: "The file size must be less than 500 KB.",
+				accept: "Please upload a valid JPEG/JPG, PNGor PDF file."
+			},
+			graduationFile: {
+				required: "Please upload your graduation mark sheet.",
+				extension: "Please upload a valid JPG/JPEG, PNG or PDF file.",
+				filesize: "The file size must be less than 500 KB.",
+				accept: "Please upload a valid JPEG/JPG, PNGor PDF file."
+			},
+			othersFile: {
+				required: "Please upload others document.",
+				extension: "Please upload a valid JPG/JPEG, PNG or PDF file.",
+				accept: "Please upload a valid JPEG/JPG, PNGor PDF file.",
+				filesize: "The file size must be less than 500 KB.",
 			},
 			profileExperience: {
 				required: "Please enter experience",

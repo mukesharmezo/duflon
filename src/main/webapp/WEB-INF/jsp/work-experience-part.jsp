@@ -17,10 +17,13 @@ String temp = request.getParameter("param");
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="icon" type="image/x-icon" href="<%=baseServer%>img/DuflonFavicon.png"/>  <title><%=title %></title>
-    <link rel="stylesheet" type="text/css" href="./css/common.css" />
-    <link rel="stylesheet" type="text/css" href="./css/profile.css" />
-    <link rel="stylesheet" href="./css/scrolltabs.css">
+	<link rel="icon" type="image/x-icon" href="<%=baseServer%>img/DuflonFavicon.png"/>  
+	<title><%=title %></title>
+	
+    <link rel="stylesheet" type="text/css" href="./css/registration/durecruit-common.css" />
+	<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-profile.css" />
+	<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-scrolltabs.css" />
+	<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-work-experience.css" />
   <!--  <style>
         .left-panel > ul > li:nth-child(2) > a, .left-panel > ul > li:nth-child(2) > ul > li:nth-child(2) > a{opacity: 1;}
         .left-panel > ul > li:nth-child(2) > ul > li:nth-child(2) > a::after{content: ''; position: absolute; right: 0; top: 50%; transform: translate(0, -50%); border-right: 6px solid #fff; border-top: 6px solid transparent; border-bottom: 6px solid transparent;}

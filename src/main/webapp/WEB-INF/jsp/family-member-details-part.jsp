@@ -20,13 +20,11 @@ try
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="icon" type="image/x-icon" href="<%=baseServer%>img/DuflonFavicon.png"/>
 <title><%=title %></title>
-<link rel="stylesheet" type="text/css" href="./css/common.css" />
-<link rel="stylesheet" type="text/css" href="./css/profile.css" />
+<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-common.css" />
+<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-profile.css" />
+<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-family-member-details.css" />
+<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-scrolltabs.css" />
 <link rel="stylesheet" type="text/css" href="./css/sweetalert.css"/>
-    <script type="text/javascript" src="./js/sweetalert.min.js"></script>
-<link rel="stylesheet" href="./css/scrolltabs.css">
-<link rel="stylesheet" type="text/css"	href="./css/family-member-details.css" />
-<link rel="stylesheet" type="text/css" href="./css/style.css" />
 
 <style>
 ul li { margin: 0 !important;}
@@ -36,6 +34,7 @@ ul li { margin: 0 !important;}
 <script src="./js/jquery-3.4.1.min.js"></script>
 <script src="./js/jquery.dataTables.min.js"></script>
 <script src="./js/jquery.scrolltabs.js"></script>
+   <script type="text/javascript" src="./js/sweetalert.min.js"></script>
 </head>
 <body>
 
@@ -161,12 +160,6 @@ ul li { margin: 0 !important;}
       $(document).ready(function () {
     	  
     	  
-    	  
-        var profile = document.getElementById("profile");
-		var family_member_details = document.getElementById("family_member_details");
-		
-		profile.className -= 'tab-btn tab_selected scroll_tab_first';
-        family_member_details.className += 'tab-btn tab_selected scroll_tab_first';
         $('#tabs').scrollTabs();
 
 

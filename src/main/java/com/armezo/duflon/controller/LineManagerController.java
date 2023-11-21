@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.armezo.duflon.Entities.CustomLMDates;
 import com.armezo.duflon.Entities.HRE;
 import com.armezo.duflon.Entities.InterviewScore;
 import com.armezo.duflon.Entities.LMAccesskey;
@@ -30,6 +31,7 @@ import com.armezo.duflon.Entities.LMInterview;
 import com.armezo.duflon.Entities.LMOptionalDate;
 import com.armezo.duflon.Entities.LineManager;
 import com.armezo.duflon.Entities.ParticipantRegistration;
+import com.armezo.duflon.Services.CustomLMDatesService;
 import com.armezo.duflon.Services.HREService;
 import com.armezo.duflon.Services.InterviewScoreService;
 import com.armezo.duflon.Services.LMAccesskeyService;
@@ -57,6 +59,8 @@ public class LineManagerController {
 	    LMInterviewService lMInterviewService;
 	    @Autowired
 	    LMAccesskeyService lMAccesskeyService;
+	    @Autowired
+	    CustomLMDatesService dateService;
 	    
 		@GetMapping({ "/viewInterview" })
 		private String viewInterview(final HttpSession session, Model model) {
@@ -179,15 +183,48 @@ public class LineManagerController {
 	    	String accesskey = 	payload.getAccesskey();
 	    	Long lmId2 = payload.getLmId();
 	    	String dates ="";
-	    	String newDate = payload.getNewDate();
+	    	System.out.println("Dates : "+payload.getCustomDates());
+	    	//String newDate = payload.getNewDate();
+	    	List<String> customDate = payload.getCustomDates();
 	    	//Long newDateId=0L;
-		    if(newDate!=null && newDate.length()>5) {
-		    	LMOptionalDate optDate = lMInterviewService.findOptionalDateByLMIdAndAccesskey(lmId2, accesskey)
-		    		    .orElse(new LMOptionalDate());
-		    	optDate.setAccesskey(accesskey);
-		    	optDate.setOptionalDate(parseDate(newDate));
-		    	optDate.setLmId(lmId2);
-		    	lMInterviewService.saveOptionalDate(optDate);
+		    if(customDate.size()>0) {
+		    	//Find custom date by id
+		    	CustomLMDates customDates= null;
+		    	Optional<CustomLMDates>  customDatesOptional= dateService.getCustomDatesByLmIdAndAccesskey(payload.getLmId(),payload.getAccesskey());//.orElse(new CustomLMDates());
+		    	if(customDatesOptional.isPresent()) {
+		    		customDates = customDatesOptional.get();
+		    	}else {
+					customDates = new CustomLMDates();
+				}
+		    	for(int i=0; i<customDate.size();i++) {
+		    		switch(i) {
+		    		case 0:
+		    			customDates.setCustomDate1(parseDate(customDate.get(i)));
+		    			break;
+		    		case 1:
+		    			customDates.setCustomDate2(parseDate(customDate.get(i)));
+		    			break;
+		    		case 2:
+		    			customDates.setCustomDate3(parseDate(customDate.get(i)));
+		    			break;
+		    		case 3:
+		    			customDates.setCustomDate4(parseDate(customDate.get(i)));
+		    			break;
+		    		case 4:
+		    			customDates.setCustomDate5(parseDate(customDate.get(i)));
+		    			break;
+		    		}
+		    		customDates.setLmId(payload.getLmId());
+		    		customDates.setAccesskey(payload.getAccesskey());
+		    		dateService.saveCustomDates(customDates);
+		    	}
+				/*
+				 * LMOptionalDate optDate =
+				 * lMInterviewService.findOptionalDateByLMIdAndAccesskey(lmId2, accesskey)
+				 * .orElse(new LMOptionalDate()); optDate.setAccesskey(accesskey);
+				 * optDate.setOptionalDate(parseDate(newDate)); optDate.setLmId(lmId2);
+				 */
+		    	//lMInterviewService.saveOptionalDate(optDate);
 		    }
 		    //payload.getDateId().add(newDateId);
 	    	for(Long l :payload.getDateId()) {
@@ -207,6 +244,7 @@ public class LineManagerController {
 	    		 return "redirect:login";
 			}
 	    }
+	    
 	    
 	    private String parseDate(String input) {   
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");

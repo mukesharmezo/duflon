@@ -12,7 +12,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
@@ -370,7 +369,12 @@ public class JobController {
 			@ModelAttribute("userRegistration") UserRegistration user, /*
 																		 * @RequestParam("formToken") String formToken,
 																		 */
-			@RequestParam("resumeFile") MultipartFile resume, @RequestParam("photoFile") MultipartFile photo, Model model, HttpSession session) {
+			@RequestParam("resumeFile") MultipartFile resume, @RequestParam("photoFile") MultipartFile photo, 
+			@RequestParam("aadhaarFile") MultipartFile aadhaarFile, @RequestParam("tenThFile") MultipartFile tenThFile, 
+			@RequestParam("twelveFile") MultipartFile twelveFile,
+			@RequestParam("graduationFile") MultipartFile graduationFile, @RequestParam("othersFile") MultipartFile othersFile, 
+			
+			Model model, HttpSession session) {
 		//Generate Accesskey
 		//if(submitted) {
 		//String storedToken = (String) session.getAttribute("formToken");
@@ -378,10 +382,19 @@ public class JobController {
 	    //session.removeAttribute("formToken");
 		user.setAccesskey(generateAccesskeyForUser(user.getHreId()));
 		user.setResume(String.valueOf(user.getAccesskey())+"/"+ StringUtils.cleanPath(resume.getOriginalFilename()));
-		user.setPhoto(String.valueOf(user.getAccesskey())+"/"+ StringUtils.cleanPath(photo.getOriginalFilename()));
+		user.setAadhar(String.valueOf(user.getAccesskey())+"/"+ StringUtils.cleanPath(aadhaarFile.getOriginalFilename()));
+		user.setTenTh(String.valueOf(user.getAccesskey())+"/"+ StringUtils.cleanPath(tenThFile.getOriginalFilename()));
+		user.setTwelve(String.valueOf(user.getAccesskey())+"/"+ StringUtils.cleanPath(twelveFile.getOriginalFilename()));
+		user.setGraduation(String.valueOf(user.getAccesskey())+"/"+ StringUtils.cleanPath(graduationFile.getOriginalFilename()));
+		user.setOthers(String.valueOf(user.getAccesskey())+"/"+ StringUtils.cleanPath(othersFile.getOriginalFilename()));
 		// Upload Resume
 		String resumefileName = StringUtils.cleanPath(resume.getOriginalFilename());
 		String photoFileName = StringUtils.cleanPath(photo.getOriginalFilename());
+		String aadhaarFileName = StringUtils.cleanPath(aadhaarFile.getOriginalFilename());
+		String tenThFileName = StringUtils.cleanPath(photo.getOriginalFilename());
+		String twelveFileName = StringUtils.cleanPath(photo.getOriginalFilename());
+		String graduationFileName = StringUtils.cleanPath(photo.getOriginalFilename());
+		String othersFileName = StringUtils.cleanPath(photo.getOriginalFilename());
 		try {
 			Path newFolderPath = Paths.get(filePath, user.getAccesskey());
 			if (!Files.exists(newFolderPath)) {
@@ -389,6 +402,11 @@ public class JobController {
 			}
 			Files.copy(resume.getInputStream(), newFolderPath.resolve(resumefileName), StandardCopyOption.REPLACE_EXISTING);
 			Files.copy(photo.getInputStream(), newFolderPath.resolve(photoFileName), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(aadhaarFile.getInputStream(), newFolderPath.resolve(aadhaarFileName), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(tenThFile.getInputStream(), newFolderPath.resolve(tenThFileName), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(twelveFile.getInputStream(), newFolderPath.resolve(twelveFileName), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(graduationFile.getInputStream(), newFolderPath.resolve(graduationFileName), StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(othersFile.getInputStream(), newFolderPath.resolve(othersFileName), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -596,6 +614,11 @@ public class JobController {
 						pr.setSource(ur.getSource());
 						pr.setResume(ur.getResume());
 						pr.setPhotograph(ur.getPhoto());
+						pr.setAdhar(ur.getAadhar());
+						pr.setQualification(ur.getTenTh());
+						pr.setQualification2(ur.getTwelve());
+						pr.setQualification3(ur.getGraduation());
+						pr.setDocuments(ur.getOthers());
 						pr.setHighestQualification(ur.getEducation());
 						pr.setExpInMths((int) Math.round(ur.getProfileExperience() * 12));
 						// Save to db

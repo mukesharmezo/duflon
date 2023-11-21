@@ -8,7 +8,8 @@
 try
     {
 	ResourceBundle resource = ResourceBundle.getBundle("application");
-String baseServer = resource.getString("client.url");String title = resource.getString("app.title");
+String baseServer = resource.getString("client.url");
+String title = resource.getString("app.title");
 
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 response.setHeader("Pragma", "no-cache");
@@ -126,19 +127,46 @@ response.setDateHeader("Expires", -1);
 						name="profileExperience" placeholder="Enter total experience">
 				</div>
 				<div class="form-block">
+					<label for="linkedIn">Provide Your LinkedIn Profile</label>
+					<form:input path="linkedIn" id="linkedIn" class="form-control" placeholder="Enter your linkedIn profile url" />
+				</div>
+				<div class="form-block">
   					<label for="photoFile">Photo</label> 
   					<input type="file" name="photoFile" id="photoFile" class="form-control-file" accept="image/jpeg, image/png" />
   					 <small class="form-text text-muted">Accepted file types: JPEG, JPG, PNG. Maximum file size: 500 KB.</small>
 				</div>
 				<div class="form-block">
-  					<label for="resumeFile">Resume</label> 
-  					<input type="file" name="resumeFile" id="resumeFile" class="form-control-file" accept=".pdf,.doc,.docx" />
-  					 <small class="form-text text-muted">Accepted file types: PDF, DOC, DOCX. Maximum file size: 1 MB.</small>
+  					<label for="resumeFile">CV</label> 
+  					<input type="file" name="resumeFile" id="resumeFile" class="form-control-file" accept="image/jpeg, image/png,.pdf" />
+  					 <small class="form-text text-muted">Accepted file types: PDF, JPEG, JPG, PNG. Maximum file size: 500 KB.</small>
 				</div>
 				<div class="form-block">
-					<label for="linkedIn">Provide Your LinkedIn Profile</label>
-					<form:input path="linkedIn" id="linkedIn" class="form-control" placeholder="Enter your linkedIn profile url" />
+  					<label for="aadhaarFile">Aadhaar</label> 
+  					<input type="file" name="aadhaarFile" id="aadhaarFile" class="form-control-file" accept="image/jpeg, image/png,.pdf" />
+  					 <small class="form-text text-muted">Accepted file types: PDF, JPEG, JPG, PNG. Maximum file size: 500 KB.</small>
 				</div>
+				<div class="form-block">
+  					<label for="tenThFile">10th</label> 
+  					<input type="file" name="tenThFile" id="tenThFile" class="form-control-file" accept="image/jpeg, image/png,.pdf" />
+  					 <small class="form-text text-muted">Accepted file types: PDF, JPEG, JPG, PNG. Maximum file size: 500 KB.</small>
+				</div>
+				<div class="form-block">
+  					<label for="twelveFile">12th</label> 
+  					<input type="file" name="twelveFile" id="twelveFile" class="form-control-file" accept="image/jpeg, image/png,.pdf" />
+  					 <small class="form-text text-muted">Accepted file types: PDF, JPEG, JPG, PNG. Maximum file size: 500 KB.</small>
+				</div>
+				<div class="form-block">
+  					<label for="graduationFile">Graduation</label> 
+  					<input type="file" name="graduationFile" id="graduationFile" class="form-control-file" accept="image/jpeg, image/png,.pdf" />
+  					 <small class="form-text text-muted">Accepted file types: PDF, JPEG, JPG, PNG. Maximum file size: 500 KB.</small>
+				</div>
+				<div class="form-block">
+  					<label for="othersFile">Others</label> 
+  					<input type="file" name="othersFile" id="othersFile" class="form-control-file" accept="image/jpeg, image/png,.pdf" />
+  					 <small class="form-text text-muted">Accepted file types: PDF, JPEG, JPG, PNG. Maximum file size: 500 KB.</small>
+				</div>
+				
+				
 			</div>
 			<div class="form-section">
     <div class="form-block col-md-12" style="padding-right: 56px;padding-left:0px;">

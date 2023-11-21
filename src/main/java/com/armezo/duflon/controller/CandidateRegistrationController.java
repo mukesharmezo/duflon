@@ -142,6 +142,8 @@ public class CandidateRegistrationController {
 	        model.addAttribute("emergency", (Object)emergency);
 	        return "emergency-contact-part";
 	    }
+	    
+	    
 	 
 	 @GetMapping({ "/uploadDocomentPart" })
 	    public String uploadDocument(@RequestParam("accesskey") final String accesskey, final Model model) {

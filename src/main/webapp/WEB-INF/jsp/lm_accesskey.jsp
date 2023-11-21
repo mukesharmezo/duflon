@@ -108,6 +108,126 @@
 .extra-input span{font-size: 12px; line-height: 15px; border-radius: 30px; padding: 5px 15px; border: 1px solid #DC3545; display: inline-block; color: #DC3545; cursor: pointer; position: absolute; right: 0; bottom: 10px;}
 .extra-input span:hover{background-color: #DC3545; color: #fff;}
 
+.communications-popup .default-dates {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto 50px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .communications-popup .default-dates select {
+            padding: 11px;
+            border: 1px solid #DCDCDC;
+            border-radius: 5px;
+            background-color: #F9F9F9;
+            font-size: 12px;
+            height: 65px;
+            width: 291px;
+            margin-right: 7px;
+        }
+
+        .communications-popup .default-dates select option {
+            padding: 4px;
+            font-size: 12px;
+            color: #333;
+        }
+        .communications-popup  .popup-button.filled {
+            color: #fff;
+            background-color: #DC3546;
+        }
+
+        .communications-popup .justify-center {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            margin-top: 35px;
+        }
+
+        #custom-date-filed {
+            position: relative;
+        }
+
+        #custom-date-filed.full {
+            width: 100%;
+            margin-top: 25px;
+        }
+
+        #custom-date-filed.full .popup-button.bordered {
+            position: absolute;
+            right: 0;
+            bottom: 15px;
+            color: #fff;
+            background-color: #DC3546;
+        }
+
+        #custom-date {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        #custom-date input[type="datetime-local"] {
+            padding: 11px;
+            border: 1px solid #DCDCDC;
+            border-radius: 5px;
+            background-color: #F9F9F9;
+            position: relative;
+            font-size: 12px;
+            width: 291px;
+            box-sizing: border-box;
+        }
+
+        #custom-date button.add-custom-date {
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            border: none;
+            background-color: #008200;
+            outline: none;
+            border-radius: 20px;
+            background-image: url('../../img/check-button.svg');
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: left top;
+            cursor: pointer;
+        }
+
+        #custom-date button.add-custom-date.added {
+            background-color: #B8B8B8;
+        }
+
+        #custom-date button.remove-custom-date {
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            border: none;
+            background-color: transparent;
+            outline: none;
+            border-radius: 20px;
+            background-image: url('../../img/close-button.svg');
+            background-repeat: no-repeat;
+            background-size: 40px;
+            background-position: left top;
+            cursor: pointer;
+        }
+        .popup-button {
+            margin: 0 8px;
+            border: 1px solid #DC3546;
+            color: #DC3546;
+            width: 135px;
+            text-align: center;
+            font-size: 12px;
+            line-height: 40px;
+            border-radius: 30px;
+            outline: none;
+            cursor: pointer;
+            background-color: #fff;
+            padding: 0;
+        }
+
 
    </style>
 
@@ -198,14 +318,21 @@
 					</tbody>
 				</table>
 			</div>
+		<div class="default-dates">
+			<div id="select2DropdownContainer" style="width: inherit"></div>
+			<div id="custom-date-filed">
+                <button class="popup-button bordered" onclick="addCustomField()">Add Custom Date</button>
+            </div>
+		</div>
+		<!--
         <form class="form-section" action="" style="justify-content: center;">
 				<div class="form-block" style="display: contents !important;">
 			<div id="select2DropdownContainer"  style="width: inherit"></div>
 			</div>
-			<div class="form-block" id="newDateDiv">
+			 <div class="form-block" id="newDateDiv">
 				<div id="datetime-container ">
 					<div class="datetime-input ">
-						<!-- <h5>Date Time</h5> -->
+						<h5>Date Time</h5>
 						<input type="datetime-local" name="datetime" id="inviteDate">
 					</div>
 				</div>
@@ -213,54 +340,18 @@
 			</div>
 			<div class="form-block">
 				<input type="button" class="cancel-btn" onclick="showDateInput()" value="Add New Date">
-			</div>
+			</div> -->
 			<div class="form-button">
                 <input type="button" class="cancel-btn" onclick="cancle()" value="Cancel">
                 <input type="button" class="submit-btn" onclick="submitLm()" value="Submit" >
               <input type="hidden"   value="" id="lmId"/>
 					  <input type="hidden"   value="" id="accesskey"/>
             </div>
-        </form>
+        <%-- </form> --%>
         
     </div>
     <div class="blk-bg"></div>
     <script>
-    function addDateTimeInput() {
-        const numDateTimeInputs = $(".datetime-input").length;
-
-        if (numDateTimeInputs < 3) {
-            const currentDate = new Date();
-            const nextMonthDate = new Date();
-            nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
-            const valueDate = new Date(currentDate);
-            valueDate.setDate(valueDate.getDate() + numDateTimeInputs); // Add days
-
-            const minDate = currentDate.toISOString().slice(0, 16); // Format: 'YYYY-MM-DDTHH:MM'
-            const maxDate = nextMonthDate.toISOString().slice(0, 16); 
-            const valDate = valueDate.toISOString().slice(0, 16); 
-            
-            const newDateTimeInput = `
-                <div class="datetime-input extra-input">
-                    <input type="datetime-local" name="datetime" id="inviteDate" required value="`+valDate+`" min="`+minDate+`" max="`+maxDate+`" onkeydown="return false;">
-                    <span class="remove-btn">Remove</span>
-                </div>`;
-
-            $("#datetime-container").append(newDateTimeInput);
-
-            // Add an event listener to the newly created "Remove" button
-            $(".remove-btn").last().on("click", function () {
-                $(this).parent(".datetime-input").remove(); // Remove the corresponding input
-            });
-        } else {
-            swal({
-                title: "You can add only 3 date and time.",
-                showCancelButton: false,
-                confirmButtonColor: "#DC3545",
-                confirmButtonText: "OK",
-                closeOnConfirm: true
-            });
-        }
-    }
     function openMail(key,lmId)	{
 		$("#lmId").val(lmId);
 		$("#accesskey").val(key);
@@ -312,12 +403,6 @@
             e.preventDefault();
         });
 	    
-  	 /*  $('#select-email').select2({
-  	        tags: false, // Allow custom tags
-  	        tokenSeparators: [','], // Specify token separators for custom tags
-  	        placeholder: 'Select Interviewer', // Default placeholder text
-  	        width: '300px' // Width of the dropdown
-  	      });    	 */
     });
     function showDateInput() {
 		$("#newDateDiv").show();
@@ -326,36 +411,49 @@
         // Check if the Select2 dropdown has any selected values.
         return $('#select2DropdownContainer').select2('data').length === 0;
     }
+    
+    function getAllCustomDates() {
+        const customDates = [];
+        // Select all input elements of type datetime-local inside the #custom-date-filed element
+        $('#custom-date-filed input[type="datetime-local"]').each(function(index, element) {
+            const dateValue = $(element).val();
+            customDates.push(dateValue);
+        });
+        return customDates;
+    }
+    function hasDuplicates(array) {
+        // Use the some function with indexOf to check for duplicates
+        return array.some(function(date, index, arr) {
+            return arr.indexOf(date) !== index;
+        });
+    }
+
+    
   	  function submitLm(){
 		    var lmId = $("#lmId").val();
 		    var accesskey = $("#accesskey").val();
 		    var dates = $('#dateSelect').val();
-		    var dateTimes = $('input[name="datetime"]').map(function() {
-		        return this.value;
-		    }).get();
+		    var dateTimes = getAllCustomDates();
 		    var isEmpty = dateTimes.some(function(date) {
 		        return date.trim() === '';
 		    });
 		    var hasDuplicates = dateTimes.some(function(date, index, array) {
 	            return array.indexOf(date) !== index;
 	        });
-		    //if(dates.length < 1){
-		    if ($('#newDateDiv').is(':visible') && newDate.trim() === ''){
-		    	showMSG('Please choose a date.');
-		    }else if(!$('#newDateDiv').is(':visible') && dates.length < 1){
-		    	showMSG('Please select atleast one date.');
-		    }
-		    /* 
 		    if(dates.length < 1){
 		    	showMSG('Please select atleast one date.');
-		    } */else{
+		    }else if (hasDuplicates) {
+		            // Handle the presence of duplicates (show an error message, etc.)
+		            showMSG('Please select unique date.');
+		            return;
+		        
+		    }else{
 		    var data = {
 		        'dateId': dates,
 		        'accesskey':accesskey,
 		        'lmId':lmId,
-		        'newDate':newDate
+		        'customDates':dateTimes
 		    };
-		   
 		    $.ajax({
 		        type: 'POST',
 		        url: 'save', 
@@ -383,6 +481,59 @@
 		    }//Else
 	  }
 </script>
+<script>
+        var countdatefield = 0;
+        function addCustomField() {
+            if(countdatefield < 3) {
+            	const currentDate = new Date();
+                const nextMonthDate = new Date();
+                nextMonthDate.setMonth(nextMonthDate.getMonth() + 1);
+                const valueDate = new Date(currentDate);
+                valueDate.setDate(valueDate.getDate() + countdatefield); // Add days
+
+                const minDate = currentDate.toISOString().slice(0, 16); // Format: 'YYYY-MM-DDTHH:MM'
+                const maxDate = nextMonthDate.toISOString().slice(0, 16); 
+                const valDate = valueDate.toISOString().slice(0, 16); 
+            
+                $('#custom-date-filed').addClass('full');
+                $('#custom-date-filed').append(`
+                    <div id="custom-date">
+                        <input type="datetime-local" value="`+valDate+`" min="`+minDate+`" max="`+maxDate+`" onkeydown="return false;" />
+                        <button class="add-custom-date" onclick="addedCustomField(event)"></button>
+                        <button class="remove-custom-date" onclick="removeCustomField(event)"></button>
+                    </div>
+                `);
+                countdatefield += 1;
+            } else {
+            	swal({
+                    title: "You can add only 3 date and time.",
+                    showCancelButton: false,
+                    confirmButtonColor: "#DC3545",
+                    confirmButtonText: "OK",
+                    closeOnConfirm: true
+                });
+            }
+        }
+
+        function removeCustomField(event) {
+            countdatefield -= 1;
+            var clickedElement = event.target;
+            if (clickedElement && clickedElement.parentNode) {
+                var parentDiv = clickedElement.parentNode.id;
+                $('#'+parentDiv).remove();
+                if(countdatefield === 0) {
+                    $('#custom-date-filed').removeClass('full');
+                }
+            }
+        }
+        
+        
+
+        function addedCustomField(event) {
+            var button = event.target;
+            button.classList.add('added');
+        }
+    </script>
    
 </body>
 </html>

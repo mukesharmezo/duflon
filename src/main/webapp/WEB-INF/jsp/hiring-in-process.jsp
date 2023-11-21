@@ -443,6 +443,23 @@ s.removeAttribute("remove_final");
 					</tbody>
 				</table>
 			</div>
+		 <div class="table-responsive">
+				<table cellspacing="0" cellpadding="0"  >
+					<thead>
+						<tr>
+								<th >Sr. No.</th>
+							    <th>LM Name</th>
+                                <th>Date 1</th>							
+                                <th>Date 2</th>							
+                                <th>Date 3</th>							
+                                <th>Date 4</th>							
+                                <th>Date 5</th>					
+						</tr>
+					</thead>
+					<tbody id="customDateBody">
+					</tbody>
+				</table>
+			</div>
         <div class="text-center">
             <input class="cancel-btn outline-btn" onclick="btndDateCancel()" value="Cancel" type="button">
             <button class="submit-btn" onclick="submit()" id="btndDate">OK</button>
@@ -690,6 +707,7 @@ s.removeAttribute("remove_final");
                 //Now set for table
                 if(intCount === 1){
                		$("#dateBody").html(jsonRes.tableData)
+               		$("#customDateBody").html(jsonRes.customDate)
                 	$('.table-responsive').show();
                 }else{
                 	$('.table-responsive').hide();

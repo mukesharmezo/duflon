@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.armezo.duflon.Entities.CustomLMDates;
 import com.armezo.duflon.Entities.EventLoger;
 import com.armezo.duflon.Entities.HRE;
 import com.armezo.duflon.Entities.InterviewScore;
@@ -38,6 +39,7 @@ import com.armezo.duflon.Entities.LMInterview;
 import com.armezo.duflon.Entities.LMOptionalDate;
 import com.armezo.duflon.Entities.LineManager;
 import com.armezo.duflon.Entities.ParticipantRegistration;
+import com.armezo.duflon.Services.CustomLMDatesService;
 import com.armezo.duflon.Services.EventLogerService;
 import com.armezo.duflon.Services.HREService;
 import com.armezo.duflon.Services.InterviewScoreService;
@@ -77,6 +79,8 @@ public class HreController {
 	    LMAccesskeyService lMAccesskeyService;
 	    @Autowired
 	    private UserService userService;
+	    @Autowired
+	    CustomLMDatesService dateService;
 	    
 	    @GetMapping({ "/viewProcess" })
 	    private String getParticipantInProcess(@RequestParam(name = "dateFromm", required = false) String dateFromm, 
@@ -214,8 +218,10 @@ public class HreController {
 	    	List<LMAccesskey> lmAccesskeys = lMAccesskeyService.findByAccesskey(accesskey);
 	    	List<LMInterview> lmInterviews = lMInterviewService.findByAccesskey(accesskey);
 	    	List<LMOptionalDate> optionalDates = lMInterviewService.findOptionalDatesByAccesskey(accesskey);
+	    	List<CustomLMDates> customLMDates = dateService.getAllCustomDatesByAccesskey(accesskey);
 	    	StringBuilder builder= new StringBuilder();
 	    	StringBuilder selectCode = new StringBuilder();
+	    	StringBuilder customDateBuilder = new StringBuilder();
 			//selectCode.append("<select id='lmSelect' multiple='multiple' >");
 //			selectCode.append("<select id='lmSelect' multiple='multiple' style='width100%:  !important; margin-left: 100%;' class='form-block'>");
 			if (intCount == 1) {
@@ -251,7 +257,7 @@ public class HreController {
 						builder.append("<td style='").append(style).append("'>").append(lmintv.getSlotDate()).append("</td>");
 						}
 					}else {
-						if(i==4) {
+						/*if(i==4) {
 							Optional<LMOptionalDate> optDate = optionalDates.stream()
 									.filter(optionalDate -> lmac.getLmId().equals(optionalDate.getLmId()))
 									.findFirst();
@@ -262,15 +268,57 @@ public class HreController {
 							}
 						}else {
 							builder.append("<td></td>");
-						}
+						}*/
+						builder.append("<td></td>");
 					}
 				}
 				builder.append("</tr>");
 				count++;
 	    	}
+	    	int count2=1;
+	    	for(CustomLMDates dates : customLMDates) {
+	    		customDateBuilder.append("<tr>");
+	    		customDateBuilder.append("<td>"+count2+"</td>");
+	    		Optional<LineManager> lineOpt= lmService.findById(dates.getLmId());
+				String lmName="";
+				if(lineOpt.isPresent()) {
+					lmName=lineOpt.get().getName();
+				}
+				customDateBuilder.append("<td>" + lmName + "</td>");
+				for(int j=1; j<=5; j++) {
+					String date = "";
+					switch (j) {
+					case 1:
+						date = dates.getCustomDate1();
+						break;
+					case 2:
+						date = dates.getCustomDate2();
+						break;
+					case 3:
+						date = dates.getCustomDate3();
+						break;
+					case 4:
+						date = dates.getCustomDate4();
+						break;
+					case 5:
+						date = dates.getCustomDate5();
+						break;
+					default:
+						break;
+					}
+					if( date==null) {
+						date="";
+					}
+					customDateBuilder.append("<td>"+date+"</td>");
+				}
+				customDateBuilder.append("</tr>");
+				count2++;
+	    		
+	    	}
 	    	JSONObject jsonObject = new JSONObject();
 			jsonObject.put("select2Lm", selectCode.toString());
 			jsonObject.put("tableData", builder.toString());
+			jsonObject.put("customDate", customDateBuilder);
 			return jsonObject.toString();
 	    }
 	    

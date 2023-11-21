@@ -20,11 +20,10 @@ try
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="icon" type="image/x-icon" href="<%=baseServer%>img/DuflonFavicon.png"/>
  <title><%=title %></title>
-    <link rel="stylesheet" type="text/css" href="./css/common.css" />
-    <link rel="stylesheet" type="text/css" href="./css/profile.css" />
-    <link rel="stylesheet" href="./css/scrolltabs.css">
-    <link rel="stylesheet" type="text/css" href="./css/emergency-contact.css" />
-    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+    <link rel="stylesheet" type="text/css" href="./css/registration/durecruit-common.css" />
+<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-profile.css" />
+<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-emergency-contact.css" />
+<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-scrolltabs.css" />
 <link rel="stylesheet" type="text/css" href="./css/sweetalert.css"/>
     
     <style>

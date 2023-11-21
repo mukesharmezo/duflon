@@ -7,15 +7,15 @@ public class LmDate {
 	private List<Long> dateId;
 	private Long lmId;
 	private String accesskey;
-	private String newDate;
+	private List<String> customDates;
 	
 	
 	
-	public void setNewDate(String newDate) {
-		this.newDate = newDate;
+	public void setCustomDates(List<String> customDates) {
+		this.customDates = customDates;
 	}
-	public String getNewDate() {
-		return newDate;
+	public List<String> getCustomDates() {
+		return customDates;
 	}
 	public List<Long> getDateId() {
 		return dateId;

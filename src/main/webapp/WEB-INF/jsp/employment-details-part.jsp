@@ -16,25 +16,13 @@ String baseServer = resource.getString("client.url");String title = resource.get
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="icon" type="image/x-icon" href="<%=baseServer%>img/DuflonFavicon.png"/>
 	<title><%=title %></title>
-    <link rel="stylesheet" type="text/css" href="./css/common.css" />
-    <link rel="stylesheet" type="text/css" href="./css/profile.css" />
-    <link rel="stylesheet" href="./css/scrolltabs.css">
-    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+   	<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-common.css" />
+	<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-profile.css" />
+	<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-scrolltabs.css" />
     
-    <style>
-       
-	  ul li{margin: 0px !important;}
-.form-btn{width: 100% !important;}
-
-		#div_msg{width: 290px;height: 18px;font-weight: 300;font-size: 12px; font-family:Roboto, sans-serif;white-space: nowrap;cursor: pointer; text-overflow: ellipsis !important;overflow: hidden;}
-		/* #div_msg:hover{overflow: visible; white-space: normal;height:auto;} */
-		#div_msg:hover{position: absolute;width: auto;overflow: visible; white-space: normal;height:fit-content;display: inline-block;left: 0px;top:45px;padding: 5px;background-color: #D3D3D3;color: #000;}
-   </style>
-
     <script src="./js/jquery-3.4.1.min.js"></script>
     <script src="./js/jquery.validate.js"></script>
     <script src="./js/empdetail.js"></script>
-    <script src="./js/jquery.dataTables.min.js"></script>
     <script src="./js/jquery.scrolltabs.js"></script>
     
   </head>

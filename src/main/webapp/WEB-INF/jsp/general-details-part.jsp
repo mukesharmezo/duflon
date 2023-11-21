@@ -15,11 +15,11 @@ String baseServer = resource.getString("client.url");String title = resource.get
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<link rel="icon" type="image/x-icon" href="<%=baseServer%>img/DuflonFavicon.png"/>  <title><%=title %></title>
-    <link rel="stylesheet" type="text/css" href="./css/common.css" />
-    <link rel="stylesheet" type="text/css" href="./css/profile.css" />
-    <link rel="stylesheet" href="./css/scrolltabs.css">
-    <link rel="stylesheet" type="text/css" href="./css/style.css" />
+	<link rel="icon" type="image/x-icon" href="<%=baseServer%>img/DuflonFavicon.png"/>  
+	<title><%=title %></title>
+    <link rel="stylesheet" type="text/css" href="./css/registration/durecruit-common.css" />
+	<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-profile.css" />
+	<link rel="stylesheet" type="text/css" href="./css/registration/durecruit-scrolltabs.css" />
     <style>
        ul li {margin: 0 !important;}
 .form-btn{width: 100% !important;}
@@ -27,7 +27,6 @@ String baseServer = resource.getString("client.url");String title = resource.get
    </style>
 
     <script src="./js/jquery-3.4.1.min.js"></script>
-    <script src="./js/jquery.dataTables.min.js"></script>
     <script src="./js/jquery.scrolltabs.js"></script>
   </head>
   <body>

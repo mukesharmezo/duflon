@@ -40,6 +40,11 @@ public class UserRegistration {
     private List<UserSkill> skills;
     private String resume;
     private String photo;
+    private String aadhar;
+    private String tenTh;
+    private String twelve;
+    private String graduation;
+    private String others;
     private String invitationStatus;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date invitationDate;
@@ -244,6 +249,47 @@ public class UserRegistration {
 	}
 	public String getLinkedIn() {
 		return linkedIn;
+	}
+	
+
+	public String getAadhar() {
+		return aadhar;
+	}
+
+	public void setAadhar(String aadhar) {
+		this.aadhar = aadhar;
+	}
+
+	public String getTenTh() {
+		return tenTh;
+	}
+
+	public void setTenTh(String tenTh) {
+		this.tenTh = tenTh;
+	}
+
+	public String getTwelve() {
+		return twelve;
+	}
+
+	public void setTwelve(String twelve) {
+		this.twelve = twelve;
+	}
+
+	public String getGraduation() {
+		return graduation;
+	}
+
+	public void setGraduation(String graduation) {
+		this.graduation = graduation;
+	}
+
+	public String getOthers() {
+		return others;
+	}
+
+	public void setOthers(String others) {
+		this.others = others;
 	}
 
 	@Override
