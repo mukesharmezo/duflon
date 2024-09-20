@@ -1,1 +1,0 @@
-Dear Dealer, MSPIN ${mspin} has been generated for the Candidate ${name}, ${accesskey}. For more details check iRecruit. - MSIL

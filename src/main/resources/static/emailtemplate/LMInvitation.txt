@@ -1,9 +1,0 @@
-<font style='font-family:verdana;font-size:12px;font-weight:normal;color:black;'> 
-Greetings
-<br>
-You have an invitation to take interview of a candidate. Please login on DuRecruit and check more details.
-<br><br>
-<b>DuRecruit Team</b>
-<br>
-This is an auto-generated system email. Please do not reply to this email as it will not be received.
-</font>
