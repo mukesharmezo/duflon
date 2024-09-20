@@ -1,9 +1,0 @@
-<font style='font-family:verdana;font-size:12px;font-weight:normal;color:black;'> 
-Dear ${candidateName}
-<br><br>
-We are pleased to inform you that you have been successfully recruited for the position you applied for. Congratulations! We believe that your skills and qualifications make you an excellent fit for our organization.
-<br><br>
-<b>DuRecruit Team</b>
-<br>
-This is an auto-generated system email. Please do not reply to this email as it will not be received.
-</font>
